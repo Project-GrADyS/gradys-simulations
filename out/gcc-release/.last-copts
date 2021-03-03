@@ -1,0 +1,1 @@
+-O3 -DNDEBUG=1   -MMD -MP -MF .d    -isystem /mingw64/include -isystem /opt/mingw64/include -fno-omit-frame-pointer -DWITH_QTENV -DWITH_PARSIM -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I. -IC:/omnetpp-6.0pre10-gcc/samples/inet4/src -IC:/omnetpp-6.0pre10-gcc/include

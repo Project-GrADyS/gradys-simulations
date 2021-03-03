@@ -1,0 +1,144 @@
+                                                                
+version 3
+run Sim1drone1sensor-0-20210223-10:16:17-23101
+attr configname Sim1drone1sensor
+attr datetime 20210223-10:16:17
+attr datetimef 20210223-101617
+attr experiment Sim1drone1sensor
+attr inifile mobilityDrones-omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network mobilityDrones
+attr processid 23101
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+itervar iterationvarsd ""
+config image-path ../../../../home/jaog/omnetpp-6.0pre10/samples/inet4/images
+config *.numUAVs 1
+config *.drones[*].app[0].destAddresses "\"sensor1\""
+config *.sensor*.app[0].destAddresses "\"drones[0]\""
+config *.sensor1.mobility.initialX 450m
+config *.sensor1.mobility.initialY 450m
+config *.sensor1.mobility.initialZ 0m
+config description "multiple UAVs hovering"
+config network mobilityDrones
+config *.visualizer.osgVisualizer.typename IntegratedOsgVisualizer
+config *.visualizer.osgVisualizer.sceneVisualizer.typename SceneOsgEarthVisualizer
+config *.visualizer.osgVisualizer.sceneVisualizer.mapFile "\"map.earth\""
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneImageSize 10000m
+config *.visualizer.osgVisualizer.sceneVisualizer.axisLength 500m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMinX -200m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMinY -200m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMinZ 0m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMaxX 5000m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMaxY 5000m
+config *.visualizer.osgVisualizer.sceneVisualizer.sceneMaxZ 5000m
+config *.visualizer.osgVisualizer.networkNodeVisualizer.displayModuleName true
+config *.visualizer.*.mobilityVisualizer.displayMobility true
+config *.visualizer.*.mobilityVisualizer.displayPositions true
+config *.visualizer.*.mobilityVisualizer.displayOrientations true
+config *.visualizer.*.mobilityVisualizer.displayVelocities true
+config *.visualizer.*.mobilityVisualizer.displayMovementTrails true
+config *.visualizer.*.mobilityVisualizer.animationSpeed 10
+config *.visualizer.mediumVisualizer.displaySignals true
+config **.constraintAreaMinX 0m
+config **.constraintAreaMinY 0m
+config **.constraintAreaMinZ 0m
+config **.constraintAreaMaxX 5000m
+config **.constraintAreaMaxY 5000m
+config **.constraintAreaMaxZ 5000m
+config *.drones*.wlan[0].radio.displayCommunicationRange true
+config *.coordinateSystem.sceneLongitude -43.22260deg
+config *.coordinateSystem.sceneLatitude -22.97556deg
+config *.coordinateSystem.sceneHeading 90deg
+config *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
+config *.drones[*].mobility.typename GotoWaypointMobility
+config *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+config **.mobility.initFromDisplayString false
+config *.drones[0].mobility.initialX 30m
+config *.drones[0].mobility.initialY 30m
+config *.drones[0].mobility.initialZ 0m
+config *.drones[*].mobility.speed uniform(10mps,20mps)
+config *.drones[*].numApps 2
+config *.drones[*].app[0].typename UdpBasicAppMobileNode
+config *.drones[*].app[0].destPort 1000
+config *.drones[*].app[0].sendInterval 1s
+config *.drones[*].app[0].startTime exponential(1s)
+config *.drones[*].app[0].messageLength 1454Byte
+config *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
+config *.drones[*].app[1].typename UdpSinkMobileNode
+config *.drones[*].app[1].localPort 1000
+config *.sensor.mobility.typename StationaryMobility
+config *.sensor*.numApps 2
+config *.sensor*.app[0].typename UdpBasicAppMobileSensorNode
+config *.sensor*.app[0].destPort 1000
+config *.sensor*.app[0].sendInterval 0.1s
+config *.sensor*.app[0].startTime 1s
+config *.sensor*.app[0].messageLength 1454Byte
+config *.sensor*.app[0].packetName "\"SENSOR-DEFAULT-PAYLOAD\""
+config *.sensor*.app[1].typename UdpSinkMobileSensorNode
+config *.sensor*.app[1].localPort 1000
+
+vector 0 mobilityDrones.drones[0].wlan[0].radio radioMode:vector ETV
+attr interpolationmode sample-hold
+attr source radioModeChanged
+attr title "Radio mode, vector"
+vector 1 mobilityDrones.drones[0].wlan[0].radio radioChannel:vector ETV
+attr interpolationmode sample-hold
+attr source radioChannelChanged
+attr title "Radio channel, vector"
+vector 2 mobilityDrones.sensor1.wlan[0].radio radioMode:vector ETV
+attr interpolationmode sample-hold
+attr source radioModeChanged
+attr title "Radio mode, vector"
+vector 3 mobilityDrones.sensor1.wlan[0].radio radioChannel:vector ETV
+attr interpolationmode sample-hold
+attr source radioChannelChanged
+attr title "Radio channel, vector"
+vector 4 mobilityDrones.sensor2.wlan[0].radio radioMode:vector ETV
+attr interpolationmode sample-hold
+attr source radioModeChanged
+attr title "Radio mode, vector"
+vector 5 mobilityDrones.sensor2.wlan[0].radio radioChannel:vector ETV
+attr interpolationmode sample-hold
+attr source radioChannelChanged
+attr title "Radio channel, vector"
+vector 6 mobilityDrones.sensor3.wlan[0].radio radioMode:vector ETV
+attr interpolationmode sample-hold
+attr source radioModeChanged
+attr title "Radio mode, vector"
+vector 7 mobilityDrones.sensor3.wlan[0].radio radioChannel:vector ETV
+attr interpolationmode sample-hold
+attr source radioChannelChanged
+attr title "Radio channel, vector"
+vector 8 mobilityDrones.drones[0].wlan[0].radio receptionState:vector ETV
+attr interpolationmode sample-hold
+attr source receptionStateChanged
+attr title "Radio reception state, vector"
+vector 9 mobilityDrones.sensor1.wlan[0].radio receptionState:vector ETV
+attr interpolationmode sample-hold
+attr source receptionStateChanged
+attr title "Radio reception state, vector"
+vector 10 mobilityDrones.sensor2.wlan[0].radio receptionState:vector ETV
+attr interpolationmode sample-hold
+attr source receptionStateChanged
+attr title "Radio reception state, vector"
+vector 11 mobilityDrones.sensor3.wlan[0].radio receptionState:vector ETV
+attr interpolationmode sample-hold
+attr source receptionStateChanged
+attr title "Radio reception state, vector"
+vector 12 mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
+attr interpolationmode sample-hold
+attr title "contention window, vector"
+vector 13 mobilityDrones.sensor1.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
+attr interpolationmode sample-hold
+attr title "contention window, vector"
+vector 14 mobilityDrones.sensor2.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
+attr interpolationmode sample-hold
+attr title "contention window, vector"
+vector 15 mobilityDrones.sensor3.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
+attr interpolat
