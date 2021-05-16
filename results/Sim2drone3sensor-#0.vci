@@ -1,15 +1,15 @@
-file 449432 1614807178                                          
+file 66682 1621003658                                           
 version 2
-run Sim2drone3sensor-0-20210303-18:31:54-15420
+run Sim2drone3sensor-0-20210514-11:47:24-11600
 attr configname Sim2drone3sensor
-attr datetime 20210303-18:31:54
+attr datetime 20210514-11:47:24
 attr experiment Sim2drone3sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 15420
+attr processid 11600
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -56,13 +56,13 @@ param *.drones*.wlan[0].radio.displayCommunicationRange true
 param *.coordinateSystem.sceneLongitude -43.22260deg
 param *.coordinateSystem.sceneLatitude -22.97556deg
 param *.coordinateSystem.sceneHeading 90deg
+param *.environment.ground.typename "\"FlatGround\""
 param *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
-param *.drones[*].mobility.typename "\"GotoWaypointMobility\""
-param *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.drones[*].mobility.typename "\"GeoWaypointMobility\""
+param *.drones[*].mobility.coordinateSystemModule "\"\""
+param *.drones[*].mobility.waypointFile "\"testPath.csv\""
+param *.drones[*].mobility.waypointProximity 5m
 param **.mobility.initFromDisplayString false
-param *.drones[0].mobility.initialX 30m
-param *.drones[0].mobility.initialY 30m
-param *.drones[0].mobility.initialZ 0m
 param *.drones[*].mobility.speed uniform(10mps,20mps)
 param *.drones[*].numApps 2
 param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
@@ -355,323 +355,78 @@ vector 73 mobilityDrones.drones[1].ipv4.ip packetDropAddressResolutionFailed:vec
 attr interpolationmode none
 attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
 attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 74 mobilityDrones.drones[1].wlan[0].mac packetDrop:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropped
-attr title "packet drops, vector(packetBytes)"
-vector 75 mobilityDrones.drones[1].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
-attr title "packet drops: incorrectly received, vector(packetBytes)"
-vector 76 mobilityDrones.sensor1.wlan[0].mac packetReceivedFromLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from lower layer, vector(packetBytes)"
-vector 77 mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received, vector(packetBytes)"
-vector 78 mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetReceivedFromPeer)
-attr title "packets received: multicast, vector(packetBytes)"
-vector 79 mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerBroadcast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Broadcast(packetReceivedFromPeer)
-attr title "packets received: broadcast, vector(packetBytes)"
-vector 80 mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetReceivedFromPeer)
-attr title "packets received: without retry, vector(packetBytes)"
-vector 81 mobilityDrones.sensor1.wlan[0].mac packetSentToUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to upper layer, vector(packetBytes)"
-vector 82 mobilityDrones.sensor1.ipv4.arp arpReplySent:vector(packetBytes) ETV
-attr source arpReplySent
-attr title "ARP replies sent, vector(packetBytes)"
-vector 83 mobilityDrones.sensor1.wlan[0].mac packetReceivedFromUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from upper layer, vector(packetBytes)"
-vector 84 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packet pushed, vector(packetBytes)"
-vector 85 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:vector ETV
-attr interpolationmode sample-hold
-attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
-attr title "queue length, vector"
-vector 86 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention backoffPeriodGenerated:vector ETV
-attr interpolationmode none
-attr title "backoff periods, vector"
-vector 87 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention backoffActive:vector ETV
-attr interpolationmode sample-hold
-attr source count(backoffStarted)-count(backoffStopped)
-attr title "backoff active, vector"
-vector 88 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packet popped, vector(packetBytes)"
-vector 89 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueingTime:vector ETV
-attr interpolationmode none
-attr source queueingTime(packetPopped)
-attr title "queueing times, vector"
-attr unit s
-vector 90 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:vector ETV
-attr interpolationmode sample-hold
-attr source "count(packetEnqueued) - count(packetDequeued)"
-attr title "queue length, vector"
-vector 91 mobilityDrones.sensor1.wlan[0].mac.dcf datarateSelected:vector ETV
-attr interpolationmode none
-attr title "datarates selected, vector"
-vector 92 mobilityDrones.sensor1.wlan[0].mac packetSentToLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to lower layer, vector(packetBytes)"
-vector 93 mobilityDrones.sensor1.wlan[0].mac.dcf frameSequenceActive:vector ETV
-attr interpolationmode sample-hold
-attr source count(frameSequenceStarted)-count(frameSequenceFinished)
-attr title "frame sequence active, vector"
-vector 94 mobilityDrones.sensor1.wlan[0].radio transmissionState:vector ETV
-attr interpolationmode sample-hold
-attr source transmissionStateChanged
-attr title "Radio transmission state, vector"
-vector 95 mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent, vector(packetBytes)"
-vector 96 mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerUnicast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Unicast(packetSentToPeer)
-attr title "packets sent: unicast, vector(packetBytes)"
-vector 97 mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetSentToPeer)
-attr title "packets sent: without retry, vector(packetBytes)"
-vector 98 mobilityDrones.sensor1.wlan[0].mac.rx nav:vector ETV
-attr interpolationmode linear
-attr source navChanged
-attr title "network allocation vector, vector"
-vector 99 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeerUnicast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Unicast(packetReceivedFromPeer)
-attr title "packets received: unicast, vector(packetBytes)"
-vector 100 mobilityDrones.drones[1].wlan[0].mac.dcf packetSentToPeerUnicast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Unicast(packetSentToPeer)
-attr title "packets sent: unicast, vector(packetBytes)"
-vector 101 mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerUnicast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Unicast(packetReceivedFromPeer)
-attr title "packets received: unicast, vector(packetBytes)"
-vector 102 mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueingTime:vector ETV
-attr interpolationmode none
-attr source queueingTime(packetDequeued)
-attr title "queueing times, vector"
-vector 103 mobilityDrones.drones[1].wlan[0].mac.rx nav:vector ETV
-attr interpolationmode linear
-attr source navChanged
-attr title "network allocation vector, vector"
-vector 104 mobilityDrones.sensor1.udp packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 105 mobilityDrones.sensor1.udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 106 mobilityDrones.sensor1.app[1] packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 107 mobilityDrones.sensor1.app[1] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 108 mobilityDrones.sensor1.app[1] endToEndDelay:vector ETV
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "end-to-end delay, vector"
-attr unit s
-vector 109 mobilityDrones.sensor1.app[1] rcvdPkSeqNo:vector ETV
-attr interpolationmode none
-attr source appPkSeqNo(packetReceived)
-attr title "received packet sequence number, vector"
-vector 110 mobilityDrones.sensor1.app[0] packetSent:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, vector(packetBytes)"
-vector 111 mobilityDrones.sensor1.udp packetSent:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, vector(packetBytes)"
-vector 112 mobilityDrones.sensor1.ipv4.arp arpRequestSent:vector(packetBytes) ETV
-attr source arpRequestSent
-attr title "ARP request sent, vector(packetBytes)"
-vector 113 mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetSentToPeer)
-attr title "packets sent: multicast, vector(packetBytes)"
-vector 114 mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerBroadcast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Broadcast(packetSentToPeer)
-attr title "packets sent: broadcast , vector(packetBytes)"
-vector 115 mobilityDrones.sensor1.ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
-attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 116 mobilityDrones.drones[1].wlan[0].mac.dcf packetSentToPeerWithRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Retry(packetSentToPeer)
-attr title "packets sent: with retry, vector(packetBytes)"
-vector 117 mobilityDrones.drones[1].wlan[0].mac.dcf packetDrop:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropped
-attr title "packet drops, vector(packetBytes)"
-vector 118 mobilityDrones.drones[1].wlan[0].mac.dcf packetDropRetryLimitReached:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsRetryLimitReached(packetDropped)
-attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 119 mobilityDrones.drones[1].wlan[0].mac packetDropRetryLimitReached:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsRetryLimitReached(packetDropped)
-attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 120 mobilityDrones.drones[0].wlan[0].mac.rx nav:vector ETV
-attr interpolationmode linear
-attr source navChanged
-attr title "network allocation vector, vector"
-vector 121 mobilityDrones.drones[0].wlan[0].mac.dcf packetDrop:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropped
-attr title "packet drops, vector(packetBytes)"
-vector 122 mobilityDrones.drones[0].wlan[0].mac.dcf packetDropNotAddressedToUs:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsNotAddressedToUs(packetDropped)
-attr title "packet drops: not addressed to us, vector(packetBytes)"
-vector 123 mobilityDrones.drones[0].wlan[0].mac packetDrop:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropped
-attr title "packet drops, vector(packetBytes)"
-vector 124 mobilityDrones.drones[0].wlan[0].mac packetDropNotAddressedToUs:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsNotAddressedToUs(packetDropped)
-attr title "packet drops: not addressed to us, vector(packetBytes)"
-0	29717 8081 0 13443 0 85.795924504566 313 0 3 777 2019
-1	37798 9 0 0 0 0 1 0 0 0 0
-2	37807 16130 0 13620 0 85.975271131471 616 0 3 1535 3991
-3	53937 9 0 0 0 0 1 0 0 0 0
-4	53946 279 0 5607 0 43.00005 15 0 3 32 82
-5	54225 9 0 0 0 0 1 0 0 0 0
-6	54234 27 0 0 0 0 3 0 2 2 4
-7	54261 9 0 0 0 0 1 0 0 0 0
-8	54270 27 0 0 0 0 3 0 2 2 4
-9	54297 9 0 0 0 0 1 0 0 0 0
-10	54306 14788 0 13622 0 85.9752714872 548 0 3 626 1320
-11	69094 20882 0 13620 0 85.975271131471 770 0 3 618 1082
-12	89976 1452 0 6387 0 48.923693530098 57 0 3 92 212
-13	91428 10 0 0 0 0 1 1 1 1 1
-14	91438 10 0 0 0 0 1 1 1 1 1
-15	91448 11 0 0 0 0 1 31 31 31 961
-16	91459 1974 0 13617 0 85.974912131471 68 31 1023 22204 15336004
-17	93433 11 0 0 0 0 1 31 31 31 961
-18	93444 11 0 0 0 0 1 31 31 31 961
-19	93455 11 0 0 0 0 1 31 31 31 961
-20	93466 2577 32 13428 0.795874504566 85.795874504566 86 1454 1454 125044 181813976
-21	96043 2577 34 13430 0.795874504566 85.795874504566 86 1462 1462 125732 183820184
-22	98620 4335 35 13429 0.795874504566 85.795874504566 155 28 28 4340 121520
-23	102955 4335 37 13433 0.795874504566 85.795874504566 155 36 36 5580 200880
-24	107290 4335 37 13433 0.795874504566 85.795874504566 155 64 64 9920 634880
-25	111625 8362 37 13435 0.795874504566 85.795874504566 310 0 3 311 503
-26	119987 4288 37 13433 0.795874504566 85.795874504566 155 0 31 2390 49290
-27	124275 8362 37 13434 0.795874504566 85.795874504566 310 0 1 155 155
-28	132637 4337 39 13435 0.795874504566 85.795874504566 155 64 64 9920 634880
-29	136974 4235 39 13435 0.795874504566 85.795874504566 155 0 0.00056 0.00346 1.5244e-006
-30	141209 8364 39 13442 0.795874504566 85.795924504566 310 0 2 293 431
-31	149573 5267 39 13435 0.795874504566 85.795874504566 155 24000000 24000000 3720000000 8.928e+016
-32	154840 4337 39 13435 0.795874504566 85.795874504566 155 64 64 9920 634880
-33	159177 8364 39 13442 0.795874504566 85.795924504566 310 0 1 155 155
-34	167541 16728 40 13443 0.795874504566 85.795924504566 620 0 2 620 930
-35	184269 4337 46 13442 0.795924504566 85.795924504566 155 64 64 9920 634880
-36	188606 4337 46 13442 0.795924504566 85.795924504566 155 64 64 9920 634880
-37	192943 4337 46 13442 0.795924504566 85.795924504566 155 64 64 9920 634880
-38	197280 4337 46 13442 0.795924504566 85.795924504566 155 64 64 9920 634880
-39	201617 5026 46 13442 0.795924504566 85.795924504566 155 5e-005 0.00077 0.03601 1.69299e-005
-40	206643 2128 49 13445 0.795924513513 85.795924863509 77 14 64 4828 307592
-41	208771 2073 49 13445 0.795924513513 85.795924863509 75 14 64 4700 299400
-42	210844 1990 49 13445 0.795924513513 85.795924863509 72 64 64 4608 294912
-43	212834 1990 49 13445 0.795924513513 85.795924863509 72 64 64 4608 294912
-44	214824 2073 49 13445 0.795924513513 85.795924863509 75 14 64 4700 299400
-45	216897 2017 49 13445 0.795924513513 85.795924863509 73 36 36 2628 94608
-46	218914 2578 58 13460 0.923223131471 85.923223131471 86 1454 1454 125044 181813976
-47	221492 2578 60 13462 0.923223131471 85.923223131471 86 1462 1462 125732 183820184
-48	224070 3548 61 13363 0.923223131471 84.923223131471 127 28 28 3556 99568
-49	227618 3974 63 13465 0.923223131471 85.923223131471 141 36 1490 25432 31245992
-50	231592 3974 63 13465 0.923223131471 85.923223131471 141 64 1518 29380 32780728
-51	235566 7610 63 13467 0.923223131471 85.923223131471 282 0 3 261 405
-52	243176 8754 63 13617 0.923223131471 85.974912131471 305 0 1018 91316 60029298
-53	251930 16690 63 13618 0.923223131471 85.975271131471 612 0 1 306 306
-54	268620 3974 65 13467 0.923223131471 85.923223131471 141 64 1518 29380 32780728
-55	272594 3847 65 13467 0.923223131471 85.923223131471 141 0 0.01962 0.038914 0.000669924756
-56	276441 8352 65 13597 0.923223131471 85.974672131471 309 0 3 307 491
-57	284793 10521 65 13619 0.923223131471 85.975271131471 307 24000000 24000000 7368000000 1.76832e+017
-58	295314 8863 65 13619 0.923223131471 85.975271131471 307 14 1500 150144 207704480
-59	304177 16611 65 13619 0.923223131471 85.975271131471 609 0 1 305 305
-60	320788 33432 66 13621 0.923223131471 85.975271131471 1226 0 2 1227 1841
-61	354220 8834 72 13608 0.923273131471 85.974857131471 306 14 1500 150098 207702364
-62	363054 3548 72 13376 0.923273131471 84.923273131471 127 64 64 8128 520192
-63	366602 3548 72 13376 0.923273131471 84.923273131471 127 64 64 8128 520192
-64	370150 4400 72 13608 0.923273131471 85.974857131471 156 14 1500 29786 32050012
-65	374550 5045 72 13597 0.923273131471 85.974672131471 154 5e-005 0.150249 2.310425234909 0.21877201458344
-66	379595 3228 75 13611 0.923273142381 85.974857487208 113 46 1500 47044 63304600
-67	382823 1729 75 13379 0.923273142381 84.923273460516 63 64 64 4032 258048
-68	384552 1729 75 13379 0.923273142381 84.923273460516 63 64 64 4032 258048
-69	386281 1729 75 13379 0.923273142381 84.923273460516 63 64 64 4032 258048
-70	388010 1729 75 13379 0.923273142381 84.923273460516 63 64 64 4032 258048
-71	389739 1729 75 13379 0.923273142381 84.923273460516 63 36 36 2268 81648
-72	391468 2523 385 13331 3.795874504566 84.795874504566 84 1482 1482 124488 184491216
-73	393991 2156 438 13461 3.923223131471 85.923223131471 72 1482 1482 106704 158135328
-74	396147 794 4071 13597 31.79592492066 85.974672131471 27 46 1500 20180 29283584
-75	396941 55 4071 4293 31.79592492066 33.795924921003 2 64 64 128 8192
-76	396996 529 5173 6388 40.923273504047 48.923693530098 19 14 1500 2584 2317848
-77	397525 529 5173 6388 40.923273504047 48.923693530098 19 14 1500 2584 2317848
-78	398054 443 5173 6388 40.923273504047 48.923693530098 16 64 64 1024 65536
-79	398497 443 5173 6388 40.923273504047 48.923693530098 16 64 64 1024 65536
-80	398940 529 5173 6388 40.923273504047 48.923693530098 19 14 1500 2584 2317848
-81	399469 473 5173 6388 40.923273504047 48.923693530098 17 36 1490 2066 2240836
-82	399942 28 5209 5209 40.923893504016 40.923893504016 1 28 28 28 784
-83	399970 73 5211 5597 40.923893504016 43 4 36 36 144 5184
-84	400043 73 5211 5597 40.923893504016 43 4 64 64 256 16384
-85	400116 138 5211 5599 40.923893504016 43 8 0 1 4 4
-86	400254 72 5211 5597 40.923893504016 43 4 6 19 51 743
-87	400326 138 5211 5598 40.923893504016 43 8 0 1 4 4
-88	400464 73 5216 5599 40.924063504016 43 4 64 64 256 16384
-89	400537 75 5216 5599 40.924063504016 43 4 0 0.00017 0.00017 2.89e-008
-90	400612 156 5216 5606 40.924063504016 43.00005 8 0 1 4 4
-91	400768 165 5216 5599 40.924063504016 43 6 24000000 24000000 144000000 3.456e+015
-92	400933 129 5216 5599 40.924063504016 43 6 14 64 284 16776
-93	401062 156 5216 5606 40.924063504016 43.00005 8 0 1 4 4
-94	401218 528 5217 5607 40.924063504016 43.00005 24 0 2 24 36
-95	401746 147 5223 5606 40.924113504016 43.00005 6 14 64 284 16776
-96	401893 84 5223 5305 40.924113504016 40.925322994006 3 14 64 92 4488
-97	401977 147 5223 5606 40.924113504016 43.00005 6 14 64 284 16776
-98	402124 174 5223 5303 40.924113504016 40.925322249054 6 0 0.0001 0.000144 1.1936e-008
-99	402298 83 5226 5308 40.92411387655 40.925323366478 3 14 64 92 4488
-100	402381 5465 5242 13608 40.92415787655 85.974857131471 179 14 1500 141970 207182172
-101	407846 89 5245 5288 40.924158249081 40.925278994006 3 14 1500 1560 2252312
-102	407935 119 5245 5606 40.924158249081 43.00005 4 5e-005 9.4745065e-005 0.000244745065 1.6476627341854e-008
-103	408054 16457 5257 13615 40.92517787655 85.974901131471 533 0 0.000144 0.017075255019 2.0760789966687e-006
-104	424511 31 5291 5291 40.925278994006 40.925278994006 1 1462 1462 1462 2137444
-105	424542 28 5291 5291 40.925278994006 40.925278994006 1 1 1 1 1
-106	424570 31 5292 5292 40.925278994006 40.925278994006 1 1454 1454 1454 2114116
-107	424601 6774 5292 5292 0.1 40.9 409 0 0 0 0
-108	431375 41 5292 5292 40.925278994006 40.925278994006 1 0.002055862535 0.002055862535 0.002055862535 4.2265707628166e-006
-109	431416 29 5292 5292 40.925278994006 40.925278994006 1 40 40 40 1600
-110	431445 18 5322 5322 41 41 1 1454 1454 1454 2114116
-111	431463 18 5325 5325 41 41 1 1462 1462 1462 2137444
-112	431481 48 5326 5592 41 43 3 28 28 84 2352
-113	431529 66 5337 5606 41.00005 43.00005 3 64 64 192 12288
-114	431595 66 5337 5606 41.00005 43.00005 3 64 64 192 12288
-115	431661 18 5726 5726 44 44 1 1482 1482 1482 2196324
-116	431679 4584 6530 13590 49.926017131471 85.974617131471 150 46 1500 120312 175652352
-117	436263 764 6624 13597 49.951692131471 85.974672131471 25 46 1500 20052 29275392
-118	437027 764 6624 13597 49.951692131471 85.974672131471 25 46 1500 20052 29275392
-119	437791 764 6624 13597 49.951692131471 85.974672131471 25 46 1500 20052 29275392
-120	438555 4679 11879 13616 78.930793470812 85.974901487208 150 0 0.000144 0.005 6.232e-007
-121	443234 1549 11879 13611 78.930793470812 85.974857487208 50 46 1500 43012 63046552
-122	444783 1549 11879 13611 78.930793470812 85.974857487208 50 46 1500 43012 63046552
-123	446332 1549 11879 13611 78.930793470812 85.974857487208 50 46 1500 43012 63046552
-124	447881 1549 11879 13611 78.930793470812 85.974857487208 50 46 1500 43012 63046552
+0	19031 1307 0 1645 0 12.923513131471 55 0 3 132 342
+1	20338 9 0 0 0 0 1 0 0 0 0
+2	20347 1035 0 1683 0 12.977166426393 44 0 3 105 273
+3	21382 9 0 0 0 0 1 0 0 0 0
+4	21391 27 0 0 0 0 3 0 2 2 4
+5	21418 9 0 0 0 0 1 0 0 0 0
+6	21427 27 0 0 0 0 3 0 2 2 4
+7	21454 9 0 0 0 0 1 0 0 0 0
+8	21463 27 0 0 0 0 3 0 2 2 4
+9	21490 9 0 0 0 0 1 0 0 0 0
+10	21499 2391 0 1685 0 12.977166559801 94 0 3 110 236
+11	23890 2391 0 1683 0 12.977166426393 94 0 3 125 281
+12	26281 10 0 0 0 0 1 1 1 1 1
+13	26291 10 0 0 0 0 1 1 1 1 1
+14	26301 10 0 0 0 0 1 1 1 1 1
+15	26311 11 0 0 0 0 1 31 31 31 961
+16	26322 11 0 0 0 0 1 31 31 31 961
+17	26333 11 0 0 0 0 1 31 31 31 961
+18	26344 11 0 0 0 0 1 31 31 31 961
+19	26355 11 0 0 0 0 1 31 31 31 961
+20	26366 371 34 1610 0.923223131471 12.923223131471 13 1454 1454 18902 27483508
+21	26737 371 36 1613 0.923223131471 12.923223131471 13 1462 1462 19006 27786772
+22	27108 692 37 1612 0.923223131471 12.923223131471 26 28 28 728 20384
+23	27800 692 39 1618 0.923223131471 12.923223131471 26 36 36 936 33696
+24	28492 692 39 1618 0.923223131471 12.923223131471 26 64 64 1664 106496
+25	29184 1332 39 1620 0.923223131471 12.923223131471 52 0 3 54 86
+26	30516 678 39 1627 0.923223131471 12.923273131471 26 0 25 299 5151
+27	31194 1332 39 1636 0.923223131471 12.923463131471 52 0 1 26 26
+28	32526 692 41 1620 0.923223131471 12.923223131471 26 64 64 1664 106496
+29	33218 672 41 1620 0.923223131471 12.923223131471 26 0 0.00056 0.00056 3.136e-007
+30	33890 1332 41 1644 0.923223131471 12.923513131471 52 0 2 52 78
+31	35222 848 41 1637 0.923223131471 12.923463131471 26 24000000 24000000 624000000 1.4976e+016
+32	36070 692 41 1637 0.923223131471 12.923463131471 26 64 64 1664 106496
+33	36762 1332 41 1644 0.923223131471 12.923513131471 52 0 1 26 26
+34	38094 2664 42 1645 0.923223131471 12.923513131471 104 0 2 104 156
+35	40758 692 48 1644 0.923273131471 12.923513131471 26 64 64 1664 106496
+36	41450 692 48 1644 0.923273131471 12.923513131471 26 64 64 1664 106496
+37	42142 692 48 1644 0.923273131471 12.923513131471 26 64 64 1664 106496
+38	42834 692 48 1644 0.923273131471 12.923513131471 26 64 64 1664 106496
+39	43526 809 48 1644 0.923273131471 12.923513131471 26 5e-005 0.00063 0.00522 1.9194e-006
+40	44335 692 51 1647 0.923273140705 12.923513264325 26 64 64 1664 106496
+41	45027 692 51 1647 0.923273140705 12.923513264325 26 64 64 1664 106496
+42	45719 692 51 1647 0.923273140705 12.923513264325 26 64 64 1664 106496
+43	46411 692 51 1647 0.923273140705 12.923513264325 26 64 64 1664 106496
+44	47103 692 51 1647 0.923273140705 12.923513264325 26 64 64 1664 106496
+45	47795 692 51 1647 0.923273140705 12.923513264325 26 36 36 936 33696
+46	48487 371 58 1655 0.977006426393 12.977006426393 13 1454 1454 18902 27483508
+47	48858 371 60 1658 0.977006426393 12.977006426393 13 1462 1462 19006 27786772
+48	49229 559 61 1660 0.977006426393 12.977006426393 21 28 28 588 16464
+49	49788 559 63 1663 0.977006426393 12.977006426393 21 36 36 756 27216
+50	50347 559 63 1663 0.977006426393 12.977006426393 21 64 64 1344 86016
+51	50906 1076 63 1665 0.977006426393 12.977006426393 42 0 2 37 53
+52	51982 554 63 1672 0.977006426393 12.977056426393 21 0 31 358 7662
+53	52536 1076 63 1681 0.977006426393 12.977166426393 42 0 1 21 21
+54	53612 559 65 1665 0.977006426393 12.977006426393 21 64 64 1344 86016
+55	54171 538 65 1665 0.977006426393 12.977006426393 21 0 0 0 0
+56	54709 1049 65 1672 0.977006426393 12.977056426393 41 0 2 37 53
+57	55758 685 65 1682 0.977006426393 12.977166426393 21 24000000 24000000 504000000 1.2096e+016
+58	56443 559 65 1682 0.977006426393 12.977166426393 21 64 64 1344 86016
+59	57002 1049 65 1682 0.977006426393 12.977166426393 41 0 1 21 21
+60	58051 2098 66 1684 0.977006426393 12.977166426393 82 0 2 83 125
+61	60149 531 72 1672 0.977056426393 12.977056426393 20 64 64 1280 81920
+62	60680 531 72 1672 0.977056426393 12.977056426393 20 64 64 1280 81920
+63	61211 531 72 1672 0.977056426393 12.977056426393 20 64 64 1280 81920
+64	61742 531 72 1672 0.977056426393 12.977056426393 20 64 64 1280 81920
+65	62273 618 72 1672 0.977056426393 12.977056426393 20 5e-005 0.00063 0.004 1.782e-006
+66	62891 531 75 1675 0.977056436174 12.977056559799 20 64 64 1280 81920
+67	63422 531 75 1675 0.977056436174 12.977056559799 20 64 64 1280 81920
+68	63953 531 75 1675 0.977056436174 12.977056559799 20 64 64 1280 81920
+69	64484 531 75 1675 0.977056436174 12.977056559799 20 64 64 1280 81920
+70	65015 531 75 1675 0.977056436174 12.977056559799 20 64 64 1280 81920
+71	65546 531 75 1675 0.977056436174 12.977056559799 20 36 36 720 25920
+72	66077 287 393 1472 3.923223131471 11.923223131471 10 1482 1482 14820 21963240
+73	66364 316 438 1656 3.977006426393 12.977006426393 11 1482 1482 16302 24159564
 

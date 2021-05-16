@@ -2,6 +2,7 @@ package projeto;
 
 import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
+import inet.environment.ground.FlatGround;
 import inet.node.inet.AdhocHost;
 import inet.visualizer.integrated.IntegratedVisualizer;
 import inet.mobility.contract.IMobility;
@@ -36,7 +37,11 @@ network mobilityDrones
         coordinateSystem: OsgGeographicCoordinateSystem {
             parameters:
                 @display("p=100,150");
-        }   
+        }
+        
+        environment: PhysicalEnvironment {
+        }
+        
         configurator: Ipv4NetworkConfigurator {
             @display("p=0,200");
         }
