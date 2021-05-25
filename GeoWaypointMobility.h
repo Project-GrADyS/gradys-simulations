@@ -22,16 +22,49 @@ using namespace inet;
 
 namespace projeto {
 
+
 class GeoWaypointMobility : public VehicleMobility
 {
-    public:
-        GeoWaypointMobility();
+    protected:
+        enum Command { GOTO=16, STOP=19, JUMP=177 };
+        struct Instruction {
+            Command command;
+            double param1;
+            double param2;
+            double param3;
+            double param4;
+            bool autocontinue;
+            int waypointIndex;
+            int internalCounter = 0;
+
+            Instruction(Command command, double param1, double param2, double param3, double param4, bool autocontinue) :
+                command(command),
+                param1(param1),
+                param2(param2),
+                param3(param3),
+                param4(param4),
+                autocontinue(autocontinue) { };
+        };
+
+        std::vector<Instruction> instructions;
+
+        simtime_t idleTime;
+        bool isIdle = false;
+        int currentInstructionIndex=0;
 
     protected:
+        virtual void initialize(int stage) override;
+        virtual void setInitialPosition() override;
+        virtual void readWaypointsFromFile(const char *fileName) override;
         virtual void move() override;
 
     private:
         Coord tempSpeed;
+        double climbAngle;
+
+    private:
+        virtual void climb ();
+        virtual void fly ();
 };
 
 }

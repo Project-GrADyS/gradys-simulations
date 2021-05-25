@@ -1,14 +1,14 @@
 version 2
-run Sim1drone1sensor-0-20210515-20:59:45-20268
+run Sim1drone1sensor-0-20210525-19:40:04-13304
 attr configname Sim1drone1sensor
-attr datetime 20210515-20:59:45
+attr datetime 20210525-19:40:04
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 20268
+attr processid 13304
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -39,9 +39,9 @@ param *.visualizer.*.mobilityVisualizer.displayVelocities true
 param *.visualizer.*.mobilityVisualizer.displayMovementTrails true
 param *.visualizer.*.mobilityVisualizer.animationSpeed 10
 param *.visualizer.mediumVisualizer.displaySignals true
-param **.constraintAreaMinX 0m
-param **.constraintAreaMinY 0m
-param **.constraintAreaMinZ 0m
+param **.constraintAreaMinX -500m
+param **.constraintAreaMinY -500m
+param **.constraintAreaMinZ -500m
 param **.constraintAreaMaxX 5000m
 param **.constraintAreaMaxY 5000m
 param **.constraintAreaMaxZ 5000m
@@ -52,20 +52,12 @@ param *.coordinateSystem.sceneHeading 90deg
 param *.environment.ground.typename "\"FlatGround\""
 param *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
 param *.drones[*].mobility.typename "\"GeoWaypointMobility\""
-param *.drones[*].mobility.coordinateSystemModule "\"\""
-param *.drones[*].mobility.waypointFile "\"testPath.csv\""
+param *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.drones[*].mobility.waypointFile "\"geoJockeyPath.wpl\""
+param *.drones[*].mobility.climbAngle 30deg
 param *.drones[*].mobility.waypointProximity 5m
 param **.mobility.initFromDisplayString false
 param *.drones[*].mobility.speed uniform(10mps,20mps)
-param *.drones[*].numApps 2
-param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
-param *.drones[*].app[0].destPort 1000
-param *.drones[*].app[0].sendInterval 1s
-param *.drones[*].app[0].startTime exponential(1s)
-param *.drones[*].app[0].messageLength 1454Byte
-param *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
-param *.drones[*].app[1].typename "\"UdpSinkMobileNode\""
-param *.drones[*].app[1].localPort 1000
 param *.sensor.mobility.typename "\"StationaryMobility\""
 param *.sensor*.numApps 2
 param *.sensor*.app[0].typename "\"UdpBasicAppMobileSensorNode\""
@@ -77,24 +69,24 @@ param *.sensor*.app[0].packetName "\"SENSOR-DEFAULT-PAYLOAD\""
 param *.sensor*.app[1].typename "\"UdpSinkMobileSensorNode\""
 param *.sensor*.app[1].localPort 1000
 
-scalar mobilityDrones.radioMedium.propagation "Arrival computation count" 921
-scalar mobilityDrones.radioMedium "transmission count" 307
-scalar mobilityDrones.radioMedium "signal send count" 921
-scalar mobilityDrones.radioMedium "reception computation count" 919
-scalar mobilityDrones.radioMedium "interference computation count" 3066
-scalar mobilityDrones.radioMedium "reception decision computation count" 133
-scalar mobilityDrones.radioMedium "listening decision computation count" 2014
-scalar mobilityDrones.radioMedium "reception cache hit" 77.447852760736
+scalar mobilityDrones.radioMedium.propagation "Arrival computation count" 0
+scalar mobilityDrones.radioMedium "transmission count" 0
+scalar mobilityDrones.radioMedium "signal send count" 0
+scalar mobilityDrones.radioMedium "reception computation count" 0
+scalar mobilityDrones.radioMedium "interference computation count" 4
+scalar mobilityDrones.radioMedium "reception decision computation count" 0
+scalar mobilityDrones.radioMedium "listening decision computation count" 4
+scalar mobilityDrones.radioMedium "reception cache hit" nan
 attr unit %
-scalar mobilityDrones.radioMedium "interference cache hit" 66.666666666667
+scalar mobilityDrones.radioMedium "interference cache hit" nan
 attr unit %
-scalar mobilityDrones.radioMedium "noise cache hit" 0
+scalar mobilityDrones.radioMedium "noise cache hit" nan
 attr unit %
-scalar mobilityDrones.radioMedium "snir cache hit" 50
+scalar mobilityDrones.radioMedium "snir cache hit" nan
 attr unit %
-scalar mobilityDrones.radioMedium "reception decision cache hit" 50
+scalar mobilityDrones.radioMedium "reception decision cache hit" nan
 attr unit %
-scalar mobilityDrones.radioMedium "reception result cache hit" 0
+scalar mobilityDrones.radioMedium "reception result cache hit" nan
 attr unit %
 scalar mobilityDrones.drones[0].lo[0].lo rcvdPkFromHl:count 0
 attr interpolationmode none
@@ -112,110 +104,39 @@ scalar mobilityDrones.drones[0].lo[0].lo passedUpPk:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetSentToUpper
 attr title "packets passed to higher layer, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:count 61
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:count 0
 attr interpolationmode none
 attr title "packet popped, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:sum(packetBytes) 43162
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packet popped, sum(packetBytes)"
 statistic mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueingTime:histogram
-field count 61
-field mean 9.4098360655738e-006
-field stddev 7.3493169081482e-005
-field min 0
-field max 0.000574
-field sum 0.000574
-field sqrsum 3.29476e-007
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr interpolationmode none
 attr source queueingTime(packetPopped)
 attr title "queueing times, histogram"
 attr unit s
 bin	-inf	0
-bin	0	60
-bin	1e-005	0
-bin	2e-005	0
-bin	3e-005	0
-bin	4e-005	0
-bin	5e-005	0
-bin	6e-005	0
-bin	7e-005	0
-bin	8e-005	0
-bin	9e-005	0
-bin	0.0001	0
-bin	0.00011	0
-bin	0.00012	0
-bin	0.00013	0
-bin	0.00014	0
-bin	0.00015	0
-bin	0.00016	0
-bin	0.00017	0
-bin	0.00018	0
-bin	0.00019	0
-bin	0.0002	0
-bin	0.00021	0
-bin	0.00022	0
-bin	0.00023	0
-bin	0.00024	0
-bin	0.00025	0
-bin	0.00026	0
-bin	0.00027	0
-bin	0.00028	0
-bin	0.00029	0
-bin	0.0003	0
-bin	0.00031	0
-bin	0.00032	0
-bin	0.00033	0
-bin	0.00034	0
-bin	0.00035	0
-bin	0.00036	0
-bin	0.00037	0
-bin	0.00038	0
-bin	0.00039	0
-bin	0.0004	0
-bin	0.00041	0
-bin	0.00042	0
-bin	0.00043	0
-bin	0.00044	0
-bin	0.00045	0
-bin	0.00046	0
-bin	0.00047	0
-bin	0.00048	0
-bin	0.00049	0
-bin	0.0005	0
-bin	0.00051	0
-bin	0.00052	0
-bin	0.00053	0
-bin	0.00054	0
-bin	0.00055	0
-bin	0.00056	0
-bin	0.00057	1
-bin	0.00058	0
-bin	0.00059	0
-bin	0.0006	0
-bin	0.00061	0
-bin	0.00062	0
-bin	0.00063	0
-bin	0.00064	0
-bin	0.00065	0
-bin	0.00066	0
-bin	0.00067	0
-bin	0.00068	0
-bin	0.00069	0
-bin	0.0007	0
-bin	0.00071	0
-bin	0.00072	0
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:max 1
+bin	0	0
+bin	1	0
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:max nan
 attr interpolationmode sample-hold
 attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
 attr title "queue length, max"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:timeavg 9.7288126930913e-006
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:timeavg nan
 attr interpolationmode sample-hold
 attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
 attr title "queue length, timeavg"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:count 61
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:count 0
 attr interpolationmode none
 attr title "packet pushed, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:sum(packetBytes) 43162
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packet pushed, sum(packetBytes)"
 scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetDropQueueOverflow:count 0
@@ -233,86 +154,38 @@ scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packe
 attr interpolationmode none
 attr title "packets removed, sum(packetBytes)"
 statistic mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueingTime:histogram
-field count 86
-field mean 0.024686345155174
-field stddev 0.049265820427658
-field min 5e-005
-field max 0.194709
-field sum 2.123025683345
-field sqrsum 0.25871503509722
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr interpolationmode none
 attr source queueingTime(packetDequeued)
 attr title "queueing times, histogram"
 bin	-inf	0
-bin	0	64
-bin	0.005	0
-bin	0.01	0
-bin	0.015	0
-bin	0.02	0
-bin	0.025	3
-bin	0.03	0
-bin	0.035	0
-bin	0.04	1
-bin	0.045	1
-bin	0.05	2
-bin	0.055	1
-bin	0.06	1
-bin	0.065	1
-bin	0.07	0
-bin	0.075	0
-bin	0.08	0
-bin	0.085	0
-bin	0.09	1
-bin	0.095	1
-bin	0.1	1
-bin	0.105	0
-bin	0.11	0
-bin	0.115	1
-bin	0.12	0
-bin	0.125	1
-bin	0.13	2
-bin	0.135	1
-bin	0.14	0
-bin	0.145	0
-bin	0.15	1
-bin	0.155	0
-bin	0.16	1
-bin	0.165	0
-bin	0.17	0
-bin	0.175	0
-bin	0.18	0
-bin	0.185	1
-bin	0.19	1
-bin	0.195	0
-bin	0.2	0
-bin	0.205	0
-bin	0.21	0
-bin	0.215	0
-bin	0.22	0
-bin	0.225	0
-bin	0.23	0
-bin	0.235	0
-bin	0.24	0
-bin	0.245	0
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:max 2
+bin	0	0
+bin	1	0
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:max nan
 attr interpolationmode sample-hold
 attr source "count(packetEnqueued) - count(packetDequeued)"
 attr title "queue length, max"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:timeavg 0.035983661029811
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:timeavg nan
 attr interpolationmode sample-hold
 attr source "count(packetEnqueued) - count(packetDequeued)"
 attr title "queue length, timeavg"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention stateChanged:count 1720
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention stateChanged:count 2
 attr interpolationmode none
 attr title "contention state changed, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention channelAccessGranted:count 199
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention channelAccessGranted:count 0
 attr title "channel access granted, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess channelOwnershipChanged:count 397
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess channelOwnershipChanged:count 0
 attr interpolationmode sample-hold
 attr title "channel ownership, count"
 scalar mobilityDrones.drones[0].wlan[0].mac.dcf.originatorMacDataService packetAggregated:count 0
 attr title "packets aggregated, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.originatorMacDataService packetFragmented:count 27
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.originatorMacDataService packetFragmented:count 0
 attr title "packets fragmented, count"
 scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:count 0
 attr interpolationmode none
@@ -324,21 +197,21 @@ attr source packetDropReasonIsDuplicateDetected(packetDropped)
 attr title "packet drops: duplicate detected, sum(packetBytes)"
 scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recipientMacDataService packetDeaggregated:count 0
 attr title "packets deaggregated, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recipientMacDataService packetDefragmented:count 16
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recipientMacDataService packetDefragmented:count 0
 attr title "packets defragmented, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure retryLimitReached:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure retryLimitReached:count 0
 attr title "retry limit reached, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeer:count 62
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeer:count 0
 attr interpolationmode none
 attr title "packets received, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeer:sum(packetBytes) 23688
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeer:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerUnicast:count 62
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerUnicast:count 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetReceivedFromPeer)
 attr title "packets received: unicast, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerUnicast:sum(packetBytes) 23688
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerUnicast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetReceivedFromPeer)
 attr title "packets received: unicast, sum(packetBytes)"
@@ -366,65 +239,65 @@ scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:
 attr interpolationmode none
 attr source ieee80211Retry(packetReceivedFromPeer)
 attr title "packets received: with retry, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:count 62
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:count 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetReceivedFromPeer)
 attr title "packets received: without retry, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:sum(packetBytes) 23688
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetReceivedFromPeer)
 attr title "packets received: without retry, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeer:count 244
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeer:count 0
 attr interpolationmode none
 attr title "packets sent, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeer:sum(packetBytes) 144612
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeer:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerUnicast:count 210
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerUnicast:count 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetSentToPeer)
 attr title "packets sent: unicast, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerUnicast:sum(packetBytes) 142436
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerUnicast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetSentToPeer)
 attr title "packets sent: unicast, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerMulticast:count 34
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerMulticast:count 0
 attr interpolationmode none
 attr source ieee80211Multicast(packetSentToPeer)
 attr title "packets sent: multicast, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerMulticast:sum(packetBytes) 2176
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerMulticast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Multicast(packetSentToPeer)
 attr title "packets sent: multicast, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerBroadcast:count 34
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerBroadcast:count 0
 attr interpolationmode none
 attr source ieee80211Broadcast(packetSentToPeer)
 attr title "packets sent: broadcast , count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerBroadcast:sum(packetBytes) 2176
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerBroadcast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Broadcast(packetSentToPeer)
 attr title "packets sent: broadcast , sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithRetry:count 127
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithRetry:count 0
 attr interpolationmode none
 attr source ieee80211Retry(packetSentToPeer)
 attr title "packets sent: with retry, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithRetry:sum(packetBytes) 101806
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Retry(packetSentToPeer)
 attr title "packets sent: with retry, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithoutRetry:count 117
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithoutRetry:count 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetSentToPeer)
 attr title "packets sent: without retry, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithoutRetry:sum(packetBytes) 42806
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithoutRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetSentToPeer)
 attr title "packets sent: without retry, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDrop:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDrop:count 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDrop:sum(packetBytes) 16960
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDrop:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, sum(packetBytes)"
@@ -444,161 +317,74 @@ scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDropQueueOverflow:sum(pack
 attr interpolationmode none
 attr source packetDropReasonIsQueueOverflow(packetDropped)
 attr title "packet drops: queue overflow, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDropRetryLimitReached:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDropRetryLimitReached:count 0
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDropRetryLimitReached:sum(packetBytes) 16960
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf packetDropRetryLimitReached:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf linkBroken:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf linkBroken:count 0
 attr interpolationmode none
 attr title "link breaks, count"
-scalar mobilityDrones.drones[0].wlan[0].mac.dcf frameSequenceFinished:count 198
+scalar mobilityDrones.drones[0].wlan[0].mac.dcf frameSequenceFinished:count 0
 attr title "finished frame sequences, count"
 statistic mobilityDrones.drones[0].wlan[0].mac.dcf frameSequenceDuration:histogram
-field count 198
-field mean 0.00032388248399495
-field stddev 0.0002591363104874
-field min 5e-005
-field max 0.000675488709
-field sum 0.064128731831
-field sqrsum 3.3999043561236e-005
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source frameSequenceDuration(frameSequenceFinished)
 attr title "frame sequence durations, histogram"
 bin	-inf	0
 bin	0	0
-bin	1e-005	0
-bin	2e-005	0
-bin	3e-005	0
-bin	4e-005	34
-bin	5e-005	0
-bin	6e-005	0
-bin	7e-005	0
-bin	8e-005	0
-bin	9e-005	1
-bin	0.0001	71
-bin	0.00011	0
-bin	0.00012	0
-bin	0.00013	0
-bin	0.00014	0
-bin	0.00015	0
-bin	0.00016	0
-bin	0.00017	0
-bin	0.00018	0
-bin	0.00019	0
-bin	0.0002	0
-bin	0.00021	0
-bin	0.00022	0
-bin	0.00023	0
-bin	0.00024	0
-bin	0.00025	0
-bin	0.00026	0
-bin	0.00027	0
-bin	0.00028	0
-bin	0.00029	0
-bin	0.0003	0
-bin	0.00031	0
-bin	0.00032	0
-bin	0.00033	0
-bin	0.00034	0
-bin	0.00035	0
-bin	0.00036	0
-bin	0.00037	0
-bin	0.00038	0
-bin	0.00039	0
-bin	0.0004	0
-bin	0.00041	0
-bin	0.00042	0
-bin	0.00043	0
-bin	0.00044	0
-bin	0.00045	0
-bin	0.00046	0
-bin	0.00047	0
-bin	0.00048	0
-bin	0.00049	0
-bin	0.0005	0
-bin	0.00051	0
-bin	0.00052	0
-bin	0.00053	0
-bin	0.00054	0
-bin	0.00055	0
-bin	0.00056	0
-bin	0.00057	0
-bin	0.00058	77
-bin	0.00059	0
-bin	0.0006	0
-bin	0.00061	0
-bin	0.00062	0
-bin	0.00063	0
-bin	0.00064	0
-bin	0.00065	0
-bin	0.00066	0
-bin	0.00067	15
-bin	0.00068	0
-bin	0.00069	0
-bin	0.0007	0
-bin	0.00071	0
-bin	0.00072	0
-bin	0.00073	0
-bin	0.00074	0
-bin	0.00075	0
-bin	0.00076	0
-bin	0.00077	0
-bin	0.00078	0
-bin	0.00079	0
-bin	0.0008	0
-bin	0.00081	0
-bin	0.00082	0
-bin	0.00083	0
-bin	0.00084	0
+bin	1	0
 statistic mobilityDrones.drones[0].wlan[0].mac.dcf frameSequenceNumPackets:histogram
-field count 198
-field mean 1.979797979798
-field stddev 0.69046880241072
-field min 1
-field max 4
-field sum 392
-field sqrsum 870
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source frameSequenceNumPackets(frameSequenceFinished)
 attr title "frame sequences: number of packets, histogram"
 bin	-inf	0
 bin	0	0
-bin	1	34
-bin	2	149
-bin	3	0
-bin	4	15
-bin	5	0
-scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromLower:count 62
+bin	1	0
+scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromLower:count 0
 attr interpolationmode none
 attr title "packets received from lower layer, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromLower:sum(packetBytes) 23688
+scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromLower:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received from lower layer, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac packetSentToLower:count 245
+scalar mobilityDrones.drones[0].wlan[0].mac packetSentToLower:count 0
 attr interpolationmode none
 attr title "packets sent to lower layer, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetSentToLower:sum(packetBytes) 146112
+scalar mobilityDrones.drones[0].wlan[0].mac packetSentToLower:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent to lower layer, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromUpper:count 61
+scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromUpper:count 0
 attr interpolationmode none
 attr title "packets received from upper layer, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromUpper:sum(packetBytes) 41454
+scalar mobilityDrones.drones[0].wlan[0].mac packetReceivedFromUpper:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received from upper layer, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac packetSentToUpper:count 16
+scalar mobilityDrones.drones[0].wlan[0].mac packetSentToUpper:count 0
 attr interpolationmode none
 attr title "packets sent to upper layer, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetSentToUpper:sum(packetBytes) 22386
+scalar mobilityDrones.drones[0].wlan[0].mac packetSentToUpper:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent to upper layer, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac packetDrop:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac packetDrop:count 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetDrop:sum(packetBytes) 16960
+scalar mobilityDrones.drones[0].wlan[0].mac packetDrop:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, sum(packetBytes)"
@@ -626,11 +412,11 @@ scalar mobilityDrones.drones[0].wlan[0].mac packetDropQueueOverflow:sum(packetBy
 attr interpolationmode none
 attr source packetDropReasonIsQueueOverflow(packetDropped)
 attr title "packet drops: queue overflow, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac packetDropRetryLimitReached:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac packetDropRetryLimitReached:count 0
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, count"
-scalar mobilityDrones.drones[0].wlan[0].mac packetDropRetryLimitReached:sum(packetBytes) 16960
+scalar mobilityDrones.drones[0].wlan[0].mac packetDropRetryLimitReached:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, sum(packetBytes)"
@@ -650,198 +436,35 @@ scalar mobilityDrones.drones[0].wlan[0].mac packetDropOther:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsOther(packetDropped)
 attr title "packet drops: other, sum(packetBytes)"
-scalar mobilityDrones.drones[0].wlan[0].mac linkBroken:count 21
+scalar mobilityDrones.drones[0].wlan[0].mac linkBroken:count 0
 attr interpolationmode none
 attr title "link breaks, count"
 statistic mobilityDrones.drones[0].wlan[0].radio minSnir:histogram
-field count 62
-field mean 78276.115582168
-field stddev 304768.7762116
-field min 15.197220136774
-field max 1508735.0390609
-field sum 4853119.1660944
-field sqrsum 6045807740943.6
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source minimumSnir(packetSentToUpper)
 attr title "Min SNIR, histogram"
 bin	-inf	0
-bin	0	58
-bin	20000	0
-bin	40000	0
-bin	60000	0
-bin	80000	0
-bin	100000	0
-bin	120000	0
-bin	140000	0
-bin	160000	0
-bin	180000	0
-bin	200000	0
-bin	220000	0
-bin	240000	0
-bin	260000	0
-bin	280000	0
-bin	300000	0
-bin	320000	0
-bin	340000	0
-bin	360000	0
-bin	380000	0
-bin	400000	0
-bin	420000	0
-bin	440000	0
-bin	460000	0
-bin	480000	0
-bin	500000	0
-bin	520000	0
-bin	540000	0
-bin	560000	0
-bin	580000	0
-bin	600000	0
-bin	620000	0
-bin	640000	0
-bin	660000	0
-bin	680000	0
-bin	700000	0
-bin	720000	0
-bin	740000	0
-bin	760000	0
-bin	780000	0
-bin	800000	0
-bin	820000	0
-bin	840000	0
-bin	860000	2
-bin	880000	0
-bin	900000	0
-bin	920000	0
-bin	940000	0
-bin	960000	0
-bin	980000	0
-bin	1000000	0
-bin	1020000	0
-bin	1040000	0
-bin	1060000	0
-bin	1080000	0
-bin	1100000	0
-bin	1120000	0
-bin	1140000	0
-bin	1160000	0
-bin	1180000	0
-bin	1200000	0
-bin	1220000	0
-bin	1240000	0
-bin	1260000	0
-bin	1280000	0
-bin	1300000	0
-bin	1320000	0
-bin	1340000	0
-bin	1360000	0
-bin	1380000	0
-bin	1400000	0
-bin	1420000	0
-bin	1440000	0
-bin	1460000	0
-bin	1480000	0
-bin	1500000	2
-bin	1520000	0
-bin	1540000	0
-bin	1560000	0
-bin	1580000	0
-bin	1600000	0
-bin	1620000	0
-bin	1640000	0
-bin	1660000	0
-bin	1680000	0
-bin	1700000	0
-bin	1720000	0
-bin	1740000	0
-bin	1760000	0
-bin	1780000	0
-bin	1800000	0
-bin	1820000	0
-bin	1840000	0
-bin	1860000	0
-bin	1880000	0
-bin	1900000	0
+bin	0	0
+bin	1	0
 statistic mobilityDrones.drones[0].wlan[0].radio packetErrorRate:histogram
-field count 62
-field mean 0.0075724186305802
-field stddev 0.038183601130777
-field min 0
-field max 0.27865137352585
-field sum 0.46948995509597
-field sqrsum 0.09249240559701
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source packetErrorRate(packetSentToUpper)
 attr title "Packet error rate, histogram"
 bin	-inf	0
-bin	0	58
-bin	0.005	1
-bin	0.01	0
-bin	0.015	0
-bin	0.02	0
-bin	0.025	0
-bin	0.03	0
-bin	0.035	0
-bin	0.04	0
-bin	0.045	0
-bin	0.05	0
-bin	0.055	0
-bin	0.06	0
-bin	0.065	1
-bin	0.07	0
-bin	0.075	0
-bin	0.08	0
-bin	0.085	0
-bin	0.09	0
-bin	0.095	1
-bin	0.1	0
-bin	0.105	0
-bin	0.11	0
-bin	0.115	0
-bin	0.12	0
-bin	0.125	0
-bin	0.13	0
-bin	0.135	0
-bin	0.14	0
-bin	0.145	0
-bin	0.15	0
-bin	0.155	0
-bin	0.16	0
-bin	0.165	0
-bin	0.17	0
-bin	0.175	0
-bin	0.18	0
-bin	0.185	0
-bin	0.19	0
-bin	0.195	0
-bin	0.2	0
-bin	0.205	0
-bin	0.21	0
-bin	0.215	0
-bin	0.22	0
-bin	0.225	0
-bin	0.23	0
-bin	0.235	0
-bin	0.24	0
-bin	0.245	0
-bin	0.25	0
-bin	0.255	0
-bin	0.26	0
-bin	0.265	0
-bin	0.27	0
-bin	0.275	1
-bin	0.28	0
-bin	0.285	0
-bin	0.29	0
-bin	0.295	0
-bin	0.3	0
-bin	0.305	0
-bin	0.31	0
-bin	0.315	0
-bin	0.32	0
-bin	0.325	0
-bin	0.33	0
-bin	0.335	0
-bin	0.34	0
-bin	0.345	0
-bin	0.35	0
+bin	0	0
+bin	1	0
 statistic mobilityDrones.drones[0].wlan[0].radio bitErrorRate:histogram
 field count 0
 field mean nan
@@ -868,15 +491,15 @@ attr title "Symbol error rate, histogram"
 bin	-inf	0
 bin	0	0
 bin	1	0
-scalar mobilityDrones.drones[0].wlan[0].radio transmissionState:count 978
+scalar mobilityDrones.drones[0].wlan[0].radio transmissionState:count 0
 attr interpolationmode sample-hold
 attr source transmissionStateChanged
 attr title "Radio transmission state, count"
-scalar mobilityDrones.drones[0].wlan[0].radio receptionState:count 614
+scalar mobilityDrones.drones[0].wlan[0].radio receptionState:count 1
 attr interpolationmode sample-hold
 attr source receptionStateChanged
 attr title "Radio reception state, count"
-scalar mobilityDrones.drones[0].wlan[0].radio radioMode:count 492
+scalar mobilityDrones.drones[0].wlan[0].radio radioMode:count 3
 attr interpolationmode sample-hold
 attr source radioModeChanged
 attr title "Radio mode, count"
@@ -943,11 +566,11 @@ bin	0.44	0
 bin	0.46	0
 bin	0.48	0
 bin	0.5	0
-scalar mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:count 33
+scalar mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:count 0
 attr interpolationmode none
 attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
 attr title "packet drop: address resolution failed, count"
-scalar mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:sum(packetBytes) 48906
+scalar mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
 attr title "packet drop: address resolution failed, sum(packetBytes)"
@@ -997,35 +620,35 @@ attr title "ARP replies sent, count"
 scalar mobilityDrones.drones[0].ipv4.arp arpReplySent:sum(packetBytes) 0
 attr source arpReplySent
 attr title "ARP replies sent, sum(packetBytes)"
-scalar mobilityDrones.drones[0].ipv4.arp arpRequestSent:count 34
+scalar mobilityDrones.drones[0].ipv4.arp arpRequestSent:count 0
 attr source arpRequestSent
 attr title "ARP request sent, count"
-scalar mobilityDrones.drones[0].ipv4.arp arpRequestSent:sum(packetBytes) 952
+scalar mobilityDrones.drones[0].ipv4.arp arpRequestSent:sum(packetBytes) 0
 attr source arpRequestSent
 attr title "ARP request sent, sum(packetBytes)"
-scalar mobilityDrones.drones[0].ipv4.arp arpResolutionFailed:count 11
+scalar mobilityDrones.drones[0].ipv4.arp arpResolutionFailed:count 0
 attr title "ARP failed resolutions, count"
-scalar mobilityDrones.drones[0].ipv4.arp arpResolutionCompleted:count 1
+scalar mobilityDrones.drones[0].ipv4.arp arpResolutionCompleted:count 0
 attr title "ARP completed resolutions, count"
-scalar mobilityDrones.drones[0].ipv4.arp arpResolutionInitiated:count 12
+scalar mobilityDrones.drones[0].ipv4.arp arpResolutionInitiated:count 0
 attr title "ARP initiated resolutions, count"
-scalar mobilityDrones.drones[0].udp packetReceived:count 15
+scalar mobilityDrones.drones[0].udp packetReceived:count 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, count"
-scalar mobilityDrones.drones[0].udp packetReceived:sum(packetBytes) 21930
+scalar mobilityDrones.drones[0].udp packetReceived:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, sum(packetBytes)"
-scalar mobilityDrones.drones[0].udp packetSent:count 60
+scalar mobilityDrones.drones[0].udp packetSent:count 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, count"
-scalar mobilityDrones.drones[0].udp packetSent:sum(packetBytes) 87720
+scalar mobilityDrones.drones[0].udp packetSent:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.drones[0].udp passedUpPk:count 15
+scalar mobilityDrones.drones[0].udp passedUpPk:count 0
 attr interpolationmode none
 attr source packetSentToUpper
 attr title "packets passed up, count"
@@ -1037,140 +660,6 @@ scalar mobilityDrones.drones[0].udp droppedPkBadChecksum:count 0
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packets dropped (checksum error), count"
-scalar mobilityDrones.drones[0].app[0] "packets sent" 60
-scalar mobilityDrones.drones[0].app[0] "packets received" 0
-scalar mobilityDrones.drones[0].app[0] packetReceived:count 0
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, count"
-scalar mobilityDrones.drones[0].app[0] packetReceived:sum(packetBytes) 0
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, sum(packetBytes)"
-statistic mobilityDrones.drones[0].app[0] rcvdPkLifetime:stats
-field count 0
-field mean nan
-field stddev nan
-field min nan
-field max nan
-field sum 0
-field sqrsum 0
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "received packet lifetime, stats"
-attr unit s
-scalar mobilityDrones.drones[0].app[0] packetSent:count 60
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, count"
-scalar mobilityDrones.drones[0].app[0] packetSent:sum(packetBytes) 87240
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.drones[0].app[1] packetReceived:count 15
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, count"
-scalar mobilityDrones.drones[0].app[1] packetReceived:sum(packetBytes) 21810
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, sum(packetBytes)"
-statistic mobilityDrones.drones[0].app[1] endToEndDelay:histogram
-field count 15
-field mean 0.000630594651
-field stddev 3.4787230548863e-007
-field min 0.000630024133
-field max 0.000631104836
-field sum 0.009458919765
-field sqrsum 5.9647459022592e-006
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "end-to-end delay, histogram"
-attr unit s
-bin	-inf	0
-bin	0.00062974	0
-bin	0.00062976	0
-bin	0.00062978	0
-bin	0.0006298	0
-bin	0.00062982	0
-bin	0.00062984	0
-bin	0.00062986	0
-bin	0.00062988	0
-bin	0.0006299	0
-bin	0.00062992	0
-bin	0.00062994	0
-bin	0.00062996	0
-bin	0.00062998	0
-bin	0.00063	0
-bin	0.00063002	1
-bin	0.00063004	0
-bin	0.00063006	0
-bin	0.00063008	0
-bin	0.0006301	0
-bin	0.00063012	0
-bin	0.00063014	0
-bin	0.00063016	2
-bin	0.00063018	0
-bin	0.0006302	0
-bin	0.00063022	0
-bin	0.00063024	0
-bin	0.00063026	0
-bin	0.00063028	0
-bin	0.0006303	0
-bin	0.00063032	2
-bin	0.00063034	0
-bin	0.00063036	0
-bin	0.00063038	0
-bin	0.0006304	0
-bin	0.00063042	0
-bin	0.00063044	0
-bin	0.00063046	1
-bin	0.00063048	1
-bin	0.0006305	0
-bin	0.00063052	0
-bin	0.00063054	0
-bin	0.00063056	0
-bin	0.00063058	0
-bin	0.0006306	0
-bin	0.00063062	2
-bin	0.00063064	0
-bin	0.00063066	0
-bin	0.00063068	0
-bin	0.0006307	0
-bin	0.00063072	0
-bin	0.00063074	0
-bin	0.00063076	0
-bin	0.00063078	2
-bin	0.0006308	0
-bin	0.00063082	0
-bin	0.00063084	0
-bin	0.00063086	0
-bin	0.00063088	0
-bin	0.0006309	0
-bin	0.00063092	0
-bin	0.00063094	2
-bin	0.00063096	0
-bin	0.00063098	0
-bin	0.000631	0
-bin	0.00063102	0
-bin	0.00063104	0
-bin	0.00063106	0
-bin	0.00063108	1
-bin	0.0006311	1
-bin	0.00063112	0
-bin	0.00063114	0
-bin	0.00063116	0
-bin	0.00063118	0
-bin	0.0006312	0
-bin	0.00063122	0
-bin	0.00063124	0
-bin	0.00063126	0
-bin	0.00063128	0
-bin	0.0006313	0
-bin	0.00063132	0
-bin	0.00063134	0
-bin	0.00063136	0
-bin	0.00063138	0
 scalar mobilityDrones.sensor1.lo[0].lo rcvdPkFromHl:count 0
 attr interpolationmode none
 attr source packetReceivedFromUpper
@@ -1187,110 +676,39 @@ scalar mobilityDrones.sensor1.lo[0].lo passedUpPk:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetSentToUpper
 attr title "packets passed to higher layer, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:count 0
 attr interpolationmode none
 attr title "packet popped, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:sum(packetBytes) 22834
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packet popped, sum(packetBytes)"
 statistic mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueingTime:histogram
-field count 16
-field mean 3.5625e-005
-field stddev 0.0001425
-field min 0
-field max 0.00057
-field sum 0.00057
-field sqrsum 3.249e-007
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr interpolationmode none
 attr source queueingTime(packetPopped)
 attr title "queueing times, histogram"
 attr unit s
 bin	-inf	0
-bin	0	15
-bin	1e-005	0
-bin	2e-005	0
-bin	3e-005	0
-bin	4e-005	0
-bin	5e-005	0
-bin	6e-005	0
-bin	7e-005	0
-bin	8e-005	0
-bin	9e-005	0
-bin	0.0001	0
-bin	0.00011	0
-bin	0.00012	0
-bin	0.00013	0
-bin	0.00014	0
-bin	0.00015	0
-bin	0.00016	0
-bin	0.00017	0
-bin	0.00018	0
-bin	0.00019	0
-bin	0.0002	0
-bin	0.00021	0
-bin	0.00022	0
-bin	0.00023	0
-bin	0.00024	0
-bin	0.00025	0
-bin	0.00026	0
-bin	0.00027	0
-bin	0.00028	0
-bin	0.00029	0
-bin	0.0003	0
-bin	0.00031	0
-bin	0.00032	0
-bin	0.00033	0
-bin	0.00034	0
-bin	0.00035	0
-bin	0.00036	0
-bin	0.00037	0
-bin	0.00038	0
-bin	0.00039	0
-bin	0.0004	0
-bin	0.00041	0
-bin	0.00042	0
-bin	0.00043	0
-bin	0.00044	0
-bin	0.00045	0
-bin	0.00046	0
-bin	0.00047	0
-bin	0.00048	0
-bin	0.00049	0
-bin	0.0005	0
-bin	0.00051	0
-bin	0.00052	0
-bin	0.00053	0
-bin	0.00054	0
-bin	0.00055	0
-bin	0.00056	1
-bin	0.00057	0
-bin	0.00058	0
-bin	0.00059	0
-bin	0.0006	0
-bin	0.00061	0
-bin	0.00062	0
-bin	0.00063	0
-bin	0.00064	0
-bin	0.00065	0
-bin	0.00066	0
-bin	0.00067	0
-bin	0.00068	0
-bin	0.00069	0
-bin	0.0007	0
-bin	0.00071	0
-bin	0.00072	0
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:max 1
+bin	0	0
+bin	1	0
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:max nan
 attr interpolationmode sample-hold
 attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
 attr title "queue length, max"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:timeavg 2.1923114967306e-005
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:timeavg nan
 attr interpolationmode sample-hold
 attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
 attr title "queue length, timeavg"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:count 0
 attr interpolationmode none
 attr title "packet pushed, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:sum(packetBytes) 22834
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packet pushed, sum(packetBytes)"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetDropQueueOverflow:count 0
@@ -1308,120 +726,38 @@ scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.pendingQueue packetR
 attr interpolationmode none
 attr title "packets removed, sum(packetBytes)"
 statistic mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueingTime:histogram
-field count 31
-field mean 0.0006075027093871
-field stddev 0.00010759254104076
-field min 9.4744463e-005
-field max 0.000675473101
-field sum 0.018832583991
-field sqrsum 1.1788130445921e-005
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr interpolationmode none
 attr source queueingTime(packetDequeued)
 attr title "queueing times, histogram"
 bin	-inf	0
 bin	0	0
-bin	1e-005	0
-bin	2e-005	0
-bin	3e-005	0
-bin	4e-005	0
-bin	5e-005	0
-bin	6e-005	0
-bin	7e-005	0
-bin	8e-005	0
-bin	9e-005	1
-bin	0.0001	0
-bin	0.00011	0
-bin	0.00012	0
-bin	0.00013	0
-bin	0.00014	0
-bin	0.00015	0
-bin	0.00016	0
-bin	0.00017	0
-bin	0.00018	0
-bin	0.00019	0
-bin	0.0002	0
-bin	0.00021	0
-bin	0.00022	0
-bin	0.00023	0
-bin	0.00024	0
-bin	0.00025	0
-bin	0.00026	0
-bin	0.00027	0
-bin	0.00028	0
-bin	0.00029	0
-bin	0.0003	0
-bin	0.00031	0
-bin	0.00032	0
-bin	0.00033	0
-bin	0.00034	0
-bin	0.00035	0
-bin	0.00036	0
-bin	0.00037	0
-bin	0.00038	0
-bin	0.00039	0
-bin	0.0004	0
-bin	0.00041	0
-bin	0.00042	0
-bin	0.00043	0
-bin	0.00044	0
-bin	0.00045	0
-bin	0.00046	0
-bin	0.00047	0
-bin	0.00048	0
-bin	0.00049	0
-bin	0.0005	0
-bin	0.00051	0
-bin	0.00052	0
-bin	0.00053	0
-bin	0.00054	0
-bin	0.00055	0
-bin	0.00056	0
-bin	0.00057	15
-bin	0.00058	0
-bin	0.00059	0
-bin	0.0006	0
-bin	0.00061	0
-bin	0.00062	0
-bin	0.00063	0
-bin	0.00064	0
-bin	0.00065	0
-bin	0.00066	0
-bin	0.00067	15
-bin	0.00068	0
-bin	0.00069	0
-bin	0.0007	0
-bin	0.00071	0
-bin	0.00072	0
-bin	0.00073	0
-bin	0.00074	0
-bin	0.00075	0
-bin	0.00076	0
-bin	0.00077	0
-bin	0.00078	0
-bin	0.00079	0
-bin	0.0008	0
-bin	0.00081	0
-bin	0.00082	0
-bin	0.00083	0
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:max 2
+bin	1	0
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:max nan
 attr interpolationmode sample-hold
 attr source "count(packetEnqueued) - count(packetDequeued)"
 attr title "queue length, max"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:timeavg 0.00072434729041585
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:timeavg nan
 attr interpolationmode sample-hold
 attr source "count(packetEnqueued) - count(packetDequeued)"
 attr title "queue length, timeavg"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention stateChanged:count 314
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention stateChanged:count 2
 attr interpolationmode none
 attr title "contention state changed, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention channelAccessGranted:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess.contention channelAccessGranted:count 0
 attr title "channel access granted, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess channelOwnershipChanged:count 32
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.channelAccess channelOwnershipChanged:count 0
 attr interpolationmode sample-hold
 attr title "channel ownership, count"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf.originatorMacDataService packetAggregated:count 0
 attr title "packets aggregated, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.originatorMacDataService packetFragmented:count 15
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.originatorMacDataService packetFragmented:count 0
 attr title "packets fragmented, count"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:count 0
 attr interpolationmode none
@@ -1433,67 +769,67 @@ attr source packetDropReasonIsDuplicateDetected(packetDropped)
 attr title "packet drops: duplicate detected, sum(packetBytes)"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf.recipientMacDataService packetDeaggregated:count 0
 attr title "packets deaggregated, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf.recipientMacDataService packetDefragmented:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf.recipientMacDataService packetDefragmented:count 0
 attr title "packets defragmented, count"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf.recoveryProcedure retryLimitReached:count 0
 attr title "retry limit reached, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeer:count 63
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeer:count 0
 attr interpolationmode none
 attr title "packets received, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeer:sum(packetBytes) 23734
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeer:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerUnicast:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerUnicast:count 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetReceivedFromPeer)
 attr title "packets received: unicast, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerUnicast:sum(packetBytes) 23670
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerUnicast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetReceivedFromPeer)
 attr title "packets received: unicast, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerMulticast:count 1
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerMulticast:count 0
 attr interpolationmode none
 attr source ieee80211Multicast(packetReceivedFromPeer)
 attr title "packets received: multicast, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerMulticast:sum(packetBytes) 64
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerMulticast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Multicast(packetReceivedFromPeer)
 attr title "packets received: multicast, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerBroadcast:count 1
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerBroadcast:count 0
 attr interpolationmode none
 attr source ieee80211Broadcast(packetReceivedFromPeer)
 attr title "packets received: broadcast, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerBroadcast:sum(packetBytes) 64
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerBroadcast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Broadcast(packetReceivedFromPeer)
 attr title "packets received: broadcast, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithRetry:count 1
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithRetry:count 0
 attr interpolationmode none
 attr source ieee80211Retry(packetReceivedFromPeer)
 attr title "packets received: with retry, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithRetry:sum(packetBytes) 46
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Retry(packetReceivedFromPeer)
 attr title "packets received: with retry, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:count 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetReceivedFromPeer)
 attr title "packets received: without retry, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:sum(packetBytes) 23688
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetReceivedFromPeer)
 attr title "packets received: without retry, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeer:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeer:count 0
 attr interpolationmode none
 attr title "packets sent, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeer:sum(packetBytes) 23688
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeer:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerUnicast:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerUnicast:count 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetSentToPeer)
 attr title "packets sent: unicast, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerUnicast:sum(packetBytes) 23688
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerUnicast:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211Unicast(packetSentToPeer)
 attr title "packets sent: unicast, sum(packetBytes)"
@@ -1521,11 +857,11 @@ scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithRetry:sum(pack
 attr interpolationmode none
 attr source ieee80211Retry(packetSentToPeer)
 attr title "packets sent: with retry, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithoutRetry:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithoutRetry:count 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetSentToPeer)
 attr title "packets sent: without retry, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithoutRetry:sum(packetBytes) 23688
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf packetSentToPeerWithoutRetry:sum(packetBytes) 0
 attr interpolationmode none
 attr source ieee80211NotRetry(packetSentToPeer)
 attr title "packets sent: without retry, sum(packetBytes)"
@@ -1564,156 +900,71 @@ attr title "packet drops: retry limit reached, sum(packetBytes)"
 scalar mobilityDrones.sensor1.wlan[0].mac.dcf linkBroken:count 0
 attr interpolationmode none
 attr title "link breaks, count"
-scalar mobilityDrones.sensor1.wlan[0].mac.dcf frameSequenceFinished:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac.dcf frameSequenceFinished:count 0
 attr title "finished frame sequences, count"
 statistic mobilityDrones.sensor1.wlan[0].mac.dcf frameSequenceDuration:histogram
-field count 16
-field mean 0.00063853984225
-field stddev 0.0001450127934741
-field min 9.4744463e-005
-field max 0.000675473101
-field sum 0.010216637476
-field sqrsum 6.8391607363179e-006
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source frameSequenceDuration(frameSequenceFinished)
 attr title "frame sequence durations, histogram"
 bin	-inf	0
 bin	0	0
-bin	1e-005	0
-bin	2e-005	0
-bin	3e-005	0
-bin	4e-005	0
-bin	5e-005	0
-bin	6e-005	0
-bin	7e-005	0
-bin	8e-005	0
-bin	9e-005	1
-bin	0.0001	0
-bin	0.00011	0
-bin	0.00012	0
-bin	0.00013	0
-bin	0.00014	0
-bin	0.00015	0
-bin	0.00016	0
-bin	0.00017	0
-bin	0.00018	0
-bin	0.00019	0
-bin	0.0002	0
-bin	0.00021	0
-bin	0.00022	0
-bin	0.00023	0
-bin	0.00024	0
-bin	0.00025	0
-bin	0.00026	0
-bin	0.00027	0
-bin	0.00028	0
-bin	0.00029	0
-bin	0.0003	0
-bin	0.00031	0
-bin	0.00032	0
-bin	0.00033	0
-bin	0.00034	0
-bin	0.00035	0
-bin	0.00036	0
-bin	0.00037	0
-bin	0.00038	0
-bin	0.00039	0
-bin	0.0004	0
-bin	0.00041	0
-bin	0.00042	0
-bin	0.00043	0
-bin	0.00044	0
-bin	0.00045	0
-bin	0.00046	0
-bin	0.00047	0
-bin	0.00048	0
-bin	0.00049	0
-bin	0.0005	0
-bin	0.00051	0
-bin	0.00052	0
-bin	0.00053	0
-bin	0.00054	0
-bin	0.00055	0
-bin	0.00056	0
-bin	0.00057	0
-bin	0.00058	0
-bin	0.00059	0
-bin	0.0006	0
-bin	0.00061	0
-bin	0.00062	0
-bin	0.00063	0
-bin	0.00064	0
-bin	0.00065	0
-bin	0.00066	0
-bin	0.00067	15
-bin	0.00068	0
-bin	0.00069	0
-bin	0.0007	0
-bin	0.00071	0
-bin	0.00072	0
-bin	0.00073	0
-bin	0.00074	0
-bin	0.00075	0
-bin	0.00076	0
-bin	0.00077	0
-bin	0.00078	0
-bin	0.00079	0
-bin	0.0008	0
-bin	0.00081	0
-bin	0.00082	0
-bin	0.00083	0
+bin	1	0
 statistic mobilityDrones.sensor1.wlan[0].mac.dcf frameSequenceNumPackets:histogram
-field count 16
-field mean 3.875
-field stddev 0.5
-field min 2
-field max 4
-field sum 62
-field sqrsum 244
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source frameSequenceNumPackets(frameSequenceFinished)
 attr title "frame sequences: number of packets, histogram"
 bin	-inf	0
+bin	0	0
 bin	1	0
-bin	2	1
-bin	3	0
-bin	4	15
-bin	5	0
-scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromLower:count 71
+scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromLower:count 0
 attr interpolationmode none
 attr title "packets received from lower layer, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromLower:sum(packetBytes) 34280
+scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromLower:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received from lower layer, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac packetSentToLower:count 62
+scalar mobilityDrones.sensor1.wlan[0].mac packetSentToLower:count 0
 attr interpolationmode none
 attr title "packets sent to lower layer, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetSentToLower:sum(packetBytes) 23688
+scalar mobilityDrones.sensor1.wlan[0].mac packetSentToLower:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent to lower layer, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromUpper:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromUpper:count 0
 attr interpolationmode none
 attr title "packets received from upper layer, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromUpper:sum(packetBytes) 22386
+scalar mobilityDrones.sensor1.wlan[0].mac packetReceivedFromUpper:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets received from upper layer, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac packetSentToUpper:count 16
+scalar mobilityDrones.sensor1.wlan[0].mac packetSentToUpper:count 0
 attr interpolationmode none
 attr title "packets sent to upper layer, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetSentToUpper:sum(packetBytes) 22386
+scalar mobilityDrones.sensor1.wlan[0].mac packetSentToUpper:sum(packetBytes) 0
 attr interpolationmode none
 attr title "packets sent to upper layer, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac packetDrop:count 8
+scalar mobilityDrones.sensor1.wlan[0].mac packetDrop:count 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetDrop:sum(packetBytes) 10546
+scalar mobilityDrones.sensor1.wlan[0].mac packetDrop:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropped
 attr title "packet drops, sum(packetBytes)"
-scalar mobilityDrones.sensor1.wlan[0].mac packetDropIncorrectlyReceived:count 8
+scalar mobilityDrones.sensor1.wlan[0].mac packetDropIncorrectlyReceived:count 0
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packet drops: incorrectly received, count"
-scalar mobilityDrones.sensor1.wlan[0].mac packetDropIncorrectlyReceived:sum(packetBytes) 10546
+scalar mobilityDrones.sensor1.wlan[0].mac packetDropIncorrectlyReceived:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packet drops: incorrectly received, sum(packetBytes)"
@@ -1761,187 +1012,31 @@ scalar mobilityDrones.sensor1.wlan[0].mac linkBroken:count 0
 attr interpolationmode none
 attr title "link breaks, count"
 statistic mobilityDrones.sensor1.wlan[0].radio minSnir:histogram
-field count 71
-field mean 68366.149726473
-field stddev 285921.16157271
-field min 15.197572842213
-field max 1509274.3089242
-field sum 4853996.6305796
-field sqrsum 6054412804874.3
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source minimumSnir(packetSentToUpper)
 attr title "Min SNIR, histogram"
 bin	-inf	0
-bin	0	67
-bin	20000	0
-bin	40000	0
-bin	60000	0
-bin	80000	0
-bin	100000	0
-bin	120000	0
-bin	140000	0
-bin	160000	0
-bin	180000	0
-bin	200000	0
-bin	220000	0
-bin	240000	0
-bin	260000	0
-bin	280000	0
-bin	300000	0
-bin	320000	0
-bin	340000	0
-bin	360000	0
-bin	380000	0
-bin	400000	0
-bin	420000	0
-bin	440000	0
-bin	460000	0
-bin	480000	0
-bin	500000	0
-bin	520000	0
-bin	540000	0
-bin	560000	0
-bin	580000	0
-bin	600000	0
-bin	620000	0
-bin	640000	0
-bin	660000	0
-bin	680000	0
-bin	700000	0
-bin	720000	0
-bin	740000	0
-bin	760000	0
-bin	780000	0
-bin	800000	0
-bin	820000	0
-bin	840000	0
-bin	860000	2
-bin	880000	0
-bin	900000	0
-bin	920000	0
-bin	940000	0
-bin	960000	0
-bin	980000	0
-bin	1000000	0
-bin	1020000	0
-bin	1040000	0
-bin	1060000	0
-bin	1080000	0
-bin	1100000	0
-bin	1120000	0
-bin	1140000	0
-bin	1160000	0
-bin	1180000	0
-bin	1200000	0
-bin	1220000	0
-bin	1240000	0
-bin	1260000	0
-bin	1280000	0
-bin	1300000	0
-bin	1320000	0
-bin	1340000	0
-bin	1360000	0
-bin	1380000	0
-bin	1400000	0
-bin	1420000	0
-bin	1440000	0
-bin	1460000	0
-bin	1480000	0
-bin	1500000	2
-bin	1520000	0
-bin	1540000	0
-bin	1560000	0
-bin	1580000	0
-bin	1600000	0
-bin	1620000	0
-bin	1640000	0
-bin	1660000	0
-bin	1680000	0
-bin	1700000	0
-bin	1720000	0
-bin	1740000	0
-bin	1760000	0
-bin	1780000	0
-bin	1800000	0
-bin	1820000	0
-bin	1840000	0
-bin	1860000	0
-bin	1880000	0
-bin	1900000	0
+bin	0	0
+bin	1	0
 statistic mobilityDrones.sensor1.wlan[0].radio packetErrorRate:histogram
-field count 71
-field mean 0.11745020437476
-field stddev 0.30865077871679
-field min 0
-field max 0.99999999859733
-field sum 8.3389645106077
-field sqrsum 7.6479843102184
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr source packetErrorRate(packetSentToUpper)
 attr title "Packet error rate, histogram"
 bin	-inf	0
-bin	0	60
-bin	0.02	0
-bin	0.04	1
-bin	0.06	0
-bin	0.08	0
-bin	0.1	0
-bin	0.12	0
-bin	0.14	1
-bin	0.16	0
-bin	0.18	0
-bin	0.2	0
-bin	0.22	0
-bin	0.24	0
-bin	0.26	0
-bin	0.28	0
-bin	0.3	0
-bin	0.32	0
-bin	0.34	0
-bin	0.36	0
-bin	0.38	0
-bin	0.4	0
-bin	0.42	0
-bin	0.44	0
-bin	0.46	0
-bin	0.48	0
-bin	0.5	0
-bin	0.52	0
-bin	0.54	2
-bin	0.56	0
-bin	0.58	0
-bin	0.6	0
-bin	0.62	0
-bin	0.64	0
-bin	0.66	0
-bin	0.68	0
-bin	0.7	0
-bin	0.72	0
-bin	0.74	0
-bin	0.76	0
-bin	0.78	0
-bin	0.8	0
-bin	0.82	0
-bin	0.84	0
-bin	0.86	0
-bin	0.88	0
-bin	0.9	0
-bin	0.92	0
-bin	0.94	0
-bin	0.96	0
-bin	0.98	7
+bin	0	0
 bin	1	0
-bin	1.02	0
-bin	1.04	0
-bin	1.06	0
-bin	1.08	0
-bin	1.1	0
-bin	1.12	0
-bin	1.14	0
-bin	1.16	0
-bin	1.18	0
-bin	1.2	0
-bin	1.22	0
-bin	1.24	0
-bin	1.26	0
 statistic mobilityDrones.sensor1.wlan[0].radio bitErrorRate:histogram
 field count 0
 field mean nan
@@ -1968,15 +1063,15 @@ attr title "Symbol error rate, histogram"
 bin	-inf	0
 bin	0	0
 bin	1	0
-scalar mobilityDrones.sensor1.wlan[0].radio transmissionState:count 248
+scalar mobilityDrones.sensor1.wlan[0].radio transmissionState:count 0
 attr interpolationmode sample-hold
 attr source transmissionStateChanged
 attr title "Radio transmission state, count"
-scalar mobilityDrones.sensor1.wlan[0].radio receptionState:count 269
+scalar mobilityDrones.sensor1.wlan[0].radio receptionState:count 1
 attr interpolationmode sample-hold
 attr source receptionStateChanged
 attr title "Radio reception state, count"
-scalar mobilityDrones.sensor1.wlan[0].radio radioMode:count 127
+scalar mobilityDrones.sensor1.wlan[0].radio radioMode:count 3
 attr interpolationmode sample-hold
 attr source radioModeChanged
 attr title "Radio mode, count"
@@ -2091,10 +1186,10 @@ scalar mobilityDrones.sensor1.ipv4.ip packetDropUndefined:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetDropReasonIsUndefined(packetDropped)
 attr title "packet drop: undefined, sum(packetBytes)"
-scalar mobilityDrones.sensor1.ipv4.arp arpReplySent:count 1
+scalar mobilityDrones.sensor1.ipv4.arp arpReplySent:count 0
 attr source arpReplySent
 attr title "ARP replies sent, count"
-scalar mobilityDrones.sensor1.ipv4.arp arpReplySent:sum(packetBytes) 28
+scalar mobilityDrones.sensor1.ipv4.arp arpReplySent:sum(packetBytes) 0
 attr source arpReplySent
 attr title "ARP replies sent, sum(packetBytes)"
 scalar mobilityDrones.sensor1.ipv4.arp arpRequestSent:count 0
@@ -2105,27 +1200,27 @@ attr source arpRequestSent
 attr title "ARP request sent, sum(packetBytes)"
 scalar mobilityDrones.sensor1.ipv4.arp arpResolutionFailed:count 0
 attr title "ARP failed resolutions, count"
-scalar mobilityDrones.sensor1.ipv4.arp arpResolutionCompleted:count 1
+scalar mobilityDrones.sensor1.ipv4.arp arpResolutionCompleted:count 0
 attr title "ARP completed resolutions, count"
 scalar mobilityDrones.sensor1.ipv4.arp arpResolutionInitiated:count 0
 attr title "ARP initiated resolutions, count"
-scalar mobilityDrones.sensor1.udp packetReceived:count 15
+scalar mobilityDrones.sensor1.udp packetReceived:count 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, count"
-scalar mobilityDrones.sensor1.udp packetReceived:sum(packetBytes) 21930
+scalar mobilityDrones.sensor1.udp packetReceived:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, sum(packetBytes)"
-scalar mobilityDrones.sensor1.udp packetSent:count 15
+scalar mobilityDrones.sensor1.udp packetSent:count 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, count"
-scalar mobilityDrones.sensor1.udp packetSent:sum(packetBytes) 21930
+scalar mobilityDrones.sensor1.udp packetSent:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.sensor1.udp passedUpPk:count 15
+scalar mobilityDrones.sensor1.udp passedUpPk:count 0
 attr interpolationmode none
 attr source packetSentToUpper
 attr title "packets passed up, count"
@@ -2137,7 +1232,7 @@ scalar mobilityDrones.sensor1.udp droppedPkBadChecksum:count 0
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packets dropped (checksum error), count"
-scalar mobilityDrones.sensor1.app[0] "packets sent" 15
+scalar mobilityDrones.sensor1.app[0] "packets sent" 0
 scalar mobilityDrones.sensor1.app[0] "packets received" 0
 scalar mobilityDrones.sensor1.app[0] packetReceived:count 0
 attr interpolationmode none
@@ -2159,131 +1254,37 @@ attr interpolationmode none
 attr source dataAge(packetReceived)
 attr title "received packet lifetime, stats"
 attr unit s
-scalar mobilityDrones.sensor1.app[0] packetSent:count 15
+scalar mobilityDrones.sensor1.app[0] packetSent:count 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, count"
-scalar mobilityDrones.sensor1.app[0] packetSent:sum(packetBytes) 21810
+scalar mobilityDrones.sensor1.app[0] packetSent:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, sum(packetBytes)"
-scalar mobilityDrones.sensor1.app[1] packetReceived:count 15
+scalar mobilityDrones.sensor1.app[1] packetReceived:count 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, count"
-scalar mobilityDrones.sensor1.app[1] packetReceived:sum(packetBytes) 21810
+scalar mobilityDrones.sensor1.app[1] packetReceived:sum(packetBytes) 0
 attr interpolationmode none
 attr source packetReceived
 attr title "packets received, sum(packetBytes)"
 statistic mobilityDrones.sensor1.app[1] endToEndDelay:histogram
-field count 15
-field mean 0.00071357811693333
-field stddev 0.00032153604127068
-field min 0.000630031817
-field max 0.00187586104
-field sum 0.010703671754
-field sqrsum 9.0853018961961e-006
+field count 0
+field mean nan
+field stddev nan
+field min nan
+field max nan
+field sum 0
+field sqrsum 0
 attr interpolationmode none
 attr source dataAge(packetReceived)
 attr title "end-to-end delay, histogram"
 attr unit s
 bin	-inf	0
-bin	0.0003	0
-bin	0.00032	0
-bin	0.00034	0
-bin	0.00036	0
-bin	0.00038	0
-bin	0.0004	0
-bin	0.00042	0
-bin	0.00044	0
-bin	0.00046	0
-bin	0.00048	0
-bin	0.0005	0
-bin	0.00052	0
-bin	0.00054	0
-bin	0.00056	0
-bin	0.00058	0
-bin	0.0006	0
-bin	0.00062	14
-bin	0.00064	0
-bin	0.00066	0
-bin	0.00068	0
-bin	0.0007	0
-bin	0.00072	0
-bin	0.00074	0
-bin	0.00076	0
-bin	0.00078	0
-bin	0.0008	0
-bin	0.00082	0
-bin	0.00084	0
-bin	0.00086	0
-bin	0.00088	0
-bin	0.0009	0
-bin	0.00092	0
-bin	0.00094	0
-bin	0.00096	0
-bin	0.00098	0
-bin	0.001	0
-bin	0.00102	0
-bin	0.00104	0
-bin	0.00106	0
-bin	0.00108	0
-bin	0.0011	0
-bin	0.00112	0
-bin	0.00114	0
-bin	0.00116	0
-bin	0.00118	0
-bin	0.0012	0
-bin	0.00122	0
-bin	0.00124	0
-bin	0.00126	0
-bin	0.00128	0
-bin	0.0013	0
-bin	0.00132	0
-bin	0.00134	0
-bin	0.00136	0
-bin	0.00138	0
-bin	0.0014	0
-bin	0.00142	0
-bin	0.00144	0
-bin	0.00146	0
-bin	0.00148	0
-bin	0.0015	0
-bin	0.00152	0
-bin	0.00154	0
-bin	0.00156	0
-bin	0.00158	0
-bin	0.0016	0
-bin	0.00162	0
-bin	0.00164	0
-bin	0.00166	0
-bin	0.00168	0
-bin	0.0017	0
-bin	0.00172	0
-bin	0.00174	0
-bin	0.00176	0
-bin	0.00178	0
-bin	0.0018	0
-bin	0.00182	0
-bin	0.00184	0
-bin	0.00186	1
-bin	0.00188	0
-bin	0.0019	0
-bin	0.00192	0
-bin	0.00194	0
-bin	0.00196	0
-bin	0.00198	0
-bin	0.002	0
-bin	0.00202	0
-bin	0.00204	0
-bin	0.00206	0
-bin	0.00208	0
-bin	0.0021	0
-bin	0.00212	0
-bin	0.00214	0
-bin	0.00216	0
-bin	0.00218	0
-bin	0.0022	0
+bin	0	0
+bin	1	0
 scalar mobilityDrones.sensor2.lo[0].lo rcvdPkFromHl:count 0
 attr interpolationmode none
 attr source packetReceivedFromUpper
