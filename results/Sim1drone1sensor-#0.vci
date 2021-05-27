@@ -1,15 +1,15 @@
-file 619787 1622084791                                          
+file 185805 1622158523                                          
 version 2
-run Sim1drone1sensor-0-20210527-00:03:45-12868
+run Sim1drone1sensor-0-20210527-20:33:55-5096
 attr configname Sim1drone1sensor
-attr datetime 20210527-00:03:45
+attr datetime 20210527-20:33:55
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 12868
+attr processid 5096
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -130,22 +130,22 @@ attr title "contention window, vector"
 vector 15 mobilityDrones.sensor3.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
 attr interpolationmode sample-hold
 attr title "contention window, vector"
-0	6221 27 0 0 0 0 3 0 2 2 4
-1	6248 9 0 0 0 0 1 0 0 0 0
-2	6257 27 0 0 0 0 3 0 2 2 4
-3	6284 9 0 0 0 0 1 0 0 0 0
-4	6293 27 0 0 0 0 3 0 2 2 4
-5	6320 9 0 0 0 0 1 0 0 0 0
-6	6329 27 0 0 0 0 3 0 2 2 4
-7	6356 9 0 0 0 0 1 0 0 0 0
-8	6365 9 0 0 0 0 1 1 1 1 1
-9	6374 9 0 0 0 0 1 1 1 1 1
-10	6383 10 0 0 0 0 1 1 1 1 1
-11	6393 10 0 0 0 0 1 1 1 1 1
-12	6403 11 0 0 0 0 1 31 31 31 961
-13	6414 11 0 0 0 0 1 31 31 31 961
-14	6425 11 0 0 0 0 1 31 31 31 961
-15	6436 11 0 0 0 0 1 31 31 31 961
+0	6219 27 0 0 0 0 3 0 2 2 4
+1	6246 9 0 0 0 0 1 0 0 0 0
+2	6255 27 0 0 0 0 3 0 2 2 4
+3	6282 9 0 0 0 0 1 0 0 0 0
+4	6291 27 0 0 0 0 3 0 2 2 4
+5	6318 9 0 0 0 0 1 0 0 0 0
+6	6327 27 0 0 0 0 3 0 2 2 4
+7	6354 9 0 0 0 0 1 0 0 0 0
+8	6363 9 0 0 0 0 1 1 1 1 1
+9	6372 9 0 0 0 0 1 1 1 1 1
+10	6381 10 0 0 0 0 1 1 1 1 1
+11	6391 10 0 0 0 0 1 1 1 1 1
+12	6401 11 0 0 0 0 1 31 31 31 961
+13	6412 11 0 0 0 0 1 31 31 31 961
+14	6423 11 0 0 0 0 1 31 31 31 961
+15	6434 11 0 0 0 0 1 31 31 31 961
 vector 16 mobilityDrones.sensor1.app[0] throughput:vector ETV
 attr source throughput(packetReceived)
 attr title "throughput, vector"
@@ -170,10 +170,10 @@ vector 21 mobilityDrones.sensor3.app[1] throughput:vector ETV
 attr source throughput(packetReceived)
 attr title "throughput, vector"
 attr unit bps
-16	7353 102072 23166 23166 0.1 579.6 5796 0 0 0 0
-17	109425 102072 23166 23166 0.1 579.6 5796 0 0 0 0
-18	211497 102072 23166 23166 0.1 579.6 5796 0 0 0 0
-19	313569 102072 23166 23166 0.1 579.6 5796 0 0 0 0
-20	415641 102072 23166 23166 0.1 579.6 5796 0 0 0 0
-21	517713 102072 23166 23166 0.1 579.6 5796 0 0 0 0
+16	7351 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
+17	37093 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
+18	66835 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
+19	96577 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
+20	126319 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
+21	156061 29742 7321 7321 0.1 183.487573691792 1835 0 0 0 0
 

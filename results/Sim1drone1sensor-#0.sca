@@ -1,14 +1,14 @@
 version 2
-run Sim1drone1sensor-0-20210527-00:03:45-12868
+run Sim1drone1sensor-0-20210527-20:33:55-5096
 attr configname Sim1drone1sensor
-attr datetime 20210527-00:03:45
+attr datetime 20210527-20:33:55
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 12868
+attr processid 5096
 attr repetition 0
 attr replication #0
 attr resultdir results

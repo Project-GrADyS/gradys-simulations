@@ -17,6 +17,7 @@
 #define DRONEMOBILITY_H_
 
 #include "inet/mobility/single/VehicleMobility.h"
+#include "inet/common/geometry/common/GeographicCoordinateSystem.h"
 
 using namespace inet;
 
@@ -26,7 +27,7 @@ namespace projeto {
 class DroneMobility : public VehicleMobility
 {
     protected:
-        enum Command { GOTO=16, STOP=19, JUMP=177 };
+        enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22 };
         struct Instruction {
             Command command;
             double param1;
@@ -60,14 +61,14 @@ class DroneMobility : public VehicleMobility
         virtual void move() override;
 
         virtual void fly ();
-        virtual void climb ();
+        virtual void climb (double targetHeight);
+
 
     private:
         Coord tempSpeed;
 
     private:
-
-
+        virtual void createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem);
 };
 
 }
