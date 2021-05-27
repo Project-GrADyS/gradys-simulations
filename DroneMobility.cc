@@ -1,4 +1,4 @@
-#include "GeoWaypointMobility.h"
+#include "DroneMobility.h"
 #include "inet/common/geometry/common/GeographicCoordinateSystem.h"
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/environment/contract/IGround.h"
@@ -17,20 +17,20 @@ using std::stoi;
 
 namespace projeto {
 
-Define_Module(GeoWaypointMobility);
+Define_Module(DroneMobility);
 
-void GeoWaypointMobility::initialize(int stage) {
+void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
-    climbAngle = par("climbAngle");
+    verticalSpeed = par("verticalSpeed");
 }
 
-void GeoWaypointMobility::setInitialPosition() {
+void DroneMobility::setInitialPosition() {
     VehicleMobility::setInitialPosition();
     lastPosition.z = waypoints[targetPointIndex].timestamp;
 }
 
 
-void GeoWaypointMobility::readWaypointsFromFile(const char *fileName) {
+void DroneMobility::readWaypointsFromFile(const char *fileName) {
     char line[256];
     ifstream inputFile(fileName);
 
@@ -85,7 +85,7 @@ void GeoWaypointMobility::readWaypointsFromFile(const char *fileName) {
     inputFile.close();
 }
 
-void GeoWaypointMobility::move() {
+void DroneMobility::move() {
     Instruction *currentInstruction = &instructions[currentInstructionIndex];
     switch (currentInstruction->command) {
         case Command::STOP :
@@ -100,6 +100,7 @@ void GeoWaypointMobility::move() {
             break;
         case Command::GOTO :
             if (isIdle) {
+                // TODO: Deal with cases where time isn't an integer
                 if(idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
                     currentInstructionIndex = (currentInstructionIndex + 1) % instructions.size();
                     idleTime = SimTime();
@@ -111,12 +112,7 @@ void GeoWaypointMobility::move() {
             else {
                 targetPointIndex = currentInstruction->waypointIndex;
 
-                GeoWaypointMobility::fly();
-                // If the targetPointIndex has changed it means we have arrived at our waypoint and are trying
-                // to get to the next one
-                if(targetPointIndex != currentInstruction->waypointIndex) {
-                    isIdle = true;
-                }
+                DroneMobility::fly();
             }
 
 
@@ -142,44 +138,47 @@ void GeoWaypointMobility::move() {
 }
 
 
-void GeoWaypointMobility::fly() {
+void DroneMobility::fly() {
     // Saving height and vertical speed because VehicleMobility::move() resets it
     double lastHeight = lastPosition.z;
     double lastVerticalSpeed = lastVelocity.z;
-   VehicleMobility::move();
-   lastPosition.z = lastHeight;
-   lastVelocity.z = lastVerticalSpeed;
-   GeoWaypointMobility::climb();
+    VehicleMobility::move();
+    lastPosition.z = lastHeight;
+    lastVelocity.z = lastVerticalSpeed;
+    DroneMobility::climb();
+
+    // Checks if we are close enough to the waypoint and starts to idle
+    Waypoint target = waypoints[instructions[currentInstructionIndex].waypointIndex];
+    double dx = target.x - lastPosition.x;
+    double dy = target.y - lastPosition.y;
+    double dz = target.timestamp - lastPosition.z;
+    if (dx * dx + dy * dy + dz * dz < waypointProximity * waypointProximity * waypointProximity) {
+        isIdle = true;
+    }
 }
 
-void GeoWaypointMobility::climb() {
+void DroneMobility::climb() {
     // Using the time stamp as Z because it is not used for anything
     double targetZ = waypoints[instructions[currentInstructionIndex].waypointIndex].timestamp;
     if(lastPosition.z != targetZ) {
-        double plainVectorLength = sqrt(lastVelocity.x * lastVelocity.x + lastVelocity.y * lastVelocity.y);
-        double dz;
-        if(climbAngle >= 90) {
-            dz = targetZ - lastPosition.z;
-        } else {
-            double climbDelta = plainVectorLength * sin(climbAngle) / sin(90 - climbAngle);
+        double timeStep = (simTime() - lastUpdate).dbl();
+        double climbDelta =  verticalSpeed * timeStep;
 
-            // Checks if the climb delta overshoots the target height
-            bool climbOvershoots;
+        // Checks if the climb delta overshoots the target height
+        bool climbOvershoots;
 
+        if(lastPosition.z > targetZ) {
             // If the target position is below the current position, descend
-            if(lastPosition.z > targetZ) {
-                climbDelta = climbDelta * -1;
-
-                climbOvershoots = (lastPosition.z + climbDelta) < targetZ;
-            } else {
-                climbOvershoots = (lastPosition.z + climbDelta) > targetZ;
-            }
-
-            dz = climbOvershoots ? targetZ - lastPosition.z : climbDelta;
+            climbDelta = climbDelta * -1;
+            climbOvershoots = (lastPosition.z + climbDelta) < targetZ;
+        } else {
+            climbOvershoots = (lastPosition.z + climbDelta) > targetZ;
         }
 
-        lastPosition.z += dz;
-        lastVelocity.z = dz;
+        climbDelta = climbOvershoots ? targetZ - lastPosition.z : climbDelta;
+
+        lastPosition.z += climbDelta;
+        lastVelocity.z = climbDelta;
     }
 
 }

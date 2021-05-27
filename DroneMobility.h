@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef GEOWAYPOINTMOBILITY_H_
-#define GEOWAYPOINTMOBILITY_H_
+#ifndef DRONEMOBILITY_H_
+#define DRONEMOBILITY_H_
 
 #include "inet/mobility/single/VehicleMobility.h"
 
@@ -23,7 +23,7 @@ using namespace inet;
 namespace projeto {
 
 
-class GeoWaypointMobility : public VehicleMobility
+class DroneMobility : public VehicleMobility
 {
     protected:
         enum Command { GOTO=16, STOP=19, JUMP=177 };
@@ -48,6 +48,7 @@ class GeoWaypointMobility : public VehicleMobility
 
         std::vector<Instruction> instructions;
 
+        double verticalSpeed;
         simtime_t idleTime;
         bool isIdle = false;
         int currentInstructionIndex=0;
@@ -58,14 +59,16 @@ class GeoWaypointMobility : public VehicleMobility
         virtual void readWaypointsFromFile(const char *fileName) override;
         virtual void move() override;
 
-    private:
-        Coord tempSpeed;
-        double climbAngle;
+        virtual void fly ();
+        virtual void climb ();
 
     private:
-        virtual void climb ();
-        virtual void fly ();
+        Coord tempSpeed;
+
+    private:
+
+
 };
 
 }
-#endif /* GEOWAYPOINTMOBILITY_H_ */
+#endif /* DRONEMOBILITY_H_ */
