@@ -21,6 +21,7 @@ Define_Module(DroneMobility);
 void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
     verticalSpeed = par("verticalSpeed");
+    droneStatus.currentYawSpeed = par("yawSpeed");
 }
 
 void DroneMobility::setInitialPosition() {
@@ -95,6 +96,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
 
         instructions.push_back(readInstruction);
     }
+
     inputFile.close();
 }
 
@@ -107,34 +109,38 @@ void DroneMobility::move() {
 
     switch (currentInstruction->command) {
         case Command::STOP :
-            isIdle = true;
-            if(idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
-                currentInstructionIndex = currentInstructionIndex + 1;
-                idleTime = SimTime();
-                isIdle = false;
+        {
+            droneStatus.isIdle = true;
+            if(droneStatus.idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
+                currentInstructionIndex++;
+                droneStatus.idleTime = SimTime();
+                droneStatus.isIdle = false;
             } else {
-                idleTime += simTime() - lastUpdate;
+                droneStatus.idleTime += simTime() - lastUpdate;
             }
             break;
+        }
         case Command::GOTO :
-            if (isIdle) {
+        {
+            if (droneStatus.isIdle) {
                 // TODO: Deal with cases where time isn't an integer
-                if(idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
+                if(droneStatus.idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
                     currentInstructionIndex = currentInstructionIndex + 1;
-                    idleTime = SimTime();
-                    isIdle = false;
+                    droneStatus.idleTime = SimTime();
+                    droneStatus.isIdle = false;
                 } else {
-                    idleTime += simTime() - lastUpdate;
+                    droneStatus.idleTime += simTime() - lastUpdate;
                 }
             }
             else {
-                targetPointIndex = currentInstruction->waypointIndex;
-                DroneMobility::fly();
+                DroneMobility::fly(currentInstruction->waypointIndex);
             }
             break;
+        }
         case Command::JUMP :
+        {
             // Loop of size -1 repeats forever
-            if(currentInstruction->param2 == -1) {
+            if(currentInstruction->param2 != -1) {
 
                 // First time the jump has been reached
                 if(currentInstruction->internalCounter == 0) {
@@ -154,7 +160,10 @@ void DroneMobility::move() {
             // Redirect instruction pointer
             currentInstructionIndex = (int) currentInstruction->param1;
             break;
+        }
+
         case Command::TAKEOFF :
+        {
             double targetHeight = waypoints[currentInstruction->waypointIndex].timestamp;
             DroneMobility::climb(targetHeight);
 
@@ -162,19 +171,81 @@ void DroneMobility::move() {
                 currentInstructionIndex++;
             }
             break;
+        }
 
+        case Command::RETURN_LAUNCH :
+        {
+            DroneMobility::fly(0);
+            if(droneStatus.isIdle) {
+                currentInstructionIndex++;
+            }
+            break;
+        }
+
+        case Command::YAW :
+        {
+            // 0 = Absolute; 1 = Relative;
+            if(currentInstruction->param4 == 0) {
+                droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get();
+            }
+            else {
+                droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get() + lastOrientation.getRotationAngle();
+            }
+
+            // If the yawSpeed is 0, reset to default
+            if(currentInstruction->param2 == 0) {
+                droneStatus.currentYawSpeed = par("yawSpeed");
+            }
+            else {
+                droneStatus.currentYawSpeed = rad(deg(currentInstruction->param2)).get();
+            }
+
+            currentInstructionIndex++;
+            break;
+        }
     }
 }
 
 
-void DroneMobility::fly() {
-    Waypoint target = waypoints[instructions[currentInstructionIndex].waypointIndex];
+void DroneMobility::orient() {
+    if(droneStatus.currentYaw >= 0) {
+        double lastYaw = lastOrientation.getRotationAngle();
+        if(lastYaw != droneStatus.currentYaw) {
+            double yawIncrement = droneStatus.currentYawSpeed * (simTime() - lastUpdate).dbl();
 
+            if(lastYaw > droneStatus.currentYaw) {
+                yawIncrement *= -1;
+            }
+
+            if(yawIncrement > 0 && lastYaw + yawIncrement > droneStatus.currentYaw) {
+                yawIncrement = droneStatus.currentYaw - lastYaw;
+            }
+            else if(yawIncrement < 0 && lastYaw + yawIncrement < droneStatus.currentYaw) {
+                yawIncrement = droneStatus.currentYaw - lastYaw;
+            }
+
+            EulerAngles angles = lastOrientation.toEulerAngles();
+            angles.setAlpha(angles.getAlpha() + rad(yawIncrement));
+
+            lastOrientation = Quaternion(angles);
+        }
+    } else {
+        VehicleMobility::orient();
+    }
+}
+
+
+void DroneMobility::fly(int targetIndex) {
+    Waypoint target = waypoints[targetIndex];
 
     // Saving height and vertical speed because VehicleMobility::move() resets it
     double lastHeight = lastPosition.z;
     double lastVerticalSpeed = lastVelocity.z;
+
+    // Setting the waypoint index for VehicleMobility::move()
+    targetPointIndex = targetIndex;
     VehicleMobility::move();
+
     lastPosition.z = lastHeight;
     lastVelocity.z = lastVerticalSpeed;
     DroneMobility::climb(target.timestamp);
@@ -184,7 +255,7 @@ void DroneMobility::fly() {
     double dy = target.y - lastPosition.y;
     double dz = target.timestamp - lastPosition.z;
     if (dx * dx + dy * dy + dz * dz < waypointProximity * waypointProximity * waypointProximity) {
-        isIdle = true;
+        droneStatus.isIdle = true;
     }
 }
 

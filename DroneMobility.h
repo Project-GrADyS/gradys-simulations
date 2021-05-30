@@ -27,7 +27,7 @@ namespace projeto {
 class DroneMobility : public VehicleMobility
 {
     protected:
-        enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22 };
+        enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22, RETURN_LAUNCH=20, YAW=115 };
         struct Instruction {
             Command command;
             double param1;
@@ -47,11 +47,18 @@ class DroneMobility : public VehicleMobility
                 autocontinue(autocontinue) { };
         };
 
+        struct DroneStatus {
+            simtime_t idleTime;
+            bool isIdle = false;
+
+            double currentYaw = -1;
+            double currentYawSpeed;
+        };
+        DroneStatus droneStatus;
+
         std::vector<Instruction> instructions;
 
         double verticalSpeed;
-        simtime_t idleTime;
-        bool isIdle = false;
         int currentInstructionIndex=0;
 
     protected:
@@ -59,8 +66,9 @@ class DroneMobility : public VehicleMobility
         virtual void setInitialPosition() override;
         virtual void readWaypointsFromFile(const char *fileName) override;
         virtual void move() override;
+        virtual void orient() override;
 
-        virtual void fly ();
+        virtual void fly (int targetIndex);
         virtual void climb (double targetHeight);
 
 
