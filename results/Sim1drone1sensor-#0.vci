@@ -1,15 +1,15 @@
-file 476891 1622401097                                          
+                                                                
 version 2
-run Sim1drone1sensor-0-20210530-15:57:57-20312
+run Sim1drone1sensor-0-20210601-11:23:49-9812
 attr configname Sim1drone1sensor
-attr datetime 20210530-15:57:57
+attr datetime 20210601-11:23:49
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 20312
+attr processid 9812
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -47,14 +47,14 @@ param **.constraintAreaMaxX 5000m
 param **.constraintAreaMaxY 5000m
 param **.constraintAreaMaxZ 5000m
 param *.drones*.wlan[0].radio.displayCommunicationRange true
-param *.coordinateSystem.sceneLongitude -43.22260deg
-param *.coordinateSystem.sceneLatitude -22.97556deg
+param *.coordinateSystem.sceneLongitude -47.926634deg
+param *.coordinateSystem.sceneLatitude -15.840075deg
 param *.coordinateSystem.sceneHeading 90deg
 param *.environment.ground.typename "\"FlatGround\""
 param *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
 param *.drones[*].mobility.typename "\"DroneMobility\""
 param *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
-param *.drones[*].mobility.waypointFile "\"geoJockeyPath.wpl\""
+param *.drones[*].mobility.waypointFile "\"paths/gradys-vai-e-volta-simples-v2.txt\""
 param *.drones[*].mobility.climbAngle 30deg
 param *.drones[*].mobility.waypointProximity 5m
 param **.mobility.initFromDisplayString false
@@ -130,50 +130,19 @@ attr title "contention window, vector"
 vector 15 mobilityDrones.sensor3.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
 attr interpolationmode sample-hold
 attr title "contention window, vector"
-0	6221 27 0 0 0 0 3 0 2 2 4
-1	6248 9 0 0 0 0 1 0 0 0 0
-2	6257 27 0 0 0 0 3 0 2 2 4
-3	6284 9 0 0 0 0 1 0 0 0 0
-4	6293 27 0 0 0 0 3 0 2 2 4
-5	6320 9 0 0 0 0 1 0 0 0 0
-6	6329 27 0 0 0 0 3 0 2 2 4
-7	6356 9 0 0 0 0 1 0 0 0 0
-8	6365 9 0 0 0 0 1 1 1 1 1
-9	6374 9 0 0 0 0 1 1 1 1 1
-10	6383 10 0 0 0 0 1 1 1 1 1
-11	6393 10 0 0 0 0 1 1 1 1 1
-12	6403 11 0 0 0 0 1 31 31 31 961
-13	6414 11 0 0 0 0 1 31 31 31 961
-14	6425 11 0 0 0 0 1 31 31 31 961
-15	6436 11 0 0 0 0 1 31 31 31 961
-vector 16 mobilityDrones.sensor1.app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 17 mobilityDrones.sensor1.app[1] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 18 mobilityDrones.sensor2.app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 19 mobilityDrones.sensor2.app[1] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 20 mobilityDrones.sensor3.app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 21 mobilityDrones.sensor3.app[1] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-16	7353 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-17	85609 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-18	163865 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-19	242121 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-20	320377 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-21	398633 78256 17814 17814 0.1 445.8 4458 0 0 0 0
-
+0	6243 27 0 0 0 0 3 0 2 2 4
+1	6270 9 0 0 0 0 1 0 0 0 0
+2	6279 27 0 0 0 0 3 0 2 2 4
+3	6306 9 0 0 0 0 1 0 0 0 0
+4	6315 27 0 0 0 0 3 0 2 2 4
+5	6342 9 0 0 0 0 1 0 0 0 0
+6	6351 27 0 0 0 0 3 0 2 2 4
+7	6378 9 0 0 0 0 1 0 0 0 0
+8	6387 9 0 0 0 0 1 1 1 1 1
+9	6396 9 0 0 0 0 1 1 1 1 1
+10	6405 10 0 0 0 0 1 1 1 1 1
+11	6415 10 0 0 0 0 1 1 1 1 1
+12	6425 11 0 0 0 0 1 31 31 31 961
+13	6436 11 0 0 0 0 1 31 31 31 961
+14	6447 11 0 0 0 0 1 31 31 31 961
+15	6458 11 0 0 0 0 1 31 31 31 961

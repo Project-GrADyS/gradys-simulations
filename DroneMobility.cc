@@ -93,6 +93,17 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
             // Set the waypoint index on the instruction
             readInstruction.waypointIndex = waypoints.size() - 1;
         }
+        else if(readInstruction.command == Command::RETURN_LAUNCH) {
+                if(waypoints.size() > 0)
+                {
+                //  Navigates to the first waypoint maintaining height and them lands
+                Instruction auxiliaryInstruction(Command::GOTO, 0, 0, 0, 0, true);
+
+                createWaypoint(waypoints[0].x, waypoints[0].y, waypoints.back().timestamp, nullptr);
+                auxiliaryInstruction.waypointIndex = waypoints.size() - 1;
+                instructions.push_back(auxiliaryInstruction);
+            }
+        }
 
         instructions.push_back(readInstruction);
     }
@@ -175,8 +186,8 @@ void DroneMobility::move() {
 
         case Command::RETURN_LAUNCH :
         {
-            DroneMobility::fly(0);
-            if(droneStatus.isIdle) {
+            DroneMobility::climb(0);
+            if(lastPosition.z < waypointProximity) {
                 currentInstructionIndex++;
             }
             break;
