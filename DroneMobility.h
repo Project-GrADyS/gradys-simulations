@@ -53,6 +53,10 @@ class DroneMobility : public VehicleMobility
 
             double currentYaw = -1;
             double currentYawSpeed;
+
+            bool isReversed = false;
+
+            int targetIndex;
         };
         DroneStatus droneStatus;
 
@@ -65,13 +69,14 @@ class DroneMobility : public VehicleMobility
         virtual void initialize(int stage) override;
         virtual void setInitialPosition() override;
         virtual void readWaypointsFromFile(const char *fileName) override;
+
         virtual void move() override;
         virtual void orient() override;
-
-        virtual void fly (int targetIndex);
+        virtual void fly();
         virtual void climb (double targetHeight);
+        virtual void nextInstruction();
 
-
+        virtual void handleMessage(cMessage *message) override;
     private:
         Coord tempSpeed;
 

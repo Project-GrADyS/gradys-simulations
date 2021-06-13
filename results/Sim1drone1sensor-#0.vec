@@ -1,25 +1,21 @@
 version 2
-run Sim1drone1sensor-0-20210601-11:23:49-9812
+run Sim1drone1sensor-0-20210612-18:27:37-3768
 attr configname Sim1drone1sensor
-attr datetime 20210601-11:23:49
+attr datetime 20210612-18:27:37
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 9812
+attr processid 3768
 attr repetition 0
 attr replication #0
 attr resultdir results
 attr runnumber 0
 attr seedset 0
 param *.numUAVs 1
-param *.drones[*].app[0].destAddresses "\"sensor1\""
-param *.sensor*.app[0].destAddresses "\"drones[0]\""
-param *.sensor1.mobility.initialX 450m
-param *.sensor1.mobility.initialY 450m
-param *.sensor1.mobility.initialZ 0m
+param *.drones[*].app[0].destAddresses "\"\""
 param *.visualizer.osgVisualizer.typename "\"IntegratedOsgVisualizer\""
 param *.visualizer.osgVisualizer.sceneVisualizer.typename "\"SceneOsgEarthVisualizer\""
 param *.visualizer.osgVisualizer.sceneVisualizer.mapFile "\"map.earth\""
@@ -51,23 +47,22 @@ param *.coordinateSystem.sceneLatitude -15.840075deg
 param *.coordinateSystem.sceneHeading 90deg
 param *.environment.ground.typename "\"FlatGround\""
 param *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
-param *.drones[*].mobility.typename "\"DroneMobility\""
 param *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
-param *.drones[*].mobility.waypointFile "\"paths/gradys-vai-e-volta-simples-v2.txt\""
-param *.drones[*].mobility.climbAngle 30deg
-param *.drones[*].mobility.waypointProximity 5m
+param *.drones[*].mobility.waypointFile "\"paths/gradys-vai-e-volta-descendo-5s-v1.txt\""
+param *.drones[*].mobility.waypointProximity 1m
 param **.mobility.initFromDisplayString false
 param *.drones[*].mobility.speed uniform(10mps,20mps)
+param *.drones[*].numApps 2
+param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
+param *.drones[*].app[0].destPort 1000
+param *.drones[*].app[0].sendInterval 1s
+param *.drones[*].app[0].startTime exponential(1s)
+param *.drones[*].app[0].messageLength 1454Byte
+param *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
+param *.drones[*].app[1].typename "\"UdpSinkMobileNode\""
+param *.drones[*].app[1].localPort 1000
 param *.sensor.mobility.typename "\"StationaryMobility\""
-param *.sensor*.numApps 2
-param *.sensor*.app[0].typename "\"UdpBasicAppMobileSensorNode\""
-param *.sensor*.app[0].destPort 1000
-param *.sensor*.app[0].sendInterval 0.1s
-param *.sensor*.app[0].startTime 1s
-param *.sensor*.app[0].messageLength 1454Byte
-param *.sensor*.app[0].packetName "\"SENSOR-DEFAULT-PAYLOAD\""
-param *.sensor*.app[1].typename "\"UdpSinkMobileSensorNode\""
-param *.sensor*.app[1].localPort 1000
+param *.sensor*.mobility.coordinateSystemModule "\"\""
 
 vector 0 mobilityDrones.drones[0].wlan[0].radio radioMode:vector ETV
 attr interpolationmode sample-hold
@@ -153,3 +148,4 @@ attr title "contention window, vector"
 13	0	0	31
 14	0	0	31
 15	0	0	31
+

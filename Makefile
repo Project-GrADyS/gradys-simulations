@@ -33,15 +33,18 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/DroneMobility.o \
     $O/GotoWaypointMobility.o \
+    $O/MessageListener.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
     $O/UdpBasicAppMobileNode.o \
     $O/UdpBasicAppMobileSensorNode.o \
     $O/UdpSinkMobileNode.o \
-    $O/UdpSinkMobileSensorNode.o
+    $O/UdpSinkMobileSensorNode.o \
+    $O/Order_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    Order.msg
 
 # SM files
 SMFILES =

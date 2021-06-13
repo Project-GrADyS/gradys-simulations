@@ -27,24 +27,15 @@ using namespace inet;
 
 namespace projeto {
 
-class WayPoint {
-  public:
-    double x;
-    double y;
-    double z;
-};
-
 //enum mobileNodeType { sensor = 1, uav = 2, baseStation = 3, missing = 171 };
 
 class MobileNode : public cModule  {
   protected:
-    virtual void initialize() override;//(int stage) override;
+    virtual void initialize() override;
     virtual void handleMessage(cMessage *msg);
   public:
-    int refreshNextWayPoint();
     int processMessage(inet::Packet *msg);
     string generateNextPacketToSend();
-    WayPoint waypoints[4];
     int internalMobNodeId = -1;
     long sentMsgs = -1;
   //  mobileNodeType myType = missing;

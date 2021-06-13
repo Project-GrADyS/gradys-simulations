@@ -8,5 +8,8 @@ simple DroneMobility extends VehicleMobility
         @class(DroneMobility);
         double verticalSpeed @unit(mps)=default(speed);
         double yawSpeed @unit(rad) = default(5deg); // Yaw speed in radians per second
+        
+	gates:
+	    input orderGate @directIn;
 }
 

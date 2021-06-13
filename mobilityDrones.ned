@@ -49,7 +49,7 @@ network mobilityDrones
             @display("p=200,0");
         }
         drones[numUAVs]: MobileNode {
-
+			
         } 
         
         sensor1: MobileSensorNode {
