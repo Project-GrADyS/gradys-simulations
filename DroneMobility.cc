@@ -245,7 +245,7 @@ void DroneMobility::orient() {
     } else {
         Coord target = Coord(waypoints[droneStatus.targetIndex].x, waypoints[droneStatus.targetIndex].y, 0);
 
-        Coord currentLocation = lastPosition;
+        Coord currentLocation = lastPosition + lastVelocity;
         currentLocation.setZ(0);
 
         // Doesn't orient if the horizontal distance to the target is below tolerance

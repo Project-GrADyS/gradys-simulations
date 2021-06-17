@@ -161,7 +161,7 @@ void UdpSinkMobileNode::processPacket(Packet *pk)
     ///////////////// OMNET++ & INET ////////////////////////
     EV_INFO << "Received packet: " << UdpSocket::getReceivedPacketInfo(pk) << endl;
     emit(packetReceivedSignal, pk);
-    delete pk;
+    cancelAndDelete(pk);
 
     numReceived++;
 }
