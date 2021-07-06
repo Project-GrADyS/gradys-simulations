@@ -27,7 +27,7 @@ namespace projeto {
 class DroneMobility : public VehicleMobility
 {
     protected:
-        enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22, RETURN_LAUNCH=20, YAW=115 };
+        enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22, RETURN_LAUNCH=20, YAW=115, REVERSE=120 };
         struct Instruction {
             Command command;
             double param1;
@@ -50,19 +50,19 @@ class DroneMobility : public VehicleMobility
         struct DroneStatus {
             simtime_t idleTime;
             bool isIdle = false;
-
             double currentYaw = -1;
             double currentYawSpeed;
-
             bool isReversed = false;
-
             int targetIndex;
+            simtime_t instructionIdleTime = 0;
         };
         DroneStatus droneStatus;
 
         std::vector<Instruction> instructions;
 
         double verticalSpeed;
+        double startTime;
+        double instructionTimeout;
         int currentInstructionIndex=0;
 
     protected:

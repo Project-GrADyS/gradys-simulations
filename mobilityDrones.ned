@@ -52,14 +52,14 @@ network mobilityDrones
 			
         } 
         
-        sensor1: MobileSensorNode {
-            @display("i=misc/sensor");
-        }
-        sensor2: MobileSensorNode {
-            @display("i=misc/sensor");
-        }sensor3: MobileSensorNode {
-            @display("i=misc/sensor");
-        }
+//        sensor1: MobileSensorNode {
+//            @display("i=misc/sensor");
+//        }
+//        sensor2: MobileSensorNode {
+//            @display("i=misc/sensor");
+//        }sensor3: MobileSensorNode {
+//            @display("i=misc/sensor");
+//        }
 //        sensor2: MobileSensorNode {
 //            @display("p=500,500;i=misc/sensor");
 //        }                  

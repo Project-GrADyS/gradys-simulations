@@ -1,15 +1,15 @@
-file 6264 1623786029                                            
+file 6303 1623970847                                            
 version 2
-run Sim1drone1sensor-0-20210615-16:40:04-5536
+run Sim1drone1sensor-0-20210617-19:59:51-4824
 attr configname Sim1drone1sensor
-attr datetime 20210615-16:40:04
+attr datetime 20210617-19:59:51
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 5536
+attr processid 4824
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -58,6 +58,7 @@ param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
 param *.drones[*].app[0].destPort 1000
 param *.drones[*].app[0].sendInterval 5s
 param *.drones[*].app[0].startTime exponential(1s)
+param *.drones[*].app[0].stopTime -1s
 param *.drones[*].app[0].messageLength 1454Byte
 param *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
 param *.drones[*].app[1].typename "\"UdpSinkMobileNode\""
@@ -125,20 +126,20 @@ attr title "contention window, vector"
 vector 15 mobilityDrones.sensor3.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
 attr interpolationmode sample-hold
 attr title "contention window, vector"
-0	6036 27 0 0 0 0 3 0 2 2 4
-1	6063 9 0 0 0 0 1 0 0 0 0
-2	6072 27 0 0 0 0 3 0 2 2 4
-3	6099 9 0 0 0 0 1 0 0 0 0
-4	6108 27 0 0 0 0 3 0 2 2 4
-5	6135 9 0 0 0 0 1 0 0 0 0
-6	6144 27 0 0 0 0 3 0 2 2 4
-7	6171 9 0 0 0 0 1 0 0 0 0
-8	6180 9 0 0 0 0 1 1 1 1 1
-9	6189 9 0 0 0 0 1 1 1 1 1
-10	6198 10 0 0 0 0 1 1 1 1 1
-11	6208 10 0 0 0 0 1 1 1 1 1
-12	6218 11 0 0 0 0 1 31 31 31 961
-13	6229 11 0 0 0 0 1 31 31 31 961
-14	6240 11 0 0 0 0 1 31 31 31 961
-15	6251 11 0 0 0 0 1 31 31 31 961
+0	6075 27 0 0 0 0 3 0 2 2 4
+1	6102 9 0 0 0 0 1 0 0 0 0
+2	6111 27 0 0 0 0 3 0 2 2 4
+3	6138 9 0 0 0 0 1 0 0 0 0
+4	6147 27 0 0 0 0 3 0 2 2 4
+5	6174 9 0 0 0 0 1 0 0 0 0
+6	6183 27 0 0 0 0 3 0 2 2 4
+7	6210 9 0 0 0 0 1 0 0 0 0
+8	6219 9 0 0 0 0 1 1 1 1 1
+9	6228 9 0 0 0 0 1 1 1 1 1
+10	6237 10 0 0 0 0 1 1 1 1 1
+11	6247 10 0 0 0 0 1 1 1 1 1
+12	6257 11 0 0 0 0 1 31 31 31 961
+13	6268 11 0 0 0 0 1 31 31 31 961
+14	6279 11 0 0 0 0 1 31 31 31 961
+15	6290 11 0 0 0 0 1 31 31 31 961
 

@@ -218,8 +218,6 @@ void UdpBasicAppMobileNode::handleMessageWhenUp(cMessage *msg)
     }
     else{
         socket.processMessage(msg);
-
-
     }
 
 }

@@ -6,7 +6,7 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 
-#include "order_m.h"
+#include "Order_m.h"
 
 using namespace inet;
 
@@ -23,6 +23,8 @@ Define_Module(DroneMobility);
 void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
     verticalSpeed = par("verticalSpeed");
+    startTime = par("startTime");
+    instructionTimeout = par("instructionTimeout");
     droneStatus.currentYawSpeed = par("yawSpeed");
 }
 
@@ -114,6 +116,10 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
 }
 
 void DroneMobility::move() {
+    if(simTime() < startTime) {
+        return;
+    }
+
     if (currentInstructionIndex >= instructions.size()) {
         return;
     }
@@ -124,8 +130,8 @@ void DroneMobility::move() {
         case Command::STOP :
         {
             droneStatus.isIdle = true;
-            if(droneStatus.idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
-                currentInstructionIndex++;
+            if(droneStatus.idleTime >= currentInstruction->param1) {
+                DroneMobility::nextInstruction();
                 droneStatus.idleTime = SimTime();
                 droneStatus.isIdle = false;
             } else {
@@ -138,7 +144,7 @@ void DroneMobility::move() {
             if (droneStatus.isIdle) {
                 // TODO: Deal with cases where time isn't an integer
                 if(droneStatus.idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
-                    currentInstructionIndex = currentInstructionIndex + 1;
+                    DroneMobility::nextInstruction();
                     droneStatus.idleTime = SimTime();
                     droneStatus.isIdle = false;
                 } else {
@@ -165,7 +171,7 @@ void DroneMobility::move() {
 
                     // Counter has finished
                     if (currentInstruction->internalCounter == 0) {
-                        currentInstructionIndex++;
+                        DroneMobility::nextInstruction();
                         return;
                     }
                 }
@@ -182,7 +188,7 @@ void DroneMobility::move() {
             DroneMobility::climb(targetHeight);
 
             if(targetHeight - lastPosition.z  < waypointProximity) {
-                currentInstructionIndex++;
+                DroneMobility::nextInstruction();
             }
             break;
         }
@@ -191,7 +197,7 @@ void DroneMobility::move() {
         {
             DroneMobility::climb(0);
             if(lastPosition.z < waypointProximity) {
-                currentInstructionIndex++;
+                DroneMobility::nextInstruction();
             }
             break;
         }
@@ -214,13 +220,33 @@ void DroneMobility::move() {
                 droneStatus.currentYawSpeed = rad(deg(currentInstruction->param2)).get();
             }
 
-            currentInstructionIndex++;
+            DroneMobility::nextInstruction();
+            break;
+        }
+        case Command::REVERSE :
+        {
+            droneStatus.isReversed = true;
+            DroneMobility::nextInstruction();
             break;
         }
     }
 }
 
+bool checkIfOvershoots(double origin, double target, double current) {
+    double delta = target - origin;
+
+    if(delta > 0) {
+        return current > target;
+    } else {
+        return current < target;
+    }
+}
+
 void DroneMobility::orient() {
+    if(simTime() < startTime) {
+            return;
+    }
+
     if(droneStatus.currentYaw >= 0) {
         double lastYaw = lastOrientation.getRotationAngle();
         if(lastYaw != droneStatus.currentYaw) {
@@ -243,9 +269,9 @@ void DroneMobility::orient() {
             lastOrientation = Quaternion(angles);
         }
     } else {
-        Coord target = Coord(waypoints[droneStatus.targetIndex].x, waypoints[droneStatus.targetIndex].y, 0);
+        Coord target = Coord(waypoints[targetPointIndex].x, waypoints[targetPointIndex].y, 0);
 
-        Coord currentLocation = lastPosition + lastVelocity;
+        Coord currentLocation = lastPosition;
         currentLocation.setZ(0);
 
         // Doesn't orient if the horizontal distance to the target is below tolerance
@@ -253,21 +279,6 @@ void DroneMobility::orient() {
             VehicleMobility::orient();
         }
     }
-}
-
-// Check if horizontal movement of Vehicle has overshot it's target
-bool checkMovementOvershoot(Coord previousPosition, Coord currentPosition, Coord target) {
-    // Flattening vectors as functions checks for flat overshoot
-    previousPosition.setZ(0);
-    currentPosition.setZ(0);
-    target.setZ(0);
-
-    Coord diffVector = previousPosition - currentPosition;
-    Coord directionVector = diffVector.normalize();
-    Coord targetVector = (target - previousPosition);
-
-    double dotProduct = directionVector * targetVector;
-    return dotProduct * dotProduct < diffVector.squareLength() && dotProduct > 0;
 }
 
 void DroneMobility::fly() {
@@ -283,9 +294,13 @@ void DroneMobility::fly() {
         targetPointIndex = droneStatus.targetIndex;
         VehicleMobility::move();
 
-        // Checks if we have overshot the waypoint horizontally
-        if (checkMovementOvershoot(previousPosition, lastPosition, coordTarget)) {
+        // Checks if we have overshot the waypoint on the x axis
+        if (checkIfOvershoots(previousPosition.x, target.x, lastPosition.x)) {
             lastPosition.setX(coordTarget.x);
+            lastVelocity = lastPosition - previousPosition;
+        }
+        // Checks if we have overshot the waypoint on the y axis
+        if (checkIfOvershoots(previousPosition.y, target.y, lastPosition.y)) {
             lastPosition.setY(coordTarget.y);
             lastVelocity = lastPosition - previousPosition;
         }
@@ -329,10 +344,12 @@ void DroneMobility::climb(double targetZ) {
 }
 
 void DroneMobility::nextInstruction() {
+    droneStatus.isIdle = false;
+    droneStatus.idleTime = 0;
     if(droneStatus.isReversed) {
         currentInstructionIndex = currentInstructionIndex - 1;
 
-        if(currentInstructionIndex <= 0) {
+        if(currentInstructionIndex < 0) {
             currentInstructionIndex = 0;
             droneStatus.isReversed = false;
         }
@@ -343,10 +360,22 @@ void DroneMobility::nextInstruction() {
 
 //Handles instruction messages and delegates the rest
 void DroneMobility::handleMessage(cMessage *message) {
+    if(simTime() < startTime) {
+            return;
+    }
+
     Order *order = dynamic_cast<Order *>(message);
     if(order != nullptr) {
-        droneStatus.isReversed = true;
-        nextInstruction();
+
+        if(simTime() - droneStatus.instructionIdleTime > instructionTimeout ||  droneStatus.instructionIdleTime == 0)
+        {
+            droneStatus.isReversed = !droneStatus.isReversed;
+            if(!droneStatus.isIdle) {
+               nextInstruction();
+            }
+
+            droneStatus.instructionIdleTime = simTime();
+        }
         cancelAndDelete(order);
     } else {
         VehicleMobility::handleMessage(message);

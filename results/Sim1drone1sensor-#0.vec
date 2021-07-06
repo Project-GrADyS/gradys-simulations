@@ -1,14 +1,14 @@
 version 2
-run Sim1drone1sensor-0-20210615-16:40:04-5536
+run Sim1drone1sensor-0-20210617-19:59:51-4824
 attr configname Sim1drone1sensor
-attr datetime 20210615-16:40:04
+attr datetime 20210617-19:59:51
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 5536
+attr processid 4824
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -57,6 +57,7 @@ param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
 param *.drones[*].app[0].destPort 1000
 param *.drones[*].app[0].sendInterval 5s
 param *.drones[*].app[0].startTime exponential(1s)
+param *.drones[*].app[0].stopTime -1s
 param *.drones[*].app[0].messageLength 1454Byte
 param *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
 param *.drones[*].app[1].typename "\"UdpSinkMobileNode\""
