@@ -33,18 +33,21 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/DroneMobility.o \
     $O/GotoWaypointMobility.o \
-    $O/MessageListener.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
     $O/UdpBasicAppMobileNode.o \
     $O/UdpBasicAppMobileSensorNode.o \
     $O/UdpSinkMobileNode.o \
     $O/UdpSinkMobileSensorNode.o \
-    $O/Order_m.o
+    $O/communication/MessageListener.o \
+    $O/communication/UdpMobileNodeCommunicationApp.o \
+    $O/Order_m.o \
+    $O/communication/MobileNodeMessage_m.o
 
 # Message files
 MSGFILES = \
-    Order.msg
+    Order.msg \
+    communication/MobileNodeMessage.msg
 
 # SM files
 SMFILES =
@@ -93,6 +96,9 @@ endif
 #------------------------------------------------------------------------------
 # User-supplied makefile fragment(s)
 # >>>
+# inserted from file 'makefrag':
+MSGC:=$(MSGC) --msg6
+
 # <<<
 #------------------------------------------------------------------------------
 

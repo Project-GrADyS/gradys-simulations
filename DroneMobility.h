@@ -54,7 +54,6 @@ class DroneMobility : public VehicleMobility
             double currentYawSpeed;
             bool isReversed = false;
             int targetIndex;
-            simtime_t instructionIdleTime = 0;
         };
         DroneStatus droneStatus;
 
@@ -62,7 +61,6 @@ class DroneMobility : public VehicleMobility
 
         double verticalSpeed;
         double startTime;
-        double instructionTimeout;
         int currentInstructionIndex=0;
 
     protected:

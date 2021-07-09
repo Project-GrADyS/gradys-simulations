@@ -24,7 +24,6 @@ void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
     verticalSpeed = par("verticalSpeed");
     startTime = par("startTime");
-    instructionTimeout = par("instructionTimeout");
     droneStatus.currentYawSpeed = par("yawSpeed");
 }
 
@@ -142,8 +141,7 @@ void DroneMobility::move() {
         case Command::GOTO :
         {
             if (droneStatus.isIdle) {
-                // TODO: Deal with cases where time isn't an integer
-                if(droneStatus.idleTime.inUnit(SimTimeUnit::SIMTIME_S) >= currentInstruction->param1) {
+                if(droneStatus.idleTime >= currentInstruction->param1) {
                     DroneMobility::nextInstruction();
                     droneStatus.idleTime = SimTime();
                     droneStatus.isIdle = false;
@@ -366,15 +364,9 @@ void DroneMobility::handleMessage(cMessage *message) {
 
     Order *order = dynamic_cast<Order *>(message);
     if(order != nullptr) {
-
-        if(simTime() - droneStatus.instructionIdleTime > instructionTimeout ||  droneStatus.instructionIdleTime == 0)
-        {
-            droneStatus.isReversed = !droneStatus.isReversed;
-            if(!droneStatus.isIdle) {
-               nextInstruction();
-            }
-
-            droneStatus.instructionIdleTime = simTime();
+        droneStatus.isReversed = !droneStatus.isReversed;
+        if(!droneStatus.isIdle) {
+           nextInstruction();
         }
         cancelAndDelete(order);
     } else {
