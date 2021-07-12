@@ -21,10 +21,13 @@ namespace projeto {
 Define_Module(DroneMobility);
 
 void DroneMobility::initialize(int stage) {
+    reverseSignalID = registerSignal("reverse");
+
     VehicleMobility::initialize(stage);
     verticalSpeed = par("verticalSpeed");
     startTime = par("startTime");
     droneStatus.currentYawSpeed = par("yawSpeed");
+
 }
 
 void DroneMobility::setInitialPosition() {
@@ -224,6 +227,7 @@ void DroneMobility::move() {
         case Command::REVERSE :
         {
             droneStatus.isReversed = true;
+            emit(reverseSignalID, droneStatus.isReversed);
             DroneMobility::nextInstruction();
             break;
         }
@@ -350,6 +354,7 @@ void DroneMobility::nextInstruction() {
         if(currentInstructionIndex < 0) {
             currentInstructionIndex = 0;
             droneStatus.isReversed = false;
+            emit(reverseSignalID, droneStatus.isReversed);
         }
     } else {
         currentInstructionIndex++;
@@ -365,6 +370,8 @@ void DroneMobility::handleMessage(cMessage *message) {
     Order *order = dynamic_cast<Order *>(message);
     if(order != nullptr) {
         droneStatus.isReversed = !droneStatus.isReversed;
+        emit(reverseSignalID, droneStatus.isReversed);
+
         if(!droneStatus.isIdle) {
            nextInstruction();
         }

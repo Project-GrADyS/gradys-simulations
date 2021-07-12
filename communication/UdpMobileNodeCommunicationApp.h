@@ -11,7 +11,7 @@ using namespace inet;
 
 namespace projeto {
 
-class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
+class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode, public cListener
 {
     private:
         simtime_t timeoutStart;
@@ -20,6 +20,7 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         bool isDone = false;
         int tentativeTarget = -1;
         int lastTarget = -1;
+        bool isReversed = false;
         std::string tentativeTargetName;
 
     private:
@@ -39,6 +40,7 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         virtual void sendPairConfirm(inet::IntrusivePtr<inet::MobileNodeMessage> payload, int target);
 
         virtual bool checkAndUpdateTimeout();
+        virtual void receiveSignal(cComponent *source, simsignal_t signalID, bool isReversed, cObject *details) override;
     public:
         simsignal_t pairedSignalId;
 };

@@ -27,8 +27,9 @@ enum MessageType
 
 class MobileNodeMessage extends FieldsChunk
 {
-  chunkLength = B(9);
+  chunkLength = B(10);
   int sourceID = -1; 
-  int destinationID = -1; 
+  int destinationID = -1;
+  bool reversed = false;
   MessageType messageType = HEARTBEAT;
 }

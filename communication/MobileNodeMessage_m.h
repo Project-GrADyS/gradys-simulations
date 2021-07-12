@@ -49,9 +49,10 @@ enum MessageType {
  * <pre>
  * class MobileNodeMessage extends FieldsChunk
  * {
- *     chunkLength = B(9);
+ *     chunkLength = B(10);
  *     int sourceID = -1;
  *     int destinationID = -1;
+ *     bool reversed = false;
  *     MessageType messageType = HEARTBEAT;
  * }
  * </pre>
@@ -61,6 +62,7 @@ class MobileNodeMessage : public ::inet::FieldsChunk
   protected:
     int sourceID = -1;
     int destinationID = -1;
+    bool reversed = false;
     inet::MessageType messageType = HEARTBEAT;
 
   private:
@@ -84,6 +86,8 @@ class MobileNodeMessage : public ::inet::FieldsChunk
     virtual void setSourceID(int sourceID);
     virtual int getDestinationID() const;
     virtual void setDestinationID(int destinationID);
+    virtual bool getReversed() const;
+    virtual void setReversed(bool reversed);
     virtual inet::MessageType getMessageType() const;
     virtual void setMessageType(inet::MessageType messageType);
 };

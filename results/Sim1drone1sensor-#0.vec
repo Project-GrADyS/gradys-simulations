@@ -1,14 +1,14 @@
 version 2
-run Sim1drone1sensor-0-20210617-19:59:51-4824
+run Sim1drone1sensor-0-20210709-10:58:16-10520
 attr configname Sim1drone1sensor
-attr datetime 20210617-19:59:51
+attr datetime 20210709-10:58:16
 attr experiment Sim1drone1sensor
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 4824
+attr processid 10520
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -35,9 +35,9 @@ param *.visualizer.*.mobilityVisualizer.displayVelocities true
 param *.visualizer.*.mobilityVisualizer.displayMovementTrails true
 param *.visualizer.*.mobilityVisualizer.animationSpeed 10
 param *.visualizer.mediumVisualizer.displaySignals true
-param **.constraintAreaMinX -500m
-param **.constraintAreaMinY -500m
-param **.constraintAreaMinZ -500m
+param **.constraintAreaMinX -5000m
+param **.constraintAreaMinY -5000m
+param **.constraintAreaMinZ -100m
 param **.constraintAreaMaxX 5000m
 param **.constraintAreaMaxY 5000m
 param **.constraintAreaMaxZ 5000m
@@ -46,22 +46,21 @@ param *.coordinateSystem.sceneLongitude -47.926634deg
 param *.coordinateSystem.sceneLatitude -15.840075deg
 param *.coordinateSystem.sceneHeading 90deg
 param *.environment.ground.typename "\"FlatGround\""
-param *.drones[*].osgModel "\"3d/drone.ive.100.scale.0,0,90.rot\""
+param *.drones[*].osgModel "\"3d/drone.ive.80.scale.0,0,90.rot\""
 param *.drones[*].mobility.coordinateSystemModule "\"coordinateSystem\""
 param *.drones[*].mobility.waypointFile "\"paths/gradys-vai-e-volta-descendo-5s-v1.txt\""
 param *.drones[*].mobility.waypointProximity 1m
 param **.mobility.initFromDisplayString false
-param *.drones[*].mobility.speed uniform(10mps,20mps)
-param *.drones[*].numApps 2
-param *.drones[*].app[0].typename "\"UdpBasicAppMobileNode\""
+param *.drones[*].mobility.speed 10mps
+param *.drones[*].numApps 1
+param *.drones[*].app[0].typename "\"UdpMobileNodeCommunicationApp\""
+param *.drones[*].app[0].localPort 1000
 param *.drones[*].app[0].destPort 1000
-param *.drones[*].app[0].sendInterval 5s
-param *.drones[*].app[0].startTime exponential(1s)
+param *.drones[*].app[0].sendInterval 1s
+param *.drones[*].app[0].startTime 1s
 param *.drones[*].app[0].stopTime -1s
 param *.drones[*].app[0].messageLength 1454Byte
 param *.drones[*].app[0].packetName "\"UAV-DEFAULT-PAYLOAD\""
-param *.drones[*].app[1].typename "\"UdpSinkMobileNode\""
-param *.drones[*].app[1].localPort 1000
 param *.sensor.mobility.typename "\"StationaryMobility\""
 param *.sensor*.mobility.coordinateSystemModule "\"\""
 
@@ -73,80 +72,17 @@ vector 1 mobilityDrones.drones[0].wlan[0].radio radioChannel:vector ETV
 attr interpolationmode sample-hold
 attr source radioChannelChanged
 attr title "Radio channel, vector"
-vector 2 mobilityDrones.sensor1.wlan[0].radio radioMode:vector ETV
-attr interpolationmode sample-hold
-attr source radioModeChanged
-attr title "Radio mode, vector"
-vector 3 mobilityDrones.sensor1.wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 4 mobilityDrones.sensor2.wlan[0].radio radioMode:vector ETV
-attr interpolationmode sample-hold
-attr source radioModeChanged
-attr title "Radio mode, vector"
-vector 5 mobilityDrones.sensor2.wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 6 mobilityDrones.sensor3.wlan[0].radio radioMode:vector ETV
-attr interpolationmode sample-hold
-attr source radioModeChanged
-attr title "Radio mode, vector"
-vector 7 mobilityDrones.sensor3.wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 8 mobilityDrones.drones[0].wlan[0].radio receptionState:vector ETV
+vector 2 mobilityDrones.drones[0].wlan[0].radio receptionState:vector ETV
 attr interpolationmode sample-hold
 attr source receptionStateChanged
 attr title "Radio reception state, vector"
-vector 9 mobilityDrones.sensor1.wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 10 mobilityDrones.sensor2.wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 11 mobilityDrones.sensor3.wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 12 mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 13 mobilityDrones.sensor1.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 14 mobilityDrones.sensor2.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 15 mobilityDrones.sensor3.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
+vector 3 mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
 attr interpolationmode sample-hold
 attr title "contention window, vector"
 0	0	0	0
 0	0	0	0
 0	0	0	2
 1	0	0	0
-2	0	0	0
-2	0	0	0
-2	0	0	2
-3	0	0	0
-4	0	0	0
-4	0	0	0
-4	0	0	2
-5	0	0	0
-6	0	0	0
-6	0	0	0
-6	0	0	2
-7	0	0	0
-8	0	0	1
-9	0	0	1
-10	0	0	1
-11	0	0	1
-12	0	0	31
-13	0	0	31
-14	0	0	31
-15	0	0	31
+2	0	0	1
+3	0	0	31
 

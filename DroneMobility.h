@@ -75,6 +75,9 @@ class DroneMobility : public VehicleMobility
         virtual void nextInstruction();
 
         virtual void handleMessage(cMessage *message) override;
+
+    public:
+        simsignal_t reverseSignalID;
     private:
         Coord tempSpeed;
 

@@ -38,10 +38,13 @@ Define_Module(UdpMobileNodeCommunicationApp);
 
 void UdpMobileNodeCommunicationApp::initialize(int stage) {
     UdpBasicAppMobileNode::initialize(stage);
+    if (stage == INITSTAGE_LOCAL) {
+        timeoutDuration = par("timeoutDuration");
 
-    timeoutDuration = par("timeoutDuration");
+        pairedSignalId = registerSignal("paired");
 
-    pairedSignalId = registerSignal("paired");
+        getParentModule()->subscribe("reverse", this);
+    }
 }
 
 void UdpMobileNodeCommunicationApp::processSend() {
@@ -57,6 +60,7 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
     const auto& payload = makeShared<MobileNodeMessage>();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
+    payload->setReversed(isReversed);
     if(checkAndUpdateTimeout()) {
         UdpMobileNodeCommunicationApp::sendHeartbeat(payload);
     }
@@ -104,7 +108,7 @@ void UdpMobileNodeCommunicationApp::sendPairConfirm(inet::IntrusivePtr<inet::Mob
 }
 
 void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
-    auto payload = pk->peekAtBack<MobileNodeMessage>(B(9), 1);
+    auto payload = pk->peekAtBack<MobileNodeMessage>(B(10), 1);
 
     if(payload != nullptr) {
         switch(payload->getMessageType()) {
@@ -114,7 +118,7 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
                     isTimedout = false;
                 }
 
-                if(checkAndUpdateTimeout()) {
+                if(checkAndUpdateTimeout() && (isReversed != payload->getReversed())) {
                     tentativeTarget = payload->getSourceID();
                     tentativeTargetName = pk->getName();
                     isTimedout = true;
@@ -190,6 +194,13 @@ void UdpMobileNodeCommunicationApp::resetParameters() {
     tentativeTargetName = "";
     isRequested = false;
     isDone = false;
+}
+
+void UdpMobileNodeCommunicationApp::receiveSignal(cComponent *source, simsignal_t signalID, bool isReversed, cObject *details)
+{
+    Enter_Method_Silent("receiveSignal(%d)", signalID);
+
+    this->isReversed = isReversed;
 }
 
 } // namespace inet

@@ -1,15 +1,15 @@
-file 9729760 1625791366                                         
+                                                                
 version 2
-run Sim4drone-0-20210708-20:56:54-4280
+run Sim4drone-0-20210712-09:10:52-6800
 attr configname Sim4drone
-attr datetime 20210708-20:56:54
+attr datetime 20210712-09:10:52
 attr experiment Sim4drone
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 4280
+attr processid 6800
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -629,444 +629,535 @@ vector 148 mobilityDrones.drones[1].wlan[0].mac packetDropRetryLimitReached:vect
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 149 mobilityDrones.drones[2].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
+vector 149 mobilityDrones.drones[3].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packet drops: incorrectly received, vector(packetBytes)"
-vector 150 mobilityDrones.drones[3].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
-attr title "packet drops: incorrectly received, vector(packetBytes)"
-vector 151 mobilityDrones.drones[2].app[0] packetSent:vector(packetBytes) ETV
+vector 150 mobilityDrones.drones[2].app[0] packetSent:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, vector(packetBytes)"
-vector 152 mobilityDrones.drones[2].udp packetSent:vector(packetBytes) ETV
+vector 151 mobilityDrones.drones[2].udp packetSent:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, vector(packetBytes)"
-vector 153 mobilityDrones.drones[2].ipv4.arp arpRequestSent:vector(packetBytes) ETV
+vector 152 mobilityDrones.drones[2].ipv4.arp arpRequestSent:vector(packetBytes) ETV
 attr source arpRequestSent
 attr title "ARP request sent, vector(packetBytes)"
-vector 154 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
+vector 153 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Multicast(packetSentToPeer)
 attr title "packets sent: multicast, vector(packetBytes)"
-vector 155 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerBroadcast:vector(packetBytes) ETV
+vector 154 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerBroadcast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Broadcast(packetSentToPeer)
 attr title "packets sent: broadcast , vector(packetBytes)"
-vector 156 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerWithRetry:vector(packetBytes) ETV
+vector 155 mobilityDrones.drones[2].wlan[0].mac.dcf packetSentToPeerWithRetry:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Retry(packetSentToPeer)
 attr title "packets sent: with retry, vector(packetBytes)"
-vector 157 mobilityDrones.drones[2].wlan[0].mac.dcf packetDropRetryLimitReached:vector(packetBytes) ETV
+vector 156 mobilityDrones.drones[2].wlan[0].mac.dcf packetDropRetryLimitReached:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 158 mobilityDrones.drones[2].wlan[0].mac packetDropRetryLimitReached:vector(packetBytes) ETV
+vector 157 mobilityDrones.drones[2].wlan[0].mac packetDropRetryLimitReached:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 159 mobilityDrones.drones[3].app[0] packetSent:vector(packetBytes) ETV
+0	37081 22965 0 18714 0 93.068462 1161 0 3 2897 7531
+1	60046 9 0 0 0 0 1 0 0 0 0
+2	60055 19993 0 18826 0 93.326426747152 755 0 3 1882 4892
+3	80048 9 0 0 0 0 1 0 0 0 0
+4	80057 5449 0 18900 0 93.653838667677 207 0 3 512 1330
+5	85506 9 0 0 0 0 1 0 0 0 0
+6	85515 1092 0 18882 0 93.653794340062 45 0 3 107 277
+7	86607 9 0 0 0 0 1 0 0 0 0
+8	86616 24760 0 18714 0 93.068462 1233 0 3 728 950
+9	111376 23968 0 18826 0 93.326426747152 915 0 3 694 1152
+10	135344 15401 0 18900 0 93.653838667677 575 0 3 836 1918
+11	150745 15383 0 18901 0 93.653838995294 575 0 3 1079 2647
+12	166128 263 0 1984 0 18.010061 12 31 1023 4020 2787468
+13	166391 1194 0 8773 0 56.258765747152 42 31 1023 14070 9756138
+14	167585 727 0 18569 0 92.653586611229 25 31 1023 8071 5575897
+15	168312 11 0 0 0 0 1 31 31 31 961
+16	168323 1420 1 18610 0 93 94 10 10 940 9400
+17	169743 1420 3 18612 0 93 94 18 18 1692 30456
+18	171163 37 4 413 0 3 3 28 28 84 2352
+19	171200 1497 6 18615 0 93 97 36 46 4432 202792
+20	172697 1497 6 18615 0 93 97 64 74 7148 527032
+21	174194 2806 6 18617 0 93 194 0 1 97 97
+22	177000 12339 6 18704 0 93.058509 559 0 1022 271461 183473277
+23	189339 22644 6 18705 0 93.068408 1124 0 1 562 562
+24	211983 1503 8 18617 0.00019 93 97 64 74 7148 527032
+25	213486 1433 8 18617 0.00019 93 97 0 0.000694 0.001612 7.82928e-007
+26	214919 3543 8 18719 0.00019 93.068517 194 0 1 97 97
+27	218462 15766 8 18706 0.00019 93.068408 579 24000000 24000000 13896000000 3.33504e+017
+28	234228 12292 8 18706 0.00019 93.068408 579 14 74 41616 3060864
+29	246520 23233 8 18719 0.00019 93.068517 1118 0 1 559 559
+30	269753 48193 9 18714 0.00019 93.068462 2316 0 2 2316 3474
+31	317946 12962 14 18713 0.00024 93.068462 579 14 74 41616 3060864
+32	330908 56 14 423 0.00024 3.00005 3 64 64 192 12288
+33	330964 56 14 423 0.00024 3.00005 3 64 64 192 12288
+34	331020 2683 14 18623 0.00024 93.000054 117 14 74 7428 530952
+35	333703 2907 14 18719 0.00024 93.068517 97 5e-005 0.092257 4.800231835981 0.31564048176444
+36	336610 1964 19 8276 0.00024 54.251211427304 74 14 92 3576 255584
+37	338574 916 19 8276 0.00024 54.251211427304 34 14 92 1674 118012
+38	339490 70 19 428 0.00024 3.000050100061 3 64 64 192 12288
+39	339560 70 19 428 0.00024 3.000050100061 3 64 64 192 12288
+40	339630 916 19 8276 0.00024 54.251211427304 34 14 92 1674 118012
+41	340546 510 19 8276 0.00024 54.251211427304 19 36 64 932 47984
+42	341056 4873 20 18884 0.00024 93.653794667677 178 14 92 10688 775504
+43	345929 981 20 18884 0.00024 93.653794667677 36 14 92 1716 116328
+44	346910 123 20 7728 0.00024 52.251055031 5 64 64 320 20480
+45	347033 123 20 7728 0.00024 52.251055031 5 64 64 320 20480
+46	347156 981 20 18884 0.00024 93.653794667677 36 14 92 1716 116328
+47	348137 538 20 18884 0.00024 93.653794667677 20 36 64 932 45320
+48	348675 7204 21 18902 0.00024 93.653838995294 259 14 92 16340 1190368
+49	355879 734 21 18902 0.00024 93.653838995294 27 14 74 1218 76212
+50	356613 152 21 14356 0.00024 80.653538034252 6 64 64 384 24576
+51	356765 152 21 14356 0.00024 80.653538034252 6 64 64 384 24576
+52	356917 734 21 18902 0.00024 93.653838995294 27 14 74 1218 76212
+53	357651 403 21 18852 0.00024 93.653542340062 15 36 46 630 26820
+54	358054 72 27 14358 0.00024 80.653538034252 3 28 28 84 2352
+55	358126 323 29 18858 0.00024 93.653542340062 12 36 64 684 40752
+56	358449 323 29 18858 0.00024 93.653542340062 12 64 92 1020 88464
+57	358772 623 29 18875 0.00024 93.653736340062 24 0 1 12 12
+58	359395 319 29 18858 0.00024 93.653542340062 12 0 30 183 3829
+59	359714 1107 29 18874 0.00024 93.653736340062 42 0 1 21 21
+60	360821 324 31 18875 0.00075 93.653736340062 12 64 92 1020 88464
+61	361145 393 31 18875 0.00075 93.653736340062 12 9.4e-005 0.000694 0.004656 2.234544e-006
+62	361538 631 31 18902 0.00075 93.653838995294 24 0 1 12 12
+63	362169 701 31 18875 0.00075 93.653736340062 21 24000000 24000000 504000000 1.2096e+016
+64	362870 575 31 18875 0.00075 93.653736340062 21 14 92 1146 90228
+65	363445 631 31 18902 0.00075 93.653838995294 24 0 1 12 12
+66	364076 2214 32 18882 0.00075 93.653794340062 84 0 2 84 126
+67	366290 574 37 18881 0.0008 93.653794340062 21 14 92 1146 90228
+68	366864 574 37 18881 0.0008 93.653794340062 21 14 92 1146 90228
+69	367438 574 37 18881 0.0008 93.653794340062 21 14 92 1146 90228
+70	368012 17861 37 18898 0.0008 93.653838340062 609 0 4.4e-005 0.008932 3.93008e-007
+71	385873 33792 41 18830 0.0008 93.326470747152 1134 0 4.4e-005 0.016632 7.31808e-007
+72	419665 2452 41 18831 0.0008 93.326481747152 89 14 92 5528 405896
+73	422117 1048 41 1678 0.0008 15.000371098015 40 14 92 1902 137572
+74	423165 2452 41 18831 0.0008 93.326481747152 89 14 92 5528 405896
+75	425617 1048 41 1678 0.0008 15.000371098015 40 14 92 1902 137572
+76	426665 17551 42 18867 0.0008 93.653586012454 597 0 4.4e-005 0.008756 3.85264e-007
+77	444216 4182 42 18304 0.0008 91.712025012454 152 14 92 9712 713936
+78	448398 3892 42 8809 0.0008 56.284607147709 142 14 92 8972 659176
+79	452290 4182 42 18304 0.0008 91.712025012454 152 14 92 9712 713936
+80	456472 3892 42 8809 0.0008 56.284607147709 142 14 92 8972 659176
+81	460364 982 44 1752 0.000800000017 16.000506791949 37 14 92 1994 159508
+82	461346 982 44 1752 0.000800000017 16.000506791949 37 14 92 1994 159508
+83	462328 982 44 1752 0.000800000017 16.000506791949 37 14 92 1994 159508
+84	463310 982 44 1752 0.000800000017 16.000506791949 37 14 92 1994 159508
+85	464292 530 44 1752 0.000800000017 16.000506791949 20 36 64 1196 73520
+86	464822 12906 58 18713 0.000844000017 93.068462 576 14 74 41424 3048576
+87	477728 582 65 18902 0.000844000036 93.653838995294 21 14 74 834 51636
+88	478310 474 65 18902 0.000844000036 93.653838995294 12 9.4000036e-005 0.00010267338 0.001204350079 1.2102402250489e-007
+89	478784 39352 73 18718 0.001228000017 93.068506 1668 0 4.4e-005 0.024464 1.076416e-006
+90	518136 251 83 18855 0.001228000048 93.653542340062 9 18 18 162 2916
+91	518387 242 83 18855 0.001228000048 93.653542340062 9 1 9 45 285
+92	518629 54 185 4562 1.000050033348 39.251054747152 2 28 28 56 1568
+93	518683 760 188 18841 1.000050033348 93.653488012454 27 36 64 1392 74472
+94	519443 760 188 18841 1.000050033348 93.653488012454 27 64 92 2148 173592
+95	520203 1466 188 18843 1.000050033348 93.653488012454 54 0 1 27 27
+96	521669 2544 188 18841 1.000050033348 93.653488012454 87 0 998 26566 16655452
+97	524213 5404 188 18842 1.000050033348 93.653488012454 196 0 1 98 98
+98	529617 760 190 18843 1.000600033348 93.653488012454 27 64 92 2148 173592
+99	530377 822 190 18843 1.000600033348 93.653488012454 27 0 0.000714 0.004874 2.365076e-006
+100	531199 1522 190 18871 1.000600033348 93.653586667672 54 0 1 27 27
+101	532721 3629 190 18884 1.000600033348 93.653794667677 102 24000000 24000000 2448000000 5.8752e+016
+102	536350 3017 190 18892 1.000600033348 93.653804667677 102 14 92 6798 505092
+103	539367 5002 190 18871 1.000600033348 93.653586667672 174 0 1 87 87
+104	544369 11660 191 18900 1.000600033348 93.653838667677 408 0 2 408 612
+105	556029 3017 196 18899 1.000650033348 93.653838667677 102 14 92 6798 505092
+106	559046 2987 196 18899 1.000650033348 93.653838667677 101 14 92 6734 500996
+107	562033 1217 196 18899 1.000650033348 93.653838667677 42 14 92 2358 176532
+108	563250 6644 201 18299 1.000650033348 91.711970286325 230 14 92 14974 1103204
+109	569894 6644 201 18299 1.000650033348 91.711970286325 230 14 92 14974 1103204
+110	576538 6702 201 18299 1.000650033348 91.711970286325 232 14 92 15122 1114156
+111	583240 6644 201 18299 1.000650033348 91.711970286325 230 14 92 14974 1103204
+112	589884 889 223 18884 1.000694100086 93.653794667677 31 14 92 1396 95848
+113	590773 1032 223 18871 1.000694100086 93.653586667672 27 5e-005 0.081317 0.465384465728 0.025382852257185
+114	591805 281 242 8244 1.001058100098 54.251059087226 10 18 18 180 3240
+115	592086 272 242 8244 1.001058100098 54.251059087226 10 1 10 55 385
+116	592358 27 434 434 3.000050100061 3.000050100061 1 28 28 28 784
+117	592385 1937 438 18727 3.000050100061 93.251004747152 66 36 64 3150 153036
+118	594322 1937 438 18727 3.000050100061 93.251004747152 66 64 92 4998 381180
+119	596259 3742 438 18729 3.000050100061 93.251004747152 132 0 1 66 66
+120	600001 10948 438 18817 3.000050100061 93.317733747152 360 0 1020 162324 106688332
+121	610949 21136 438 18818 3.000050100061 93.326372747152 740 0 1 370 370
+122	632085 1937 440 18729 3.000200100061 93.251004747152 66 64 92 4998 381180
+123	634022 1947 440 18729 3.000200100061 93.251004747152 66 0 0.017874 0.02153 0.00032107198
+124	635969 3737 440 18831 3.000200100061 93.326481747152 132 0 1 66 66
+125	639706 13367 440 18819 3.000200100061 93.326372747152 376 24000000 24000000 9024000000 2.16576e+017
+126	653073 11111 440 18819 3.000200100061 93.326372747152 376 14 92 26978 1994260
+127	664184 20585 440 18831 3.000200100061 93.326481747152 720 0 1 360 360
+128	684769 42940 441 18826 3.000200100061 93.326426747152 1504 0 2 1504 2256
+129	727709 11111 446 18825 3.000250100061 93.326426747152 376 14 92 26978 1994260
+130	738820 11053 446 18825 3.000250100061 93.326426747152 374 14 92 26850 1986068
+131	749873 2393 446 18735 3.000250100061 93.251058747152 82 14 92 5222 384316
+132	752266 877 472 8276 3.000294300199 54.251211427304 31 14 92 1482 105724
+133	753143 2403 472 18831 3.000294300199 93.326481747152 66 5e-005 0.088097 2.754116530047 0.16931735268734
+134	755546 225 492 1717 3.000998300222 16.000054395968 8 18 18 144 2592
+135	755771 217 492 1717 3.000998300222 16.000054395968 8 1 8 36 204
+136	755988 10741 1815 18713 17.000622 93.068462 462 74 74 34188 2529912
+137	766729 1803 1897 18719 17.021617 93.068517 77 74 74 5698 421652
+138	768532 1803 1897 18719 17.021617 93.068517 77 74 74 5698 421652
+139	770335 1803 1897 18719 17.021617 93.068517 77 74 74 5698 421652
+140	772138 1803 1897 18719 17.021617 93.068517 77 74 74 5698 421652
+141	773941 1627 4541 18723 39.251004747152 93.251004747152 55 10 10 550 5500
+142	775568 1627 4543 18724 39.251004747152 93.251004747152 55 18 18 990 17820
+143	777195 58 4544 7714 39.251004747152 52.251004747152 2 28 28 56 1568
+144	777253 58 4554 7724 39.251054747152 52.251054747152 2 64 64 128 8192
+145	777311 58 4554 7724 39.251054747152 52.251054747152 2 64 64 128 8192
+146	777369 8718 5222 18825 42.251366747152 93.326426747152 294 74 74 21756 1609944
+147	786087 1453 5327 18831 42.273321747152 93.326481747152 49 74 74 3626 268324
+148	787540 1453 5327 18831 42.273321747152 93.326481747152 49 74 74 3626 268324
+149	788993 58 8697 8810 56.251059146692 56.284607147709 2 74 74 148 10952
+150	789051 420 14340 18837 80.653488012454 93.653488012454 14 10 10 140 1400
+151	789471 420 14342 18838 80.653488012454 93.653488012454 14 18 18 252 4536
+152	789891 30 14343 14343 80.653488012454 80.653488012454 1 28 28 28 784
+153	789921 30 14353 14353 80.653538012454 80.653538012454 1 64 64 64 4096
+154	789951 30 14353 14353 80.653538012454 80.653538012454 1 64 64 64 4096
+155	789981 1800 14721 18296 81.653990012454 91.711970012454 60 74 74 4440 328560
+156	791781 300 14815 18304 81.683465012454 91.712025012454 10 74 74 740 54760
+157	792081 300 14815 18304 81.683465012454 91.712025012454 10 74 74 740 54760
+vector 158 mobilityDrones.drones[3].app[0] packetSent:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, vector(packetBytes)"
-vector 160 mobilityDrones.drones[3].udp packetSent:vector(packetBytes) ETV
+vector 159 mobilityDrones.drones[3].udp packetSent:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetSent
 attr title "packets sent, vector(packetBytes)"
-vector 161 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerWithRetry:vector(packetBytes) ETV
+vector 160 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerWithRetry:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Retry(packetSentToPeer)
 attr title "packets sent: with retry, vector(packetBytes)"
-vector 162 mobilityDrones.drones[3].wlan[0].mac.dcf packetDropRetryLimitReached:vector(packetBytes) ETV
+vector 161 mobilityDrones.drones[3].wlan[0].mac.dcf packetDropRetryLimitReached:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 163 mobilityDrones.drones[3].wlan[0].mac packetDropRetryLimitReached:vector(packetBytes) ETV
+vector 162 mobilityDrones.drones[3].wlan[0].mac packetDropRetryLimitReached:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsRetryLimitReached(packetDropped)
 attr title "packet drops: retry limit reached, vector(packetBytes)"
-vector 164 mobilityDrones.drones[3].ipv4.arp arpRequestSent:vector(packetBytes) ETV
+vector 163 mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, vector(packetBytes)"
+vector 164 mobilityDrones.drones[1].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drops: incorrectly received, vector(packetBytes)"
+vector 165 mobilityDrones.drones[0].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
+attr title "packet drops: incorrectly received, vector(packetBytes)"
+vector 166 mobilityDrones.drones[0].udp packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, vector(packetBytes)"
+vector 167 mobilityDrones.drones[0].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed up, vector(count)"
+vector 168 mobilityDrones.drones[0].app[0] packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, vector(packetBytes)"
+vector 169 mobilityDrones.drones[0].app[0] throughput:vector ETV
+attr source throughput(packetReceived)
+attr title "throughput, vector"
+attr unit bps
+vector 170 mobilityDrones.drones[0].app[0] rcvdPkLifetime:vector ETV
+attr interpolationmode none
+attr source dataAge(packetReceived)
+attr title "received packet lifetime, vector"
+attr unit s
+vector 171 mobilityDrones.drones[1].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed up, vector(count)"
+vector 172 mobilityDrones.drones[1].app[0] packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, vector(packetBytes)"
+vector 173 mobilityDrones.drones[1].app[0] throughput:vector ETV
+attr source throughput(packetReceived)
+attr title "throughput, vector"
+attr unit bps
+vector 174 mobilityDrones.drones[1].app[0] rcvdPkLifetime:vector ETV
+attr interpolationmode none
+attr source dataAge(packetReceived)
+attr title "received packet lifetime, vector"
+attr unit s
+vector 175 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
+attr interpolationmode none
+attr source ieee80211Retry(packetReceivedFromPeer)
+attr title "packets received: with retry, vector(packetBytes)"
+vector 176 mobilityDrones.drones[2].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
+attr title "packet drop: address resolution failed, vector(packetBytes)"
+vector 177 mobilityDrones.drones[3].ipv4.arp arpRequestSent:vector(packetBytes) ETV
 attr source arpRequestSent
 attr title "ARP request sent, vector(packetBytes)"
-vector 165 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
+vector 178 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Multicast(packetSentToPeer)
 attr title "packets sent: multicast, vector(packetBytes)"
-vector 166 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerBroadcast:vector(packetBytes) ETV
+vector 179 mobilityDrones.drones[3].wlan[0].mac.dcf packetSentToPeerBroadcast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Broadcast(packetSentToPeer)
 attr title "packets sent: broadcast , vector(packetBytes)"
-vector 167 mobilityDrones.drones[0].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+vector 180 mobilityDrones.drones[3].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
 attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 168 mobilityDrones.drones[1].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
+vector 181 mobilityDrones.drones[2].udp passedUpPk:vector(count) ETV
+attr interpolationmode none
+attr source packetSentToUpper
+attr title "packets passed up, vector(count)"
+vector 182 mobilityDrones.drones[2].app[0] packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, vector(packetBytes)"
+vector 183 mobilityDrones.drones[2].app[0] throughput:vector ETV
+attr source throughput(packetReceived)
+attr title "throughput, vector"
+attr unit bps
+vector 184 mobilityDrones.drones[2].app[0] rcvdPkLifetime:vector ETV
+attr interpolationmode none
+attr source dataAge(packetReceived)
+attr title "received packet lifetime, vector"
+attr unit s
+vector 185 mobilityDrones.drones[2].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
 attr title "packet drops: incorrectly received, vector(packetBytes)"
-vector 169 mobilityDrones.drones[0].wlan[0].mac packetDropIncorrectlyReceived:vector(packetBytes) ETV
+vector 186 mobilityDrones.drones[3].udp passedUpPk:vector(count) ETV
 attr interpolationmode none
-attr source packetDropReasonIsIncorrectlyReceived(packetDropped)
-attr title "packet drops: incorrectly received, vector(packetBytes)"
-vector 170 mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
+attr source packetSentToUpper
+attr title "packets passed up, vector(count)"
+vector 187 mobilityDrones.drones[3].app[0] packetReceived:vector(packetBytes) ETV
+attr interpolationmode none
+attr source packetReceived
+attr title "packets received, vector(packetBytes)"
+vector 188 mobilityDrones.drones[3].app[0] throughput:vector ETV
+attr source throughput(packetReceived)
+attr title "throughput, vector"
+attr unit bps
+vector 189 mobilityDrones.drones[3].app[0] rcvdPkLifetime:vector ETV
+attr interpolationmode none
+attr source dataAge(packetReceived)
+attr title "received packet lifetime, vector"
+attr unit s
+vector 190 mobilityDrones.drones[3].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Retry(packetReceivedFromPeer)
 attr title "packets received: with retry, vector(packetBytes)"
-vector 171 mobilityDrones.drones[0].wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 172 mobilityDrones.drones[0].wlan[0].mac packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 173 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
+vector 191 mobilityDrones.drones[2].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Retry(packetReceivedFromPeer)
 attr title "packets received: with retry, vector(packetBytes)"
-vector 174 mobilityDrones.drones[1].udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 175 mobilityDrones.drones[1].app[0] packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 176 mobilityDrones.drones[1].app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 177 mobilityDrones.drones[1].app[0] rcvdPkLifetime:vector ETV
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "received packet lifetime, vector"
-attr unit s
-vector 178 mobilityDrones.drones[0].udp packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 179 mobilityDrones.drones[0].udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 180 mobilityDrones.drones[0].app[0] packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 181 mobilityDrones.drones[0].app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 182 mobilityDrones.drones[0].app[0] rcvdPkLifetime:vector ETV
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "received packet lifetime, vector"
-attr unit s
-vector 183 mobilityDrones.drones[3].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
+vector 192 mobilityDrones.drones[1].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
 attr interpolationmode none
 attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
 attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 184 mobilityDrones.drones[2].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
-attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 185 mobilityDrones.drones[2].udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 186 mobilityDrones.drones[2].app[0] packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 187 mobilityDrones.drones[2].app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 188 mobilityDrones.drones[2].app[0] rcvdPkLifetime:vector ETV
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "received packet lifetime, vector"
-attr unit s
-vector 189 mobilityDrones.drones[3].udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 190 mobilityDrones.drones[3].app[0] packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 191 mobilityDrones.drones[3].app[0] throughput:vector ETV
-attr source throughput(packetReceived)
-attr title "throughput, vector"
-attr unit bps
-vector 192 mobilityDrones.drones[3].app[0] rcvdPkLifetime:vector ETV
-attr interpolationmode none
-attr source dataAge(packetReceived)
-attr title "received packet lifetime, vector"
-attr unit s
-vector 193 mobilityDrones.drones[0].wlan[0].mac.dcf packetDropNotAddressedToUs:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsNotAddressedToUs(packetDropped)
-attr title "packet drops: not addressed to us, vector(packetBytes)"
-vector 194 mobilityDrones.drones[0].wlan[0].mac packetDropNotAddressedToUs:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsNotAddressedToUs(packetDropped)
-attr title "packet drops: not addressed to us, vector(packetBytes)"
-vector 195 mobilityDrones.drones[1].ipv4.ip packetDropAddressResolutionFailed:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsAddressResolutionFailed(packetDropped)
-attr title "packet drop: address resolution failed, vector(packetBytes)"
-vector 196 mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
+vector 193 mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Multicast(packetReceivedFromPeer)
 attr title "packets received: multicast, vector(packetBytes)"
-vector 197 mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerBroadcast:vector(packetBytes) ETV
+vector 194 mobilityDrones.drones[0].wlan[0].mac.dcf packetReceivedFromPeerBroadcast:vector(packetBytes) ETV
 attr interpolationmode none
 attr source ieee80211Broadcast(packetReceivedFromPeer)
 attr title "packets received: broadcast, vector(packetBytes)"
-vector 198 mobilityDrones.drones[2].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Retry(packetReceivedFromPeer)
-attr title "packets received: with retry, vector(packetBytes)"
-vector 199 mobilityDrones.drones[1].wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 200 mobilityDrones.drones[1].wlan[0].mac packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 201 mobilityDrones.drones[3].wlan[0].mac.dcf packetReceivedFromPeerWithRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Retry(packetReceivedFromPeer)
-attr title "packets received: with retry, vector(packetBytes)"
-vector 202 mobilityDrones.drones[2].wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 203 mobilityDrones.drones[2].wlan[0].mac packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 204 mobilityDrones.drones[3].wlan[0].mac.dcf.recipientMacDataService packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-vector 205 mobilityDrones.drones[3].wlan[0].mac packetDropDuplicateDetected:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetDropReasonIsDuplicateDetected(packetDropped)
-attr title "packet drops: duplicate detected, vector(packetBytes)"
-0	48091 123914 0 208033 0 692.00005 5847 0 3 14612 37990
-1	172005 9 0 0 0 0 1 0 0 0 0
-2	172014 214979 0 208195 0 692.251054747152 7583 0 3 18952 49274
-3	386993 9 0 0 0 0 1 0 0 0 0
-4	387002 192443 0 208008 0 691.728470012454 6757 0 3 16887 43905
-5	579445 9 0 0 0 0 1 0 0 0 0
-6	579454 129948 0 208171 0 692.069024745104 4557 0 3 11387 29605
-7	709402 9 0 0 0 0 1 0 0 0 0
-8	709411 140459 0 208033 0 692.00005 6435 0 3 4049 5603
-9	849870 245203 0 208195 0 692.251054747152 8663 0 3 5892 8886
-10	1095073 236639 0 208196 0 692.251055173477 8063 0 3 5918 9538
-11	1331712 163455 0 208171 0 692.069024745104 5587 0 3 4306 7258
-12	1495167 21324 0 207750 0 691.013877 834 31 1023 271934 187271234
-13	1516491 32392 0 207865 0 691.257925747152 1034 31 1023 341750 236015114
-14	1548883 35301 0 205474 0 684.664869012454 1126 31 1023 370426 255574438
-15	1584184 25057 0 208176 0 692.069079745104 798 31 1023 265666 183999838
-16	1609241 11730 1 208018 0 692 709 9 9 6381 57429
-17	1620971 12439 3 208021 0 692 709 17 17 12053 204901
-18	1633410 10775 4 208022 0 692 612 28 28 17136 479808
-19	1644185 17339 6 208024 0 692 984 36 45 38772 1546452
-20	1661524 17339 6 208024 0 692 984 64 73 66324 4489140
-21	1678863 32819 6 208026 0 692 1968 0 3 1560 2208
-22	1711682 65507 6 208024 0 692 2856 0 1023 923824 589337372
-23	1777189 123222 6 208025 0 692 5762 0 1 2881 2881
-24	1900411 17448 8 208026 0.00019 692 984 64 73 66324 4489140
-25	1917859 16725 8 208026 0.00019 692 984 0 0.01958 0.14262881675 0.0019967547077501
-26	1934584 39212 8 208032 0.00019 692.00005 1968 0 2 1524 2064
-27	1973796 83001 8 208026 0.00019 692 2922 24000000 24000000 70128000000 1.683072e+018
-28	2056797 65469 8 208026 0.00019 692 2922 14 73 203904 14477964
-29	2122266 126549 8 208032 0.00019 692.00005 5712 0 1 2856 2856
-30	2248815 259463 9 208033 0.00019 692.00005 11688 0 2 11688 17532
-31	2508278 70106 14 208032 0.00024 692.00005 2922 14 73 203904 14477964
-32	2578384 14448 14 208032 0.00024 692.00005 612 64 64 39168 2506752
-33	2592832 14448 14 208032 0.00024 692.00005 612 64 64 39168 2506752
-34	2607280 25401 14 208032 0.00024 692.00005 1050 14 73 67248 4502076
-35	2632681 28957 14 208032 0.00024 692.00005 984 5e-005 0.107217 15.737552393055 0.87624096465946
-36	2661638 14301 19 201164 0.00024 670.251103502372 478 14 92 26810 1833652
-37	2675939 8630 19 201164 0.00024 670.251103502372 287 14 92 14243 925787
-38	2684569 1716 19 200983 0.00024 670.000050380325 57 64 64 3648 233472
-39	2686285 1716 19 200983 0.00024 670.000050380325 57 64 64 3648 233472
-40	2688001 7931 19 201164 0.00024 670.251103502372 264 14 92 12564 803220
-41	2695932 5266 19 201066 0.00024 670.001351140843 175 36 64 7421 320261
-42	2701198 17082 20 204845 0.00024 682.653586812658 578 14 92 33359 2306561
-43	2718280 8152 20 204845 0.00024 682.653586812658 271 14 92 12924 828154
-44	2726432 1654 20 197295 0.00024 657.251055093328 55 64 64 3520 225280
-45	2728086 1654 20 197295 0.00024 657.251055093328 55 64 64 3520 225280
-46	2729740 7756 20 204845 0.00024 682.653586812658 258 14 92 11975 758877
-47	2737496 4744 20 204758 0.00024 682.034789950392 158 36 64 6682 287410
-48	2742240 13924 21 204827 0.00024 682.653542412556 480 14 92 29787 2115753
-49	2756164 3518 21 204827 0.00024 682.653542412556 118 14 73 5393 340945
-50	2759682 401 21 154402 0.00024 517.653538359785 14 64 64 896 57344
-51	2760083 401 21 154402 0.00024 517.653538359785 14 64 64 896 57344
-52	2760484 3303 21 204827 0.00024 682.653542412556 111 14 73 4891 304875
-53	2763787 1902 21 204827 0.00024 682.653542412556 64 36 45 2736 117936
-54	2765689 75 27 14417 0.00024 80.653538034252 3 28 28 84 2352
-55	2765764 27090 29 208048 0.00024 692.026202745104 886 36 64 34506 1364454
-56	2792854 27090 29 208048 0.00024 692.026202745104 886 64 92 59314 3991414
-57	2819944 52409 29 208062 0.00024 692.027422745104 1772 0 3 1476 2146
-58	2872353 68937 29 208162 0.00024 692.068051745104 2225 0 1023 626261 391671627
-59	2941290 133347 29 208163 0.00024 692.068970745104 4516 0 1 2258 2258
-60	3074637 27091 31 208062 0.00075 692.027422745104 886 64 92 59314 3991414
-61	3101728 26522 31 208062 0.00075 692.027422745104 886 0 0.01878 0.145793590212 0.0017467125755927
-62	3128250 52418 31 208176 0.00075 692.069079745104 1772 0 2 1438 1990
-63	3180668 83177 31 208164 0.00075 692.068970745104 2277 24000000 24000000 54648000000 1.311552e+018
-64	3263845 69515 31 208164 0.00075 692.068970745104 2277 14 92 157789 11137137
-65	3333360 131462 31 208176 0.00075 692.069079745104 4450 0 1 2225 2225
-66	3464822 268950 32 208171 0.00075 692.069024745104 9108 0 2 9108 13662
-67	3733772 69514 37 208170 0.0008 692.069024745104 2277 14 92 157789 11137137
-68	3803286 50744 37 208170 0.0008 692.069024745104 1665 14 92 118621 8630385
-69	3854030 28653 37 208080 0.0008 692.032816745104 938 14 92 60042 4001606
-70	3882683 180390 37 208175 0.0008 692.069068745104 5715 0 4.4e-005 0.083820000000003 3.6880800000001e-006
-71	4063073 334290 41 207898 0.0008 691.281850747152 10557 0 4.4e-005 0.154836 6.8127840000002e-006
-72	4397363 17829 41 207899 0.0008 691.281861747152 592 14 92 42189 3077857
-73	4415192 3349 41 196581 0.0008 655.653542426082 115 14 92 7368 535924
-74	4418541 20151 41 207899 0.0008 691.281861747152 668 14 92 47388 3449798
-75	4438692 3349 41 196581 0.0008 655.653542426082 115 14 92 7368 535924
-76	4442041 305517 42 208012 0.0008 691.728514012454 9630 0 4.4e-005 0.14124 6.2145600000002e-006
-77	4747558 19633 42 208013 0.0008 691.728525012454 658 14 92 46366 3379282
-78	4767191 7005 42 196956 0.0008 656.318907119604 244 14 92 16144 1173076
-79	4774196 21558 42 208013 0.0008 691.728525012454 721 14 92 50657 3684613
-80	4795754 7005 42 196956 0.0008 656.318907119604 244 14 92 16144 1173076
-81	4802759 7222 44 201146 0.000800000017 670.251059124762 241 14 92 13488 943348
-82	4809981 4244 44 201146 0.000800000017 670.251059124762 144 14 92 6779 459699
-83	4814225 3880 44 201146 0.000800000017 670.251059124762 132 14 92 6011 410547
-84	4818105 4122 44 201146 0.000800000017 670.251059124762 140 14 92 6505 440849
-85	4822227 2266 44 201146 0.000800000017 670.251059124762 77 36 64 3635 178739
-86	4824493 55658 58 207744 0.000844000017 691.013822 2310 14 73 164736 11971212
-87	4880151 3117 65 204827 0.000844000036 682.653542412556 104 14 73 4497 283601
-88	4883268 31671 65 208176 0.000844000036 692.069079745104 886 5e-005 0.097037 10.592769073978 0.53908470473377
-89	4914939 176591 73 207749 0.001228000017 691.013866 6933 0 4.4e-005 0.101684 4.4740960000001e-006
-90	5091530 1439 83 204830 0.001228000048 682.653542412556 48 17 17 816 13872
-91	5092969 239 83 19622 0.001228000048 95.65354239872 9 1 9 45 285
-92	5093208 176 185 197018 1.000050033348 656.654146712669 6 28 28 168 4704
-93	5093384 24124 188 207909 1.000050033348 691.653488012454 791 36 64 33264 1417752
-94	5117508 24124 188 207909 1.000050033348 691.653488012454 791 64 92 55412 3900680
-95	5141632 46666 188 207911 1.000050033348 691.653488012454 1582 0 2 1061 1331
-96	5188298 101784 188 207999 1.000050033348 691.724677012454 3270 0 1022 1181378 760333904
-97	5290082 195434 188 208000 1.000050033348 691.728416012454 6626 0 1 3313 3313
-98	5485516 24124 190 207911 1.000600033348 691.653488012454 791 64 92 55412 3900680
-99	5509640 23653 190 207911 1.000600033348 691.653488012454 791 0 0.019734 0.096155590149 0.0010438242426594
-100	5533293 48244 190 208013 1.000600033348 691.728525012454 1582 0 2 1063 1335
-101	5581537 126601 190 208001 1.000600033348 691.728416012454 3377 24000000 24000000 81048000000 1.945152e+018
-102	5708138 106339 190 208001 1.000600033348 691.728416012454 3377 14 92 237859 17129777
-103	5814477 199498 190 208013 1.000600033348 691.728525012454 6540 0 1 3270 3270
-104	6013975 411848 191 208008 1.000600033348 691.728470012454 13508 0 2 13508 20262
-105	6425823 106339 196 208007 1.000650033348 691.728470012454 3377 14 92 237859 17129777
-106	6532162 97741 196 208007 1.000650033348 691.728470012454 3105 14 92 220451 16015665
-107	6629903 28233 196 207917 1.000650033348 691.653542012454 898 14 92 56910 3921652
-108	6658136 16798 201 208176 1.000650033348 692.069079745104 553 14 92 38473 2805379
-109	6674934 9737 201 194848 1.000650033348 650.657086427701 329 14 92 22130 1612916
-110	6684671 17829 201 208176 1.000650033348 692.069079745104 586 14 92 40737 2967271
-111	6702500 9737 201 194848 1.000650033348 650.657086427701 329 14 92 22130 1612916
-112	6712237 6714 223 204845 1.000694100086 682.653586812658 216 14 92 9404 602874
-113	6718951 29736 223 208013 1.000694100086 691.728525012454 791 5e-005 0.107637 20.628620186047 1.2131932564898
-114	6748687 3047 242 204761 1.001058100098 682.034789950392 98 17 17 1666 28322
-115	6751734 244 242 5986 1.001058100098 45.251058914054 9 1 9 45 285
-116	6751978 90 434 170466 3.000050100061 570.000050392121 3 28 28 84 2352
-117	6752068 25719 438 208186 3.000050100061 692.251004747152 819 36 64 34802 1496438
-118	6777787 25719 438 208186 3.000050100061 692.251004747152 819 64 92 57734 4087446
-119	6803506 49799 438 208188 3.000050100061 692.251004747152 1638 0 2 1057 1295
-120	6853305 117504 438 208186 3.000050100061 692.251004747152 3666 0 1023 1417300 919959262
-121	6970809 226059 438 208187 3.000050100061 692.251004747152 7446 0 1 3723 3723
-122	7196868 25718 440 208188 3.000200100061 692.251004747152 819 64 92 57734 4087446
-123	7222586 25243 440 208188 3.000200100061 692.251004747152 819 0 0.020074 0.215289605605 0.0028195474785546
-124	7247829 49787 440 208194 3.000200100061 692.251054747152 1638 0 2 1057 1295
-125	7297616 141585 440 208188 3.000200100061 692.251004747152 3790 24000000 24000000 90960000000 2.18304e+018
-126	7439201 118845 440 208188 3.000200100061 692.251004747152 3790 14 92 267283 19280947
-127	7558046 222635 440 208194 3.000200100061 692.251054747152 7332 0 1 3666 3666
-128	7780681 460224 441 208195 3.000200100061 692.251054747152 15160 0 2 15160 22740
-129	8240905 118847 446 208194 3.000250100061 692.251054747152 3790 14 92 267283 19280947
-130	8359752 111197 446 207893 3.000250100061 691.281806747152 3548 14 92 251795 18289715
-131	8470949 29574 446 208194 3.000250100061 692.251054747152 943 14 92 59470 4111750
-132	8500523 7144 472 201164 3.000294300199 670.251103502372 230 14 92 10595 692315
-133	8507667 30763 472 208194 3.000294300199 692.251054747152 819 5e-005 0.101097 24.594989041465 1.4634477162631
-134	8538430 3403 492 201069 3.000998300222 670.001351140843 109 17 17 1853 31501
-135	8541833 217 492 1717 3.000998300222 16.000054396421 8 1 8 36 204
-136	8542050 46577 1815 207744 17.000622 691.013822 1872 73 73 136656 9975888
-137	8588627 9828 1897 207750 17.021617 691.013877 375 14 73 27307 1992009
-138	8598455 7642 1897 207750 17.021617 691.013877 306 73 73 22338 1630674
-139	8606097 10748 1897 207750 17.021617 691.013877 404 14 73 29111 2118419
-140	8616845 7642 1897 207750 17.021617 691.013877 306 73 73 22338 1630674
-141	8624487 20834 4541 208182 39.251004747152 692.251004747152 685 9 9 6165 55485
-142	8645321 21519 4543 208183 39.251004747152 692.251004747152 685 17 17 11645 197965
-143	8666840 7650 4544 208184 39.251004747152 692.251004747152 242 28 28 6776 189728
-144	8674490 7650 4554 208194 39.251054747152 692.251054747152 242 64 64 15488 991232
-145	8682140 7650 4554 208194 39.251054747152 692.251054747152 242 64 64 15488 991232
-146	8689790 89273 5222 207893 42.251366747152 691.281806747152 2847 64 73 207813 15169197
-147	8779063 14769 5327 207899 42.273321747152 691.281861747152 471 73 73 34383 2509959
-148	8793832 14769 5327 207899 42.273321747152 691.281861747152 471 73 73 34383 2509959
-149	8808601 1988 8756 204743 56.251059151122 682.03436195042 63 14 73 4291 305331
-150	8810589 1031 8813 204694 56.28622315219 682.031245549021 33 14 73 2264 161892
-151	8811620 19544 14399 207905 80.653488012454 691.653488012454 640 9 9 5760 51840
-152	8831164 20184 14401 207906 80.653488012454 691.653488012454 640 17 17 10880 184960
-153	8851348 8598 14402 203713 80.653488012454 679.653488012454 272 28 28 7616 213248
-154	8859946 8598 14412 203727 80.653538012454 679.653538012454 272 64 64 17408 1114112
-155	8868544 8598 14412 203727 80.653538012454 679.653538012454 272 64 64 17408 1114112
-156	8877142 78106 14780 208007 81.654870012454 691.728470012454 2479 64 73 180949 13208125
-157	8955248 12917 14873 208013 81.680945012454 691.728525012454 410 73 73 29930 2184890
-158	8968165 12917 14873 208013 81.680945012454 691.728525012454 410 73 73 29930 2184890
-159	8981082 18267 24159 208038 109.026202745104 692.026202745104 597 9 9 5373 48357
-160	8999349 18864 24161 208041 109.026202745104 692.026202745104 597 17 17 10149 172533
-161	9018213 42200 24186 208170 109.026644745104 692.069024745104 1339 73 73 97747 7135531
-162	9060413 6997 24328 208176 109.071539745104 692.069079745104 222 73 73 16206 1183038
-163	9067410 6997 24328 208176 109.071539745104 692.069079745104 222 73 73 16206 1183038
-164	9074407 19382 30354 208040 123.026202745104 692.026202745104 612 28 28 17136 479808
-165	9093789 19382 30364 208068 123.026252745104 692.027472745104 612 64 64 39168 2506752
-166	9113171 19382 30364 208068 123.026252745104 692.027472745104 612 64 64 39168 2506752
-167	9132553 6258 31006 208019 125 692 336 37 37 12432 459984
-168	9138811 2398 31028 196679 125.000050410165 655.729370423541 76 14 73 5199 371941
-169	9141209 920 31074 184321 125.014370819109 613.251059166099 29 14 73 1804 126410
-170	9142129 126 31168 179526 125.034214818213 598.277999158066 4 64 73 274 18850
-171	9142255 31 31221 31221 125.045119634963 125.045119634963 1 64 64 64 4096
-172	9142286 31 31221 31221 125.045119634963 125.045119634963 1 64 64 64 4096
-173	9142317 722 31310 179641 125.070284041958 598.304568387885 23 73 73 1679 122567
-174	9143039 3171 31313 201069 125.070284041958 670.001351140843 101 1 101 5151 348551
-175	9146210 3077 31314 201070 125.070284041958 670.001351140843 101 9 9 909 8181
-176	9149287 128387 31314 201002 0.1 670 6700 0 1440 71280 75168000
-177	9277674 4376 31314 201070 125.070284041958 670.001351140843 101 5.4204659e-005 2.018639173892 3.884699249994 5.5822341250579
-178	9282050 1356 31347 201149 125.070712448934 670.251059124762 43 17 17 731 12427
-179	9283406 1347 31347 201149 125.070712448934 670.251059124762 43 1 43 946 27434
-180	9284753 1313 31348 201150 125.070712448934 670.251059124762 43 9 9 387 3483
-181	9286066 128333 31348 201150 0.1 670.2 6702 0 1440 30240 22809600
-182	9414399 1864 31348 201150 125.070712448934 670.251059124762 43 5.4201507e-005 0.026994410914 0.122466552808 0.001865615032982
-183	9416263 10542 31692 204645 126.026202745104 682.026202745104 333 37 37 12321 455877
-184	9426805 4303 33991 204120 131.653488012454 680.653488012454 136 37 37 5032 186184
-185	9431108 2785 36804 204761 139.251059135278 682.034789950392 89 1 89 4005 238965
-186	9433893 2705 36805 204762 139.251059135278 682.034789950392 89 9 9 801 7209
-187	9436598 130926 36805 204664 0.1 682 6820 0 2880 62640 60652800
-188	9567524 3854 36805 204762 139.251059135278 682.034789950392 89 5.4224192e-005 2.001973988229 3.186641886966 5.015765122265
-189	9571378 1221 40270 204830 148.035505331669 682.653542412556 39 1 39 780 20540
-190	9572599 1191 40271 204831 148.035505331669 682.653542412556 39 9 9 351 3159
-191	9573790 131131 40271 204831 0.1 682.6 6826 0 1440 27360 26956800
-192	9704921 1692 40271 204831 148.035505331669 682.653542412556 39 5.4295698e-005 0.017414253502 0.067891870917 0.00066544650158251
-193	9706613 2155 42027 187267 153.25878715323 624.277267128715 68 14 73 4905 357239
-194	9708768 2155 42027 187267 153.25878715323 624.277267128715 68 14 73 4905 357239
-195	9710923 3732 49832 207791 177.251004747152 691.251004747152 118 37 37 4366 161542
-196	9714655 376 49847 185939 177.251055154854 619.25105490064 12 64 64 768 49152
-197	9715031 376 49847 185939 177.251055154854 619.25105490064 12 64 64 768 49152
-198	9715407 409 57511 204758 202.028413158847 682.034789950392 13 73 73 949 69277
-199	9715816 188 64243 150691 226.00198323854 505.00136322674 6 73 73 438 31974
-200	9716004 188 64243 150691 226.00198323854 505.00136322674 6 73 73 438 31974
-201	9716192 222 66542 204709 231.658227246564 682.034013548836 7 64 73 502 36070
-202	9716414 125 66629 114957 231.709959656069 390.271759984661 4 73 73 292 21316
-203	9716539 125 66629 114957 231.709959656069 390.271759984661 4 73 73 292 21316
-204	9716664 64 195097 195471 651.030209925986 651.656347233419 2 64 73 137 9425
-205	9716728 64 195097 195471 651.030209925986 651.656347233419 2 64 73 137 9425
-176	9716792 4470 208201 208201 670.1 692.445470161265 225 0 1440 1440 2073600
-181	9721262 4429 208201 208201 670.3 692.445470161265 223 0 720 720 518400
-187	9725691 2094 208201 208201 682.1 692.445470161265 105 0 1440 1440 2073600
-191	9727785 1973 208201 208201 682.7 692.445470161265 99 0 720 720 518400
-
+0	800403 17694 18920 49169 94 179.00005 838 2 3 2095 5447
+2	818097 30262 19032 49212 94.251004747152 179.251054747152 1084 2 3 2710 7046
+4	848359 28480 19146 49342 94.653488012454 179.684410012454 1020 2 3 2550 6630
+6	876839 20828 19164 49191 94.653552369171 179.026252745104 744 2 3 1860 4836
+8	897667 18640 18920 49213 94 179.251055122273 872 0 3 486 584
+9	916307 33776 19032 49212 94.251004747152 179.251054747152 1210 0 3 786 1132
+10	950083 32724 19146 49342 94.653488012454 179.684410012454 1132 0 3 734 1070
+11	982807 24492 19148 49191 94.653488369171 179.026252745104 846 0 3 576 882
+12	1007299 2121 31304 46792 126.01209225559 170.020637 85 31 1023 28171 19513237
+13	1009420 2065 31237 48617 126.007019128067 176.298161747152 67 31 1023 22141 15332035
+14	1011485 4363 19461 49347 95.653597012454 179.684465012454 142 31 1023 46418 32065742
+15	1015848 3483 24067 48998 109.026311745104 178.076659745104 113 31 1023 37167 25434417
+16	1019331 1545 18912 49154 94 179 89 10 10 890 8900
+17	1020876 1545 18914 49157 94 179 89 18 18 1602 28836
+18	1022421 1071 29851 49158 122 179 63 28 28 1764 49392
+19	1023492 2035 18917 49160 94 179 117 36 46 4752 195912
+20	1025527 2035 18917 49160 94 179 117 64 74 8028 553752
+21	1027562 3847 18917 49162 94 179 234 0 3 177 245
+22	1031409 9482 18917 49160 94 179 411 0 1022 152180 99242364
+23	1040891 17723 18917 49161 94 179 828 0 1 414 414
+24	1058614 2046 18919 49162 94 179 117 64 74 8028 553752
+25	1060660 1968 18919 49162 94 179 117 0 0.004434 0.010436 4.0037584e-005
+26	1062628 4586 18919 49168 94 179.00005 234 0 2 173 229
+27	1067214 11907 18919 49162 94 179 419 24000000 24000000 10056000000 2.41344e+017
+28	1079121 9393 18919 49162 94 179 419 14 74 29896 2165264
+29	1088514 18127 18919 49168 94 179.00005 822 0 1 411 411
+30	1106641 37064 18920 49169 94 179.00005 1676 0 2 1676 2514
+31	1143705 9977 18925 49168 94.000054 179.00005 419 14 74 29896 2165264
+32	1153682 1449 29861 49168 122.00005 179.00005 63 64 64 4032 258048
+33	1155131 1449 29861 49168 122.00005 179.00005 63 64 64 4032 258048
+34	1156580 3000 18925 49168 94.000054 179.00005 125 14 74 8140 555320
+35	1159580 3401 19020 49168 94.055737 179.00005 117 5e-005 0.092517 2.650446414339 0.15843244183555
+36	1162981 1645 30896 49171 125.018750420041 179.000050387235 55 14 74 3150 216220
+37	1164626 896 31184 49171 126.000050376305 179.000050387235 30 14 74 1340 84840
+38	1165522 89 31184 49171 126.000050376305 179.000050387235 3 64 64 192 12288
+39	1165611 89 31184 49171 126.000050376305 179.000050387235 3 64 64 192 12288
+40	1165700 836 31184 49171 126.000050376305 179.000050387235 28 14 74 1192 73888
+41	1166536 478 31184 49171 126.000050376305 179.000050387235 16 36 46 696 30576
+42	1167014 1668 19173 45736 94.65358672589 166.653586809306 56 14 92 3332 234104
+43	1168682 891 19173 45736 94.65358672589 166.653586809306 30 14 92 1418 93108
+44	1169573 119 39723 45339 149.026253083531 165.25105508429 4 64 64 256 16384
+45	1169692 119 39723 45339 149.026253083531 165.25105508429 4 64 64 256 16384
+46	1169811 861 19173 45736 94.65358672589 166.653586809306 29 14 92 1344 87632
+47	1170672 507 19186 45678 94.654234725909 166.251059118734 17 36 64 760 34672
+48	1171179 1511 19154 41691 94.653542369171 155.041453567136 51 14 74 3334 239556
+49	1172690 448 19154 41691 94.653542369171 155.041453567136 15 14 74 670 42420
+50	1173138 60 39195 39483 147.653538405748 148.653538365601 2 64 64 128 8192
+51	1173198 60 39195 39483 147.653538405748 148.653538365601 2 64 64 128 8192
+52	1173258 418 19154 41691 94.653542369171 155.041453567136 14 14 74 596 36944
+53	1173676 239 19154 41530 94.653542369171 154.654450408072 8 36 46 348 15288
+55	1173915 2579 19160 49182 94.653542369171 179.026202745104 86 36 64 3644 156896
+56	1176494 2579 19160 49182 94.653542369171 179.026202745104 86 64 92 6052 428384
+57	1179073 4986 19160 49184 94.653542369171 179.026202745104 172 0 2 112 138
+58	1184059 11204 19160 49182 94.653542369171 179.026202745104 366 0 1019 125367 79104317
+59	1195263 21340 19160 49183 94.653542369171 179.026202745104 736 0 1 368 368
+60	1216603 2579 19177 49184 94.654176369171 179.026202745104 86 64 92 6052 428384
+61	1219182 2507 19177 49184 94.654176369171 179.026202745104 86 0 0.000634 0.000728 4.10792e-007
+62	1221689 4986 19177 49190 94.654176369171 179.026252745104 172 0 2 112 138
+63	1226675 13390 19154 49184 94.653542369171 179.026202745104 372 24000000 24000000 8928000000 2.14272e+017
+64	1240065 11158 19163 49184 94.653552369171 179.026202745104 372 14 92 26856 1962840
+65	1251223 21226 19177 49190 94.654176369171 179.026252745104 732 0 1 366 366
+66	1272449 43144 19164 49191 94.653552369171 179.026252745104 1488 0 2 1488 2232
+67	1315593 11158 19170 49190 94.653586369171 179.026252745104 372 14 92 26856 1962840
+68	1326751 10168 19170 48992 94.653586369171 178.076604745104 339 14 92 24744 1827672
+69	1336919 2758 19170 49190 94.653586369171 179.026252745104 92 14 92 6136 429560
+70	1339677 34086 19183 48997 94.654234369171 178.076648745104 1089 0 4.4e-005 0.015972 7.02768e-007
+71	1373763 49218 19037 48616 94.251058747152 176.298150747152 1575 0 4.4e-005 0.0231 1.0164e-006
+72	1422981 2364 19134 48617 94.328161747152 176.298161747152 79 74 74 5846 432604
+73	1425345 210 45049 45151 164.653542389454 164.718290385134 7 74 74 518 38332
+74	1425555 2903 19134 48617 94.328161747152 176.298161747152 97 64 74 7138 525652
+75	1428458 210 45049 45151 164.653542389454 164.718290385134 7 74 74 518 38332
+76	1428668 45194 19151 49346 94.653542012454 179.684454012454 1446 0 4.4e-005 0.021208 9.33152e-007
+77	1473862 2305 19563 49347 95.692265012454 179.684465012454 77 74 74 5698 421652
+78	1476167 360 39240 45023 148.026257123335 164.333307145515 12 74 74 888 65712
+79	1476527 2722 19563 49347 95.692265012454 179.684465012454 91 64 74 6724 496936
+80	1479249 360 39240 45023 148.026257123335 164.333307145515 12 74 74 888 65712
+81	1479609 477 31027 49214 125.251055156773 179.251055122273 16 14 74 794 51796
+82	1480086 417 31218 49214 126.00697475207 179.251055122273 14 14 74 716 47504
+83	1480503 387 31218 41714 126.00697475207 155.25105914126 13 14 74 652 43408
+84	1480890 417 31218 49214 126.00697475207 179.251055122273 14 14 74 716 47504
+85	1481307 268 31218 49214 126.00697475207 179.251055122273 9 36 46 394 17404
+86	1481575 8528 18925 46786 94.000054 170.020582 356 14 74 25864 1907216
+87	1490103 388 19154 41691 94.653542369171 155.041453567136 13 14 74 542 34228
+88	1490491 3071 19204 49190 94.654279082649 179.026252745104 86 5e-005 0.086477 2.230458585168 0.11979147757477
+89	1493562 26262 18925 46791 94.000054 170.020626 1044 0 4.4e-005 0.015312 6.73728e-007
+90	1519824 179 19157 41533 94.653542369171 154.654450408072 6 18 18 108 1944
+91	1520003 29 19157 19157 94.653542369171 94.653542369171 1 10 10 10 100
+92	1520032 29 45341 45341 165.25105508429 165.25105508429 1 28 28 28 784
+93	1520061 3142 19143 49231 94.653488012454 179.653488012454 105 36 46 4550 199220
+94	1523203 3142 19143 49231 94.653488012454 179.653488012454 105 64 74 7490 536340
+95	1526345 6074 19143 49233 94.653488012454 179.653488012454 210 0 2 135 165
+96	1532419 15210 19143 49333 94.653488012454 179.680877012454 497 0 1019 189588 123401566
+97	1547629 28922 19143 49334 94.653488012454 179.684356012454 1000 0 1 500 500
+98	1576551 3142 19145 49233 94.653488012454 179.653488012454 105 64 74 7490 536340
+99	1579693 3064 19145 49233 94.653488012454 179.653488012454 105 0 0.01485 0.026252 0.000335214768
+100	1582757 6281 19145 49347 94.653488012454 179.684465012454 210 0 2 135 165
+101	1589038 18830 19145 49335 94.653488012454 179.684356012454 510 24000000 24000000 12240000000 2.9376e+017
+102	1607868 15770 19145 49335 94.653488012454 179.684356012454 510 14 74 36680 2685480
+103	1623638 29741 19145 49347 94.653488012454 179.684465012454 994 0 1 497 497
+104	1653379 61040 19146 49342 94.653488012454 179.684410012454 2040 0 2 2040 3060
+105	1714419 15770 19151 49341 94.653542012454 179.684410012454 510 14 74 36680 2685480
+106	1730189 14933 19151 49341 94.653542012454 179.684410012454 483 14 74 34952 2574888
+107	1745122 3648 19151 49251 94.653542012454 179.654002012454 118 14 74 7672 538888
+108	1748770 2345 19456 48998 95.653542398968 178.076659745104 76 74 74 5624 416176
+109	1751115 919 19456 40385 95.653542398968 150.726690286154 30 74 74 2220 164280
+110	1752034 2525 19456 48998 95.653542398968 178.076659745104 82 74 74 6068 449032
+111	1754559 919 19456 40385 95.653542398968 150.726690286154 30 74 74 2220 164280
+112	1755478 798 19173 45736 94.65358672589 166.653586809306 26 14 92 1162 76724
+113	1756276 3897 19173 49347 94.65358672589 179.684465012454 105 5e-005 0.092237 3.356129999188 0.20227574475883
+114	1760173 371 36883 45681 140.251059126412 166.251059118734 12 18 18 216 3888
+116	1760544 31 31186 31186 126.000050376305 126.000050376305 1 28 28 28 784
+117	1760575 3001 19029 49203 94.251004747152 179.251004747152 97 36 46 4342 195412
+118	1763576 3001 19029 49203 94.251004747152 179.251004747152 97 64 74 7058 514612
+119	1766577 5806 19029 49205 94.251004747152 179.251004747152 194 0 2 107 117
+120	1772383 16797 19029 49203 94.251004747152 179.251004747152 529 0 1021 248844 169749872
+121	1789180 32247 19029 49204 94.251004747152 179.251004747152 1078 0 1 539 539
+122	1821427 2999 19031 49205 94.251004747152 179.251004747152 97 64 74 7058 514612
+123	1824426 2976 19031 49205 94.251004747152 179.251004747152 97 0 0.006869999765 0.022612751062 0.00013987073362561
+124	1827402 5804 19031 49211 94.251004747152 179.251054747152 194 0 2 107 117
+125	1833206 20009 19031 49205 94.251004747152 179.251004747152 542 24000000 24000000 13008000000 3.12192e+017
+126	1853215 16757 19031 49205 94.251004747152 179.251004747152 542 14 74 39208 2882792
+127	1869972 31652 19031 49211 94.251004747152 179.251054747152 1058 0 1 529 529
+128	1901624 64860 19032 49212 94.251004747152 179.251054747152 2168 0 2 2168 3252
+129	1966484 16757 19037 49211 94.251058747152 179.251054747152 542 14 74 39208 2882792
+130	1983241 16416 19037 48611 94.251058747152 176.298106747152 531 14 74 38504 2837736
+131	1999657 3401 19037 49211 94.251058747152 179.251054747152 110 14 74 7240 517160
+132	2003058 834 31237 45719 126.007019128067 166.653542410878 27 14 74 1148 72552
+133	2003892 3642 19134 49211 94.328161747152 179.251054747152 97 5e-005 0.100917 4.287457993729 0.27710771406653
+134	2007534 371 31286 45722 126.012047879817 166.653542410878 12 18 18 216 3888
+136	2007905 7271 18939 46786 94.003802 170.020582 294 74 74 21756 1609944
+137	2015176 1225 19020 46792 94.055737 170.020637 49 74 74 3626 268324
+138	2016401 1225 19020 46792 94.055737 170.020637 49 74 74 3626 268324
+139	2017626 1287 19020 46792 94.055737 170.020637 51 14 74 3704 272616
+140	2018913 1225 19020 46792 94.055737 170.020637 49 74 74 3626 268324
+141	2020138 2815 19025 49198 94.251004747152 179.251004747152 91 10 10 910 9100
+142	2022953 2815 19026 49200 94.251004747152 179.251004747152 91 18 18 1638 29484
+143	2025768 341 31014 49199 125.251004747152 179.251004747152 11 28 28 308 8624
+144	2026109 341 31024 49211 125.251054747152 179.251054747152 11 64 64 704 45056
+145	2026450 341 31024 49211 125.251054747152 179.251054747152 11 64 64 704 45056
+146	2026791 13356 19052 48611 94.269706747152 176.298106747152 432 74 74 31968 2365632
+147	2040147 2226 19134 48617 94.328161747152 176.298161747152 72 74 74 5328 394272
+148	2042373 2226 19134 48617 94.328161747152 176.298161747152 72 74 74 5328 394272
+149	2044599 180 19826 41515 96.654190429323 154.653542408036 6 74 74 444 32856
+150	2044779 2752 19139 49224 94.653488012454 179.653488012454 89 10 10 890 8900
+151	2047531 2752 19140 49226 94.653488012454 179.653488012454 89 18 18 1602 28836
+152	2050283 837 30844 49225 124.653488012454 179.653488012454 27 28 28 756 21168
+153	2051120 837 30854 49239 124.653538012454 179.653538012454 27 64 64 1728 110592
+154	2051957 837 30854 49239 124.653538012454 179.653538012454 27 64 64 1728 110592
+155	2052794 12122 19469 49341 95.654890012454 179.684410012454 392 74 74 29008 2146592
+156	2064916 2010 19563 49347 95.692265012454 179.684465012454 65 74 74 4810 355940
+157	2066926 2010 19563 49347 95.692265012454 179.684465012454 65 74 74 4810 355940
+158	2068936 2232 24047 49177 109.026202745104 179.026202745104 72 10 10 720 7200
+159	2071168 2232 24049 49179 109.026202745104 179.026202745104 72 18 18 1296 23328
+160	2073400 8680 24075 48992 109.026424745104 178.076604745104 280 74 74 20720 1533280
+161	2082080 1426 24185 48998 109.043739745104 178.076659745104 46 74 74 3404 251896
+162	2083506 1426 24185 48998 109.043739745104 178.076659745104 46 74 74 3404 251896
+163	2084932 612 30864 49155 125 179 34 38 38 1292 49096
+164	2085544 557 30896 41343 125.018750420041 154.000050408145 18 64 74 1292 93048
+165	2086101 62 31027 31864 125.251055156773 127.020158839513 2 14 64 78 4292
+166	2086163 215 31221 41717 126.00697475207 155.25105914126 7 18 18 126 2268
+167	2086378 208 31221 41717 126.00697475207 155.25105914126 7 1 7 28 140
+168	2086586 215 31222 41718 126.00697475207 155.25105914126 7 10 10 70 700
+169	2086801 28088 31222 41718 0.1 155.2 1552 0 2400 4800 8960000
+170	2114889 299 31222 41718 126.00697475207 155.25105914126 7 5.4385439e-005 0.755970004918 0.758523835191 0.57149293893535
+171	2115188 362 31286 45722 126.012047879817 166.653542410878 12 1 12 78 650
+172	2115550 371 31287 45723 126.012047879817 166.653542410878 12 10 10 120 1200
+173	2115921 30243 31287 45723 0.1 166.6 1666 0 2400 8800 10880000
+174	2146164 515 31287 45723 126.012047879817 166.653542410878 12 5.4335168e-005 1.012047879817 1.040637531934 1.024677130069
+175	2146679 62 31847 37132 127.020114419755 141.654490403845 2 74 74 148 10952
+176	2146741 341 32113 48832 127.653488012454 177.653488012454 11 38 38 418 15884
+177	2147082 1023 32791 49178 129.026202745104 179.026202745104 33 28 28 924 25872
+178	2148105 1023 32801 49190 129.026252745104 179.026252745104 33 64 64 2112 135168
+179	2149128 1023 32801 49190 129.026252745104 179.026252745104 33 64 64 2112 135168
+180	2150151 558 33804 48789 132.026202745104 177.026202745104 18 38 38 684 25992
+181	2150709 362 36883 45681 140.251059126412 166.251059118734 12 1 12 78 650
+182	2151071 371 36884 45682 140.251059126412 166.251059118734 12 10 10 120 1200
+183	2151442 30167 36884 45682 0.1 166.2 1662 0 1600 8800 10880000
+184	2181609 514 36884 45682 140.251059126412 166.251059118734 12 5.4296785e-005 0.021659008978 0.054870775015 0.00098141426806956
+185	2182123 431 38930 44991 147.026253163976 164.305411147376 14 64 74 1026 75284
+186	2182554 150 40580 41533 151.053705269225 154.654450408072 5 1 5 15 55
+187	2182704 155 40581 41534 151.053705269225 154.654450408072 5 10 10 50 500
+188	2182859 27976 40581 41534 0.1 154.6 1546 0 800 3200 2560000
+189	2210835 215 40581 41534 151.053705269225 154.654450408072 5 5.4280444e-005 0.010748261868 0.01187361376 0.00011646019009396
+190	2211050 31 41530 41530 154.654450408072 154.654450408072 1 74 74 74 5476
+191	2211081 31 41674 41674 155.041409156119 155.041409156119 1 74 74 74 5476
+192	2211112 93 44532 48509 163.251004747152 176.251004747152 3 38 38 114 4332
+193	2211205 31 49214 49214 179.251055122273 179.251055122273 1 64 64 64 4096
+194	2211236 31 49214 49214 179.251055122273 179.251055122273 1 64 64 64 4096

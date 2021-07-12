@@ -219,7 +219,7 @@ Register_Class(MobileNodeMessage)
 
 MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
 {
-    this->setChunkLength(B(9));
+    this->setChunkLength(B(10));
 
 }
 
@@ -244,6 +244,7 @@ void MobileNodeMessage::copy(const MobileNodeMessage& other)
 {
     this->sourceID = other.sourceID;
     this->destinationID = other.destinationID;
+    this->reversed = other.reversed;
     this->messageType = other.messageType;
 }
 
@@ -252,6 +253,7 @@ void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
     ::inet::FieldsChunk::parsimPack(b);
     doParsimPacking(b,this->sourceID);
     doParsimPacking(b,this->destinationID);
+    doParsimPacking(b,this->reversed);
     doParsimPacking(b,this->messageType);
 }
 
@@ -260,6 +262,7 @@ void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     ::inet::FieldsChunk::parsimUnpack(b);
     doParsimUnpacking(b,this->sourceID);
     doParsimUnpacking(b,this->destinationID);
+    doParsimUnpacking(b,this->reversed);
     doParsimUnpacking(b,this->messageType);
 }
 
@@ -285,6 +288,17 @@ void MobileNodeMessage::setDestinationID(int destinationID)
     this->destinationID = destinationID;
 }
 
+bool MobileNodeMessage::getReversed() const
+{
+    return this->reversed;
+}
+
+void MobileNodeMessage::setReversed(bool reversed)
+{
+    handleChange();
+    this->reversed = reversed;
+}
+
 inet::MessageType MobileNodeMessage::getMessageType() const
 {
     return this->messageType;
@@ -303,6 +317,7 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
     enum FieldConstants {
         FIELD_sourceID,
         FIELD_destinationID,
+        FIELD_reversed,
         FIELD_messageType,
     };
   public:
@@ -366,7 +381,7 @@ const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) c
 int MobileNodeMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 3+basedesc->getFieldCount() : 3;
+    return basedesc ? 4+basedesc->getFieldCount() : 4;
 }
 
 unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
@@ -380,9 +395,10 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,    // FIELD_sourceID
         FD_ISEDITABLE,    // FIELD_destinationID
+        FD_ISEDITABLE,    // FIELD_reversed
         FD_ISEDITABLE,    // FIELD_messageType
     };
-    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 4) ? fieldTypeFlags[field] : 0;
 }
 
 const char *MobileNodeMessageDescriptor::getFieldName(int field) const
@@ -396,9 +412,10 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
     static const char *fieldNames[] = {
         "sourceID",
         "destinationID",
+        "reversed",
         "messageType",
     };
-    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 4) ? fieldNames[field] : nullptr;
 }
 
 int MobileNodeMessageDescriptor::findField(const char *fieldName) const
@@ -407,7 +424,8 @@ int MobileNodeMessageDescriptor::findField(const char *fieldName) const
     int base = basedesc ? basedesc->getFieldCount() : 0;
     if (fieldName[0] == 's' && strcmp(fieldName, "sourceID") == 0) return base+0;
     if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
-    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+2;
+    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+2;
+    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+3;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -422,9 +440,10 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
     static const char *fieldTypeStrings[] = {
         "int",    // FIELD_sourceID
         "int",    // FIELD_destinationID
+        "bool",    // FIELD_reversed
         "inet::MessageType",    // FIELD_messageType
     };
-    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 4) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
@@ -500,6 +519,7 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
     switch (field) {
         case FIELD_sourceID: return long2string(pp->getSourceID());
         case FIELD_destinationID: return long2string(pp->getDestinationID());
+        case FIELD_reversed: return bool2string(pp->getReversed());
         case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
         default: return "";
     }
@@ -517,6 +537,7 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
     switch (field) {
         case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
         case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
+        case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
         case FIELD_messageType: pp->setMessageType((inet::MessageType)string2enum(value, "inet::MessageType")); return true;
         default: return false;
     }
