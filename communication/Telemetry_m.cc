@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/Telemetry.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "MobileNodeMessage_m.h"
+#include "Telemetry_m.h"
 
 namespace omnetpp {
 
@@ -173,7 +173,7 @@ toVoidPtr(T* t)
 
 }
 
-namespace inet {
+namespace projeto {
 
 // forward
 template<typename T, typename A>
@@ -207,152 +207,94 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-EXECUTE_ON_STARTUP(
-    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::MessageType");
-    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::MessageType"));
-    e->insert(HEARTBEAT, "HEARTBEAT");
-    e->insert(PAIR_REQUEST, "PAIR_REQUEST");
-    e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
-)
+Register_Class(Telemetry)
 
-Register_Class(MobileNodeMessage)
-
-MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
+Telemetry::Telemetry(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
 {
-    this->setChunkLength(B(10));
-
 }
 
-MobileNodeMessage::MobileNodeMessage(const MobileNodeMessage& other) : ::inet::FieldsChunk(other)
+Telemetry::Telemetry(const Telemetry& other) : ::omnetpp::cMessage(other)
 {
     copy(other);
 }
 
-MobileNodeMessage::~MobileNodeMessage()
+Telemetry::~Telemetry()
 {
 }
 
-MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
+Telemetry& Telemetry::operator=(const Telemetry& other)
 {
     if (this == &other) return *this;
-    ::inet::FieldsChunk::operator=(other);
+    ::omnetpp::cMessage::operator=(other);
     copy(other);
     return *this;
 }
 
-void MobileNodeMessage::copy(const MobileNodeMessage& other)
+void Telemetry::copy(const Telemetry& other)
 {
-    this->sourceID = other.sourceID;
-    this->destinationID = other.destinationID;
     this->nextWaypointID = other.nextWaypointID;
     this->lastWaypointID = other.lastWaypointID;
-    this->reversed = other.reversed;
-    this->messageType = other.messageType;
+    this->isReversed_ = other.isReversed_;
 }
 
-void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
+void Telemetry::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::inet::FieldsChunk::parsimPack(b);
-    doParsimPacking(b,this->sourceID);
-    doParsimPacking(b,this->destinationID);
+    ::omnetpp::cMessage::parsimPack(b);
     doParsimPacking(b,this->nextWaypointID);
     doParsimPacking(b,this->lastWaypointID);
-    doParsimPacking(b,this->reversed);
-    doParsimPacking(b,this->messageType);
+    doParsimPacking(b,this->isReversed_);
 }
 
-void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
+void Telemetry::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::inet::FieldsChunk::parsimUnpack(b);
-    doParsimUnpacking(b,this->sourceID);
-    doParsimUnpacking(b,this->destinationID);
+    ::omnetpp::cMessage::parsimUnpack(b);
     doParsimUnpacking(b,this->nextWaypointID);
     doParsimUnpacking(b,this->lastWaypointID);
-    doParsimUnpacking(b,this->reversed);
-    doParsimUnpacking(b,this->messageType);
+    doParsimUnpacking(b,this->isReversed_);
 }
 
-int MobileNodeMessage::getSourceID() const
-{
-    return this->sourceID;
-}
-
-void MobileNodeMessage::setSourceID(int sourceID)
-{
-    handleChange();
-    this->sourceID = sourceID;
-}
-
-int MobileNodeMessage::getDestinationID() const
-{
-    return this->destinationID;
-}
-
-void MobileNodeMessage::setDestinationID(int destinationID)
-{
-    handleChange();
-    this->destinationID = destinationID;
-}
-
-int MobileNodeMessage::getNextWaypointID() const
+int Telemetry::getNextWaypointID() const
 {
     return this->nextWaypointID;
 }
 
-void MobileNodeMessage::setNextWaypointID(int nextWaypointID)
+void Telemetry::setNextWaypointID(int nextWaypointID)
 {
-    handleChange();
     this->nextWaypointID = nextWaypointID;
 }
 
-int MobileNodeMessage::getLastWaypointID() const
+int Telemetry::getLastWaypointID() const
 {
     return this->lastWaypointID;
 }
 
-void MobileNodeMessage::setLastWaypointID(int lastWaypointID)
+void Telemetry::setLastWaypointID(int lastWaypointID)
 {
-    handleChange();
     this->lastWaypointID = lastWaypointID;
 }
 
-bool MobileNodeMessage::getReversed() const
+bool Telemetry::isReversed() const
 {
-    return this->reversed;
+    return this->isReversed_;
 }
 
-void MobileNodeMessage::setReversed(bool reversed)
+void Telemetry::setIsReversed(bool isReversed)
 {
-    handleChange();
-    this->reversed = reversed;
+    this->isReversed_ = isReversed;
 }
 
-inet::MessageType MobileNodeMessage::getMessageType() const
-{
-    return this->messageType;
-}
-
-void MobileNodeMessage::setMessageType(inet::MessageType messageType)
-{
-    handleChange();
-    this->messageType = messageType;
-}
-
-class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
+class TelemetryDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_sourceID,
-        FIELD_destinationID,
         FIELD_nextWaypointID,
         FIELD_lastWaypointID,
-        FIELD_reversed,
-        FIELD_messageType,
+        FIELD_isReversed,
     };
   public:
-    MobileNodeMessageDescriptor();
-    virtual ~MobileNodeMessageDescriptor();
+    TelemetryDescriptor();
+    virtual ~TelemetryDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -374,24 +316,24 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(MobileNodeMessageDescriptor)
+Register_ClassDescriptor(TelemetryDescriptor)
 
-MobileNodeMessageDescriptor::MobileNodeMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::MobileNodeMessage)), "inet::FieldsChunk")
+TelemetryDescriptor::TelemetryDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Telemetry)), "omnetpp::cMessage")
 {
     propertynames = nullptr;
 }
 
-MobileNodeMessageDescriptor::~MobileNodeMessageDescriptor()
+TelemetryDescriptor::~TelemetryDescriptor()
 {
     delete[] propertynames;
 }
 
-bool MobileNodeMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool TelemetryDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<MobileNodeMessage *>(obj)!=nullptr;
+    return dynamic_cast<Telemetry *>(obj)!=nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getPropertyNames() const
+const char **TelemetryDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -402,19 +344,19 @@ const char **MobileNodeMessageDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) const
+const char *TelemetryDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int MobileNodeMessageDescriptor::getFieldCount() const
+int TelemetryDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 6+basedesc->getFieldCount() : 6;
+    return basedesc ? 3+basedesc->getFieldCount() : 3;
 }
 
-unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
+unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -423,17 +365,14 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_sourceID
-        FD_ISEDITABLE,    // FIELD_destinationID
         FD_ISEDITABLE,    // FIELD_nextWaypointID
         FD_ISEDITABLE,    // FIELD_lastWaypointID
-        FD_ISEDITABLE,    // FIELD_reversed
-        FD_ISEDITABLE,    // FIELD_messageType
+        FD_ISEDITABLE,    // FIELD_isReversed
     };
-    return (field >= 0 && field < 6) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldName(int field) const
+const char *TelemetryDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -442,30 +381,24 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "sourceID",
-        "destinationID",
         "nextWaypointID",
         "lastWaypointID",
-        "reversed",
-        "messageType",
+        "isReversed",
     };
-    return (field >= 0 && field < 6) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
 }
 
-int MobileNodeMessageDescriptor::findField(const char *fieldName) const
+int TelemetryDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 's' && strcmp(fieldName, "sourceID") == 0) return base+0;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
-    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+2;
-    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+3;
-    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+4;
-    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+5;
+    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+0;
+    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+1;
+    if (fieldName[0] == 'i' && strcmp(fieldName, "isReversed") == 0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
+const char *TelemetryDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -474,17 +407,14 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_sourceID
-        "int",    // FIELD_destinationID
         "int",    // FIELD_nextWaypointID
         "int",    // FIELD_lastWaypointID
-        "bool",    // FIELD_reversed
-        "inet::MessageType",    // FIELD_messageType
+        "bool",    // FIELD_isReversed
     };
-    return (field >= 0 && field < 6) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
+const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -493,15 +423,11 @@ const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
         default: return nullptr;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *TelemetryDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -510,14 +436,11 @@ const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char 
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType:
-            if (!strcmp(propertyname, "enum")) return "inet::MessageType";
-            return nullptr;
         default: return nullptr;
     }
 }
 
-int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) const
+int TelemetryDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -525,13 +448,13 @@ int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) cons
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *TelemetryDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -539,13 +462,13 @@ const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object,
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string TelemetryDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -553,19 +476,16 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: return long2string(pp->getSourceID());
-        case FIELD_destinationID: return long2string(pp->getDestinationID());
         case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
         case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
-        case FIELD_reversed: return bool2string(pp->getReversed());
-        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
+        case FIELD_isReversed: return bool2string(pp->isReversed());
         default: return "";
     }
 }
 
-bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool TelemetryDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -573,19 +493,16 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
-        case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
         case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
-        case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
-        case FIELD_messageType: pp->setMessageType((inet::MessageType)string2enum(value, "inet::MessageType")); return true;
+        case FIELD_isReversed: pp->setIsReversed(string2bool(value)); return true;
         default: return false;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
+const char *TelemetryDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -598,7 +515,7 @@ const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *TelemetryDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -606,11 +523,11 @@ void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int 
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-} // namespace inet
+} // namespace projeto
 

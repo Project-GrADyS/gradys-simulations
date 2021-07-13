@@ -12,6 +12,6 @@ simple DroneMobility extends VehicleMobility
         double startTime @unit(s) = default(0s);
         
 	gates:
-	    input orderGate @directIn;
+	    inout commGate @directIn;
 }
 

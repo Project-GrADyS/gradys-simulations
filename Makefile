@@ -39,15 +39,16 @@ OBJS = \
     $O/UdpBasicAppMobileSensorNode.o \
     $O/UdpSinkMobileNode.o \
     $O/UdpSinkMobileSensorNode.o \
-    $O/communication/MessageListener.o \
     $O/communication/UdpMobileNodeCommunicationApp.o \
-    $O/Order_m.o \
-    $O/communication/MobileNodeMessage_m.o
+    $O/communication/MobileNodeMessage_m.o \
+    $O/communication/Order_m.o \
+    $O/communication/Telemetry_m.o
 
 # Message files
 MSGFILES = \
-    Order.msg \
-    communication/MobileNodeMessage.msg
+    communication/MobileNodeMessage.msg \
+    communication/Order.msg \
+    communication/Telemetry.msg
 
 # SM files
 SMFILES =

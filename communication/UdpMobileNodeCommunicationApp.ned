@@ -25,7 +25,10 @@ simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {
     parameters:
 		double timeoutDuration @unit(s) = default(5s);
+    	@class(UdpMobileNodeCommunicationApp);
 		
-	@class(UdpMobileNodeCommunicationApp);
+	gates:
+        inout mobilityGate;
+		
 }
 

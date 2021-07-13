@@ -27,6 +27,7 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "MobileNode.h"
+#include "Order_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include "UdpBasicAppMobileNode.h"
 
@@ -42,17 +43,30 @@ void UdpMobileNodeCommunicationApp::initialize(int stage) {
         timeoutDuration = par("timeoutDuration");
 
         pairedSignalId = registerSignal("paired");
-
-        getParentModule()->subscribe("reverse", this);
     }
 }
 
-void UdpMobileNodeCommunicationApp::processSend() {
-    UdpBasicAppMobileNode::processSend();
+void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
+    Telemetry *telemetry = dynamic_cast<Telemetry *>(msg);
+
+    if(telemetry != nullptr) {
+            currentTelemetry = *telemetry;
+        // Telemetry during timeout is not stable, it may contain information that
+        // has changed after message exchange started
+        if(checkAndUpdateTimeout()) {
+            lastStableTelemetry = *telemetry;
+        }
+
+        cancelAndDelete(msg);
+    }
+    else {
+        UdpBasicAppMobileNode::handleMessageWhenUp(msg);
+    }
 }
 
 
 void UdpMobileNodeCommunicationApp::sendPacket() {
+    /*Default package setup*/
     Packet *packet = new Packet("DroneMessage");
     if(dontFragment)
         packet->addTag<FragmentationReq>()->setDontFragment(true);
@@ -60,7 +74,12 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
     const auto& payload = makeShared<MobileNodeMessage>();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    payload->setReversed(isReversed);
+    // Sets the reverse flag on the payload
+    payload->setReversed(lastStableTelemetry.isReversed());
+    payload->setNextWaypointID(lastStableTelemetry.getNextWaypointID());
+    payload->setLastWaypointID(lastStableTelemetry.getLastWaypointID());
+
+
     if(checkAndUpdateTimeout()) {
         UdpMobileNodeCommunicationApp::sendHeartbeat(payload);
     }
@@ -118,16 +137,20 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
                     isTimedout = false;
                 }
 
-                if(checkAndUpdateTimeout() && (isReversed != payload->getReversed())) {
-                    tentativeTarget = payload->getSourceID();
-                    tentativeTargetName = pk->getName();
-                    isTimedout = true;
-                    timeoutStart = simTime();
-                    isRequested = true;
+                if(checkAndUpdateTimeout()) {
+                    // Only accepts requests if you are going to the same waypoint as drone or you are going to the waypoint it came from
+                    if(lastStableTelemetry.getNextWaypointID() == payload->getNextWaypointID() ||
+                            lastStableTelemetry.getNextWaypointID() == payload->getLastWaypointID()) {
+                        tentativeTarget = payload->getSourceID();
+                        tentativeTargetName = pk->getName();
+                        isTimedout = true;
+                        timeoutStart = simTime();
+                        isRequested = true;
 
-                    std::cout << this->getParentModule()->getIndex() << " recieved heartbeat from " << tentativeTarget << endl;
+                        std::cout << this->getParentModule()->getIndex() << " recieved heartbeat from " << tentativeTarget << endl;
 
-                    sendPacket();
+                        sendPacket();
+                    }
                 }
                 break;
             }
@@ -159,12 +182,15 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             {
                 if(payload->getSourceID() == tentativeTarget &&
                    payload->getDestinationID() == this->getParentModule()->getIndex()) {
-                        std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
-                        isRequested = false;
-                        if(!isDone) {
-                            emit(pairedSignalId, (long) tentativeTarget);
-                        }
-                        isDone = true;
+                            std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
+                            isRequested = false;
+                            if(!isDone) {
+                                // If both drones are travelling in the same direction, only the one with the biggest ID inverts
+                                if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getIndex() > payload->getSourceID()) {
+                                    sendReverseOrder();
+                                }
+                            }
+                            isDone = true;
                }
                 break;
             }
@@ -194,13 +220,15 @@ void UdpMobileNodeCommunicationApp::resetParameters() {
     tentativeTargetName = "";
     isRequested = false;
     isDone = false;
+
+    lastStableTelemetry = currentTelemetry;
 }
 
-void UdpMobileNodeCommunicationApp::receiveSignal(cComponent *source, simsignal_t signalID, bool isReversed, cObject *details)
-{
-    Enter_Method_Silent("receiveSignal(%d)", signalID);
 
-    this->isReversed = isReversed;
+// Sends a reverse order to the mobility module
+void UdpMobileNodeCommunicationApp::sendReverseOrder() {
+    Order *message = new Order("Reverse Order", 0);
+    send(message, gate("mobilityGate$o"));
 }
 
 } // namespace inet

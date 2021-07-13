@@ -13,23 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __PROJETO_MESSAGELISTENER_H_
-#define __PROJETO_MESSAGELISTENER_H_
+namespace projeto;
 
-#include <omnetpp.h>
-
-using namespace omnetpp;
-
-namespace projeto {
-
-class MessageListener : public cSimpleModule, public cListener
-{
-  protected:
-    virtual void initialize();
-    virtual void receiveSignal(cComponent *source, simsignal_t signalID, long sourceID, cObject *details);
-
-};
-
-} //namespace
-
-#endif
+// Class designed to share necessary drone information with the communication module
+message Telemetry {
+    int nextWaypointID;
+    int lastWaypointID;
+    bool isReversed;
+}

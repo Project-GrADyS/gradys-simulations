@@ -27,7 +27,10 @@ namespace projeto {
 class DroneMobility : public VehicleMobility
 {
     protected:
+        // Tipos de comandos implementados
         enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22, RETURN_LAUNCH=20, YAW=115, REVERSE=120 };
+
+        // Struct que representa uma instrução lida do arquivo de instruções
         struct Instruction {
             Command command;
             double param1;
@@ -47,20 +50,37 @@ class DroneMobility : public VehicleMobility
                 autocontinue(autocontinue) { };
         };
 
+        // Struct de controle de estado
         struct DroneStatus {
+            // Tempo de início de uma instrução de espera
             simtime_t idleTime;
+            // Booleando que indica se está acontecendo uma espera
             bool isIdle = false;
+
+            // Variável que guarda o yaw definido por uma instrução de yaw
             double currentYaw = -1;
+            // Velocidade atual de yaw
             double currentYawSpeed;
+
+            // Controle de estado de reversão do trone
             bool isReversed = false;
+
+            // Waypoint (estrutura do VehicleMobility) alvo atual
             int targetIndex;
+
+            // Saves the last target index
+            int lastInstructionIndex;
         };
         DroneStatus droneStatus;
 
+        // Vetor de instruções
         std::vector<Instruction> instructions;
 
+        // Variáveis que guardam valores da ned file
         double verticalSpeed;
         double startTime;
+
+        // Variável de controle da instrução sendo executada atualmente
         int currentInstructionIndex=0;
 
     protected:
@@ -68,12 +88,22 @@ class DroneMobility : public VehicleMobility
         virtual void setInitialPosition() override;
         virtual void readWaypointsFromFile(const char *fileName) override;
 
+        // Função de movimento chamada periodicamente em um self-timeout
         virtual void move() override;
+
+        // Função de orientação chamada periodicamente em um self-timeout
         virtual void orient() override;
+
+        // Função de voo responsável por definir a posição plana do drone
         virtual void fly();
+
+        // Função de voo responsável por definir a posição vertical do drone
         virtual void climb (double targetHeight);
+
+        // Função que pula para próxima instrução
         virtual void nextInstruction();
 
+        // Função que captura ordens recebidas pela gate de input de ordem e trata
         virtual void handleMessage(cMessage *message) override;
 
     public:
@@ -83,6 +113,8 @@ class DroneMobility : public VehicleMobility
 
     private:
         virtual void createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem);
+        // Sends telemetry to the output gate
+        virtual void sendTelemetry();
 };
 
 }

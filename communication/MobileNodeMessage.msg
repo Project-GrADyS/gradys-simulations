@@ -27,9 +27,11 @@ enum MessageType
 
 class MobileNodeMessage extends FieldsChunk
 {
-  chunkLength = B(10);
-  int sourceID = -1; 
-  int destinationID = -1;
-  bool reversed = false;
-  MessageType messageType = HEARTBEAT;
+  chunkLength = B(10); // Fixed chunk length
+  int sourceID = -1;  // ID of the message's source
+  int destinationID = -1; // ID of the message's destination
+  int nextWaypointID; // ID of the next waypoint
+  int lastWaypointID; // ID of the last waypoint
+  bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
+  MessageType messageType = HEARTBEAT; // Type of message
 }

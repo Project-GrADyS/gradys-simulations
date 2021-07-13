@@ -49,11 +49,13 @@ enum MessageType {
  * <pre>
  * class MobileNodeMessage extends FieldsChunk
  * {
- *     chunkLength = B(10);
- *     int sourceID = -1;
- *     int destinationID = -1;
- *     bool reversed = false;
- *     MessageType messageType = HEARTBEAT;
+ *     chunkLength = B(10); // Fixed chunk length
+ *     int sourceID = -1;  // ID of the message's source
+ *     int destinationID = -1; // ID of the message's destination
+ *     int nextWaypointID; // ID of the next waypoint
+ *     int lastWaypointID; // ID of the last waypoint
+ *     bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
+ *     MessageType messageType = HEARTBEAT; // Type of message
  * }
  * </pre>
  */
@@ -62,6 +64,8 @@ class MobileNodeMessage : public ::inet::FieldsChunk
   protected:
     int sourceID = -1;
     int destinationID = -1;
+    int nextWaypointID = 0;
+    int lastWaypointID = 0;
     bool reversed = false;
     inet::MessageType messageType = HEARTBEAT;
 
@@ -86,6 +90,10 @@ class MobileNodeMessage : public ::inet::FieldsChunk
     virtual void setSourceID(int sourceID);
     virtual int getDestinationID() const;
     virtual void setDestinationID(int destinationID);
+    virtual int getNextWaypointID() const;
+    virtual void setNextWaypointID(int nextWaypointID);
+    virtual int getLastWaypointID() const;
+    virtual void setLastWaypointID(int lastWaypointID);
     virtual bool getReversed() const;
     virtual void setReversed(bool reversed);
     virtual inet::MessageType getMessageType() const;

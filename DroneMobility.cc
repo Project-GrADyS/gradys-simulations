@@ -6,7 +6,8 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 
-#include "Order_m.h"
+#include "communication/Order_m.h"
+#include "communication/Telemetry_m.h"
 
 using namespace inet;
 
@@ -21,6 +22,8 @@ namespace projeto {
 Define_Module(DroneMobility);
 
 void DroneMobility::initialize(int stage) {
+    // Registra o sinal de reversão
+    // Serve para indicar que o drone inverteu o sentido de sua viagem
     reverseSignalID = registerSignal("reverse");
 
     VehicleMobility::initialize(stage);
@@ -28,6 +31,7 @@ void DroneMobility::initialize(int stage) {
     startTime = par("startTime");
     droneStatus.currentYawSpeed = par("yawSpeed");
 
+    sendTelemetry();
 }
 
 void DroneMobility::setInitialPosition() {
@@ -35,7 +39,7 @@ void DroneMobility::setInitialPosition() {
     lastPosition.z = waypoints[targetPointIndex].timestamp;
 }
 
-
+// Cria um waypoint a partir de coordenadas e de um sistema de projeção
 void DroneMobility::createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem) {
 
     if (coordinateSystem != nullptr) {
@@ -59,6 +63,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
     }
 
     auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this, false);
+
     // <INDEX> <CURRENT WP> <COORD FRAME> <COMMAND> <PARAM1> <PARAM2> <PARAM3> <PARAM4> <PARAM5/X/LATITUDE> <PARAM6/Y/LONGITUDE> <PARAM7/Z/ALTITUDE> <AUTOCONTINUE>
     while (inputFile.getline(line, 256)) {
         cStringTokenizer tokenizer(line, "\t");
@@ -71,6 +76,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
             break;
         }
 
+        // Traduz instrução para struct
         Instruction readInstruction(
             static_cast<Command>(stoi(lineVector[3])),
             stod(lineVector[4]),
@@ -346,6 +352,8 @@ void DroneMobility::climb(double targetZ) {
 }
 
 void DroneMobility::nextInstruction() {
+    droneStatus.lastInstructionIndex = currentInstructionIndex;
+
     droneStatus.isIdle = false;
     droneStatus.idleTime = 0;
     if(droneStatus.isReversed) {
@@ -359,6 +367,7 @@ void DroneMobility::nextInstruction() {
     } else {
         currentInstructionIndex++;
     }
+    sendTelemetry();
 }
 
 //Handles instruction messages and delegates the rest
@@ -379,6 +388,16 @@ void DroneMobility::handleMessage(cMessage *message) {
     } else {
         VehicleMobility::handleMessage(message);
     }
+}
+
+// Sends telemetry to the communications module
+void DroneMobility::sendTelemetry() {
+    Enter_Method_Silent("sendTelemetry(%d)", 0);
+    Telemetry *message = new Telemetry("Telemetry", 0);
+    message->setIsReversed(droneStatus.isReversed);
+    message->setNextWaypointID(currentInstructionIndex);
+    message->setLastWaypointID(droneStatus.lastInstructionIndex);
+    send(message, gate("commGate$o"));
 }
 
 }
