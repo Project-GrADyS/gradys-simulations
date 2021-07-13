@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for projeto
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -KINET_PROJ=C:/omnetpp-5.6.2-clang/samples/inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake -f --deep -O out -KINET_PROJ=../inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -31,22 +31,30 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
+    $O/DroneMobility.o \
     $O/GotoWaypointMobility.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
     $O/UdpBasicAppMobileNode.o \
     $O/UdpBasicAppMobileSensorNode.o \
     $O/UdpSinkMobileNode.o \
-    $O/UdpSinkMobileSensorNode.o
+    $O/UdpSinkMobileSensorNode.o \
+    $O/communication/UdpMobileNodeCommunicationApp.o \
+    $O/communication/MobileNodeMessage_m.o \
+    $O/communication/Order_m.o \
+    $O/communication/Telemetry_m.o
 
 # Message files
-MSGFILES =
+MSGFILES = \
+    communication/MobileNodeMessage.msg \
+    communication/Order.msg \
+    communication/Telemetry.msg
 
 # SM files
 SMFILES =
 
 # Other makefile variables (-K)
-INET_PROJ=C:/omnetpp-5.6.2-clang/samples/inet
+INET_PROJ=../inet
 
 #------------------------------------------------------------------------------
 
@@ -89,6 +97,9 @@ endif
 #------------------------------------------------------------------------------
 # User-supplied makefile fragment(s)
 # >>>
+# inserted from file 'makefrag':
+MSGC:=$(MSGC) --msg6
+
 # <<<
 #------------------------------------------------------------------------------
 

@@ -177,6 +177,7 @@ void UdpBasicAppMobileNode::processSend()
 {
     sendPacket();
     simtime_t d = simTime() + par("sendInterval");
+    int time = (d - simTime()).inUnit(SimTimeUnit::SIMTIME_MS);
     if (stopTime < SIMTIME_ZERO || d < stopTime) {
         selfMsg->setKind(SEND);
         scheduleAt(d, selfMsg);
@@ -217,8 +218,6 @@ void UdpBasicAppMobileNode::handleMessageWhenUp(cMessage *msg)
     }
     else{
         socket.processMessage(msg);
-
-
     }
 
 }
