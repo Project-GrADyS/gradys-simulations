@@ -25,6 +25,8 @@ simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {
     parameters:
 		double timeoutDuration @unit(s) = default(5s);
+		int dataCapacity = default(20);
+		@signal[dataLoad](type=long);
     	@class(UdpMobileNodeCommunicationApp);
 		
 	gates:

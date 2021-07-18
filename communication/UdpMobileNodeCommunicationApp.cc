@@ -41,16 +41,29 @@ void UdpMobileNodeCommunicationApp::initialize(int stage) {
     UdpBasicAppMobileNode::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
         timeoutDuration = par("timeoutDuration");
+        dataCapacity = par("dataCapacity");
 
-        pairedSignalId = registerSignal("paired");
+        dataLoadSignalID = registerSignal("dataLoad");
+        emit(dataLoadSignalID, currentDataLoad);
     }
+}
+
+void UdpMobileNodeCommunicationApp::setSocketOptions() {
+    UdpBasicAppMobileNode::setSocketOptions();
+    socket.joinMulticastGroup(Ipv4Address("224.0.0.9"));
 }
 
 void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
     Telemetry *telemetry = dynamic_cast<Telemetry *>(msg);
 
     if(telemetry != nullptr) {
-            currentTelemetry = *telemetry;
+        currentTelemetry = *telemetry;
+
+        if(currentTelemetry.getLastWaypointID() == 0) {
+            currentDataLoad = 0;
+            emit(dataLoadSignalID, currentDataLoad);
+        }
+
         // Telemetry during timeout is not stable, it may contain information that
         // has changed after message exchange started
         if(checkAndUpdateTimeout()) {
@@ -98,7 +111,7 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
     packet->insertAtBack(payload);
     L3Address destAddr;
     if(tentativeTarget == -1) {
-        destAddr = chooseDestAddr();
+        destAddr = Ipv4Address("224.0.0.9");
     } else {
         L3AddressResolver().tryResolve(tentativeTargetName.c_str(), destAddr);
     }
@@ -123,11 +136,19 @@ void UdpMobileNodeCommunicationApp::sendPairConfirm(inet::IntrusivePtr<inet::Mob
     payload->setMessageType(MessageType::PAIR_CONFIRM);
     payload->setSourceID(this->getParentModule()->getIndex());
     payload->setDestinationID(target);
+    payload->setDataLength(std::min(currentDataLoad, 5));
+
     std::cout << payload->getSourceID() << " sending pair confirmation to " << payload->getDestinationID() << endl;
 }
 
 void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
-    auto payload = pk->peekAtBack<MobileNodeMessage>(B(10), 1);
+    auto payload = pk->peekAtBack<MobileNodeMessage>(B(14), 1);
+
+    // Ignore messages not in address list
+    if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {
+        delete pk;
+        return;
+    }
 
     if(payload != nullptr) {
         switch(payload->getMessageType()) {
@@ -188,10 +209,25 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
                                 // If both drones are travelling in the same direction, only the one with the biggest ID inverts
                                 if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getIndex() > payload->getSourceID()) {
                                     sendReverseOrder();
+
+                                    if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
+                                        currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
+                                    } else {
+                                        currentDataLoad = std::max(0, currentDataLoad - payload->getDataLength());
+                                    }
+                                    emit(dataLoadSignalID, currentDataLoad);
                                 }
+
+
                             }
                             isDone = true;
                }
+                break;
+            }
+            case MessageType::BEARER:
+            {
+                currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
+                emit(dataLoadSignalID, currentDataLoad);
                 break;
             }
         }

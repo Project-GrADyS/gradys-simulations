@@ -30,6 +30,11 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         // Name of the current target (for addressing purposes)
         std::string tentativeTargetName;
 
+        // Capacity to carry imaginary data
+        int dataCapacity;
+        // Current imaginary data being carried
+        int currentDataLoad=0;
+
         // Last telemetry package recieved
         Telemetry currentTelemetry = Telemetry();
         Telemetry lastStableTelemetry = Telemetry();
@@ -46,6 +51,7 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
 
     protected:
         virtual void initialize(int stage) override;
+        virtual void setSocketOptions() override;
         virtual void sendPacket() override;
         virtual void processPacket(Packet *pk) override;
         virtual void handleMessageWhenUp(cMessage *msg) override;
@@ -57,7 +63,7 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         // Checks and updates the current timeout status (true if the drone is FREE)
         virtual bool checkAndUpdateTimeout();
     public:
-        simsignal_t pairedSignalId;
+        simsignal_t dataLoadSignalID;
 };
 
 } // namespace inet

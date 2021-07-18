@@ -40,6 +40,7 @@ OBJS = \
     $O/UdpSinkMobileNode.o \
     $O/UdpSinkMobileSensorNode.o \
     $O/communication/UdpMobileNodeCommunicationApp.o \
+    $O/communication/UdpSensorCommunicationApp.o \
     $O/communication/MobileNodeMessage_m.o \
     $O/communication/Order_m.o \
     $O/communication/Telemetry_m.o
