@@ -213,13 +213,14 @@ EXECUTE_ON_STARTUP(
     e->insert(HEARTBEAT, "HEARTBEAT");
     e->insert(PAIR_REQUEST, "PAIR_REQUEST");
     e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
+    e->insert(BEARER, "BEARER");
 )
 
 Register_Class(MobileNodeMessage)
 
 MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
 {
-    this->setChunkLength(B(10));
+    this->setChunkLength(B(14));
 
 }
 
@@ -246,6 +247,7 @@ void MobileNodeMessage::copy(const MobileNodeMessage& other)
     this->destinationID = other.destinationID;
     this->nextWaypointID = other.nextWaypointID;
     this->lastWaypointID = other.lastWaypointID;
+    this->dataLength = other.dataLength;
     this->reversed = other.reversed;
     this->messageType = other.messageType;
 }
@@ -257,6 +259,7 @@ void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->destinationID);
     doParsimPacking(b,this->nextWaypointID);
     doParsimPacking(b,this->lastWaypointID);
+    doParsimPacking(b,this->dataLength);
     doParsimPacking(b,this->reversed);
     doParsimPacking(b,this->messageType);
 }
@@ -268,6 +271,7 @@ void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->destinationID);
     doParsimUnpacking(b,this->nextWaypointID);
     doParsimUnpacking(b,this->lastWaypointID);
+    doParsimUnpacking(b,this->dataLength);
     doParsimUnpacking(b,this->reversed);
     doParsimUnpacking(b,this->messageType);
 }
@@ -316,6 +320,17 @@ void MobileNodeMessage::setLastWaypointID(int lastWaypointID)
     this->lastWaypointID = lastWaypointID;
 }
 
+int MobileNodeMessage::getDataLength() const
+{
+    return this->dataLength;
+}
+
+void MobileNodeMessage::setDataLength(int dataLength)
+{
+    handleChange();
+    this->dataLength = dataLength;
+}
+
 bool MobileNodeMessage::getReversed() const
 {
     return this->reversed;
@@ -347,6 +362,7 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
         FIELD_destinationID,
         FIELD_nextWaypointID,
         FIELD_lastWaypointID,
+        FIELD_dataLength,
         FIELD_reversed,
         FIELD_messageType,
     };
@@ -411,7 +427,7 @@ const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) c
 int MobileNodeMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 6+basedesc->getFieldCount() : 6;
+    return basedesc ? 7+basedesc->getFieldCount() : 7;
 }
 
 unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
@@ -427,10 +443,11 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,    // FIELD_destinationID
         FD_ISEDITABLE,    // FIELD_nextWaypointID
         FD_ISEDITABLE,    // FIELD_lastWaypointID
+        FD_ISEDITABLE,    // FIELD_dataLength
         FD_ISEDITABLE,    // FIELD_reversed
         FD_ISEDITABLE,    // FIELD_messageType
     };
-    return (field >= 0 && field < 6) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 7) ? fieldTypeFlags[field] : 0;
 }
 
 const char *MobileNodeMessageDescriptor::getFieldName(int field) const
@@ -446,10 +463,11 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
         "destinationID",
         "nextWaypointID",
         "lastWaypointID",
+        "dataLength",
         "reversed",
         "messageType",
     };
-    return (field >= 0 && field < 6) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 7) ? fieldNames[field] : nullptr;
 }
 
 int MobileNodeMessageDescriptor::findField(const char *fieldName) const
@@ -460,8 +478,9 @@ int MobileNodeMessageDescriptor::findField(const char *fieldName) const
     if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
     if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+2;
     if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+3;
-    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+4;
-    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+5;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "dataLength") == 0) return base+4;
+    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+5;
+    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+6;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -478,10 +497,11 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
         "int",    // FIELD_destinationID
         "int",    // FIELD_nextWaypointID
         "int",    // FIELD_lastWaypointID
+        "int",    // FIELD_dataLength
         "bool",    // FIELD_reversed
         "inet::MessageType",    // FIELD_messageType
     };
-    return (field >= 0 && field < 6) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 7) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
@@ -559,6 +579,7 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
         case FIELD_destinationID: return long2string(pp->getDestinationID());
         case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
         case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
+        case FIELD_dataLength: return long2string(pp->getDataLength());
         case FIELD_reversed: return bool2string(pp->getReversed());
         case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
         default: return "";
@@ -579,6 +600,7 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
         case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
         case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
+        case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
         case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
         case FIELD_messageType: pp->setMessageType((inet::MessageType)string2enum(value, "inet::MessageType")); return true;
         default: return false;

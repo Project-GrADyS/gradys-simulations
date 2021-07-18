@@ -35,25 +35,28 @@ namespace inet {
  *     HEARTBEAT = 0;
  *     PAIR_REQUEST = 1;
  *     PAIR_CONFIRM = 2;
+ *     BEARER = 3;
  * }
  * </pre>
  */
 enum MessageType {
     HEARTBEAT = 0,
     PAIR_REQUEST = 1,
-    PAIR_CONFIRM = 2
+    PAIR_CONFIRM = 2,
+    BEARER = 3
 };
 
 /**
- * Class generated from <tt>communication/MobileNodeMessage.msg:29</tt> by nedtool.
+ * Class generated from <tt>communication/MobileNodeMessage.msg:30</tt> by nedtool.
  * <pre>
  * class MobileNodeMessage extends FieldsChunk
  * {
- *     chunkLength = B(10); // Fixed chunk length
+ *     chunkLength = B(14); // Fixed chunk length
  *     int sourceID = -1;  // ID of the message's source
  *     int destinationID = -1; // ID of the message's destination
- *     int nextWaypointID; // ID of the next waypoint
- *     int lastWaypointID; // ID of the last waypoint
+ *     int nextWaypointID = -1; // ID of the next waypoint
+ *     int lastWaypointID = -1; // ID of the last waypoint
+ *     int dataLength = 5; // Length of the imaginary data being carried in the message
  *     bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
  *     MessageType messageType = HEARTBEAT; // Type of message
  * }
@@ -64,8 +67,9 @@ class MobileNodeMessage : public ::inet::FieldsChunk
   protected:
     int sourceID = -1;
     int destinationID = -1;
-    int nextWaypointID = 0;
-    int lastWaypointID = 0;
+    int nextWaypointID = -1;
+    int lastWaypointID = -1;
+    int dataLength = 5;
     bool reversed = false;
     inet::MessageType messageType = HEARTBEAT;
 
@@ -94,6 +98,8 @@ class MobileNodeMessage : public ::inet::FieldsChunk
     virtual void setNextWaypointID(int nextWaypointID);
     virtual int getLastWaypointID() const;
     virtual void setLastWaypointID(int lastWaypointID);
+    virtual int getDataLength() const;
+    virtual void setDataLength(int dataLength);
     virtual bool getReversed() const;
     virtual void setReversed(bool reversed);
     virtual inet::MessageType getMessageType() const;
