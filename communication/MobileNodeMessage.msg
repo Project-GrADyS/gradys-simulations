@@ -22,16 +22,18 @@ enum MessageType
 {
   HEARTBEAT = 0; 
   PAIR_REQUEST = 1; 
-  PAIR_CONFIRM = 2; 
+  PAIR_CONFIRM = 2;
+  BEARER = 3;
 }
 
 class MobileNodeMessage extends FieldsChunk
 {
-  chunkLength = B(10); // Fixed chunk length
+  chunkLength = B(14); // Fixed chunk length
   int sourceID = -1;  // ID of the message's source
   int destinationID = -1; // ID of the message's destination
-  int nextWaypointID; // ID of the next waypoint
-  int lastWaypointID; // ID of the last waypoint
+  int nextWaypointID = -1; // ID of the next waypoint
+  int lastWaypointID = -1; // ID of the last waypoint
+  int dataLength=5; // Length of the imaginary data being carried in the message
   bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
   MessageType messageType = HEARTBEAT; // Type of message
 }
