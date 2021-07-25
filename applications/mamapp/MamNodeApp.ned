@@ -16,7 +16,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package inet.applications.mamapp;
+package projeto.applications.mamapp;
 
 import inet.applications.contract.IApp;
 

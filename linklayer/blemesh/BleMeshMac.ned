@@ -22,7 +22,7 @@
 //* part of:    Modifications to the MF-2 framework by CSEM
 //**************************************************************************/
 
-package inet.linklayer.blemesh;
+package projeto.linklayer.blemesh;
 
 import inet.linklayer.base.MacProtocolBase;
 import inet.linklayer.contract.IMacProtocol;

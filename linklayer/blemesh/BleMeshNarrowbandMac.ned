@@ -16,7 +16,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package inet.linklayer.blemesh;
+package projeto.linklayer.blemesh;
 
 simple BleMeshNarrowbandMac extends BleMeshMac
 {
