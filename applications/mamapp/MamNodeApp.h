@@ -35,8 +35,9 @@
 #include "LruCache.h"
 
 using namespace std;
+using namespace inet;
 
-namespace inet {
+namespace projeto {
 
 /**
  * UDP application. See NED for more info.

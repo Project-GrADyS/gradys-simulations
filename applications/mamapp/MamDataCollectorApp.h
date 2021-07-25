@@ -24,7 +24,9 @@
 #include "inet/applications/base/ApplicationBase.h"
 #include "inet/transportlayer/contract/udp/UdpSocket.h"
 
-namespace inet {
+using namespace inet;
+
+namespace projeto {
 
 /**
  * Consumes and prints packets received from the Udp module. See NED for more info.

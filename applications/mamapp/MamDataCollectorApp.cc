@@ -28,7 +28,7 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 
-namespace inet {
+namespace projeto {
 
 Define_Module(MamDataCollectorApp);
 
@@ -173,8 +173,17 @@ void MamDataCollectorApp::setSocketOptions()
     //if (receiveBroadcast)
     socket.setBroadcast(true);
 
-    MulticastGroupList mgl = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this)->collectMulticastGroups();
-    socket.joinLocalMulticastGroups(mgl);
+    const char *multicastInterface = par("multicastInterface");
+    if (multicastInterface[0]) {
+        IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
+        InterfaceEntry *ie = ift->findInterfaceByName(multicastInterface);
+        if (!ie)
+            throw cRuntimeError("Wrong multicastInterface setting: no interface named \"%s\"", multicastInterface);
+        socket.setMulticastOutputInterface(ie->getInterfaceId());
+    }
+
+    //MulticastGroupList mgl = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this)->collectMulticastGroups();
+    //socket.joinLocalMulticastGroups(mgl);
 
     // join multicastGroup
     const char *groupAddr = par("multicastGroup");

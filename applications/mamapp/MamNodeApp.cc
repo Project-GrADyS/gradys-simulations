@@ -33,7 +33,7 @@
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "applications/mamapp/Md5.h"
 
-namespace inet {
+namespace projeto {
 
 Define_Module(MamNodeApp);
 
@@ -177,9 +177,9 @@ void MamNodeApp::setSocketOptions()
         socket.setMulticastOutputInterface(ie->getInterfaceId());
     }
 
-    bool receiveBroadcast = par("receiveBroadcast");
-    if (receiveBroadcast)
-        socket.setBroadcast(true);
+    //bool receiveBroadcast = par("receiveBroadcast");
+    //if (receiveBroadcast)
+    socket.setBroadcast(true);
 
     bool joinLocalMulticastGroups = par("joinLocalMulticastGroups");
     if (joinLocalMulticastGroups) {
