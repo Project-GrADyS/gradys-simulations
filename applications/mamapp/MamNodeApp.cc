@@ -160,20 +160,26 @@ void MamNodeApp::setSocketOptions()
     if (timeToLive != -1)
         socket.setTimeToLive(timeToLive);
 
-    /*int typeOfService = par("typeOfService");
-    if (typeOfService != -1)
-        socket.setTypeOfService(typeOfService);
+    int dscp = par("dscp");
+    if (dscp != -1)
+        socket.setDscp(dscp);
+
+    int tos = par("tos");
+    if (tos != -1)
+        socket.setTos(tos);
 
     const char *multicastInterface = par("multicastInterface");
     if (multicastInterface[0]) {
         IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
-        InterfaceEntry *ie = ift->getInterfaceByName(multicastInterface);
+        InterfaceEntry *ie = ift->findInterfaceByName(multicastInterface);
         if (!ie)
             throw cRuntimeError("Wrong multicastInterface setting: no interface named \"%s\"", multicastInterface);
         socket.setMulticastOutputInterface(ie->getInterfaceId());
-    }*/
+    }
 
-    socket.setBroadcast(true); // Used for receiving the discovery messages
+    bool receiveBroadcast = par("receiveBroadcast");
+    if (receiveBroadcast)
+        socket.setBroadcast(true);
 
     bool joinLocalMulticastGroups = par("joinLocalMulticastGroups");
     if (joinLocalMulticastGroups) {
