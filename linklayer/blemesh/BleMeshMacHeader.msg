@@ -20,7 +20,7 @@
 // **************************************************************************/
 
 import inet.common.INETDefs;
-import inet.linklayer.base.MacHeaderBase;
+import linklayer.base.MacHeaderBase;
 
 namespace inet;
 

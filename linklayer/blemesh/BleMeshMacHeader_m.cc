@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from inet/linklayer/blemesh/BleMeshMacHeader.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from linklayer/blemesh/BleMeshMacHeader.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
