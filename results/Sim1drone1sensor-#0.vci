@@ -1,4 +1,4 @@
-file 3923 1625839151                                            
+file 3923 1627236747                                            
 version 2
 run Sim1drone1sensor-0-20210709-10:58:16-10520
 attr configname Sim1drone1sensor
@@ -69,19 +69,18 @@ vector 0 mobilityDrones.drones[0].wlan[0].radio radioMode:vector ETV
 attr interpolationmode sample-hold
 attr source radioModeChanged
 attr title "Radio mode, vector"
+0	3866 27 0 0 0 0 3 0 2 2 4
 vector 1 mobilityDrones.drones[0].wlan[0].radio radioChannel:vector ETV
 attr interpolationmode sample-hold
 attr source radioChannelChanged
 attr title "Radio channel, vector"
+1	3893 9 0 0 0 0 1 0 0 0 0
 vector 2 mobilityDrones.drones[0].wlan[0].radio receptionState:vector ETV
 attr interpolationmode sample-hold
 attr source receptionStateChanged
 attr title "Radio reception state, vector"
+2	3902 9 0 0 0 0 1 1 1 1 1
 vector 3 mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
 attr interpolationmode sample-hold
 attr title "contention window, vector"
-0	3866 27 0 0 0 0 3 0 2 2 4
-1	3893 9 0 0 0 0 1 0 0 0 0
-2	3902 9 0 0 0 0 1 1 1 1 1
-3	3911 10 0 0 0 0 1 31 31 31 961
-
+3	3911 12 0 0 0 0 1 31 31 31 961

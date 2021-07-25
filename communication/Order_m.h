@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/Order.msg.
 //
 
 #ifndef __PROJETO_ORDER_M_H
@@ -19,8 +19,14 @@
 
 namespace projeto {
 
+class Order;
+} // namespace projeto
+
+
+namespace projeto {
+
 /**
- * Class generated from <tt>Order.msg:19</tt> by nedtool.
+ * Class generated from <tt>communication/Order.msg:19</tt> by nedtool.
  * <pre>
  * message Order
  * {
@@ -31,7 +37,7 @@ namespace projeto {
 class Order : public ::omnetpp::cMessage
 {
   protected:
-    int command;
+    int command = 0;
 
   private:
     void copy(const Order& other);

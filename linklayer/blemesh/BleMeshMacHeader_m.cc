@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from inet/linklayer/blemesh/BleMeshMacHeader.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "Order_m.h"
+#include "BleMeshMacHeader_m.h"
 
 namespace omnetpp {
 
@@ -173,7 +173,7 @@ toVoidPtr(T* t)
 
 }
 
-namespace projeto {
+namespace inet {
 
 // forward
 template<typename T, typename A>
@@ -207,66 +207,67 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-Register_Class(Order)
+Register_Class(BleMeshMacHeader)
 
-Order::Order(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
+BleMeshMacHeader::BleMeshMacHeader() : ::inet::MacHeaderBase()
 {
 }
 
-Order::Order(const Order& other) : ::omnetpp::cMessage(other)
+BleMeshMacHeader::BleMeshMacHeader(const BleMeshMacHeader& other) : ::inet::MacHeaderBase(other)
 {
     copy(other);
 }
 
-Order::~Order()
+BleMeshMacHeader::~BleMeshMacHeader()
 {
 }
 
-Order& Order::operator=(const Order& other)
+BleMeshMacHeader& BleMeshMacHeader::operator=(const BleMeshMacHeader& other)
 {
     if (this == &other) return *this;
-    ::omnetpp::cMessage::operator=(other);
+    ::inet::MacHeaderBase::operator=(other);
     copy(other);
     return *this;
 }
 
-void Order::copy(const Order& other)
+void BleMeshMacHeader::copy(const BleMeshMacHeader& other)
 {
-    this->command = other.command;
+    this->sequenceId = other.sequenceId;
 }
 
-void Order::parsimPack(omnetpp::cCommBuffer *b) const
+void BleMeshMacHeader::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::omnetpp::cMessage::parsimPack(b);
-    doParsimPacking(b,this->command);
+    ::inet::MacHeaderBase::parsimPack(b);
+    doParsimPacking(b,this->sequenceId);
 }
 
-void Order::parsimUnpack(omnetpp::cCommBuffer *b)
+void BleMeshMacHeader::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::omnetpp::cMessage::parsimUnpack(b);
-    doParsimUnpacking(b,this->command);
+    ::inet::MacHeaderBase::parsimUnpack(b);
+    doParsimUnpacking(b,this->sequenceId);
 }
 
-int Order::getCommand() const
+long BleMeshMacHeader::getSequenceId() const
 {
-    return this->command;
+    return this->sequenceId;
 }
 
-void Order::setCommand(int command)
+void BleMeshMacHeader::setSequenceId(long sequenceId)
 {
-    this->command = command;
+    handleChange();
+    this->sequenceId = sequenceId;
 }
 
-class OrderDescriptor : public omnetpp::cClassDescriptor
+class BleMeshMacHeaderDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_command,
+        FIELD_sequenceId,
     };
   public:
-    OrderDescriptor();
-    virtual ~OrderDescriptor();
+    BleMeshMacHeaderDescriptor();
+    virtual ~BleMeshMacHeaderDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -288,24 +289,24 @@ class OrderDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(OrderDescriptor)
+Register_ClassDescriptor(BleMeshMacHeaderDescriptor)
 
-OrderDescriptor::OrderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Order)), "omnetpp::cMessage")
+BleMeshMacHeaderDescriptor::BleMeshMacHeaderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BleMeshMacHeader)), "inet::MacHeaderBase")
 {
     propertynames = nullptr;
 }
 
-OrderDescriptor::~OrderDescriptor()
+BleMeshMacHeaderDescriptor::~BleMeshMacHeaderDescriptor()
 {
     delete[] propertynames;
 }
 
-bool OrderDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool BleMeshMacHeaderDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Order *>(obj)!=nullptr;
+    return dynamic_cast<BleMeshMacHeader *>(obj)!=nullptr;
 }
 
-const char **OrderDescriptor::getPropertyNames() const
+const char **BleMeshMacHeaderDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -316,19 +317,19 @@ const char **OrderDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *OrderDescriptor::getProperty(const char *propertyname) const
+const char *BleMeshMacHeaderDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int OrderDescriptor::getFieldCount() const
+int BleMeshMacHeaderDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? 1+basedesc->getFieldCount() : 1;
 }
 
-unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
+unsigned int BleMeshMacHeaderDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -337,12 +338,12 @@ unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_command
+        FD_ISEDITABLE,    // FIELD_sequenceId
     };
     return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
 }
 
-const char *OrderDescriptor::getFieldName(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -351,20 +352,20 @@ const char *OrderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "command",
+        "sequenceId",
     };
     return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
 }
 
-int OrderDescriptor::findField(const char *fieldName) const
+int BleMeshMacHeaderDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 'c' && strcmp(fieldName, "command") == 0) return base+0;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sequenceId") == 0) return base+0;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *OrderDescriptor::getFieldTypeString(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -373,12 +374,12 @@ const char *OrderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_command
+        "long",    // FIELD_sequenceId
     };
     return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **OrderDescriptor::getFieldPropertyNames(int field) const
+const char **BleMeshMacHeaderDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -391,7 +392,7 @@ const char **OrderDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *OrderDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *BleMeshMacHeaderDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -404,7 +405,7 @@ const char *OrderDescriptor::getFieldProperty(int field, const char *propertynam
     }
 }
 
-int OrderDescriptor::getFieldArraySize(void *object, int field) const
+int BleMeshMacHeaderDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -412,13 +413,13 @@ int OrderDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *BleMeshMacHeaderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -426,13 +427,13 @@ const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, 
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string BleMeshMacHeaderDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -440,14 +441,14 @@ std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
-        case FIELD_command: return long2string(pp->getCommand());
+        case FIELD_sequenceId: return long2string(pp->getSequenceId());
         default: return "";
     }
 }
 
-bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool BleMeshMacHeaderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -455,14 +456,14 @@ bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, cons
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
-        case FIELD_command: pp->setCommand(string2long(value)); return true;
+        case FIELD_sequenceId: pp->setSequenceId(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *OrderDescriptor::getFieldStructName(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -475,7 +476,7 @@ const char *OrderDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *BleMeshMacHeaderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -483,11 +484,11 @@ void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-} // namespace projeto
+} // namespace inet
 

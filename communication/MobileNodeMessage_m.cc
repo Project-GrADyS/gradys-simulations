@@ -445,7 +445,7 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,    // FIELD_lastWaypointID
         FD_ISEDITABLE,    // FIELD_dataLength
         FD_ISEDITABLE,    // FIELD_reversed
-        FD_ISEDITABLE,    // FIELD_messageType
+        0,    // FIELD_messageType
     };
     return (field >= 0 && field < 7) ? fieldTypeFlags[field] : 0;
 }
@@ -602,7 +602,6 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
         case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
         case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
-        case FIELD_messageType: pp->setMessageType((inet::MessageType)string2enum(value, "inet::MessageType")); return true;
         default: return false;
     }
 }

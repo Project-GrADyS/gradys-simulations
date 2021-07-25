@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for projeto
+# OMNeT++/OMNEST Makefile for gradys-simulations
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep -O out -KINET_PROJ=../inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
-TARGET = projeto$(D)$(EXE_SUFFIX)
+TARGET = gradys-simulations$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
@@ -39,17 +39,28 @@ OBJS = \
     $O/UdpBasicAppMobileSensorNode.o \
     $O/UdpSinkMobileNode.o \
     $O/UdpSinkMobileSensorNode.o \
+    $O/applications/mamapp/MamDataCollectorApp.o \
+    $O/applications/mamapp/MamNodeApp.o \
+    $O/applications/mamapp/Md5.o \
     $O/communication/UdpMobileNodeCommunicationApp.o \
     $O/communication/UdpSensorCommunicationApp.o \
+    $O/linklayer/blemesh/BleMeshMac.o \
+    $O/linklayer/blemesh/BleMeshProtocolDissector.o \
+    $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/MobileNodeMessage_m.o \
     $O/communication/Order_m.o \
-    $O/communication/Telemetry_m.o
+    $O/communication/Telemetry_m.o \
+    $O/linklayer/base/MacHeaderBase_m.o \
+    $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
 # Message files
 MSGFILES = \
+    applications/mamapp/BMeshPacket.msg \
     communication/MobileNodeMessage.msg \
     communication/Order.msg \
-    communication/Telemetry.msg
+    communication/Telemetry.msg \
+    linklayer/base/MacHeaderBase.msg \
+    linklayer/blemesh/BleMeshMacHeader.msg
 
 # SM files
 SMFILES =
