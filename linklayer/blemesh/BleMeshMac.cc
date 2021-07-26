@@ -46,7 +46,7 @@
 
 #include "applications/mamapp/BMeshPacket_m.h"
 
-namespace inet {
+namespace projeto {
 
 using namespace physicallayer;
 

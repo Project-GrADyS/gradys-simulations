@@ -34,7 +34,9 @@
 
 #include "inet/common/Protocol.h"
 
-namespace inet {
+using namespace inet;
+
+namespace projeto {
 
 /**
  * @brief Generic CSMA Mac-Layer.

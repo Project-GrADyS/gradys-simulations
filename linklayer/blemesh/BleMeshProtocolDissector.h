@@ -23,7 +23,7 @@
 #include "inet/common/INETDefs.h"
 #include "inet/common/packet/dissector/ProtocolDissector.h"
 
-namespace inet {
+namespace projeto {
 
 class INET_API BleMeshProtocolDissector : public ProtocolDissector
 {

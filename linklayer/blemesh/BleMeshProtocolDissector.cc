@@ -24,7 +24,7 @@
 #include "linklayer/blemesh/BleMeshMacHeader_m.h"
 #include "linklayer/blemesh/BleMeshProtocolDissector.h"
 
-namespace inet {
+namespace projeto {
 
 Register_Protocol_Dissector(&BleMeshMac::blemesh, BleMeshProtocolDissector);
 

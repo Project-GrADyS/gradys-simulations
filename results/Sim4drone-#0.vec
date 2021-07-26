@@ -1,14 +1,14 @@
 version 2
-run Sim4drone-0-20210725-18:31:51-72745
+run Sim4drone-0-20210726-10:52:20-91413
 attr configname Sim4drone
-attr datetime 20210725-18:31:51
+attr datetime 20210726-10:52:20
 attr experiment Sim4drone
 attr inifile mobilityDrones-omnetpp.ini
 attr iterationvars ""
 attr iterationvarsf ""
 attr measurement ""
 attr network mobilityDrones
-attr processid 72745
+attr processid 91413
 attr repetition 0
 attr replication #0
 attr resultdir results
@@ -63,6 +63,13 @@ param *.collector*.numApps 2
 param *.collector*.app[1].typename "\"MamDataCollectorApp\""
 param *.collector*.app[1].localPort 5000
 param *.collector*.app[1].destPort 5000
+param *.collector*.wlan[0].typename "\"BleMeshNarrowbandInterface\""
+param *.collector*.wlan[0].radio.transmitter.power 0.275mW
+param *.sensor*.wlan[0].typename "\"BleMeshNarrowbandInterface\""
+param *.sensor_lpn*.wlan[0].mac.lowPowerNode true
+param *.sensor_lpn*.app[1].lowPowerNode true
+param *.sensor_fn*.app[1].friendNode true
+param *.sensor*.wlan[0].radio.transmitter.power 0.275mW
 param *.visualizer.osgVisualizer.typename "\"IntegratedOsgVisualizer\""
 param *.visualizer.osgVisualizer.sceneVisualizer.typename "\"SceneOsgEarthVisualizer\""
 param *.visualizer.osgVisualizer.sceneVisualizer.mapFile "\"map.earth\""
@@ -153,289 +160,4 @@ vector 5 mobilityDrones.drones[2].wlan[0].radio radioMode:vector ETV
 attr interpolationmode sample-hold
 attr source radioModeChanged
 attr title "Radio mode, vector"
-vector 6 mobilityDrones.drones[2].wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 7 mobilityDrones.drones[3].wlan[0].radio radioMode:vector ETV
-attr interpolationmode sample-hold
-attr source radioModeChanged
-attr title "Radio mode, vector"
-vector 8 mobilityDrones.drones[3].wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 9 mobilityDrones.sensor1.wlan[0].radio radioMode:vector ETV
-attr interpolationmode sample-hold
-attr source radioModeChanged
-attr title "Radio mode, vector"
-vector 10 mobilityDrones.sensor1.wlan[0].radio.energyConsumer powerConsumption:vector ETV
-attr interpolationmode sample-hold
-attr source powerConsumptionChanged
-attr title "Power consumption, vector"
-vector 11 mobilityDrones.sensor1.wlan[0].radio radioChannel:vector ETV
-attr interpolationmode sample-hold
-attr source radioChannelChanged
-attr title "Radio channel, vector"
-vector 12 mobilityDrones.drones[0].wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 13 mobilityDrones.drones[1].wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 14 mobilityDrones.drones[2].wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 15 mobilityDrones.drones[3].wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 16 mobilityDrones.sensor1.wlan[0].radio receptionState:vector ETV
-attr interpolationmode sample-hold
-attr source receptionStateChanged
-attr title "Radio reception state, vector"
-vector 17 mobilityDrones.drones[0].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 18 mobilityDrones.drones[1].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 19 mobilityDrones.drones[2].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 20 mobilityDrones.drones[3].wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 21 mobilityDrones.sensor1.wlan[0].mac.dcf.recoveryProcedure contentionWindowChanged:vector ETV
-attr interpolationmode sample-hold
-attr title "contention window, vector"
-vector 22 mobilityDrones.drones[0].app[0] packetSent:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, vector(packetBytes)"
-vector 23 mobilityDrones.drones[0].udp packetSent:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSent
-attr title "packets sent, vector(packetBytes)"
-vector 24 mobilityDrones.drones[0].lo[0].lo rcvdPkFromHl:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceivedFromUpper
-attr title "packets received from higher layer, vector(packetBytes)"
-vector 25 mobilityDrones.drones[0].lo[0].lo passedUpPk:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed to higher layer, vector(packetBytes)"
-vector 26 mobilityDrones.drones[0].wlan[0].mac packetReceivedFromUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from upper layer, vector(packetBytes)"
-vector 27 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPushed:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packet pushed, vector(packetBytes)"
-vector 28 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueLength:vector ETV
-attr interpolationmode sample-hold
-attr source "count(packetPushed) - count(packetPopped) - count(packetRemoved) - count(packetDropped)"
-attr title "queue length, vector"
-vector 29 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention backoffPeriodGenerated:vector ETV
-attr interpolationmode none
-attr title "backoff periods, vector"
-vector 30 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.contention backoffActive:vector ETV
-attr interpolationmode sample-hold
-attr source count(backoffStarted)-count(backoffStopped)
-attr title "backoff active, vector"
-vector 31 mobilityDrones.drones[0].udp packetReceived:vector(packetBytes) ETV
-attr interpolationmode none
-attr source packetReceived
-attr title "packets received, vector(packetBytes)"
-vector 32 mobilityDrones.drones[0].udp passedUpPk:vector(count) ETV
-attr interpolationmode none
-attr source packetSentToUpper
-attr title "packets passed up, vector(count)"
-vector 33 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue packetPopped:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packet popped, vector(packetBytes)"
-vector 34 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.pendingQueue queueingTime:vector ETV
-attr interpolationmode none
-attr source queueingTime(packetPopped)
-attr title "queueing times, vector"
-attr unit s
-vector 35 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueLength:vector ETV
-attr interpolationmode sample-hold
-attr source "count(packetEnqueued) - count(packetDequeued)"
-attr title "queue length, vector"
-vector 36 mobilityDrones.drones[0].wlan[0].mac.dcf datarateSelected:vector ETV
-attr interpolationmode none
-attr title "datarates selected, vector"
-vector 37 mobilityDrones.drones[0].wlan[0].mac packetSentToLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to lower layer, vector(packetBytes)"
-vector 38 mobilityDrones.drones[0].wlan[0].mac.dcf frameSequenceActive:vector ETV
-attr interpolationmode sample-hold
-attr source count(frameSequenceStarted)-count(frameSequenceFinished)
-attr title "frame sequence active, vector"
-vector 39 mobilityDrones.drones[0].wlan[0].radio transmissionState:vector ETV
-attr interpolationmode sample-hold
-attr source transmissionStateChanged
-attr title "Radio transmission state, vector"
-vector 40 mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent, vector(packetBytes)"
-vector 41 mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetSentToPeer)
-attr title "packets sent: multicast, vector(packetBytes)"
-vector 42 mobilityDrones.drones[0].wlan[0].mac.dcf packetSentToPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetSentToPeer)
-attr title "packets sent: without retry, vector(packetBytes)"
-vector 43 mobilityDrones.drones[0].wlan[0].mac.dcf.channelAccess.inProgressFrames queueingTime:vector ETV
-attr interpolationmode none
-attr source queueingTime(packetDequeued)
-attr title "queueing times, vector"
-vector 44 mobilityDrones.drones[1].wlan[0].mac packetReceivedFromLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from lower layer, vector(packetBytes)"
-vector 45 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received, vector(packetBytes)"
-vector 46 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetReceivedFromPeer)
-attr title "packets received: multicast, vector(packetBytes)"
-vector 47 mobilityDrones.drones[1].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetReceivedFromPeer)
-attr title "packets received: without retry, vector(packetBytes)"
-vector 48 mobilityDrones.drones[1].wlan[0].mac packetSentToUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to upper layer, vector(packetBytes)"
-vector 49 mobilityDrones.drones[2].wlan[0].mac packetReceivedFromLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from lower layer, vector(packetBytes)"
-vector 50 mobilityDrones.drones[2].wlan[0].mac.dcf packetReceivedFromPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received, vector(packetBytes)"
-vector 51 mobilityDrones.drones[2].wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetReceivedFromPeer)
-attr title "packets received: multicast, vector(packetBytes)"
-vector 52 mobilityDrones.drones[2].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetReceivedFromPeer)
-attr title "packets received: without retry, vector(packetBytes)"
-vector 53 mobilityDrones.drones[2].wlan[0].mac packetSentToUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to upper layer, vector(packetBytes)"
-vector 54 mobilityDrones.drones[3].wlan[0].mac packetReceivedFromLower:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received from lower layer, vector(packetBytes)"
-vector 55 mobilityDrones.drones[3].wlan[0].mac.dcf packetReceivedFromPeer:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets received, vector(packetBytes)"
-vector 56 mobilityDrones.drones[3].wlan[0].mac.dcf packetReceivedFromPeerMulticast:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211Multicast(packetReceivedFromPeer)
-attr title "packets received: multicast, vector(packetBytes)"
-vector 57 mobilityDrones.drones[3].wlan[0].mac.dcf packetReceivedFromPeerWithoutRetry:vector(packetBytes) ETV
-attr interpolationmode none
-attr source ieee80211NotRetry(packetReceivedFromPeer)
-attr title "packets received: without retry, vector(packetBytes)"
-vector 58 mobilityDrones.drones[3].wlan[0].mac packetSentToUpper:vector(packetBytes) ETV
-attr interpolationmode none
-attr title "packets sent to upper layer, vector(packetBytes)"
-0	0	0	0
-0	0	0	0
-0	0	0	0
-0	0	0	0
-0	0	0	0.002
-1	0	0	0
-1	0	0	0
-1	0	0	2
-1	66	0.00051	3
-1	77	0.000564	2
-2	0	0	0
-3	0	0	0
-3	0	0	0
-3	0	0	2
-4	0	0	0
-5	0	0	0
-5	0	0	0
-5	0	0	2
-6	0	0	0
-7	0	0	0
-7	0	0	0
-7	0	0	2
-8	0	0	0
-9	0	0	0
-9	0	0	0
-9	0	0	2
-10	0	0	0
-10	0	0	0
-10	0	0	0
-10	0	0	0.002
-11	0	0	0
-12	0	0	1
-12	66	0.00051	0
-12	77	0.000564	1
-13	0	0	1
-13	68	0.00051	3
-13	74	0.000564	1
-14	0	0	1
-14	69	0.00051	3
-14	75	0.000564	1
-15	0	0	1
-15	70	0.00051	3
-15	76	0.000564	1
-16	0	0	1
-17	0	0	31
-18	0	0	31
-19	0	0	31
-20	0	0	31
-21	0	0	31
-22	46	0	14
-23	56	0	22
-24	58	0	42
-25	58	0	42
-26	61	0	50
-27	61	0	78
-28	61	0	1
-28	65	0.00051	0
-29	61	0	23
-30	61	0	1
-30	64	0.00051	0
-31	62	0	22
-32	62	0	1
-33	65	0.00051	78
-34	65	0.00051	0.00051
-35	65	0.00051	1
-35	73	0.000564	0
-36	65	0.00051	24000000
-37	65	0.00051	78
-38	65	0.00051	1
-38	73	0.000564	0
-39	66	0.00051	1
-39	67	0.00051	2
-39	73	0.000564	1
-39	77	0.000564	0
-40	73	0.000564	78
-41	73	0.000564	78
-42	73	0.000564	78
-43	73	0.000564	5.4e-05
-44	78	0.000564	78
-45	78	0.000564	78
-46	78	0.000564	78
-47	78	0.000564	78
-48	78	0.000564	50
-49	79	0.000564	78
-50	79	0.000564	78
-51	79	0.000564	78
-52	79	0.000564	78
-53	79	0.000564	50
-54	80	0.000564	78
-55	80	0.000564	78
-56	80	0.000564	78
-57	80	0.000564	78
-58	80	0.000564	50
-
+vector 6 mobilityDrones.drones[2]

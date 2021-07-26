@@ -46,6 +46,7 @@ OBJS = \
     $O/communication/UdpSensorCommunicationApp.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
+    $O/linklayer/blemesh/InterfaceEntryExt.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/MobileNodeMessage_m.o \
     $O/communication/Order_m.o \

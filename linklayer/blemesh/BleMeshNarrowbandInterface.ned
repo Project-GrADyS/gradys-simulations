@@ -25,7 +25,7 @@ import inet.physicallayer.contract.packetlevel.IRadio;
 module BleMeshNarrowbandInterface extends InterfaceEntry like IWirelessInterface
 {
     parameters:
-        @class(InterfaceEntry);
+        @class(InterfaceEntryExt);
         string interfaceTableModule;
         string energySourceModule = default("");
         *.interfaceTableModule = default(absPath(interfaceTableModule));
