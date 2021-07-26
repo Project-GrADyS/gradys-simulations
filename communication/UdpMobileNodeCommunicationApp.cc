@@ -43,6 +43,7 @@ void UdpMobileNodeCommunicationApp::initialize(int stage) {
         timeoutDuration = par("timeoutDuration");
         dataCapacity = par("dataCapacity");
 
+        // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
         emit(dataLoadSignalID, currentDataLoad);
     }
@@ -50,6 +51,7 @@ void UdpMobileNodeCommunicationApp::initialize(int stage) {
 
 void UdpMobileNodeCommunicationApp::setSocketOptions() {
     UdpBasicAppMobileNode::setSocketOptions();
+    // Joining multicast group used to communicate multicast messages to other drones
     socket.joinMulticastGroup(Ipv4Address("224.0.0.9"));
 }
 
@@ -59,6 +61,7 @@ void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
     if(telemetry != nullptr) {
         currentTelemetry = *telemetry;
 
+        // Drops data load after the drone arrives at the first waypoint
         if(currentTelemetry.getLastWaypointID() == 0) {
             currentDataLoad = 0;
             emit(dataLoadSignalID, currentDataLoad);
@@ -111,8 +114,10 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
     packet->insertAtBack(payload);
     L3Address destAddr;
     if(tentativeTarget == -1) {
+        // No specific target means the message should go to the multicast address
         destAddr = Ipv4Address("224.0.0.9");
     } else {
+        // Else sends message to the specific target
         L3AddressResolver().tryResolve(tentativeTargetName.c_str(), destAddr);
     }
 
@@ -136,7 +141,7 @@ void UdpMobileNodeCommunicationApp::sendPairConfirm(inet::IntrusivePtr<inet::Mob
     payload->setMessageType(MessageType::PAIR_CONFIRM);
     payload->setSourceID(this->getParentModule()->getIndex());
     payload->setDestinationID(target);
-    payload->setDataLength(std::min(currentDataLoad, 5));
+    payload->setDataLength(std::min(currentDataLoad, 10));
 
     std::cout << payload->getSourceID() << " sending pair confirmation to " << payload->getDestinationID() << endl;
 }
@@ -210,11 +215,16 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
                                 if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getIndex() > payload->getSourceID()) {
                                     sendReverseOrder();
 
+                                    // Exchanging imaginary data to the drone closest to the start of the mission
                                     if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
+                                        // Drone closest to the start gets the data
                                         currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
                                     } else {
+                                        // Drone farthest away loses the data
                                         currentDataLoad = std::max(0, currentDataLoad - payload->getDataLength());
                                     }
+
+                                    // Updating data load
                                     emit(dataLoadSignalID, currentDataLoad);
                                 }
 
@@ -226,6 +236,7 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             }
             case MessageType::BEARER:
             {
+                std::cout << this->getParentModule()->getIndex() << " recieved bearer request from  " << pk->getName() << endl;
                 currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
                 emit(dataLoadSignalID, currentDataLoad);
                 break;

@@ -35,12 +35,13 @@ OBJS = \
     $O/GotoWaypointMobility.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
-    $O/UdpBasicAppMobileNode.o \
-    $O/UdpBasicAppMobileSensorNode.o \
-    $O/UdpSinkMobileNode.o \
-    $O/UdpSinkMobileSensorNode.o \
+    $O/communication/UdpBasicAppMobileNode.o \
+    $O/communication/UdpBasicAppMobileSensorNode.o \
     $O/communication/UdpMobileNodeCommunicationApp.o \
     $O/communication/UdpSensorCommunicationApp.o \
+    $O/communication/UdpSinkMobileNode.o \
+    $O/communication/UdpSinkMobileSensorNode.o \
+    $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/communication/MobileNodeMessage_m.o \
     $O/communication/Order_m.o \
     $O/communication/Telemetry_m.o

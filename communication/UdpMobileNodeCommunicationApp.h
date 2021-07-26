@@ -6,7 +6,7 @@
 #include "inet/transportlayer/contract/udp/UdpSocket.h"
 #include "MobileNodeMessage_m.h"
 #include "Telemetry_m.h"
-#include "../UdpBasicAppMobileNode.h"
+#include "UdpBasicAppMobileNode.h"
 
 using namespace inet;
 

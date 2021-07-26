@@ -15,7 +15,7 @@
 
 package projeto.communication;
 
-import projeto.UdpBasicAppMobileSensorNode;
+import projeto.communication.UdpBasicAppMobileSensorNode;
 
 simple UdpSensorCommunicationApp extends UdpBasicAppMobileSensorNode {
     @class(UdpSensorCommunicationApp);
