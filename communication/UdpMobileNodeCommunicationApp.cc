@@ -41,7 +41,6 @@ void UdpMobileNodeCommunicationApp::initialize(int stage) {
     UdpBasicAppMobileNode::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
         timeoutDuration = par("timeoutDuration");
-        dataCapacity = par("dataCapacity");
 
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
@@ -141,7 +140,7 @@ void UdpMobileNodeCommunicationApp::sendPairConfirm(inet::IntrusivePtr<inet::Mob
     payload->setMessageType(MessageType::PAIR_CONFIRM);
     payload->setSourceID(this->getParentModule()->getIndex());
     payload->setDestinationID(target);
-    payload->setDataLength(std::min(currentDataLoad, 10));
+    payload->setDataLength(stableDataLoad);
 
     std::cout << payload->getSourceID() << " sending pair confirmation to " << payload->getDestinationID() << endl;
 }
@@ -160,7 +159,7 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             case MessageType::HEARTBEAT:
             {
                 if(!checkAndUpdateTimeout() && lastTarget != payload->getSourceID()) {
-                    isTimedout = false;
+                    resetParameters();
                 }
 
                 if(checkAndUpdateTimeout()) {
@@ -218,12 +217,11 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
                                     // Exchanging imaginary data to the drone closest to the start of the mission
                                     if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
                                         // Drone closest to the start gets the data
-                                        currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
+                                        currentDataLoad = currentDataLoad + payload->getDataLength();
                                     } else {
-                                        // Drone farthest away loses the data
-                                        currentDataLoad = std::max(0, currentDataLoad - payload->getDataLength());
+                                        // Drone farthest away loses data
+                                        currentDataLoad = 0;
                                     }
-
                                     // Updating data load
                                     emit(dataLoadSignalID, currentDataLoad);
                                 }
@@ -237,7 +235,8 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             case MessageType::BEARER:
             {
                 std::cout << this->getParentModule()->getIndex() << " recieved bearer request from  " << pk->getName() << endl;
-                currentDataLoad = std::min(dataCapacity, currentDataLoad + payload->getDataLength());
+                currentDataLoad = currentDataLoad + payload->getDataLength();
+                stableDataLoad = currentDataLoad;
                 emit(dataLoadSignalID, currentDataLoad);
                 break;
             }
@@ -252,7 +251,6 @@ bool UdpMobileNodeCommunicationApp::checkAndUpdateTimeout() {
         if(simTime() - timeoutStart < timeoutDuration) {
             return false;
         } else {
-            isTimedout = false;
             resetParameters();
             return true;
         }
@@ -262,6 +260,7 @@ bool UdpMobileNodeCommunicationApp::checkAndUpdateTimeout() {
 }
 
 void UdpMobileNodeCommunicationApp::resetParameters() {
+    isTimedout = false;
     lastTarget = tentativeTarget;
     tentativeTarget = -1;
     tentativeTargetName = "";
@@ -269,6 +268,7 @@ void UdpMobileNodeCommunicationApp::resetParameters() {
     isDone = false;
 
     lastStableTelemetry = currentTelemetry;
+    stableDataLoad = currentDataLoad;
 }
 
 

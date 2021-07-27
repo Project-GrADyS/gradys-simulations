@@ -25,7 +25,6 @@ simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {
     parameters:
 		double timeoutDuration @unit(s) = default(5s); // Duration of the timeout after recieving a heartbeat
-		int dataCapacity = default(100); // Imaginary data capacity
 		@signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
     	@class(UdpMobileNodeCommunicationApp);
 		

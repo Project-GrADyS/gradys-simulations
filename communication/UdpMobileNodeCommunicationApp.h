@@ -30,10 +30,10 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         // Name of the current target (for addressing purposes)
         std::string tentativeTargetName;
 
-        // Capacity to carry imaginary data
-        int dataCapacity;
         // Current imaginary data being carried
         int currentDataLoad=0;
+        // Stable data load to prevent data loss during pairing
+        int stableDataLoad=currentDataLoad;
 
         // Last telemetry package recieved
         Telemetry currentTelemetry = Telemetry();

@@ -22,7 +22,12 @@ namespace projeto {
 
 class UdpSensorCommunicationApp: public UdpBasicAppMobileSensorNode {
     protected:
-        virtual void sendPacket() override;
+        virtual void setSocketOptions() override;
+        // Preventing automatic packets from being sent
+        // Sensors are passive
+        virtual void sendPacket() override { return; };
+        virtual void sendPacket(const char *target);
+        virtual void processPacket(Packet *pk) override;
 };
 
 } /* namespace projeto */

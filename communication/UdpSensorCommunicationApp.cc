@@ -31,23 +31,50 @@ namespace projeto {
 
 Define_Module(UdpSensorCommunicationApp);
 
-void UdpSensorCommunicationApp::sendPacket() {
-        Packet *packet = new Packet("SensorMessage");
-        if(dontFragment)
-            packet->addTag<FragmentationReq>()->setDontFragment(true);
-        packet->setName(this->getParentModule()->getFullName());
-        const auto& payload = makeShared<MobileNodeMessage>();
-        payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
+void UdpSensorCommunicationApp::setSocketOptions() {
+    UdpBasicAppMobileSensorNode::setSocketOptions();
+    // Joining multicast group used to communicate multicast messages to other drones
+    socket.joinMulticastGroup(Ipv4Address("224.0.0.9"));
+}
 
-        payload->setMessageType(MessageType::BEARER);
-        payload->setSourceID(this->getParentModule()->getIndex());
+void UdpSensorCommunicationApp::sendPacket(const char *target) {
+    Packet *packet = new Packet("SensorMessage");
+    if(dontFragment)
+        packet->addTag<FragmentationReq>()->setDontFragment(true);
+    packet->setName(this->getParentModule()->getFullName());
+    const auto& payload = makeShared<MobileNodeMessage>();
+    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-        packet->insertAtBack(payload);
-        L3Address destAddr = chooseDestAddr();
+    payload->setMessageType(MessageType::BEARER);
+    payload->setSourceID(this->getParentModule()->getIndex());
 
-        emit(packetSentSignal, packet);
-        socket.sendTo(packet, destAddr, destPort);
-        numSent++;
+    packet->insertAtBack(payload);
+    L3Address destAddr;
+    L3AddressResolver().tryResolve(target, destAddr);
+
+    emit(packetSentSignal, packet);
+    socket.sendTo(packet, destAddr, destPort);
+    numSent++;
+}
+
+void UdpSensorCommunicationApp::processPacket(Packet *pk) {
+    emit(packetReceivedSignal, pk);
+
+    auto payload = pk->peekAtBack<MobileNodeMessage>(B(14), 1);
+
+    // Ignore messages not in address list
+    if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {
+        delete pk;
+        return;
+    }
+
+    if(payload != nullptr) {
+        std::cout << this->getParentModule()->getFullName() << " recieving package from " << pk->getName() << endl;
+        // Listens to drone payloads and sends back data
+        sendPacket(pk->getName());
+    }
+
+    delete pk;
 }
 
 } /* namespace projeto */
