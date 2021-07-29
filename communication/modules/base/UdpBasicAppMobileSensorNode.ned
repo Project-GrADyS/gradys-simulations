@@ -16,7 +16,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package projeto.communication;
+package projeto.communication.modules.base;
 
 import inet.applications.contract.IApp;
 
@@ -37,7 +37,7 @@ import inet.applications.contract.IApp;
 // like ~UdpSink), or a ~UdpEchoApp. When used with ~UdpEchoApp, the rcvdPkLifetime
 // statistic will contain the round-trip times.
 //
-simple UdpBasicAppMobileNode like IApp
+simple UdpBasicAppMobileSensorNode like IApp
 {
     parameters:
         string interfaceTableModule;   // The path to the InterfaceTable module

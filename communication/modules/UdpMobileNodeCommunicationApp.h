@@ -4,9 +4,9 @@
 #define __INET_UdpMobileNodeCommunicationApp_H
 
 #include "inet/transportlayer/contract/udp/UdpSocket.h"
-#include "messages/network/MobileNodeMessage_m.h"
-#include "Telemetry_m.h"
-#include "UdpBasicAppMobileNode.h"
+#include "../messages/network/MobileNodeMessage_m.h"
+#include "../messages/internal/Telemetry_m.h"
+#include "base/UdpBasicAppMobileNode.h"
 
 using namespace inet;
 

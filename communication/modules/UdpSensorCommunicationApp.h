@@ -16,7 +16,7 @@
 #ifndef COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
 #define COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
 
-#include "UdpBasicAppMobileSensorNode.h"
+#include "base/UdpBasicAppMobileSensorNode.h"
 
 namespace projeto {
 

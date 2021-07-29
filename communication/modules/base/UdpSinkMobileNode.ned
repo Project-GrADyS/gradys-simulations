@@ -16,7 +16,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package projeto.communication;
+package projeto.communication.modules.base;
 
 import inet.applications.contract.IApp;
 

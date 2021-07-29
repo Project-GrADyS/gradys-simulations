@@ -16,10 +16,10 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package projeto.communication;
+package projeto.communication.modules;
 
 import inet.applications.contract.IApp;
-import projeto.communication.UdpBasicAppMobileNode;
+import projeto.communication.modules.base.UdpBasicAppMobileNode;
 
 simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {

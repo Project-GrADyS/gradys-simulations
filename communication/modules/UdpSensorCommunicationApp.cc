@@ -14,9 +14,9 @@
 // 
 
 #include "UdpSensorCommunicationApp.h"
-#include "MobileNodeMessage_m.h"
+#include "../messages/network/MobileNodeMessage_m.h"
+#include "base/UdpBasicAppMobileSensorNode.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
-#include "UdpBasicAppMobileSensorNode.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"

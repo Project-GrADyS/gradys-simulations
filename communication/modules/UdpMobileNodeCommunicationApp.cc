@@ -26,10 +26,10 @@
 #include "inet/networklayer/common/FragmentationTag_m.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
-#include "MobileNode.h"
-#include "Order_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
-#include "UdpBasicAppMobileNode.h"
+#include "MobileNode.h"
+#include "../messages/internal/Order_m.h"
+#include "base/UdpBasicAppMobileNode.h"
 
 using namespace inet;
 

@@ -13,9 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication;
+package projeto.communication.modules;
 
-import projeto.communication.UdpBasicAppMobileSensorNode;
+import projeto.communication.modules.base.UdpBasicAppMobileSensorNode;
 
 simple UdpSensorCommunicationApp extends UdpBasicAppMobileSensorNode {
     @class(UdpSensorCommunicationApp);
