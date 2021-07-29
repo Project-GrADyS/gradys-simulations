@@ -46,7 +46,7 @@ void UdpSensorCommunicationApp::sendPacket(const char *target) {
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     payload->setMessageType(MessageType::BEARER);
-    payload->setSourceID(this->getParentModule()->getIndex());
+    payload->setSourceID(this->getParentModule()->getId());
 
     packet->insertAtBack(payload);
     L3Address destAddr;

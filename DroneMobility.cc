@@ -6,8 +6,8 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 
-#include "communication/Order_m.h"
-#include "communication/Telemetry_m.h"
+#include "communication/messages/internal/Order_m.h"
+#include "communication/messages/internal/Telemetry_m.h"
 
 using namespace inet;
 

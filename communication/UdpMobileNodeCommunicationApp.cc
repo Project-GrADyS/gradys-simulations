@@ -60,12 +60,6 @@ void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
     if(telemetry != nullptr) {
         currentTelemetry = *telemetry;
 
-        // Drops data load after the drone arrives at the first waypoint
-        if(currentTelemetry.getLastWaypointID() == 0) {
-            currentDataLoad = 0;
-            emit(dataLoadSignalID, currentDataLoad);
-        }
-
         // Telemetry during timeout is not stable, it may contain information that
         // has changed after message exchange started
         if(checkAndUpdateTimeout()) {
@@ -94,20 +88,27 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
     payload->setNextWaypointID(lastStableTelemetry.getNextWaypointID());
     payload->setLastWaypointID(lastStableTelemetry.getLastWaypointID());
 
-
-    if(checkAndUpdateTimeout()) {
-        UdpMobileNodeCommunicationApp::sendHeartbeat(payload);
-    }
-    else {
-        if(isRequested) {
-            UdpMobileNodeCommunicationApp::sendPairRequest(payload, tentativeTarget);
-        } else {
-            if(tentativeTarget != -1) {
-               UdpMobileNodeCommunicationApp::sendPairConfirm(payload, tentativeTarget);
-            } else {
-                return;
-            }
+    checkAndUpdateTimeout();
+    switch(communicationStatus) {
+        case FREE:
+        {
+            UdpMobileNodeCommunicationApp::sendHeartbeat(payload);
+            break;
         }
+        case REQUESTING:
+        {
+            UdpMobileNodeCommunicationApp::sendPairRequest(payload, tentativeTarget);
+            break;
+        }
+        case PAIRED:
+        case PAIRED_FINISHED:
+        {
+            UdpMobileNodeCommunicationApp::sendPairConfirm(payload, tentativeTarget);
+            break;
+        }
+        case COLLECTING:
+            delete packet;
+            return;
     }
 
     packet->insertAtBack(payload);
@@ -127,18 +128,18 @@ void UdpMobileNodeCommunicationApp::sendPacket() {
 
 void UdpMobileNodeCommunicationApp::sendHeartbeat(inet::IntrusivePtr<inet::MobileNodeMessage> payload) {
     payload->setMessageType(MessageType::HEARTBEAT);
-    payload->setSourceID(this->getParentModule()->getIndex());
+    payload->setSourceID(this->getParentModule()->getId());
     std::cout << payload->getSourceID() << " sending heartbeat" << endl;
 }
 void UdpMobileNodeCommunicationApp::sendPairRequest(inet::IntrusivePtr<inet::MobileNodeMessage> payload, int target) {
     payload->setMessageType(MessageType::PAIR_REQUEST);
-    payload->setSourceID(this->getParentModule()->getIndex());
+    payload->setSourceID(this->getParentModule()->getId());
     payload->setDestinationID(target);
     std::cout << payload->getSourceID() << " sending pair request to " << payload->getDestinationID() << endl;
 }
 void UdpMobileNodeCommunicationApp::sendPairConfirm(inet::IntrusivePtr<inet::MobileNodeMessage> payload, int target) {
     payload->setMessageType(MessageType::PAIR_CONFIRM);
-    payload->setSourceID(this->getParentModule()->getIndex());
+    payload->setSourceID(this->getParentModule()->getId());
     payload->setDestinationID(target);
     payload->setDataLength(stableDataLoad);
 
@@ -164,15 +165,17 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
 
                 if(checkAndUpdateTimeout()) {
                     // Only accepts requests if you are going to the same waypoint as drone or you are going to the waypoint it came from
+                    // or if the drone is stationary
                     if(lastStableTelemetry.getNextWaypointID() == payload->getNextWaypointID() ||
-                            lastStableTelemetry.getNextWaypointID() == payload->getLastWaypointID()) {
+                            lastStableTelemetry.getNextWaypointID() == payload->getLastWaypointID() ||
+                            lastStableTelemetry.getNextWaypointID() == -1 ||
+                            payload->getNextWaypointID() == -1) {
                         tentativeTarget = payload->getSourceID();
                         tentativeTargetName = pk->getName();
-                        isTimedout = true;
-                        timeoutStart = simTime();
-                        isRequested = true;
+                        initiateTimeout();
+                        communicationStatus = REQUESTING;
 
-                        std::cout << this->getParentModule()->getIndex() << " recieved heartbeat from " << tentativeTarget << endl;
+                        std::cout << this->getParentModule()->getId() << " recieved heartbeat from " << tentativeTarget << endl;
 
                         sendPacket();
                     }
@@ -181,23 +184,28 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             }
             case MessageType::PAIR_REQUEST:
             {
-                if(payload->getDestinationID() != this->getParentModule()->getIndex()) {
+                if(payload->getDestinationID() != this->getParentModule()->getId()) {
                     break;
                 }
 
-                if(isTimedout) {
+                // If the drone is collecting data, prefer to pair with other drone
+                if(communicationStatus == COLLECTING) {
+                    resetParameters();
+                }
+
+                if(!checkAndUpdateTimeout()) {
                     if(payload->getSourceID() == tentativeTarget) {
                         std::cout << payload->getDestinationID() << " recieved a pair request while timed out from " << payload->getSourceID() << endl;
-                        isRequested = false;
+                        communicationStatus = PAIRED;
                         sendPacket();
                     }
                 } else {
                     std::cout << payload->getDestinationID() << " recieved a pair request while not timed out from  " << payload->getSourceID() << endl;
                     tentativeTarget = payload->getSourceID();
                     tentativeTargetName = pk->getName();
-                    isTimedout = true;
-                    timeoutStart = simTime();
-                    isRequested = false;
+                    initiateTimeout();
+
+                    communicationStatus = PAIRED;
 
                     sendPacket();
                 }
@@ -206,12 +214,12 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
             case MessageType::PAIR_CONFIRM:
             {
                 if(payload->getSourceID() == tentativeTarget &&
-                   payload->getDestinationID() == this->getParentModule()->getIndex()) {
+                   payload->getDestinationID() == this->getParentModule()->getId()) {
                             std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
-                            isRequested = false;
-                            if(!isDone) {
+                            // isRequested = false; // TODO: Remover
+                            if(communicationStatus != PAIRED_FINISHED) {
                                 // If both drones are travelling in the same direction, only the one with the biggest ID inverts
-                                if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getIndex() > payload->getSourceID()) {
+                                if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getId() > payload->getSourceID()) {
                                     sendReverseOrder();
 
                                     // Exchanging imaginary data to the drone closest to the start of the mission
@@ -228,16 +236,20 @@ void UdpMobileNodeCommunicationApp::processPacket(Packet *pk) {
 
 
                             }
-                            isDone = true;
+                            communicationStatus = PAIRED_FINISHED;
                }
                 break;
             }
             case MessageType::BEARER:
             {
-                std::cout << this->getParentModule()->getIndex() << " recieved bearer request from  " << pk->getName() << endl;
-                currentDataLoad = currentDataLoad + payload->getDataLength();
-                stableDataLoad = currentDataLoad;
-                emit(dataLoadSignalID, currentDataLoad);
+                if(checkAndUpdateTimeout() && communicationStatus == FREE) {
+                    std::cout << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
+                    currentDataLoad = currentDataLoad + payload->getDataLength();
+                    stableDataLoad = currentDataLoad;
+                    emit(dataLoadSignalID, currentDataLoad);
+                    initiateTimeout();
+                    communicationStatus = COLLECTING;
+                }
                 break;
             }
         }
@@ -259,13 +271,17 @@ bool UdpMobileNodeCommunicationApp::checkAndUpdateTimeout() {
     }
 }
 
+void UdpMobileNodeCommunicationApp::initiateTimeout() {
+    isTimedout = true;
+    timeoutStart = simTime();
+}
+
 void UdpMobileNodeCommunicationApp::resetParameters() {
     isTimedout = false;
     lastTarget = tentativeTarget;
     tentativeTarget = -1;
     tentativeTargetName = "";
-    isRequested = false;
-    isDone = false;
+    communicationStatus = FREE;
 
     lastStableTelemetry = currentTelemetry;
     stableDataLoad = currentDataLoad;
@@ -275,7 +291,9 @@ void UdpMobileNodeCommunicationApp::resetParameters() {
 // Sends a reverse order to the mobility module
 void UdpMobileNodeCommunicationApp::sendReverseOrder() {
     Order *message = new Order("Reverse Order", 0);
-    send(message, gate("mobilityGate$o"));
+    if(gate("mobilityGate$o")->isConnected()) {
+        send(message, gate("mobilityGate$o"));
+    }
 }
 
 } // namespace inet
