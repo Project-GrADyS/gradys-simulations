@@ -17,7 +17,7 @@ namespace projeto;
 
 // Class designed to share necessary drone information with the communication module
 message Telemetry {
-    int nextWaypointID;
-    int lastWaypointID;
-    bool isReversed;
+    int nextWaypointID=-1;
+    int lastWaypointID=-1;
+    bool isReversed=false;
 }

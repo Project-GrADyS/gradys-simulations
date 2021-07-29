@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
 //
 
 #ifndef __INET_MOBILENODEMESSAGE_M_H
@@ -28,7 +28,7 @@ class MobileNodeMessage;
 namespace inet {
 
 /**
- * Enum generated from <tt>communication/MobileNodeMessage.msg:22</tt> by nedtool.
+ * Enum generated from <tt>communication/messages/network/MobileNodeMessage.msg:22</tt> by nedtool.
  * <pre>
  * enum MessageType
  * {
@@ -47,7 +47,7 @@ enum MessageType {
 };
 
 /**
- * Class generated from <tt>communication/MobileNodeMessage.msg:30</tt> by nedtool.
+ * Class generated from <tt>communication/messages/network/MobileNodeMessage.msg:30</tt> by nedtool.
  * <pre>
  * class MobileNodeMessage extends FieldsChunk
  * {

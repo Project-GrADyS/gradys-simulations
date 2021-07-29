@@ -42,15 +42,15 @@ OBJS = \
     $O/communication/UdpSinkMobileNode.o \
     $O/communication/UdpSinkMobileSensorNode.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
-    $O/communication/MobileNodeMessage_m.o \
-    $O/communication/Order_m.o \
-    $O/communication/Telemetry_m.o
+    $O/communication/messages/internal/Order_m.o \
+    $O/communication/messages/internal/Telemetry_m.o \
+    $O/communication/messages/network/MobileNodeMessage_m.o
 
 # Message files
 MSGFILES = \
-    communication/MobileNodeMessage.msg \
-    communication/Order.msg \
-    communication/Telemetry.msg
+    communication/messages/internal/Order.msg \
+    communication/messages/internal/Telemetry.msg \
+    communication/messages/network/MobileNodeMessage.msg
 
 # SM files
 SMFILES =

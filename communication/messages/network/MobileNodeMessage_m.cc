@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:

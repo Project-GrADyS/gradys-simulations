@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/internal/Telemetry.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -26,7 +26,8 @@
 
 #include <iostream>
 #include <sstream>
-#include "Order_m.h"
+#include <memory>
+#include "Telemetry_m.h"
 
 namespace omnetpp {
 
@@ -67,7 +68,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::list<T,A>& l)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         l.push_back(T());
         doParsimUnpacking(buffer, l.back());
     }
@@ -87,7 +88,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::set<T,Tr,A>& s)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         T x;
         doParsimUnpacking(buffer, x);
         s.insert(x);
@@ -110,7 +111,7 @@ void doParsimUnpacking(omnetpp::cCommBuffer *buffer, std::map<K,V,Tr,A>& m)
 {
     int n;
     doParsimUnpacking(buffer, n);
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
         K k; V v;
         doParsimUnpacking(buffer, k);
         doParsimUnpacking(buffer, v);
@@ -148,11 +149,39 @@ void doParsimUnpacking(omnetpp::cCommBuffer *, T& t)
 
 }  // namespace omnetpp
 
+namespace {
+template <class T> inline
+typename std::enable_if<std::is_polymorphic<T>::value && std::is_base_of<omnetpp::cObject,T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)(static_cast<const omnetpp::cObject *>(t));
+}
+
+template <class T> inline
+typename std::enable_if<std::is_polymorphic<T>::value && !std::is_base_of<omnetpp::cObject,T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)dynamic_cast<const void *>(t);
+}
+
+template <class T> inline
+typename std::enable_if<!std::is_polymorphic<T>::value, void *>::type
+toVoidPtr(T* t)
+{
+    return (void *)static_cast<const void *>(t);
+}
+
+}
+
 namespace projeto {
 
 // forward
 template<typename T, typename A>
 std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec);
+
+// Template rule to generate operator<< for shared_ptr<T>
+template<typename T>
+inline std::ostream& operator<<(std::ostream& out,const std::shared_ptr<T>& t) { return out << t.get(); }
 
 // Template rule which fires if a struct or class doesn't have operator<<
 template<typename T>
@@ -171,71 +200,101 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
         out << *it;
     }
     out.put('}');
-    
+
     char buf[32];
     sprintf(buf, " (size=%u)", (unsigned int)vec.size());
     out.write(buf, strlen(buf));
     return out;
 }
 
-Register_Class(Order)
+Register_Class(Telemetry)
 
-Order::Order(const char *name, short kind) : ::omnetpp::cMessage(name,kind)
+Telemetry::Telemetry(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
 {
-    this->command = 0;
 }
 
-Order::Order(const Order& other) : ::omnetpp::cMessage(other)
+Telemetry::Telemetry(const Telemetry& other) : ::omnetpp::cMessage(other)
 {
     copy(other);
 }
 
-Order::~Order()
+Telemetry::~Telemetry()
 {
 }
 
-Order& Order::operator=(const Order& other)
+Telemetry& Telemetry::operator=(const Telemetry& other)
 {
-    if (this==&other) return *this;
+    if (this == &other) return *this;
     ::omnetpp::cMessage::operator=(other);
     copy(other);
     return *this;
 }
 
-void Order::copy(const Order& other)
+void Telemetry::copy(const Telemetry& other)
 {
-    this->command = other.command;
+    this->nextWaypointID = other.nextWaypointID;
+    this->lastWaypointID = other.lastWaypointID;
+    this->isReversed_ = other.isReversed_;
 }
 
-void Order::parsimPack(omnetpp::cCommBuffer *b) const
+void Telemetry::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::omnetpp::cMessage::parsimPack(b);
-    doParsimPacking(b,this->command);
+    doParsimPacking(b,this->nextWaypointID);
+    doParsimPacking(b,this->lastWaypointID);
+    doParsimPacking(b,this->isReversed_);
 }
 
-void Order::parsimUnpack(omnetpp::cCommBuffer *b)
+void Telemetry::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::omnetpp::cMessage::parsimUnpack(b);
-    doParsimUnpacking(b,this->command);
+    doParsimUnpacking(b,this->nextWaypointID);
+    doParsimUnpacking(b,this->lastWaypointID);
+    doParsimUnpacking(b,this->isReversed_);
 }
 
-int Order::getCommand() const
+int Telemetry::getNextWaypointID() const
 {
-    return this->command;
+    return this->nextWaypointID;
 }
 
-void Order::setCommand(int command)
+void Telemetry::setNextWaypointID(int nextWaypointID)
 {
-    this->command = command;
+    this->nextWaypointID = nextWaypointID;
 }
 
-class OrderDescriptor : public omnetpp::cClassDescriptor
+int Telemetry::getLastWaypointID() const
+{
+    return this->lastWaypointID;
+}
+
+void Telemetry::setLastWaypointID(int lastWaypointID)
+{
+    this->lastWaypointID = lastWaypointID;
+}
+
+bool Telemetry::isReversed() const
+{
+    return this->isReversed_;
+}
+
+void Telemetry::setIsReversed(bool isReversed)
+{
+    this->isReversed_ = isReversed;
+}
+
+class TelemetryDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
+    enum FieldConstants {
+        FIELD_nextWaypointID,
+        FIELD_lastWaypointID,
+        FIELD_isReversed,
+    };
   public:
-    OrderDescriptor();
-    virtual ~OrderDescriptor();
+    TelemetryDescriptor();
+    virtual ~TelemetryDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -257,24 +316,24 @@ class OrderDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(OrderDescriptor)
+Register_ClassDescriptor(TelemetryDescriptor)
 
-OrderDescriptor::OrderDescriptor() : omnetpp::cClassDescriptor("projeto::Order", "omnetpp::cMessage")
+TelemetryDescriptor::TelemetryDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Telemetry)), "omnetpp::cMessage")
 {
     propertynames = nullptr;
 }
 
-OrderDescriptor::~OrderDescriptor()
+TelemetryDescriptor::~TelemetryDescriptor()
 {
     delete[] propertynames;
 }
 
-bool OrderDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool TelemetryDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Order *>(obj)!=nullptr;
+    return dynamic_cast<Telemetry *>(obj)!=nullptr;
 }
 
-const char **OrderDescriptor::getPropertyNames() const
+const char **TelemetryDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -285,19 +344,19 @@ const char **OrderDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *OrderDescriptor::getProperty(const char *propertyname) const
+const char *TelemetryDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int OrderDescriptor::getFieldCount() const
+int TelemetryDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 3+basedesc->getFieldCount() : 3;
 }
 
-unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
+unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -306,12 +365,14 @@ unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,
+        FD_ISEDITABLE,    // FIELD_nextWaypointID
+        FD_ISEDITABLE,    // FIELD_lastWaypointID
+        FD_ISEDITABLE,    // FIELD_isReversed
     };
-    return (field>=0 && field<1) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
 }
 
-const char *OrderDescriptor::getFieldName(int field) const
+const char *TelemetryDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -320,20 +381,24 @@ const char *OrderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "command",
+        "nextWaypointID",
+        "lastWaypointID",
+        "isReversed",
     };
-    return (field>=0 && field<1) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
 }
 
-int OrderDescriptor::findField(const char *fieldName) const
+int TelemetryDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0]=='c' && strcmp(fieldName, "command")==0) return base+0;
+    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+0;
+    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+1;
+    if (fieldName[0] == 'i' && strcmp(fieldName, "isReversed") == 0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *OrderDescriptor::getFieldTypeString(int field) const
+const char *TelemetryDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -342,12 +407,14 @@ const char *OrderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",
+        "int",    // FIELD_nextWaypointID
+        "int",    // FIELD_lastWaypointID
+        "bool",    // FIELD_isReversed
     };
-    return (field>=0 && field<1) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **OrderDescriptor::getFieldPropertyNames(int field) const
+const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -360,7 +427,7 @@ const char **OrderDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *OrderDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *TelemetryDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -373,7 +440,7 @@ const char *OrderDescriptor::getFieldProperty(int field, const char *propertynam
     }
 }
 
-int OrderDescriptor::getFieldArraySize(void *object, int field) const
+int TelemetryDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -381,13 +448,13 @@ int OrderDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *TelemetryDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -395,13 +462,13 @@ const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, 
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string TelemetryDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -409,14 +476,16 @@ std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
-        case 0: return long2string(pp->getCommand());
+        case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
+        case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
+        case FIELD_isReversed: return bool2string(pp->isReversed());
         default: return "";
     }
 }
 
-bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool TelemetryDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -424,14 +493,16 @@ bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, cons
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
-        case 0: pp->setCommand(string2long(value)); return true;
+        case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
+        case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
+        case FIELD_isReversed: pp->setIsReversed(string2bool(value)); return true;
         default: return false;
     }
 }
 
-const char *OrderDescriptor::getFieldStructName(int field) const
+const char *TelemetryDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -444,7 +515,7 @@ const char *OrderDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *TelemetryDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -452,7 +523,7 @@ void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    Telemetry *pp = (Telemetry *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }

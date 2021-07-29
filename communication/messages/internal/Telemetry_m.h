@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/Telemetry.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/internal/Telemetry.msg.
 //
 
 #ifndef __PROJETO_TELEMETRY_M_H
@@ -26,22 +26,22 @@ class Telemetry;
 namespace projeto {
 
 /**
- * Class generated from <tt>communication/Telemetry.msg:19</tt> by nedtool.
+ * Class generated from <tt>communication/messages/internal/Telemetry.msg:19</tt> by nedtool.
  * <pre>
  * // Class designed to share necessary drone information with the communication module
  * message Telemetry
  * {
- *     int nextWaypointID;
- *     int lastWaypointID;
- *     bool isReversed;
+ *     int nextWaypointID = -1;
+ *     int lastWaypointID = -1;
+ *     bool isReversed = false;
  * }
  * </pre>
  */
 class Telemetry : public ::omnetpp::cMessage
 {
   protected:
-    int nextWaypointID = 0;
-    int lastWaypointID = 0;
+    int nextWaypointID = -1;
+    int lastWaypointID = -1;
     bool isReversed_ = false;
 
   private:
