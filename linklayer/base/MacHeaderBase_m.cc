@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from linklayer/base/MacHeaderBase.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "Order_m.h"
+#include "MacHeaderBase_m.h"
 
 namespace omnetpp {
 
@@ -173,7 +173,7 @@ toVoidPtr(T* t)
 
 }
 
-namespace projeto {
+namespace inet {
 
 // forward
 template<typename T, typename A>
@@ -207,66 +207,97 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-Register_Class(Order)
+Register_Class(MacHeaderBase)
 
-Order::Order(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
+MacHeaderBase::MacHeaderBase() : ::inet::FieldsChunk()
 {
 }
 
-Order::Order(const Order& other) : ::omnetpp::cMessage(other)
+MacHeaderBase::MacHeaderBase(const MacHeaderBase& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
 
-Order::~Order()
+MacHeaderBase::~MacHeaderBase()
 {
 }
 
-Order& Order::operator=(const Order& other)
+MacHeaderBase& MacHeaderBase::operator=(const MacHeaderBase& other)
 {
     if (this == &other) return *this;
-    ::omnetpp::cMessage::operator=(other);
+    ::inet::FieldsChunk::operator=(other);
     copy(other);
     return *this;
 }
 
-void Order::copy(const Order& other)
+void MacHeaderBase::copy(const MacHeaderBase& other)
 {
-    this->command = other.command;
+    this->srcAddr = other.srcAddr;
+    this->destAddr = other.destAddr;
+    this->networkProtocol = other.networkProtocol;
 }
 
-void Order::parsimPack(omnetpp::cCommBuffer *b) const
+void MacHeaderBase::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::omnetpp::cMessage::parsimPack(b);
-    doParsimPacking(b,this->command);
+    ::inet::FieldsChunk::parsimPack(b);
+    doParsimPacking(b,this->srcAddr);
+    doParsimPacking(b,this->destAddr);
+    doParsimPacking(b,this->networkProtocol);
 }
 
-void Order::parsimUnpack(omnetpp::cCommBuffer *b)
+void MacHeaderBase::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::omnetpp::cMessage::parsimUnpack(b);
-    doParsimUnpacking(b,this->command);
+    ::inet::FieldsChunk::parsimUnpack(b);
+    doParsimUnpacking(b,this->srcAddr);
+    doParsimUnpacking(b,this->destAddr);
+    doParsimUnpacking(b,this->networkProtocol);
 }
 
-int Order::getCommand() const
+const MacAddress& MacHeaderBase::getSrcAddr() const
 {
-    return this->command;
+    return this->srcAddr;
 }
 
-void Order::setCommand(int command)
+void MacHeaderBase::setSrcAddr(const MacAddress& srcAddr)
 {
-    this->command = command;
+    handleChange();
+    this->srcAddr = srcAddr;
 }
 
-class OrderDescriptor : public omnetpp::cClassDescriptor
+const MacAddress& MacHeaderBase::getDestAddr() const
+{
+    return this->destAddr;
+}
+
+void MacHeaderBase::setDestAddr(const MacAddress& destAddr)
+{
+    handleChange();
+    this->destAddr = destAddr;
+}
+
+int MacHeaderBase::getNetworkProtocol() const
+{
+    return this->networkProtocol;
+}
+
+void MacHeaderBase::setNetworkProtocol(int networkProtocol)
+{
+    handleChange();
+    this->networkProtocol = networkProtocol;
+}
+
+class MacHeaderBaseDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_command,
+        FIELD_srcAddr,
+        FIELD_destAddr,
+        FIELD_networkProtocol,
     };
   public:
-    OrderDescriptor();
-    virtual ~OrderDescriptor();
+    MacHeaderBaseDescriptor();
+    virtual ~MacHeaderBaseDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -288,24 +319,24 @@ class OrderDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(OrderDescriptor)
+Register_ClassDescriptor(MacHeaderBaseDescriptor)
 
-OrderDescriptor::OrderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Order)), "omnetpp::cMessage")
+MacHeaderBaseDescriptor::MacHeaderBaseDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::MacHeaderBase)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
 
-OrderDescriptor::~OrderDescriptor()
+MacHeaderBaseDescriptor::~MacHeaderBaseDescriptor()
 {
     delete[] propertynames;
 }
 
-bool OrderDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool MacHeaderBaseDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Order *>(obj)!=nullptr;
+    return dynamic_cast<MacHeaderBase *>(obj)!=nullptr;
 }
 
-const char **OrderDescriptor::getPropertyNames() const
+const char **MacHeaderBaseDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -316,19 +347,19 @@ const char **OrderDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *OrderDescriptor::getProperty(const char *propertyname) const
+const char *MacHeaderBaseDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int OrderDescriptor::getFieldCount() const
+int MacHeaderBaseDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 3+basedesc->getFieldCount() : 3;
 }
 
-unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
+unsigned int MacHeaderBaseDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -337,12 +368,14 @@ unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_command
+        0,    // FIELD_srcAddr
+        0,    // FIELD_destAddr
+        FD_ISEDITABLE,    // FIELD_networkProtocol
     };
-    return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
 }
 
-const char *OrderDescriptor::getFieldName(int field) const
+const char *MacHeaderBaseDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -351,20 +384,24 @@ const char *OrderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "command",
+        "srcAddr",
+        "destAddr",
+        "networkProtocol",
     };
-    return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
 }
 
-int OrderDescriptor::findField(const char *fieldName) const
+int MacHeaderBaseDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 'c' && strcmp(fieldName, "command") == 0) return base+0;
+    if (fieldName[0] == 's' && strcmp(fieldName, "srcAddr") == 0) return base+0;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "destAddr") == 0) return base+1;
+    if (fieldName[0] == 'n' && strcmp(fieldName, "networkProtocol") == 0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *OrderDescriptor::getFieldTypeString(int field) const
+const char *MacHeaderBaseDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -373,12 +410,14 @@ const char *OrderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_command
+        "inet::MacAddress",    // FIELD_srcAddr
+        "inet::MacAddress",    // FIELD_destAddr
+        "int",    // FIELD_networkProtocol
     };
-    return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **OrderDescriptor::getFieldPropertyNames(int field) const
+const char **MacHeaderBaseDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -391,7 +430,7 @@ const char **OrderDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *OrderDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *MacHeaderBaseDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -404,7 +443,7 @@ const char *OrderDescriptor::getFieldProperty(int field, const char *propertynam
     }
 }
 
-int OrderDescriptor::getFieldArraySize(void *object, int field) const
+int MacHeaderBaseDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -412,13 +451,13 @@ int OrderDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    MacHeaderBase *pp = (MacHeaderBase *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *MacHeaderBaseDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -426,13 +465,13 @@ const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, 
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    MacHeaderBase *pp = (MacHeaderBase *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string MacHeaderBaseDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -440,14 +479,16 @@ std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    MacHeaderBase *pp = (MacHeaderBase *)object; (void)pp;
     switch (field) {
-        case FIELD_command: return long2string(pp->getCommand());
+        case FIELD_srcAddr: return pp->getSrcAddr().str();
+        case FIELD_destAddr: return pp->getDestAddr().str();
+        case FIELD_networkProtocol: return long2string(pp->getNetworkProtocol());
         default: return "";
     }
 }
 
-bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool MacHeaderBaseDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -455,14 +496,14 @@ bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, cons
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    MacHeaderBase *pp = (MacHeaderBase *)object; (void)pp;
     switch (field) {
-        case FIELD_command: pp->setCommand(string2long(value)); return true;
+        case FIELD_networkProtocol: pp->setNetworkProtocol(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *OrderDescriptor::getFieldStructName(int field) const
+const char *MacHeaderBaseDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -475,7 +516,7 @@ const char *OrderDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *MacHeaderBaseDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -483,11 +524,13 @@ void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    MacHeaderBase *pp = (MacHeaderBase *)object; (void)pp;
     switch (field) {
+        case FIELD_srcAddr: return toVoidPtr(&pp->getSrcAddr()); break;
+        case FIELD_destAddr: return toVoidPtr(&pp->getDestAddr()); break;
         default: return nullptr;
     }
 }
 
-} // namespace projeto
+} // namespace inet
 

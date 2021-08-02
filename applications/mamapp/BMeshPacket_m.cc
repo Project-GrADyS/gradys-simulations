@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from applications/mamapp/BMeshPacket.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "Order_m.h"
+#include "BMeshPacket_m.h"
 
 namespace omnetpp {
 
@@ -173,7 +173,7 @@ toVoidPtr(T* t)
 
 }
 
-namespace projeto {
+namespace inet {
 
 // forward
 template<typename T, typename A>
@@ -207,66 +207,144 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-Register_Class(Order)
+Register_Class(BMeshPacket)
 
-Order::Order(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
+BMeshPacket::BMeshPacket() : ::inet::FieldsChunk()
 {
+    this->setChunkLength(B(11));
+
 }
 
-Order::Order(const Order& other) : ::omnetpp::cMessage(other)
+BMeshPacket::BMeshPacket(const BMeshPacket& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
 
-Order::~Order()
+BMeshPacket::~BMeshPacket()
 {
 }
 
-Order& Order::operator=(const Order& other)
+BMeshPacket& BMeshPacket::operator=(const BMeshPacket& other)
 {
     if (this == &other) return *this;
-    ::omnetpp::cMessage::operator=(other);
+    ::inet::FieldsChunk::operator=(other);
     copy(other);
     return *this;
 }
 
-void Order::copy(const Order& other)
+void BMeshPacket::copy(const BMeshPacket& other)
 {
-    this->command = other.command;
+    this->ttl = other.ttl;
+    this->hops = other.hops;
+    this->srcUuid = other.srcUuid;
+    this->packetUuid = other.packetUuid;
+    this->sequence = other.sequence;
+    this->creationTime = other.creationTime;
 }
 
-void Order::parsimPack(omnetpp::cCommBuffer *b) const
+void BMeshPacket::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::omnetpp::cMessage::parsimPack(b);
-    doParsimPacking(b,this->command);
+    ::inet::FieldsChunk::parsimPack(b);
+    doParsimPacking(b,this->ttl);
+    doParsimPacking(b,this->hops);
+    doParsimPacking(b,this->srcUuid);
+    doParsimPacking(b,this->packetUuid);
+    doParsimPacking(b,this->sequence);
+    doParsimPacking(b,this->creationTime);
 }
 
-void Order::parsimUnpack(omnetpp::cCommBuffer *b)
+void BMeshPacket::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::omnetpp::cMessage::parsimUnpack(b);
-    doParsimUnpacking(b,this->command);
+    ::inet::FieldsChunk::parsimUnpack(b);
+    doParsimUnpacking(b,this->ttl);
+    doParsimUnpacking(b,this->hops);
+    doParsimUnpacking(b,this->srcUuid);
+    doParsimUnpacking(b,this->packetUuid);
+    doParsimUnpacking(b,this->sequence);
+    doParsimUnpacking(b,this->creationTime);
 }
 
-int Order::getCommand() const
+int BMeshPacket::getTtl() const
 {
-    return this->command;
+    return this->ttl;
 }
 
-void Order::setCommand(int command)
+void BMeshPacket::setTtl(int ttl)
 {
-    this->command = command;
+    handleChange();
+    this->ttl = ttl;
 }
 
-class OrderDescriptor : public omnetpp::cClassDescriptor
+int BMeshPacket::getHops() const
+{
+    return this->hops;
+}
+
+void BMeshPacket::setHops(int hops)
+{
+    handleChange();
+    this->hops = hops;
+}
+
+const char * BMeshPacket::getSrcUuid() const
+{
+    return this->srcUuid.c_str();
+}
+
+void BMeshPacket::setSrcUuid(const char * srcUuid)
+{
+    handleChange();
+    this->srcUuid = srcUuid;
+}
+
+const char * BMeshPacket::getPacketUuid() const
+{
+    return this->packetUuid.c_str();
+}
+
+void BMeshPacket::setPacketUuid(const char * packetUuid)
+{
+    handleChange();
+    this->packetUuid = packetUuid;
+}
+
+int BMeshPacket::getSequence() const
+{
+    return this->sequence;
+}
+
+void BMeshPacket::setSequence(int sequence)
+{
+    handleChange();
+    this->sequence = sequence;
+}
+
+omnetpp::simtime_t BMeshPacket::getCreationTime() const
+{
+    return this->creationTime;
+}
+
+void BMeshPacket::setCreationTime(omnetpp::simtime_t creationTime)
+{
+    handleChange();
+    this->creationTime = creationTime;
+}
+
+class BMeshPacketDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_command,
+        FIELD_ttl,
+        FIELD_hops,
+        FIELD_srcUuid,
+        FIELD_packetUuid,
+        FIELD_sequence,
+        FIELD_creationTime,
     };
   public:
-    OrderDescriptor();
-    virtual ~OrderDescriptor();
+    BMeshPacketDescriptor();
+    virtual ~BMeshPacketDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -288,24 +366,24 @@ class OrderDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(OrderDescriptor)
+Register_ClassDescriptor(BMeshPacketDescriptor)
 
-OrderDescriptor::OrderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Order)), "omnetpp::cMessage")
+BMeshPacketDescriptor::BMeshPacketDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BMeshPacket)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
 
-OrderDescriptor::~OrderDescriptor()
+BMeshPacketDescriptor::~BMeshPacketDescriptor()
 {
     delete[] propertynames;
 }
 
-bool OrderDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool BMeshPacketDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Order *>(obj)!=nullptr;
+    return dynamic_cast<BMeshPacket *>(obj)!=nullptr;
 }
 
-const char **OrderDescriptor::getPropertyNames() const
+const char **BMeshPacketDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -316,19 +394,19 @@ const char **OrderDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *OrderDescriptor::getProperty(const char *propertyname) const
+const char *BMeshPacketDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int OrderDescriptor::getFieldCount() const
+int BMeshPacketDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 6+basedesc->getFieldCount() : 6;
 }
 
-unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
+unsigned int BMeshPacketDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -337,12 +415,17 @@ unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_command
+        FD_ISEDITABLE,    // FIELD_ttl
+        FD_ISEDITABLE,    // FIELD_hops
+        FD_ISEDITABLE,    // FIELD_srcUuid
+        FD_ISEDITABLE,    // FIELD_packetUuid
+        FD_ISEDITABLE,    // FIELD_sequence
+        0,    // FIELD_creationTime
     };
-    return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 6) ? fieldTypeFlags[field] : 0;
 }
 
-const char *OrderDescriptor::getFieldName(int field) const
+const char *BMeshPacketDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -351,20 +434,30 @@ const char *OrderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "command",
+        "ttl",
+        "hops",
+        "srcUuid",
+        "packetUuid",
+        "sequence",
+        "creationTime",
     };
-    return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldNames[field] : nullptr;
 }
 
-int OrderDescriptor::findField(const char *fieldName) const
+int BMeshPacketDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 'c' && strcmp(fieldName, "command") == 0) return base+0;
+    if (fieldName[0] == 't' && strcmp(fieldName, "ttl") == 0) return base+0;
+    if (fieldName[0] == 'h' && strcmp(fieldName, "hops") == 0) return base+1;
+    if (fieldName[0] == 's' && strcmp(fieldName, "srcUuid") == 0) return base+2;
+    if (fieldName[0] == 'p' && strcmp(fieldName, "packetUuid") == 0) return base+3;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sequence") == 0) return base+4;
+    if (fieldName[0] == 'c' && strcmp(fieldName, "creationTime") == 0) return base+5;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *OrderDescriptor::getFieldTypeString(int field) const
+const char *BMeshPacketDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -373,12 +466,17 @@ const char *OrderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_command
+        "int",    // FIELD_ttl
+        "int",    // FIELD_hops
+        "string",    // FIELD_srcUuid
+        "string",    // FIELD_packetUuid
+        "int",    // FIELD_sequence
+        "omnetpp::simtime_t",    // FIELD_creationTime
     };
-    return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **OrderDescriptor::getFieldPropertyNames(int field) const
+const char **BMeshPacketDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -391,7 +489,7 @@ const char **OrderDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *OrderDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *BMeshPacketDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -404,7 +502,7 @@ const char *OrderDescriptor::getFieldProperty(int field, const char *propertynam
     }
 }
 
-int OrderDescriptor::getFieldArraySize(void *object, int field) const
+int BMeshPacketDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -412,13 +510,13 @@ int OrderDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *BMeshPacketDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -426,13 +524,13 @@ const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, 
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string BMeshPacketDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -440,14 +538,19 @@ std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
-        case FIELD_command: return long2string(pp->getCommand());
+        case FIELD_ttl: return long2string(pp->getTtl());
+        case FIELD_hops: return long2string(pp->getHops());
+        case FIELD_srcUuid: return oppstring2string(pp->getSrcUuid());
+        case FIELD_packetUuid: return oppstring2string(pp->getPacketUuid());
+        case FIELD_sequence: return long2string(pp->getSequence());
+        case FIELD_creationTime: return simtime2string(pp->getCreationTime());
         default: return "";
     }
 }
 
-bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool BMeshPacketDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -455,14 +558,18 @@ bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, cons
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
-        case FIELD_command: pp->setCommand(string2long(value)); return true;
+        case FIELD_ttl: pp->setTtl(string2long(value)); return true;
+        case FIELD_hops: pp->setHops(string2long(value)); return true;
+        case FIELD_srcUuid: pp->setSrcUuid((value)); return true;
+        case FIELD_packetUuid: pp->setPacketUuid((value)); return true;
+        case FIELD_sequence: pp->setSequence(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *OrderDescriptor::getFieldStructName(int field) const
+const char *BMeshPacketDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -475,7 +582,7 @@ const char *OrderDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *BMeshPacketDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -483,11 +590,11 @@ void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-} // namespace projeto
+} // namespace inet
 
