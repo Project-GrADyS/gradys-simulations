@@ -41,14 +41,18 @@ OBJS = \
     $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
     $O/communication/modules/base/UdpSinkMobileNode.o \
     $O/communication/modules/base/UdpSinkMobileSensorNode.o \
+    $O/communication/protocols/ZigzagProtocol.o \
+    $O/communication/protocols/base/CommunicationProtocolBase.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
-    $O/communication/messages/internal/Order_m.o \
+    $O/communication/messages/internal/CommunicationCommand_m.o \
+    $O/communication/messages/internal/MobilityCommand_m.o \
     $O/communication/messages/internal/Telemetry_m.o \
     $O/communication/messages/network/MobileNodeMessage_m.o
 
 # Message files
 MSGFILES = \
-    communication/messages/internal/Order.msg \
+    communication/messages/internal/CommunicationCommand.msg \
+    communication/messages/internal/MobilityCommand.msg \
     communication/messages/internal/Telemetry.msg \
     communication/messages/network/MobileNodeMessage.msg
 

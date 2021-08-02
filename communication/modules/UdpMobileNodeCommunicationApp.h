@@ -4,8 +4,7 @@
 #define __INET_UdpMobileNodeCommunicationApp_H
 
 #include "inet/transportlayer/contract/udp/UdpSocket.h"
-#include "../messages/network/MobileNodeMessage_m.h"
-#include "../messages/internal/Telemetry_m.h"
+#include "inet/common/packet/chunk/Chunk_m.h"
 #include "base/UdpBasicAppMobileNode.h"
 
 using namespace inet;
@@ -16,46 +15,11 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
 
 class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
 {
-    private:
-        // Indicates the time when the last timeout started
-        simtime_t timeoutStart;
-        // Timeout status
-        bool isTimedout = false;
-        // True if the drone has recieved a heartbeat but not a pair request
-        bool isRequested = false;
-        // True if the drone's last interaction has concluded
-        bool isDone = false;
-
-        // Communication status variable
-        CommunicationStatus communicationStatus = FREE;
-
-        // Current target
-        int tentativeTarget = -1;
-        // Previous target
-        int lastTarget = -1;
-        // Name of the current target (for addressing purposes)
-        std::string tentativeTargetName;
-
-        // Current imaginary data being carried
-        int currentDataLoad=0;
-        // Stable data load to prevent data loss during pairing
-        int stableDataLoad=currentDataLoad;
-
-        // Last telemetry package recieved
-        Telemetry currentTelemetry = Telemetry();
-        Telemetry lastStableTelemetry = Telemetry();
-
-    private:
-        // Initiates a timeout timer
-        virtual void initiateTimeout();
-        // Resets parameters after interaction has concluded or cancelled
-        virtual void resetParameters();
-        // Sends a reverse order to the mobility module
-        virtual void sendReverseOrder();
-
     protected:
         // NED variable for the duration of the communication timeout
-        double timeoutDuration;
+        char *targetName = nullptr;
+        FieldsChunk *payloadTemplate = nullptr;
+
 
     protected:
         virtual void initialize(int stage) override;
@@ -63,15 +27,6 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
         virtual void sendPacket() override;
         virtual void processPacket(Packet *pk) override;
         virtual void handleMessageWhenUp(cMessage *msg) override;
-
-        virtual void sendHeartbeat(inet::IntrusivePtr<inet::MobileNodeMessage> payload);
-        virtual void sendPairRequest(inet::IntrusivePtr<inet::MobileNodeMessage> payload, int target);
-        virtual void sendPairConfirm(inet::IntrusivePtr<inet::MobileNodeMessage> payload, int target);
-
-        // Checks and updates the current timeout status (true if the drone is FREE)
-        virtual bool checkAndUpdateTimeout();
-    public:
-        simsignal_t dataLoadSignalID;
 };
 
 } // namespace inet

@@ -13,9 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-namespace projeto;
+package projeto.communication.protocols.base;
 
-message Order 
+//
+// TODO auto-generated module
+//
+simple CommunicationProtocolBase like IProtocol
 {
-    int command;
+    parameters:
+        @class(CommunicationProtocolBase);
+    gates:
+        inout mobilityGate;
+        inout communicationGate;
 }

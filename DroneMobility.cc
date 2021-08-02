@@ -6,7 +6,7 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 
-#include "communication/messages/internal/Order_m.h"
+#include "communication/messages/internal/MobilityCommand_m.h"
 #include "communication/messages/internal/Telemetry_m.h"
 
 using namespace inet;
@@ -376,15 +376,15 @@ void DroneMobility::handleMessage(cMessage *message) {
             return;
     }
 
-    Order *order = dynamic_cast<Order *>(message);
-    if(order != nullptr) {
+    MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
+    if(command != nullptr && command->getCommandType() == MobilityCommandType::REVERSE) {
         droneStatus.isReversed = !droneStatus.isReversed;
         emit(reverseSignalID, droneStatus.isReversed);
 
         if(!droneStatus.isIdle) {
            nextInstruction();
         }
-        cancelAndDelete(order);
+        cancelAndDelete(message);
     } else {
         VehicleMobility::handleMessage(message);
     }

@@ -6,6 +6,7 @@ import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
 
+import projeto.communication.protocols.base.IProtocol;
 
 module MobileNode extends AdhocHost
 {   
@@ -18,7 +19,10 @@ module MobileNode extends AdhocHost
   		@class(MobileNode);
   	
   	submodules:
+  	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
+  	    }
   	
   	connections:
-  		app[0].mobilityGate <--> mobility.commGate;
+  		app[0].controllerGate <--> protocol.communicationGate;
+  		protocol.mobilityGate <--> mobility.commGate;
 }

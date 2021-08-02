@@ -24,12 +24,10 @@ import projeto.communication.modules.base.UdpBasicAppMobileNode;
 simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {
     parameters:
-		double timeoutDuration @unit(s) = default(5s); // Duration of the timeout after recieving a heartbeat
-		@signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
     	@class(UdpMobileNodeCommunicationApp);
 		
 	gates:
-        inout mobilityGate;
+        inout controllerGate;
 		
 }
 
