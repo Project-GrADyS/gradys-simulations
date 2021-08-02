@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from linklayer/blemesh/BleMeshMacHeader.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "MobileNodeMessage_m.h"
+#include "BleMeshMacHeader_m.h"
 
 namespace omnetpp {
 
@@ -207,168 +207,67 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-EXECUTE_ON_STARTUP(
-    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::MessageType");
-    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::MessageType"));
-    e->insert(HEARTBEAT, "HEARTBEAT");
-    e->insert(PAIR_REQUEST, "PAIR_REQUEST");
-    e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
-    e->insert(BEARER, "BEARER");
-)
+Register_Class(BleMeshMacHeader)
 
-Register_Class(MobileNodeMessage)
-
-MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
+BleMeshMacHeader::BleMeshMacHeader() : ::inet::MacHeaderBase()
 {
-    this->setChunkLength(B(14));
-
 }
 
-MobileNodeMessage::MobileNodeMessage(const MobileNodeMessage& other) : ::inet::FieldsChunk(other)
+BleMeshMacHeader::BleMeshMacHeader(const BleMeshMacHeader& other) : ::inet::MacHeaderBase(other)
 {
     copy(other);
 }
 
-MobileNodeMessage::~MobileNodeMessage()
+BleMeshMacHeader::~BleMeshMacHeader()
 {
 }
 
-MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
+BleMeshMacHeader& BleMeshMacHeader::operator=(const BleMeshMacHeader& other)
 {
     if (this == &other) return *this;
-    ::inet::FieldsChunk::operator=(other);
+    ::inet::MacHeaderBase::operator=(other);
     copy(other);
     return *this;
 }
 
-void MobileNodeMessage::copy(const MobileNodeMessage& other)
+void BleMeshMacHeader::copy(const BleMeshMacHeader& other)
 {
-    this->sourceID = other.sourceID;
-    this->destinationID = other.destinationID;
-    this->nextWaypointID = other.nextWaypointID;
-    this->lastWaypointID = other.lastWaypointID;
-    this->dataLength = other.dataLength;
-    this->reversed = other.reversed;
-    this->messageType = other.messageType;
+    this->sequenceId = other.sequenceId;
 }
 
-void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
+void BleMeshMacHeader::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::inet::FieldsChunk::parsimPack(b);
-    doParsimPacking(b,this->sourceID);
-    doParsimPacking(b,this->destinationID);
-    doParsimPacking(b,this->nextWaypointID);
-    doParsimPacking(b,this->lastWaypointID);
-    doParsimPacking(b,this->dataLength);
-    doParsimPacking(b,this->reversed);
-    doParsimPacking(b,this->messageType);
+    ::inet::MacHeaderBase::parsimPack(b);
+    doParsimPacking(b,this->sequenceId);
 }
 
-void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
+void BleMeshMacHeader::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::inet::FieldsChunk::parsimUnpack(b);
-    doParsimUnpacking(b,this->sourceID);
-    doParsimUnpacking(b,this->destinationID);
-    doParsimUnpacking(b,this->nextWaypointID);
-    doParsimUnpacking(b,this->lastWaypointID);
-    doParsimUnpacking(b,this->dataLength);
-    doParsimUnpacking(b,this->reversed);
-    doParsimUnpacking(b,this->messageType);
+    ::inet::MacHeaderBase::parsimUnpack(b);
+    doParsimUnpacking(b,this->sequenceId);
 }
 
-int MobileNodeMessage::getSourceID() const
+long BleMeshMacHeader::getSequenceId() const
 {
-    return this->sourceID;
+    return this->sequenceId;
 }
 
-void MobileNodeMessage::setSourceID(int sourceID)
+void BleMeshMacHeader::setSequenceId(long sequenceId)
 {
     handleChange();
-    this->sourceID = sourceID;
+    this->sequenceId = sequenceId;
 }
 
-int MobileNodeMessage::getDestinationID() const
-{
-    return this->destinationID;
-}
-
-void MobileNodeMessage::setDestinationID(int destinationID)
-{
-    handleChange();
-    this->destinationID = destinationID;
-}
-
-int MobileNodeMessage::getNextWaypointID() const
-{
-    return this->nextWaypointID;
-}
-
-void MobileNodeMessage::setNextWaypointID(int nextWaypointID)
-{
-    handleChange();
-    this->nextWaypointID = nextWaypointID;
-}
-
-int MobileNodeMessage::getLastWaypointID() const
-{
-    return this->lastWaypointID;
-}
-
-void MobileNodeMessage::setLastWaypointID(int lastWaypointID)
-{
-    handleChange();
-    this->lastWaypointID = lastWaypointID;
-}
-
-int MobileNodeMessage::getDataLength() const
-{
-    return this->dataLength;
-}
-
-void MobileNodeMessage::setDataLength(int dataLength)
-{
-    handleChange();
-    this->dataLength = dataLength;
-}
-
-bool MobileNodeMessage::getReversed() const
-{
-    return this->reversed;
-}
-
-void MobileNodeMessage::setReversed(bool reversed)
-{
-    handleChange();
-    this->reversed = reversed;
-}
-
-inet::MessageType MobileNodeMessage::getMessageType() const
-{
-    return this->messageType;
-}
-
-void MobileNodeMessage::setMessageType(inet::MessageType messageType)
-{
-    handleChange();
-    this->messageType = messageType;
-}
-
-class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
+class BleMeshMacHeaderDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_sourceID,
-        FIELD_destinationID,
-        FIELD_nextWaypointID,
-        FIELD_lastWaypointID,
-        FIELD_dataLength,
-        FIELD_reversed,
-        FIELD_messageType,
+        FIELD_sequenceId,
     };
   public:
-    MobileNodeMessageDescriptor();
-    virtual ~MobileNodeMessageDescriptor();
+    BleMeshMacHeaderDescriptor();
+    virtual ~BleMeshMacHeaderDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -390,24 +289,24 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(MobileNodeMessageDescriptor)
+Register_ClassDescriptor(BleMeshMacHeaderDescriptor)
 
-MobileNodeMessageDescriptor::MobileNodeMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::MobileNodeMessage)), "inet::FieldsChunk")
+BleMeshMacHeaderDescriptor::BleMeshMacHeaderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BleMeshMacHeader)), "inet::MacHeaderBase")
 {
     propertynames = nullptr;
 }
 
-MobileNodeMessageDescriptor::~MobileNodeMessageDescriptor()
+BleMeshMacHeaderDescriptor::~BleMeshMacHeaderDescriptor()
 {
     delete[] propertynames;
 }
 
-bool MobileNodeMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool BleMeshMacHeaderDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<MobileNodeMessage *>(obj)!=nullptr;
+    return dynamic_cast<BleMeshMacHeader *>(obj)!=nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getPropertyNames() const
+const char **BleMeshMacHeaderDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -418,19 +317,19 @@ const char **MobileNodeMessageDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) const
+const char *BleMeshMacHeaderDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int MobileNodeMessageDescriptor::getFieldCount() const
+int BleMeshMacHeaderDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 7+basedesc->getFieldCount() : 7;
+    return basedesc ? 1+basedesc->getFieldCount() : 1;
 }
 
-unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
+unsigned int BleMeshMacHeaderDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -439,18 +338,12 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_sourceID
-        FD_ISEDITABLE,    // FIELD_destinationID
-        FD_ISEDITABLE,    // FIELD_nextWaypointID
-        FD_ISEDITABLE,    // FIELD_lastWaypointID
-        FD_ISEDITABLE,    // FIELD_dataLength
-        FD_ISEDITABLE,    // FIELD_reversed
-        0,    // FIELD_messageType
+        FD_ISEDITABLE,    // FIELD_sequenceId
     };
-    return (field >= 0 && field < 7) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldName(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -459,32 +352,20 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "sourceID",
-        "destinationID",
-        "nextWaypointID",
-        "lastWaypointID",
-        "dataLength",
-        "reversed",
-        "messageType",
+        "sequenceId",
     };
-    return (field >= 0 && field < 7) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
 }
 
-int MobileNodeMessageDescriptor::findField(const char *fieldName) const
+int BleMeshMacHeaderDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 's' && strcmp(fieldName, "sourceID") == 0) return base+0;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
-    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+2;
-    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+3;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "dataLength") == 0) return base+4;
-    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+5;
-    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+6;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sequenceId") == 0) return base+0;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -493,18 +374,12 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_sourceID
-        "int",    // FIELD_destinationID
-        "int",    // FIELD_nextWaypointID
-        "int",    // FIELD_lastWaypointID
-        "int",    // FIELD_dataLength
-        "bool",    // FIELD_reversed
-        "inet::MessageType",    // FIELD_messageType
+        "long",    // FIELD_sequenceId
     };
-    return (field >= 0 && field < 7) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
+const char **BleMeshMacHeaderDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -513,15 +388,11 @@ const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
         default: return nullptr;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *BleMeshMacHeaderDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -530,14 +401,11 @@ const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char 
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType:
-            if (!strcmp(propertyname, "enum")) return "inet::MessageType";
-            return nullptr;
         default: return nullptr;
     }
 }
 
-int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) const
+int BleMeshMacHeaderDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -545,13 +413,13 @@ int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) cons
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *BleMeshMacHeaderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -559,13 +427,13 @@ const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object,
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string BleMeshMacHeaderDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -573,20 +441,14 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: return long2string(pp->getSourceID());
-        case FIELD_destinationID: return long2string(pp->getDestinationID());
-        case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
-        case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
-        case FIELD_dataLength: return long2string(pp->getDataLength());
-        case FIELD_reversed: return bool2string(pp->getReversed());
-        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
+        case FIELD_sequenceId: return long2string(pp->getSequenceId());
         default: return "";
     }
 }
 
-bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool BleMeshMacHeaderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -594,19 +456,14 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
-        case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
-        case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
-        case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
-        case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
-        case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
+        case FIELD_sequenceId: pp->setSequenceId(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
+const char *BleMeshMacHeaderDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -619,7 +476,7 @@ const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *BleMeshMacHeaderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -627,7 +484,7 @@ void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int 
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }

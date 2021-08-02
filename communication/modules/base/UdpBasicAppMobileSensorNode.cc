@@ -76,8 +76,8 @@ void UdpBasicAppMobileSensorNode::setSocketOptions()
         socket.setTimeToLive(timeToLive);
 
     int dscp = par("dscp");
-    if (dscp != -1)
-        socket.setDscp(dscp);
+    //if (dscp != -1)
+    //    socket.setDscp(dscp);
 
     int tos = par("tos");
     if (tos != -1)

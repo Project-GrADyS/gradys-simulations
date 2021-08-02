@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from applications/mamapp/BMeshPacket.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "MobileNodeMessage_m.h"
+#include "BMeshPacket_m.h"
 
 namespace omnetpp {
 
@@ -207,33 +207,24 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-EXECUTE_ON_STARTUP(
-    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::MessageType");
-    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::MessageType"));
-    e->insert(HEARTBEAT, "HEARTBEAT");
-    e->insert(PAIR_REQUEST, "PAIR_REQUEST");
-    e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
-    e->insert(BEARER, "BEARER");
-)
+Register_Class(BMeshPacket)
 
-Register_Class(MobileNodeMessage)
-
-MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
+BMeshPacket::BMeshPacket() : ::inet::FieldsChunk()
 {
-    this->setChunkLength(B(14));
+    this->setChunkLength(B(11));
 
 }
 
-MobileNodeMessage::MobileNodeMessage(const MobileNodeMessage& other) : ::inet::FieldsChunk(other)
+BMeshPacket::BMeshPacket(const BMeshPacket& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
 
-MobileNodeMessage::~MobileNodeMessage()
+BMeshPacket::~BMeshPacket()
 {
 }
 
-MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
+BMeshPacket& BMeshPacket::operator=(const BMeshPacket& other)
 {
     if (this == &other) return *this;
     ::inet::FieldsChunk::operator=(other);
@@ -241,134 +232,119 @@ MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
     return *this;
 }
 
-void MobileNodeMessage::copy(const MobileNodeMessage& other)
+void BMeshPacket::copy(const BMeshPacket& other)
 {
-    this->sourceID = other.sourceID;
-    this->destinationID = other.destinationID;
-    this->nextWaypointID = other.nextWaypointID;
-    this->lastWaypointID = other.lastWaypointID;
-    this->dataLength = other.dataLength;
-    this->reversed = other.reversed;
-    this->messageType = other.messageType;
+    this->ttl = other.ttl;
+    this->hops = other.hops;
+    this->srcUuid = other.srcUuid;
+    this->packetUuid = other.packetUuid;
+    this->sequence = other.sequence;
+    this->creationTime = other.creationTime;
 }
 
-void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
+void BMeshPacket::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::inet::FieldsChunk::parsimPack(b);
-    doParsimPacking(b,this->sourceID);
-    doParsimPacking(b,this->destinationID);
-    doParsimPacking(b,this->nextWaypointID);
-    doParsimPacking(b,this->lastWaypointID);
-    doParsimPacking(b,this->dataLength);
-    doParsimPacking(b,this->reversed);
-    doParsimPacking(b,this->messageType);
+    doParsimPacking(b,this->ttl);
+    doParsimPacking(b,this->hops);
+    doParsimPacking(b,this->srcUuid);
+    doParsimPacking(b,this->packetUuid);
+    doParsimPacking(b,this->sequence);
+    doParsimPacking(b,this->creationTime);
 }
 
-void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
+void BMeshPacket::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::inet::FieldsChunk::parsimUnpack(b);
-    doParsimUnpacking(b,this->sourceID);
-    doParsimUnpacking(b,this->destinationID);
-    doParsimUnpacking(b,this->nextWaypointID);
-    doParsimUnpacking(b,this->lastWaypointID);
-    doParsimUnpacking(b,this->dataLength);
-    doParsimUnpacking(b,this->reversed);
-    doParsimUnpacking(b,this->messageType);
+    doParsimUnpacking(b,this->ttl);
+    doParsimUnpacking(b,this->hops);
+    doParsimUnpacking(b,this->srcUuid);
+    doParsimUnpacking(b,this->packetUuid);
+    doParsimUnpacking(b,this->sequence);
+    doParsimUnpacking(b,this->creationTime);
 }
 
-int MobileNodeMessage::getSourceID() const
+int BMeshPacket::getTtl() const
 {
-    return this->sourceID;
+    return this->ttl;
 }
 
-void MobileNodeMessage::setSourceID(int sourceID)
-{
-    handleChange();
-    this->sourceID = sourceID;
-}
-
-int MobileNodeMessage::getDestinationID() const
-{
-    return this->destinationID;
-}
-
-void MobileNodeMessage::setDestinationID(int destinationID)
+void BMeshPacket::setTtl(int ttl)
 {
     handleChange();
-    this->destinationID = destinationID;
+    this->ttl = ttl;
 }
 
-int MobileNodeMessage::getNextWaypointID() const
+int BMeshPacket::getHops() const
 {
-    return this->nextWaypointID;
+    return this->hops;
 }
 
-void MobileNodeMessage::setNextWaypointID(int nextWaypointID)
-{
-    handleChange();
-    this->nextWaypointID = nextWaypointID;
-}
-
-int MobileNodeMessage::getLastWaypointID() const
-{
-    return this->lastWaypointID;
-}
-
-void MobileNodeMessage::setLastWaypointID(int lastWaypointID)
+void BMeshPacket::setHops(int hops)
 {
     handleChange();
-    this->lastWaypointID = lastWaypointID;
+    this->hops = hops;
 }
 
-int MobileNodeMessage::getDataLength() const
+const char * BMeshPacket::getSrcUuid() const
 {
-    return this->dataLength;
+    return this->srcUuid.c_str();
 }
 
-void MobileNodeMessage::setDataLength(int dataLength)
-{
-    handleChange();
-    this->dataLength = dataLength;
-}
-
-bool MobileNodeMessage::getReversed() const
-{
-    return this->reversed;
-}
-
-void MobileNodeMessage::setReversed(bool reversed)
+void BMeshPacket::setSrcUuid(const char * srcUuid)
 {
     handleChange();
-    this->reversed = reversed;
+    this->srcUuid = srcUuid;
 }
 
-inet::MessageType MobileNodeMessage::getMessageType() const
+const char * BMeshPacket::getPacketUuid() const
 {
-    return this->messageType;
+    return this->packetUuid.c_str();
 }
 
-void MobileNodeMessage::setMessageType(inet::MessageType messageType)
+void BMeshPacket::setPacketUuid(const char * packetUuid)
 {
     handleChange();
-    this->messageType = messageType;
+    this->packetUuid = packetUuid;
 }
 
-class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
+int BMeshPacket::getSequence() const
+{
+    return this->sequence;
+}
+
+void BMeshPacket::setSequence(int sequence)
+{
+    handleChange();
+    this->sequence = sequence;
+}
+
+omnetpp::simtime_t BMeshPacket::getCreationTime() const
+{
+    return this->creationTime;
+}
+
+void BMeshPacket::setCreationTime(omnetpp::simtime_t creationTime)
+{
+    handleChange();
+    this->creationTime = creationTime;
+}
+
+class BMeshPacketDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_sourceID,
-        FIELD_destinationID,
-        FIELD_nextWaypointID,
-        FIELD_lastWaypointID,
-        FIELD_dataLength,
-        FIELD_reversed,
-        FIELD_messageType,
+        FIELD_ttl,
+        FIELD_hops,
+        FIELD_srcUuid,
+        FIELD_packetUuid,
+        FIELD_sequence,
+        FIELD_creationTime,
     };
   public:
-    MobileNodeMessageDescriptor();
-    virtual ~MobileNodeMessageDescriptor();
+    BMeshPacketDescriptor();
+    virtual ~BMeshPacketDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -390,24 +366,24 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(MobileNodeMessageDescriptor)
+Register_ClassDescriptor(BMeshPacketDescriptor)
 
-MobileNodeMessageDescriptor::MobileNodeMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::MobileNodeMessage)), "inet::FieldsChunk")
+BMeshPacketDescriptor::BMeshPacketDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BMeshPacket)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
 
-MobileNodeMessageDescriptor::~MobileNodeMessageDescriptor()
+BMeshPacketDescriptor::~BMeshPacketDescriptor()
 {
     delete[] propertynames;
 }
 
-bool MobileNodeMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool BMeshPacketDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<MobileNodeMessage *>(obj)!=nullptr;
+    return dynamic_cast<BMeshPacket *>(obj)!=nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getPropertyNames() const
+const char **BMeshPacketDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -418,19 +394,19 @@ const char **MobileNodeMessageDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) const
+const char *BMeshPacketDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int MobileNodeMessageDescriptor::getFieldCount() const
+int BMeshPacketDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 7+basedesc->getFieldCount() : 7;
+    return basedesc ? 6+basedesc->getFieldCount() : 6;
 }
 
-unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
+unsigned int BMeshPacketDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -439,18 +415,17 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_sourceID
-        FD_ISEDITABLE,    // FIELD_destinationID
-        FD_ISEDITABLE,    // FIELD_nextWaypointID
-        FD_ISEDITABLE,    // FIELD_lastWaypointID
-        FD_ISEDITABLE,    // FIELD_dataLength
-        FD_ISEDITABLE,    // FIELD_reversed
-        0,    // FIELD_messageType
+        FD_ISEDITABLE,    // FIELD_ttl
+        FD_ISEDITABLE,    // FIELD_hops
+        FD_ISEDITABLE,    // FIELD_srcUuid
+        FD_ISEDITABLE,    // FIELD_packetUuid
+        FD_ISEDITABLE,    // FIELD_sequence
+        0,    // FIELD_creationTime
     };
-    return (field >= 0 && field < 7) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 6) ? fieldTypeFlags[field] : 0;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldName(int field) const
+const char *BMeshPacketDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -459,32 +434,30 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "sourceID",
-        "destinationID",
-        "nextWaypointID",
-        "lastWaypointID",
-        "dataLength",
-        "reversed",
-        "messageType",
+        "ttl",
+        "hops",
+        "srcUuid",
+        "packetUuid",
+        "sequence",
+        "creationTime",
     };
-    return (field >= 0 && field < 7) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldNames[field] : nullptr;
 }
 
-int MobileNodeMessageDescriptor::findField(const char *fieldName) const
+int BMeshPacketDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 's' && strcmp(fieldName, "sourceID") == 0) return base+0;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
-    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+2;
-    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+3;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "dataLength") == 0) return base+4;
-    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+5;
-    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+6;
+    if (fieldName[0] == 't' && strcmp(fieldName, "ttl") == 0) return base+0;
+    if (fieldName[0] == 'h' && strcmp(fieldName, "hops") == 0) return base+1;
+    if (fieldName[0] == 's' && strcmp(fieldName, "srcUuid") == 0) return base+2;
+    if (fieldName[0] == 'p' && strcmp(fieldName, "packetUuid") == 0) return base+3;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sequence") == 0) return base+4;
+    if (fieldName[0] == 'c' && strcmp(fieldName, "creationTime") == 0) return base+5;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
+const char *BMeshPacketDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -493,18 +466,17 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_sourceID
-        "int",    // FIELD_destinationID
-        "int",    // FIELD_nextWaypointID
-        "int",    // FIELD_lastWaypointID
-        "int",    // FIELD_dataLength
-        "bool",    // FIELD_reversed
-        "inet::MessageType",    // FIELD_messageType
+        "int",    // FIELD_ttl
+        "int",    // FIELD_hops
+        "string",    // FIELD_srcUuid
+        "string",    // FIELD_packetUuid
+        "int",    // FIELD_sequence
+        "omnetpp::simtime_t",    // FIELD_creationTime
     };
-    return (field >= 0 && field < 7) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
+const char **BMeshPacketDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -513,15 +485,11 @@ const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
         default: return nullptr;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *BMeshPacketDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -530,14 +498,11 @@ const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char 
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_messageType:
-            if (!strcmp(propertyname, "enum")) return "inet::MessageType";
-            return nullptr;
         default: return nullptr;
     }
 }
 
-int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) const
+int BMeshPacketDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -545,13 +510,13 @@ int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) cons
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *BMeshPacketDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -559,13 +524,13 @@ const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object,
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string BMeshPacketDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -573,20 +538,19 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: return long2string(pp->getSourceID());
-        case FIELD_destinationID: return long2string(pp->getDestinationID());
-        case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
-        case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
-        case FIELD_dataLength: return long2string(pp->getDataLength());
-        case FIELD_reversed: return bool2string(pp->getReversed());
-        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
+        case FIELD_ttl: return long2string(pp->getTtl());
+        case FIELD_hops: return long2string(pp->getHops());
+        case FIELD_srcUuid: return oppstring2string(pp->getSrcUuid());
+        case FIELD_packetUuid: return oppstring2string(pp->getPacketUuid());
+        case FIELD_sequence: return long2string(pp->getSequence());
+        case FIELD_creationTime: return simtime2string(pp->getCreationTime());
         default: return "";
     }
 }
 
-bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool BMeshPacketDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -594,19 +558,18 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
-        case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
-        case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
-        case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
-        case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
-        case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
-        case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
+        case FIELD_ttl: pp->setTtl(string2long(value)); return true;
+        case FIELD_hops: pp->setHops(string2long(value)); return true;
+        case FIELD_srcUuid: pp->setSrcUuid((value)); return true;
+        case FIELD_packetUuid: pp->setPacketUuid((value)); return true;
+        case FIELD_sequence: pp->setSequence(string2long(value)); return true;
         default: return false;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
+const char *BMeshPacketDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -619,7 +582,7 @@ const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *BMeshPacketDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -627,7 +590,7 @@ void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int 
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    BMeshPacket *pp = (BMeshPacket *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }

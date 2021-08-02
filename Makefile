@@ -35,6 +35,9 @@ OBJS = \
     $O/GotoWaypointMobility.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
+    $O/applications/mamapp/MamDataCollectorApp.o \
+    $O/applications/mamapp/MamNodeApp.o \
+    $O/applications/mamapp/Md5.o \
     $O/communication/modules/UdpMobileNodeCommunicationApp.o \
     $O/communication/modules/UdpSensorCommunicationApp.o \
     $O/communication/modules/base/UdpBasicAppMobileNode.o \
@@ -43,18 +46,27 @@ OBJS = \
     $O/communication/modules/base/UdpSinkMobileSensorNode.o \
     $O/communication/protocols/ZigzagProtocol.o \
     $O/communication/protocols/base/CommunicationProtocolBase.o \
+    $O/linklayer/blemesh/BleMeshMac.o \
+    $O/linklayer/blemesh/BleMeshProtocolDissector.o \
+    $O/linklayer/blemesh/InterfaceEntryExt.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
+    $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/messages/internal/CommunicationCommand_m.o \
     $O/communication/messages/internal/MobilityCommand_m.o \
     $O/communication/messages/internal/Telemetry_m.o \
-    $O/communication/messages/network/MobileNodeMessage_m.o
+    $O/communication/messages/network/MobileNodeMessage_m.o \
+    $O/linklayer/base/MacHeaderBase_m.o \
+    $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
 # Message files
 MSGFILES = \
+    applications/mamapp/BMeshPacket.msg \
     communication/messages/internal/CommunicationCommand.msg \
     communication/messages/internal/MobilityCommand.msg \
     communication/messages/internal/Telemetry.msg \
-    communication/messages/network/MobileNodeMessage.msg
+    communication/messages/network/MobileNodeMessage.msg \
+    linklayer/base/MacHeaderBase.msg \
+    linklayer/blemesh/BleMeshMacHeader.msg
 
 # SM files
 SMFILES =
