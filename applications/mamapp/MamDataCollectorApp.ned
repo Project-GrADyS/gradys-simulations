@@ -41,6 +41,11 @@ simple MamDataCollectorApp like IApp
         double stopOperationTimeout @unit(s) = default(2s);    // timeout value for lifecycle stop operation
         volatile double sendDiscoveryInterval @unit(s) = default(1s); // should usually be a small value, e.g. 1
         bool dontFragment = default(false); // if true, asks IP to not fragment the message during routing
+        int dscp = default(-1); // if not -1, set the DSCP field (on IPv4/IPv6) of sent packets to this value
+        int tos = default(-1); // if not -1, set the Type Of Service (IPv4) / Traffic Class (IPv6) field of sent packets to this value
+        string multicastInterface = default("");  // if not empty, set the multicast output interface option on the socket (interface name expected)
+        
+        bool joinLocalMulticastGroups = default(false); // if true, makes the socket receive packets from all multicast groups set on local interfaces
         
         @signal[packetSent](type=inet::Packet); // Discovery packet
         @signal[packetReceived](type=inet::Packet);

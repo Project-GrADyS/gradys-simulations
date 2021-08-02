@@ -173,6 +173,14 @@ void MamDataCollectorApp::setSocketOptions()
     if (timeToLive != -1)
         socket.setTimeToLive(timeToLive);
 
+    int dscp = findPar("dscp");
+    //if (dscp != -1)
+    //    socket.setDscp(dscp);
+
+    int tos = findPar("tos");
+    if (tos != -1)
+        socket.setTos(tos);
+
     const char *multicastInterface = par("multicastInterface");
     if (multicastInterface[0]) {
         IInterfaceTable *ift = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this);
@@ -182,11 +190,11 @@ void MamDataCollectorApp::setSocketOptions()
         socket.setMulticastOutputInterface(ie->getInterfaceId());
     }
 
-    //bool receiveBroadcast = par("receiveBroadcast");
-    //if (receiveBroadcast)
-    socket.setBroadcast(true);
+    bool receiveBroadcast = findPar("receiveBroadcast");
+    if (receiveBroadcast)
+        socket.setBroadcast(true);
 
-    bool joinLocalMulticastGroups = par("joinLocalMulticastGroups");
+    bool joinLocalMulticastGroups = findPar("joinLocalMulticastGroups");
     if (joinLocalMulticastGroups) {
         MulticastGroupList mgl = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this)->collectMulticastGroups();
         socket.joinLocalMulticastGroups(mgl);
