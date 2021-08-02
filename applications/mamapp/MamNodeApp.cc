@@ -156,17 +156,9 @@ void MamNodeApp::finish()
 
 void MamNodeApp::setSocketOptions()
 {
-    int timeToLive = par("timeToLive");
+    int timeToLive = findPar("timeToLive");
     if (timeToLive != -1)
         socket.setTimeToLive(timeToLive);
-
-    int dscp = par("dscp");
-    if (dscp != -1)
-        socket.setDscp(dscp);
-
-    int tos = par("tos");
-    if (tos != -1)
-        socket.setTos(tos);
 
     const char *multicastInterface = par("multicastInterface");
     if (multicastInterface[0]) {

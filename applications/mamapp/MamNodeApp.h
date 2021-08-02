@@ -51,6 +51,7 @@ class INET_API MamNodeApp : public ApplicationBase, public UdpSocket::ICallback
     std::vector<L3Address> destAddresses;
     std::vector<std::string> destAddressStr;
     int localPort = -1, destPort = -1;
+    L3Address multicastGroup;
     simtime_t startTime;
     simtime_t stopTime;
     bool dontFragment = false;

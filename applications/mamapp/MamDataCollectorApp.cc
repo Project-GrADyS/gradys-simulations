@@ -169,9 +169,9 @@ void MamDataCollectorApp::finish()
 
 void MamDataCollectorApp::setSocketOptions()
 {
-    //bool receiveBroadcast = par("receiveBroadcast");
-    //if (receiveBroadcast)
-    socket.setBroadcast(true);
+    int timeToLive = findPar("timeToLive");
+    if (timeToLive != -1)
+        socket.setTimeToLive(timeToLive);
 
     const char *multicastInterface = par("multicastInterface");
     if (multicastInterface[0]) {
@@ -182,16 +182,14 @@ void MamDataCollectorApp::setSocketOptions()
         socket.setMulticastOutputInterface(ie->getInterfaceId());
     }
 
-    //MulticastGroupList mgl = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this)->collectMulticastGroups();
-    //socket.joinLocalMulticastGroups(mgl);
+    //bool receiveBroadcast = par("receiveBroadcast");
+    //if (receiveBroadcast)
+    socket.setBroadcast(true);
 
-    // join multicastGroup
-    const char *groupAddr = par("multicastGroup");
-    multicastGroup = L3AddressResolver().resolve(groupAddr);
-    if (!multicastGroup.isUnspecified()) {
-        if (!multicastGroup.isMulticast())
-            throw cRuntimeError("Wrong multicastGroup setting: not a multicast address: %s", groupAddr);
-        socket.joinMulticastGroup(multicastGroup);
+    bool joinLocalMulticastGroups = par("joinLocalMulticastGroups");
+    if (joinLocalMulticastGroups) {
+        MulticastGroupList mgl = getModuleFromPar<IInterfaceTable>(par("interfaceTableModule"), this)->collectMulticastGroups();
+        socket.joinLocalMulticastGroups(mgl);
     }
     socket.setCallback(this);
 }
