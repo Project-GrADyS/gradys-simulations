@@ -13,9 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-namespace projeto;
+package projeto.communication.modules;
 
-message Order 
-{
-    int command;
+import projeto.communication.modules.base.UdpBasicAppMobileSensorNode;
+
+simple UdpSensorCommunicationApp extends UdpBasicAppMobileSensorNode {
+    @class(UdpSensorCommunicationApp);
 }

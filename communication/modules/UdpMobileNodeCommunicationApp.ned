@@ -16,21 +16,18 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-package projeto.communication;
+package projeto.communication.modules;
 
 import inet.applications.contract.IApp;
-import projeto.UdpBasicAppMobileNode;
+import projeto.communication.modules.base.UdpBasicAppMobileNode;
 
 simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
 {
     parameters:
-		double timeoutDuration @unit(s) = default(5s);
-		int dataCapacity = default(20);
-		@signal[dataLoad](type=long);
     	@class(UdpMobileNodeCommunicationApp);
 		
 	gates:
-        inout mobilityGate;
+        inout controllerGate;
 		
 }
 

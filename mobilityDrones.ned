@@ -1,4 +1,4 @@
-package projeto;
+	package projeto;
 
 import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
@@ -26,6 +26,7 @@ network mobilityDrones
     parameters:
 
 		int numUAVs = default(1);
+		int numSensors = default(1);
 
     types:
 
@@ -48,20 +49,14 @@ network mobilityDrones
         radioMedium: Ieee802154NarrowbandScalarRadioMedium {
             @display("p=200,0");
         }
-        drones[numUAVs]: MobileNode {
+        quads[numUAVs]: MobileNode {
 			
         } 
         
-        sensor1: MobileSensorNode {
+        sensors[numSensors]: MobileSensorNode {
             @display("i=misc/sensor");
         }
-//        sensor2: MobileSensorNode {
-//            @display("i=misc/sensor");
-//        }sensor3: MobileSensorNode {
-//            @display("i=misc/sensor");
-//        }
-//        sensor2: MobileSensorNode {
-//            @display("p=500,500;i=misc/sensor");
-//        }                  
-
+        groundStation: GroundStation {
+            @display("i=misc/sensor3");
+        }
 }

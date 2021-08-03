@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for gradys-simulations
+# OMNeT++/OMNEST Makefile for projeto
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep -O out -KINET_PROJ=../inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
-TARGET = gradys-simulations$(D)$(EXE_SUFFIX)
+TARGET = projeto$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
@@ -35,31 +35,36 @@ OBJS = \
     $O/GotoWaypointMobility.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
-    $O/UdpBasicAppMobileNode.o \
-    $O/UdpBasicAppMobileSensorNode.o \
-    $O/UdpSinkMobileNode.o \
-    $O/UdpSinkMobileSensorNode.o \
     $O/applications/mamapp/MamDataCollectorApp.o \
     $O/applications/mamapp/MamNodeApp.o \
     $O/applications/mamapp/Md5.o \
-    $O/communication/UdpMobileNodeCommunicationApp.o \
-    $O/communication/UdpSensorCommunicationApp.o \
+    $O/communication/modules/UdpMobileNodeCommunicationApp.o \
+    $O/communication/modules/UdpSensorCommunicationApp.o \
+    $O/communication/modules/base/UdpBasicAppMobileNode.o \
+    $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
+    $O/communication/modules/base/UdpSinkMobileNode.o \
+    $O/communication/modules/base/UdpSinkMobileSensorNode.o \
+    $O/communication/protocols/ZigzagProtocol.o \
+    $O/communication/protocols/base/CommunicationProtocolBase.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
+    $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
-    $O/communication/MobileNodeMessage_m.o \
-    $O/communication/Order_m.o \
-    $O/communication/Telemetry_m.o \
+    $O/communication/messages/internal/CommunicationCommand_m.o \
+    $O/communication/messages/internal/MobilityCommand_m.o \
+    $O/communication/messages/internal/Telemetry_m.o \
+    $O/communication/messages/network/MobileNodeMessage_m.o \
     $O/linklayer/base/MacHeaderBase_m.o \
     $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
 # Message files
 MSGFILES = \
     applications/mamapp/BMeshPacket.msg \
-    communication/MobileNodeMessage.msg \
-    communication/Order.msg \
-    communication/Telemetry.msg \
+    communication/messages/internal/CommunicationCommand.msg \
+    communication/messages/internal/MobilityCommand.msg \
+    communication/messages/internal/Telemetry.msg \
+    communication/messages/network/MobileNodeMessage.msg \
     linklayer/base/MacHeaderBase.msg \
     linklayer/blemesh/BleMeshMacHeader.msg
 

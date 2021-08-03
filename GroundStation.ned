@@ -5,10 +5,10 @@ import inet.mobility.base.MovingMobilityBase;
 import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
-
 import projeto.communication.protocols.base.IProtocol;
 
-module MobileNode extends AdhocHost
+
+module GroundStation extends AdhocHost
 {   
     parameters:
   		int internalMobNodeId = -1;
@@ -24,5 +24,4 @@ module MobileNode extends AdhocHost
   	
   	connections:
   		app[0].controllerGate <--> protocol.communicationGate;
-  		protocol.mobilityGate <--> mobility.commGate;
 }

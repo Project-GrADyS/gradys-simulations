@@ -13,11 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-namespace projeto;
+package projeto.communication.protocols.base;
 
-// Class designed to share necessary drone information with the communication module
-message Telemetry {
-    int nextWaypointID;
-    int lastWaypointID;
-    bool isReversed;
+//
+// TODO auto-generated module
+//
+simple CommunicationProtocolBase like IProtocol
+{
+    parameters:
+        @class(CommunicationProtocolBase);
+    gates:
+        inout mobilityGate;
+        inout communicationGate;
 }

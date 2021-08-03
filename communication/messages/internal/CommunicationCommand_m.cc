@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/Order.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/internal/CommunicationCommand.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "Order_m.h"
+#include "CommunicationCommand_m.h"
 
 namespace omnetpp {
 
@@ -207,22 +207,29 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-Register_Class(Order)
+EXECUTE_ON_STARTUP(
+    omnetpp::cEnum *e = omnetpp::cEnum::find("projeto::CommunicationCommandType");
+    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("projeto::CommunicationCommandType"));
+    e->insert(SET_PAYLOAD, "SET_PAYLOAD");
+    e->insert(SET_TARGET, "SET_TARGET");
+)
 
-Order::Order(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
+Register_Class(CommunicationCommand)
+
+CommunicationCommand::CommunicationCommand(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
 {
 }
 
-Order::Order(const Order& other) : ::omnetpp::cMessage(other)
+CommunicationCommand::CommunicationCommand(const CommunicationCommand& other) : ::omnetpp::cMessage(other)
 {
     copy(other);
 }
 
-Order::~Order()
+CommunicationCommand::~CommunicationCommand()
 {
 }
 
-Order& Order::operator=(const Order& other)
+CommunicationCommand& CommunicationCommand::operator=(const CommunicationCommand& other)
 {
     if (this == &other) return *this;
     ::omnetpp::cMessage::operator=(other);
@@ -230,43 +237,71 @@ Order& Order::operator=(const Order& other)
     return *this;
 }
 
-void Order::copy(const Order& other)
+void CommunicationCommand::copy(const CommunicationCommand& other)
 {
-    this->command = other.command;
+    this->commandType = other.commandType;
+    this->payloadTemplate = other.payloadTemplate;
+    this->target = other.target;
 }
 
-void Order::parsimPack(omnetpp::cCommBuffer *b) const
+void CommunicationCommand::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::omnetpp::cMessage::parsimPack(b);
-    doParsimPacking(b,this->command);
+    doParsimPacking(b,this->commandType);
+    doParsimPacking(b,this->payloadTemplate);
+    doParsimPacking(b,this->target);
 }
 
-void Order::parsimUnpack(omnetpp::cCommBuffer *b)
+void CommunicationCommand::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::omnetpp::cMessage::parsimUnpack(b);
-    doParsimUnpacking(b,this->command);
+    doParsimUnpacking(b,this->commandType);
+    doParsimUnpacking(b,this->payloadTemplate);
+    doParsimUnpacking(b,this->target);
 }
 
-int Order::getCommand() const
+projeto::CommunicationCommandType CommunicationCommand::getCommandType() const
 {
-    return this->command;
+    return this->commandType;
 }
 
-void Order::setCommand(int command)
+void CommunicationCommand::setCommandType(projeto::CommunicationCommandType commandType)
 {
-    this->command = command;
+    this->commandType = commandType;
 }
 
-class OrderDescriptor : public omnetpp::cClassDescriptor
+const inet::FieldsChunk * CommunicationCommand::getPayloadTemplate() const
+{
+    return this->payloadTemplate;
+}
+
+void CommunicationCommand::setPayloadTemplate(inet::FieldsChunk * payloadTemplate)
+{
+    this->payloadTemplate = payloadTemplate;
+}
+
+const char * CommunicationCommand::getTarget() const
+{
+    return this->target.c_str();
+}
+
+void CommunicationCommand::setTarget(const char * target)
+{
+    this->target = target;
+}
+
+class CommunicationCommandDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
-        FIELD_command,
+        FIELD_commandType,
+        FIELD_payloadTemplate,
+        FIELD_target,
     };
   public:
-    OrderDescriptor();
-    virtual ~OrderDescriptor();
+    CommunicationCommandDescriptor();
+    virtual ~CommunicationCommandDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -288,24 +323,24 @@ class OrderDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(OrderDescriptor)
+Register_ClassDescriptor(CommunicationCommandDescriptor)
 
-OrderDescriptor::OrderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Order)), "omnetpp::cMessage")
+CommunicationCommandDescriptor::CommunicationCommandDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::CommunicationCommand)), "omnetpp::cMessage")
 {
     propertynames = nullptr;
 }
 
-OrderDescriptor::~OrderDescriptor()
+CommunicationCommandDescriptor::~CommunicationCommandDescriptor()
 {
     delete[] propertynames;
 }
 
-bool OrderDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool CommunicationCommandDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Order *>(obj)!=nullptr;
+    return dynamic_cast<CommunicationCommand *>(obj)!=nullptr;
 }
 
-const char **OrderDescriptor::getPropertyNames() const
+const char **CommunicationCommandDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -316,19 +351,19 @@ const char **OrderDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *OrderDescriptor::getProperty(const char *propertyname) const
+const char *CommunicationCommandDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int OrderDescriptor::getFieldCount() const
+int CommunicationCommandDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 3+basedesc->getFieldCount() : 3;
 }
 
-unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
+unsigned int CommunicationCommandDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -337,12 +372,14 @@ unsigned int OrderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,    // FIELD_command
+        FD_ISEDITABLE,    // FIELD_commandType
+        FD_ISCOMPOUND | FD_ISPOINTER | FD_ISCOBJECT,    // FIELD_payloadTemplate
+        FD_ISEDITABLE,    // FIELD_target
     };
-    return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
 }
 
-const char *OrderDescriptor::getFieldName(int field) const
+const char *CommunicationCommandDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -351,20 +388,24 @@ const char *OrderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "command",
+        "commandType",
+        "payloadTemplate",
+        "target",
     };
-    return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
 }
 
-int OrderDescriptor::findField(const char *fieldName) const
+int CommunicationCommandDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 'c' && strcmp(fieldName, "command") == 0) return base+0;
+    if (fieldName[0] == 'c' && strcmp(fieldName, "commandType") == 0) return base+0;
+    if (fieldName[0] == 'p' && strcmp(fieldName, "payloadTemplate") == 0) return base+1;
+    if (fieldName[0] == 't' && strcmp(fieldName, "target") == 0) return base+2;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *OrderDescriptor::getFieldTypeString(int field) const
+const char *CommunicationCommandDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -373,12 +414,14 @@ const char *OrderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "int",    // FIELD_command
+        "projeto::CommunicationCommandType",    // FIELD_commandType
+        "inet::FieldsChunk",    // FIELD_payloadTemplate
+        "string",    // FIELD_target
     };
-    return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **OrderDescriptor::getFieldPropertyNames(int field) const
+const char **CommunicationCommandDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -387,11 +430,15 @@ const char **OrderDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case FIELD_commandType: {
+            static const char *names[] = { "enum",  nullptr };
+            return names;
+        }
         default: return nullptr;
     }
 }
 
-const char *OrderDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *CommunicationCommandDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -400,11 +447,14 @@ const char *OrderDescriptor::getFieldProperty(int field, const char *propertynam
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case FIELD_commandType:
+            if (!strcmp(propertyname, "enum")) return "projeto::CommunicationCommandType";
+            return nullptr;
         default: return nullptr;
     }
 }
 
-int OrderDescriptor::getFieldArraySize(void *object, int field) const
+int CommunicationCommandDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -412,13 +462,13 @@ int OrderDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    CommunicationCommand *pp = (CommunicationCommand *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *CommunicationCommandDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -426,13 +476,14 @@ const char *OrderDescriptor::getFieldDynamicTypeString(void *object, int field, 
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    CommunicationCommand *pp = (CommunicationCommand *)object; (void)pp;
     switch (field) {
+        case FIELD_payloadTemplate: { const inet::FieldsChunk * value = pp->getPayloadTemplate(); return omnetpp::opp_typename(typeid(*value)); }
         default: return nullptr;
     }
 }
 
-std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string CommunicationCommandDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -440,14 +491,16 @@ std::string OrderDescriptor::getFieldValueAsString(void *object, int field, int 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    CommunicationCommand *pp = (CommunicationCommand *)object; (void)pp;
     switch (field) {
-        case FIELD_command: return long2string(pp->getCommand());
+        case FIELD_commandType: return enum2string(pp->getCommandType(), "projeto::CommunicationCommandType");
+        case FIELD_payloadTemplate: {std::stringstream out; out << pp->getPayloadTemplate(); return out.str();}
+        case FIELD_target: return oppstring2string(pp->getTarget());
         default: return "";
     }
 }
 
-bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool CommunicationCommandDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -455,14 +508,15 @@ bool OrderDescriptor::setFieldValueAsString(void *object, int field, int i, cons
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    CommunicationCommand *pp = (CommunicationCommand *)object; (void)pp;
     switch (field) {
-        case FIELD_command: pp->setCommand(string2long(value)); return true;
+        case FIELD_commandType: pp->setCommandType((projeto::CommunicationCommandType)string2enum(value, "projeto::CommunicationCommandType")); return true;
+        case FIELD_target: pp->setTarget((value)); return true;
         default: return false;
     }
 }
 
-const char *OrderDescriptor::getFieldStructName(int field) const
+const char *CommunicationCommandDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -471,11 +525,12 @@ const char *OrderDescriptor::getFieldStructName(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case FIELD_payloadTemplate: return omnetpp::opp_typename(typeid(inet::FieldsChunk));
         default: return nullptr;
     };
 }
 
-void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *CommunicationCommandDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -483,8 +538,9 @@ void *OrderDescriptor::getFieldStructValuePointer(void *object, int field, int i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Order *pp = (Order *)object; (void)pp;
+    CommunicationCommand *pp = (CommunicationCommand *)object; (void)pp;
     switch (field) {
+        case FIELD_payloadTemplate: return toVoidPtr(pp->getPayloadTemplate()); break;
         default: return nullptr;
     }
 }

@@ -13,18 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
-#define COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
+namespace projeto;
 
-#include "../UdpBasicAppMobileSensorNode.h"
-
-namespace projeto {
-
-class UdpSensorCommunicationApp: public UdpBasicAppMobileSensorNode {
-    protected:
-        virtual void sendPacket() override;
-};
-
-} /* namespace projeto */
-
-#endif /* COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_ */
+// Class designed to share necessary drone information with the communication module
+message Telemetry {
+    int nextWaypointID=-1;
+    int lastWaypointID=-1;
+    bool isReversed=false;
+}
