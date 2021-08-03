@@ -26,6 +26,11 @@ namespace projeto {
 
 enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_FINISHED=4 };
 
+/*
+ * ZigzagProtocol implements a protocol that recieves and sends MobileNodeMessages to simulate a
+ * drone collecting data from sensors and sharing it with other drones. When a drone encounters another
+ * they both invert the direction they are traveling in and continue the course in this new direction.
+ */
 class ZigzagProtocol : public CommunicationProtocolBase
 {
     protected:

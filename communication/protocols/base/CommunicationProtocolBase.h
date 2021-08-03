@@ -27,6 +27,14 @@ using namespace inet;
 
 namespace projeto {
 
+/*
+ *  Base class for the protocol classes
+ *  The protocol is responsible for recieving messsages from both the mobility and communication
+ *  modules and implementing movmement and communication protocols by responding to those modules.
+ *
+ *  The base implementation discards all messages and sends no responses.
+ */
+
 class CommunicationProtocolBase : public cSimpleModule
 {
   protected:
@@ -35,8 +43,10 @@ class CommunicationProtocolBase : public cSimpleModule
     virtual void handleMessage(cMessage *msg);
 
     // Handles package recieved from communication
+    // This packet is a message that was sent to the drone
     virtual void handlePacket(Packet *pk) {};
     // Handles telemetry recieved from mobility
+    // The mobility module exchanges mobility information in the form of telemetry
     virtual void handleTelemetry(Telemetry *telemetry) {};
 
     // Sends command to mobility
