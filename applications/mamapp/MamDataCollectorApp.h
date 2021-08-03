@@ -31,7 +31,7 @@ namespace projeto {
 /**
  * Consumes and prints packets received from the Udp module. See NED for more info.
  */
-class INET_API MamDataCollectorApp : public ApplicationBase, public UdpSocket::ICallback
+class MamDataCollectorApp : public ApplicationBase, public UdpSocket::ICallback
 {
   protected:
     enum SelfMsgKinds { START = 1, STOP = 2, DISCOVERY = 3 };

@@ -25,7 +25,7 @@
 
 namespace projeto {
 
-class INET_API BleMeshProtocolDissector : public ProtocolDissector
+class BleMeshProtocolDissector : public ProtocolDissector
 {
   public:
     virtual void dissect(Packet *packet, const Protocol *protocol, ICallback& callback) const override;

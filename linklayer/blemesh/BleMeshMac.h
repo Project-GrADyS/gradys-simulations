@@ -49,7 +49,7 @@ namespace projeto {
  *
  * \image html csmaFSM.png "CSMA Mac-Layer - finite state machine"
  */
-class INET_API BleMeshMac : public MacProtocolBase, public IMacProtocol
+class BleMeshMac : public MacProtocolBase, public IMacProtocol
 {
   public:
     static const Protocol blemesh;
@@ -320,7 +320,7 @@ class INET_API BleMeshMac : public MacProtocolBase, public IMacProtocol
 
     virtual void flushQueue();
 
-    virtual void clearQueue();
+    virtual void clearQueue() override;
 
     // FSM functions
     void fsmError(t_mac_event event, cMessage *msg);

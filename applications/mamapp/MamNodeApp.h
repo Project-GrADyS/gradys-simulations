@@ -42,7 +42,7 @@ namespace projeto {
 /**
  * UDP application. See NED for more info.
  */
-class INET_API MamNodeApp : public ApplicationBase, public UdpSocket::ICallback
+class MamNodeApp : public ApplicationBase, public UdpSocket::ICallback
 {
   protected:
     enum SelfMsgKinds { START = 1, STOP, SEND_MY_DATA };
