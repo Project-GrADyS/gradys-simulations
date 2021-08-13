@@ -14,7 +14,7 @@
 // 
 
 #include "UdpSensorCommunicationApp.h"
-#include "../messages/network/MobileNodeMessage_m.h"
+#include "../messages/network/DadcaMessage_m.h"
 #include "base/UdpBasicAppMobileSensorNode.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include "inet/common/ModuleAccess.h"
@@ -42,10 +42,10 @@ void UdpSensorCommunicationApp::sendPacket(const char *target) {
     if(dontFragment)
         packet->addTag<FragmentationReq>()->setDontFragment(true);
     packet->setName(this->getParentModule()->getFullName());
-    const auto& payload = makeShared<MobileNodeMessage>();
+    const auto& payload = makeShared<DadcaMessage>();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    payload->setMessageType(MessageType::BEARER);
+    payload->setMessageType(DadcaMessageType::BEARER);
     payload->setSourceID(this->getParentModule()->getId());
 
     packet->insertAtBack(payload);
@@ -60,7 +60,7 @@ void UdpSensorCommunicationApp::sendPacket(const char *target) {
 void UdpSensorCommunicationApp::processPacket(Packet *pk) {
     emit(packetReceivedSignal, pk);
 
-    auto payload = pk->peekAtBack<MobileNodeMessage>(B(14), 1);
+    auto payload = pk->peekAtBack<DadcaMessage>(B(34), 1);
 
     // Ignore messages not in address list
     if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {

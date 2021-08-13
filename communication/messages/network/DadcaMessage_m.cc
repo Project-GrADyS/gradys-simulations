@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/internal/Telemetry.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/DadcaMessage.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "Telemetry_m.h"
+#include "DadcaMessage_m.h"
 
 namespace omnetpp {
 
@@ -173,7 +173,7 @@ toVoidPtr(T* t)
 
 }
 
-namespace projeto {
+namespace inet {
 
 // forward
 template<typename T, typename A>
@@ -208,130 +208,197 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 }
 
 EXECUTE_ON_STARTUP(
-    omnetpp::cEnum *e = omnetpp::cEnum::find("projeto::DroneActivity");
-    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("projeto::DroneActivity"));
-    e->insert(IDLE, "IDLE");
-    e->insert(NAVIGATING, "NAVIGATING");
-    e->insert(REACHED_EDGE, "REACHED_EDGE");
-    e->insert(FOLLOWING_COMMAND, "FOLLOWING_COMMAND");
+    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::DadcaMessageType");
+    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::DadcaMessageType"));
+    e->insert(HEARTBEAT, "HEARTBEAT");
+    e->insert(PAIR_REQUEST, "PAIR_REQUEST");
+    e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
+    e->insert(BEARER, "BEARER");
 )
 
-Register_Class(Telemetry)
+Register_Class(DadcaMessage)
 
-Telemetry::Telemetry(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
+DadcaMessage::DadcaMessage() : ::inet::FieldsChunk()
 {
+    this->setChunkLength(B(34));
+
 }
 
-Telemetry::Telemetry(const Telemetry& other) : ::omnetpp::cMessage(other)
+DadcaMessage::DadcaMessage(const DadcaMessage& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
 
-Telemetry::~Telemetry()
+DadcaMessage::~DadcaMessage()
 {
 }
 
-Telemetry& Telemetry::operator=(const Telemetry& other)
+DadcaMessage& DadcaMessage::operator=(const DadcaMessage& other)
 {
     if (this == &other) return *this;
-    ::omnetpp::cMessage::operator=(other);
+    ::inet::FieldsChunk::operator=(other);
     copy(other);
     return *this;
 }
 
-void Telemetry::copy(const Telemetry& other)
+void DadcaMessage::copy(const DadcaMessage& other)
 {
+    this->sourceID = other.sourceID;
+    this->destinationID = other.destinationID;
     this->nextWaypointID = other.nextWaypointID;
     this->lastWaypointID = other.lastWaypointID;
-    this->currentCommand = other.currentCommand;
-    this->isReversed_ = other.isReversed_;
-    this->droneActivity = other.droneActivity;
+    this->dataLength = other.dataLength;
+    this->leftNeighbours = other.leftNeighbours;
+    this->rightNeighbours = other.rightNeighbours;
+    this->reversed = other.reversed;
+    this->messageType = other.messageType;
 }
 
-void Telemetry::parsimPack(omnetpp::cCommBuffer *b) const
+void DadcaMessage::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::omnetpp::cMessage::parsimPack(b);
+    ::inet::FieldsChunk::parsimPack(b);
+    doParsimPacking(b,this->sourceID);
+    doParsimPacking(b,this->destinationID);
     doParsimPacking(b,this->nextWaypointID);
     doParsimPacking(b,this->lastWaypointID);
-    doParsimPacking(b,this->currentCommand);
-    doParsimPacking(b,this->isReversed_);
-    doParsimPacking(b,this->droneActivity);
+    doParsimPacking(b,this->dataLength);
+    doParsimPacking(b,this->leftNeighbours);
+    doParsimPacking(b,this->rightNeighbours);
+    doParsimPacking(b,this->reversed);
+    doParsimPacking(b,this->messageType);
 }
 
-void Telemetry::parsimUnpack(omnetpp::cCommBuffer *b)
+void DadcaMessage::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::omnetpp::cMessage::parsimUnpack(b);
+    ::inet::FieldsChunk::parsimUnpack(b);
+    doParsimUnpacking(b,this->sourceID);
+    doParsimUnpacking(b,this->destinationID);
     doParsimUnpacking(b,this->nextWaypointID);
     doParsimUnpacking(b,this->lastWaypointID);
-    doParsimUnpacking(b,this->currentCommand);
-    doParsimUnpacking(b,this->isReversed_);
-    doParsimUnpacking(b,this->droneActivity);
+    doParsimUnpacking(b,this->dataLength);
+    doParsimUnpacking(b,this->leftNeighbours);
+    doParsimUnpacking(b,this->rightNeighbours);
+    doParsimUnpacking(b,this->reversed);
+    doParsimUnpacking(b,this->messageType);
 }
 
-int Telemetry::getNextWaypointID() const
+int DadcaMessage::getSourceID() const
+{
+    return this->sourceID;
+}
+
+void DadcaMessage::setSourceID(int sourceID)
+{
+    handleChange();
+    this->sourceID = sourceID;
+}
+
+int DadcaMessage::getDestinationID() const
+{
+    return this->destinationID;
+}
+
+void DadcaMessage::setDestinationID(int destinationID)
+{
+    handleChange();
+    this->destinationID = destinationID;
+}
+
+int DadcaMessage::getNextWaypointID() const
 {
     return this->nextWaypointID;
 }
 
-void Telemetry::setNextWaypointID(int nextWaypointID)
+void DadcaMessage::setNextWaypointID(int nextWaypointID)
 {
+    handleChange();
     this->nextWaypointID = nextWaypointID;
 }
 
-int Telemetry::getLastWaypointID() const
+int DadcaMessage::getLastWaypointID() const
 {
     return this->lastWaypointID;
 }
 
-void Telemetry::setLastWaypointID(int lastWaypointID)
+void DadcaMessage::setLastWaypointID(int lastWaypointID)
 {
+    handleChange();
     this->lastWaypointID = lastWaypointID;
 }
 
-int Telemetry::getCurrentCommand() const
+int DadcaMessage::getDataLength() const
 {
-    return this->currentCommand;
+    return this->dataLength;
 }
 
-void Telemetry::setCurrentCommand(int currentCommand)
+void DadcaMessage::setDataLength(int dataLength)
 {
-    this->currentCommand = currentCommand;
+    handleChange();
+    this->dataLength = dataLength;
 }
 
-bool Telemetry::isReversed() const
+int DadcaMessage::getLeftNeighbours() const
 {
-    return this->isReversed_;
+    return this->leftNeighbours;
 }
 
-void Telemetry::setIsReversed(bool isReversed)
+void DadcaMessage::setLeftNeighbours(int leftNeighbours)
 {
-    this->isReversed_ = isReversed;
+    handleChange();
+    this->leftNeighbours = leftNeighbours;
 }
 
-projeto::DroneActivity Telemetry::getDroneActivity() const
+int DadcaMessage::getRightNeighbours() const
 {
-    return this->droneActivity;
+    return this->rightNeighbours;
 }
 
-void Telemetry::setDroneActivity(projeto::DroneActivity droneActivity)
+void DadcaMessage::setRightNeighbours(int rightNeighbours)
 {
-    this->droneActivity = droneActivity;
+    handleChange();
+    this->rightNeighbours = rightNeighbours;
 }
 
-class TelemetryDescriptor : public omnetpp::cClassDescriptor
+bool DadcaMessage::getReversed() const
+{
+    return this->reversed;
+}
+
+void DadcaMessage::setReversed(bool reversed)
+{
+    handleChange();
+    this->reversed = reversed;
+}
+
+inet::DadcaMessageType DadcaMessage::getMessageType() const
+{
+    return this->messageType;
+}
+
+void DadcaMessage::setMessageType(inet::DadcaMessageType messageType)
+{
+    handleChange();
+    this->messageType = messageType;
+}
+
+class DadcaMessageDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
     enum FieldConstants {
+        FIELD_sourceID,
+        FIELD_destinationID,
         FIELD_nextWaypointID,
         FIELD_lastWaypointID,
-        FIELD_currentCommand,
-        FIELD_isReversed,
-        FIELD_droneActivity,
+        FIELD_dataLength,
+        FIELD_leftNeighbours,
+        FIELD_rightNeighbours,
+        FIELD_reversed,
+        FIELD_messageType,
     };
   public:
-    TelemetryDescriptor();
-    virtual ~TelemetryDescriptor();
+    DadcaMessageDescriptor();
+    virtual ~DadcaMessageDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -353,24 +420,24 @@ class TelemetryDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(TelemetryDescriptor)
+Register_ClassDescriptor(DadcaMessageDescriptor)
 
-TelemetryDescriptor::TelemetryDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(projeto::Telemetry)), "omnetpp::cMessage")
+DadcaMessageDescriptor::DadcaMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::DadcaMessage)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
 
-TelemetryDescriptor::~TelemetryDescriptor()
+DadcaMessageDescriptor::~DadcaMessageDescriptor()
 {
     delete[] propertynames;
 }
 
-bool TelemetryDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool DadcaMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Telemetry *>(obj)!=nullptr;
+    return dynamic_cast<DadcaMessage *>(obj)!=nullptr;
 }
 
-const char **TelemetryDescriptor::getPropertyNames() const
+const char **DadcaMessageDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -381,19 +448,19 @@ const char **TelemetryDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *TelemetryDescriptor::getProperty(const char *propertyname) const
+const char *DadcaMessageDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int TelemetryDescriptor::getFieldCount() const
+int DadcaMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 5+basedesc->getFieldCount() : 5;
+    return basedesc ? 9+basedesc->getFieldCount() : 9;
 }
 
-unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
+unsigned int DadcaMessageDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -402,16 +469,20 @@ unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
+        FD_ISEDITABLE,    // FIELD_sourceID
+        FD_ISEDITABLE,    // FIELD_destinationID
         FD_ISEDITABLE,    // FIELD_nextWaypointID
         FD_ISEDITABLE,    // FIELD_lastWaypointID
-        FD_ISEDITABLE,    // FIELD_currentCommand
-        FD_ISEDITABLE,    // FIELD_isReversed
-        FD_ISEDITABLE,    // FIELD_droneActivity
+        FD_ISEDITABLE,    // FIELD_dataLength
+        FD_ISEDITABLE,    // FIELD_leftNeighbours
+        FD_ISEDITABLE,    // FIELD_rightNeighbours
+        FD_ISEDITABLE,    // FIELD_reversed
+        FD_ISEDITABLE,    // FIELD_messageType
     };
-    return (field >= 0 && field < 5) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 9) ? fieldTypeFlags[field] : 0;
 }
 
-const char *TelemetryDescriptor::getFieldName(int field) const
+const char *DadcaMessageDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -420,28 +491,36 @@ const char *TelemetryDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
+        "sourceID",
+        "destinationID",
         "nextWaypointID",
         "lastWaypointID",
-        "currentCommand",
-        "isReversed",
-        "droneActivity",
+        "dataLength",
+        "leftNeighbours",
+        "rightNeighbours",
+        "reversed",
+        "messageType",
     };
-    return (field >= 0 && field < 5) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 9) ? fieldNames[field] : nullptr;
 }
 
-int TelemetryDescriptor::findField(const char *fieldName) const
+int DadcaMessageDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+0;
-    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+1;
-    if (fieldName[0] == 'c' && strcmp(fieldName, "currentCommand") == 0) return base+2;
-    if (fieldName[0] == 'i' && strcmp(fieldName, "isReversed") == 0) return base+3;
-    if (fieldName[0] == 'd' && strcmp(fieldName, "droneActivity") == 0) return base+4;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sourceID") == 0) return base+0;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "destinationID") == 0) return base+1;
+    if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+2;
+    if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+3;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "dataLength") == 0) return base+4;
+    if (fieldName[0] == 'l' && strcmp(fieldName, "leftNeighbours") == 0) return base+5;
+    if (fieldName[0] == 'r' && strcmp(fieldName, "rightNeighbours") == 0) return base+6;
+    if (fieldName[0] == 'r' && strcmp(fieldName, "reversed") == 0) return base+7;
+    if (fieldName[0] == 'm' && strcmp(fieldName, "messageType") == 0) return base+8;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *TelemetryDescriptor::getFieldTypeString(int field) const
+const char *DadcaMessageDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -450,16 +529,20 @@ const char *TelemetryDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
+        "int",    // FIELD_sourceID
+        "int",    // FIELD_destinationID
         "int",    // FIELD_nextWaypointID
         "int",    // FIELD_lastWaypointID
-        "int",    // FIELD_currentCommand
-        "bool",    // FIELD_isReversed
-        "projeto::DroneActivity",    // FIELD_droneActivity
+        "int",    // FIELD_dataLength
+        "int",    // FIELD_leftNeighbours
+        "int",    // FIELD_rightNeighbours
+        "bool",    // FIELD_reversed
+        "inet::DadcaMessageType",    // FIELD_messageType
     };
-    return (field >= 0 && field < 5) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 9) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
+const char **DadcaMessageDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -468,7 +551,7 @@ const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_droneActivity: {
+        case FIELD_messageType: {
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
@@ -476,7 +559,7 @@ const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *TelemetryDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *DadcaMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -485,14 +568,14 @@ const char *TelemetryDescriptor::getFieldProperty(int field, const char *propert
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case FIELD_droneActivity:
-            if (!strcmp(propertyname, "enum")) return "projeto::DroneActivity";
+        case FIELD_messageType:
+            if (!strcmp(propertyname, "enum")) return "inet::DadcaMessageType";
             return nullptr;
         default: return nullptr;
     }
 }
 
-int TelemetryDescriptor::getFieldArraySize(void *object, int field) const
+int DadcaMessageDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -500,13 +583,13 @@ int TelemetryDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Telemetry *pp = (Telemetry *)object; (void)pp;
+    DadcaMessage *pp = (DadcaMessage *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *TelemetryDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *DadcaMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -514,13 +597,13 @@ const char *TelemetryDescriptor::getFieldDynamicTypeString(void *object, int fie
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Telemetry *pp = (Telemetry *)object; (void)pp;
+    DadcaMessage *pp = (DadcaMessage *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string TelemetryDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string DadcaMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -528,18 +611,22 @@ std::string TelemetryDescriptor::getFieldValueAsString(void *object, int field, 
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Telemetry *pp = (Telemetry *)object; (void)pp;
+    DadcaMessage *pp = (DadcaMessage *)object; (void)pp;
     switch (field) {
+        case FIELD_sourceID: return long2string(pp->getSourceID());
+        case FIELD_destinationID: return long2string(pp->getDestinationID());
         case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
         case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
-        case FIELD_currentCommand: return long2string(pp->getCurrentCommand());
-        case FIELD_isReversed: return bool2string(pp->isReversed());
-        case FIELD_droneActivity: return enum2string(pp->getDroneActivity(), "projeto::DroneActivity");
+        case FIELD_dataLength: return long2string(pp->getDataLength());
+        case FIELD_leftNeighbours: return long2string(pp->getLeftNeighbours());
+        case FIELD_rightNeighbours: return long2string(pp->getRightNeighbours());
+        case FIELD_reversed: return bool2string(pp->getReversed());
+        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::DadcaMessageType");
         default: return "";
     }
 }
 
-bool TelemetryDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool DadcaMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -547,18 +634,22 @@ bool TelemetryDescriptor::setFieldValueAsString(void *object, int field, int i, 
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Telemetry *pp = (Telemetry *)object; (void)pp;
+    DadcaMessage *pp = (DadcaMessage *)object; (void)pp;
     switch (field) {
+        case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
+        case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
         case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
-        case FIELD_currentCommand: pp->setCurrentCommand(string2long(value)); return true;
-        case FIELD_isReversed: pp->setIsReversed(string2bool(value)); return true;
-        case FIELD_droneActivity: pp->setDroneActivity((projeto::DroneActivity)string2enum(value, "projeto::DroneActivity")); return true;
+        case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
+        case FIELD_leftNeighbours: pp->setLeftNeighbours(string2long(value)); return true;
+        case FIELD_rightNeighbours: pp->setRightNeighbours(string2long(value)); return true;
+        case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
+        case FIELD_messageType: pp->setMessageType((inet::DadcaMessageType)string2enum(value, "inet::DadcaMessageType")); return true;
         default: return false;
     }
 }
 
-const char *TelemetryDescriptor::getFieldStructName(int field) const
+const char *DadcaMessageDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -571,7 +662,7 @@ const char *TelemetryDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *TelemetryDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *DadcaMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -579,11 +670,11 @@ void *TelemetryDescriptor::getFieldStructValuePointer(void *object, int field, i
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Telemetry *pp = (Telemetry *)object; (void)pp;
+    DadcaMessage *pp = (DadcaMessage *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-} // namespace projeto
+} // namespace inet
 

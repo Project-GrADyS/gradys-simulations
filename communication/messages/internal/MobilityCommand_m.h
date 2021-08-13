@@ -30,24 +30,38 @@ namespace projeto {
  * <pre>
  * enum MobilityCommandType
  * {
+ *     // No params
  *     REVERSE = 0;
+ * 
+ *     // Param 1: Waypoint index
+ *     GOTO_WAYPOINT = 1;
+ * 
+ *     // Param 1: x component of the coord
+ *     // Param 2: y component of the coord
+ *     // Param 3: z component of the coord
+ *     // Param 4: Next waypoint (Waypoint the drone should go to after reaching the target)
+ *     // Param 5: Last waypoint (Waypoint the drone used to reach the coords)
+ *     GOTO_COORDS = 2;
  * }
  * </pre>
  */
 enum MobilityCommandType {
-    REVERSE = 0
+    REVERSE = 0,
+    GOTO_WAYPOINT = 1,
+    GOTO_COORDS = 2
 };
 
 /**
- * Class generated from <tt>communication/messages/internal/MobilityCommand.msg:23</tt> by nedtool.
+ * Class generated from <tt>communication/messages/internal/MobilityCommand.msg:34</tt> by nedtool.
  * <pre>
  * message MobilityCommand
  * {
  *     MobilityCommandType commandType;
- *     int param1;
- *     int param2;
- *     int param3;
- *     int param4;
+ *     double param1 = -1;
+ *     double param2 = -1;
+ *     double param3 = -1;
+ *     double param4 = -1;
+ *     double param5 = -1;
  * }
  * </pre>
  */
@@ -55,10 +69,11 @@ class MobilityCommand : public ::omnetpp::cMessage
 {
   protected:
     projeto::MobilityCommandType commandType = static_cast<projeto::MobilityCommandType>(-1);
-    int param1 = 0;
-    int param2 = 0;
-    int param3 = 0;
-    int param4 = 0;
+    double param1 = -1;
+    double param2 = -1;
+    double param3 = -1;
+    double param4 = -1;
+    double param5 = -1;
 
   private:
     void copy(const MobilityCommand& other);
@@ -79,14 +94,16 @@ class MobilityCommand : public ::omnetpp::cMessage
     // field getter/setter methods
     virtual projeto::MobilityCommandType getCommandType() const;
     virtual void setCommandType(projeto::MobilityCommandType commandType);
-    virtual int getParam1() const;
-    virtual void setParam1(int param1);
-    virtual int getParam2() const;
-    virtual void setParam2(int param2);
-    virtual int getParam3() const;
-    virtual void setParam3(int param3);
-    virtual int getParam4() const;
-    virtual void setParam4(int param4);
+    virtual double getParam1() const;
+    virtual void setParam1(double param1);
+    virtual double getParam2() const;
+    virtual void setParam2(double param2);
+    virtual double getParam3() const;
+    virtual void setParam3(double param3);
+    virtual double getParam4() const;
+    virtual void setParam4(double param4);
+    virtual double getParam5() const;
+    virtual void setParam5(double param5);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const MobilityCommand& obj) {obj.parsimPack(b);}

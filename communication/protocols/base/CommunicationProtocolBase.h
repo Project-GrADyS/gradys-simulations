@@ -39,12 +39,14 @@ class CommunicationProtocolBase : public cSimpleModule
 {
   protected:
     virtual void initialize(int stage) {};
+
     // Redirects message to the proper function
     virtual void handleMessage(cMessage *msg);
 
     // Handles package recieved from communication
     // This packet is a message that was sent to the drone
     virtual void handlePacket(Packet *pk) {};
+
     // Handles telemetry recieved from mobility
     // The mobility module exchanges mobility information in the form of telemetry
     virtual void handleTelemetry(Telemetry *telemetry) {};

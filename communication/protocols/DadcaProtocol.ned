@@ -13,29 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-namespace projeto;
+package projeto.communication.protocols;
 
-enum MobilityCommandType {
-    // No params
-    REVERSE=0; 
-    
-    // Param 1: Waypoint index
-    GOTO_WAYPOINT=1;
-    
-    // Param 1: x component of the coord
-    // Param 2: y component of the coord
-    // Param 3: z component of the coord
-    // Param 4: Next waypoint (Waypoint the drone should go to after reaching the target)
-    // Param 5: Last waypoint (Waypoint the drone used to reach the coords)
-    GOTO_COORDS=2;
-}
+import projeto.communication.protocols.base.CommunicationProtocolBase;
 
-
-message MobilityCommand {
-    MobilityCommandType commandType;
-    double param1=-1;
-    double param2=-1;
-    double param3=-1;
-    double param4=-1;
-    double param5=-1;
+simple DadcaProtocol extends CommunicationProtocolBase
+{
+    parameters:
+        @class(DadcaProtocol);
+        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+        double timeoutDuration @unit(s) = default(3s);
 }

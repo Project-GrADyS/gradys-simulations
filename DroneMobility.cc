@@ -6,9 +6,6 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 
-#include "communication/messages/internal/MobilityCommand_m.h"
-#include "communication/messages/internal/Telemetry_m.h"
-
 using namespace inet;
 
 using std::string;
@@ -31,7 +28,7 @@ void DroneMobility::initialize(int stage) {
     startTime = par("startTime");
     droneStatus.currentYawSpeed = par("yawSpeed");
 
-    sendTelemetry();
+    sendTelemetry(true);
 }
 
 void DroneMobility::setInitialPosition() {
@@ -134,22 +131,63 @@ void DroneMobility::move() {
 
     Instruction *currentInstruction = &instructions[currentInstructionIndex];
 
-    switch (currentInstruction->command) {
-        case Command::STOP :
-        {
-            droneStatus.isIdle = true;
-            if(droneStatus.idleTime >= currentInstruction->param1) {
-                DroneMobility::nextInstruction();
-                droneStatus.idleTime = SimTime();
-                droneStatus.isIdle = false;
-            } else {
-                droneStatus.idleTime += simTime() - lastUpdate;
+    if(droneStatus.currentCommand != -1) {
+        switch(droneStatus.currentCommand) {
+            case MobilityCommandType::GOTO_WAYPOINT :
+            {
+                if(droneStatus.isIdle)
+                {
+                    if(droneStatus.targetIndex < droneStatus.gotoWaypointTarget) {
+                        droneStatus.targetIndex++;
+                    } else if(droneStatus.targetIndex > droneStatus.gotoWaypointTarget) {
+                        droneStatus.targetIndex--;
+                    }
+                    // Setting the correct instruction so the drone proceeds normally
+                    int index = instructionIndexFromWaypoint(droneStatus.gotoWaypointTarget);
+                    droneStatus.lastInstructionIndex = currentInstructionIndex;
+                    currentInstructionIndex = index;
+
+                    droneStatus.isIdle = false;
+                    DroneMobility::fly();
+
+                    // If the drone has reached it's destination reset and execute the next command
+                    if(droneStatus.targetIndex == droneStatus.gotoWaypointTarget && droneStatus.isIdle) {
+                        droneStatus.currentCommand = -1;
+                        droneStatus.gotoWaypointTarget = -1;
+                        executeCommand();
+                    }
+                } else {
+                    DroneMobility::fly();
+                }
+                break;
             }
-            break;
+            case MobilityCommandType::GOTO_COORDS :
+            {
+                if(droneStatus.isIdle) {
+                    droneStatus.currentCommand = -1;
+
+                    // Removing temporary waypoint that was inserted at back
+                    waypoints.pop_back();
+
+                    // Removing idle status from drone so it can proceed
+                    droneStatus.isIdle = false;
+
+                    executeCommand();
+                }
+                else {
+                    droneStatus.targetIndex = waypoints.size() - 1;
+                    DroneMobility::fly();
+                }
+                break;
+            }
         }
-        case Command::GOTO :
-        {
-            if (droneStatus.isIdle) {
+    }
+    else {
+        droneStatus.currentActivity = NAVIGATING;
+        switch (currentInstruction->command) {
+            case Command::STOP :
+            {
+                droneStatus.isIdle = true;
                 if(droneStatus.idleTime >= currentInstruction->param1) {
                     DroneMobility::nextInstruction();
                     droneStatus.idleTime = SimTime();
@@ -157,85 +195,99 @@ void DroneMobility::move() {
                 } else {
                     droneStatus.idleTime += simTime() - lastUpdate;
                 }
+                break;
             }
-            else {
-                droneStatus.targetIndex = currentInstruction->waypointIndex;
-                DroneMobility::fly();
-            }
-            break;
-        }
-        case Command::JUMP :
-        {
-            // Loop of size -1 repeats forever
-            if(currentInstruction->param2 != -1) {
-
-                // First time the jump has been reached
-                if(currentInstruction->internalCounter == 0) {
-                    currentInstruction->internalCounter = (int) currentInstruction->param2;
-                }
-                else {
-                    currentInstruction->internalCounter--;
-
-                    // Counter has finished
-                    if (currentInstruction->internalCounter == 0) {
+            case Command::GOTO :
+            {
+                if (droneStatus.isIdle) {
+                    if(droneStatus.idleTime >= currentInstruction->param1) {
                         DroneMobility::nextInstruction();
-                        return;
+                        droneStatus.idleTime = SimTime();
+                        droneStatus.isIdle = false;
+                    } else {
+                        droneStatus.idleTime += simTime() - lastUpdate;
                     }
                 }
+                else {
+                    droneStatus.targetIndex = currentInstruction->waypointIndex;
+                    DroneMobility::fly();
+                }
+                break;
+            }
+            case Command::JUMP :
+            {
+                // Loop of size -1 repeats forever
+                if(currentInstruction->param2 != -1) {
+
+                    // First time the jump has been reached
+                    if(currentInstruction->internalCounter == 0) {
+                        currentInstruction->internalCounter = (int) currentInstruction->param2;
+                    }
+                    else {
+                        currentInstruction->internalCounter--;
+
+                        // Counter has finished
+                        if (currentInstruction->internalCounter == 0) {
+                            DroneMobility::nextInstruction();
+                            return;
+                        }
+                    }
+                }
+
+                // Redirect instruction pointer
+                currentInstructionIndex = (int) currentInstruction->param1;
+                break;
             }
 
-            // Redirect instruction pointer
-            currentInstructionIndex = (int) currentInstruction->param1;
-            break;
-        }
+            case Command::TAKEOFF :
+            {
+                double targetHeight = waypoints[currentInstruction->waypointIndex].timestamp;
+                DroneMobility::climb(targetHeight);
 
-        case Command::TAKEOFF :
-        {
-            double targetHeight = waypoints[currentInstruction->waypointIndex].timestamp;
-            DroneMobility::climb(targetHeight);
+                if(targetHeight - lastPosition.z  < waypointProximity) {
+                    DroneMobility::nextInstruction();
+                }
+                break;
+            }
 
-            if(targetHeight - lastPosition.z  < waypointProximity) {
+            case Command::RETURN_LAUNCH :
+            {
+                DroneMobility::climb(0);
+                if(lastPosition.z < waypointProximity) {
+                    DroneMobility::nextInstruction();
+                }
+                break;
+            }
+
+            case Command::YAW :
+            {
+                // 0 = Absolute; 1 = Relative;
+                if(currentInstruction->param4 == 0) {
+                    droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get();
+                }
+                else {
+                    droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get() + lastOrientation.getRotationAngle();
+                }
+
+                // If the yawSpeed is 0, reset to default
+                if(currentInstruction->param2 == 0) {
+                    droneStatus.currentYawSpeed = par("yawSpeed");
+                }
+                else {
+                    droneStatus.currentYawSpeed = rad(deg(currentInstruction->param2)).get();
+                }
+
                 DroneMobility::nextInstruction();
+                break;
             }
-            break;
-        }
-
-        case Command::RETURN_LAUNCH :
-        {
-            DroneMobility::climb(0);
-            if(lastPosition.z < waypointProximity) {
+            case Command::REVERSE :
+            {
+                droneStatus.isReversed = true;
+                emit(reverseSignalID, droneStatus.isReversed);
+                droneStatus.currentActivity = REACHED_EDGE;
                 DroneMobility::nextInstruction();
+                break;
             }
-            break;
-        }
-
-        case Command::YAW :
-        {
-            // 0 = Absolute; 1 = Relative;
-            if(currentInstruction->param4 == 0) {
-                droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get();
-            }
-            else {
-                droneStatus.currentYaw = rad(deg(currentInstruction->param1)).get() + lastOrientation.getRotationAngle();
-            }
-
-            // If the yawSpeed is 0, reset to default
-            if(currentInstruction->param2 == 0) {
-                droneStatus.currentYawSpeed = par("yawSpeed");
-            }
-            else {
-                droneStatus.currentYawSpeed = rad(deg(currentInstruction->param2)).get();
-            }
-
-            DroneMobility::nextInstruction();
-            break;
-        }
-        case Command::REVERSE :
-        {
-            droneStatus.isReversed = true;
-            emit(reverseSignalID, droneStatus.isReversed);
-            DroneMobility::nextInstruction();
-            break;
         }
     }
 }
@@ -362,11 +414,14 @@ void DroneMobility::nextInstruction() {
         if(currentInstructionIndex < 0) {
             currentInstructionIndex = 0;
             droneStatus.isReversed = false;
+            droneStatus.currentActivity = REACHED_EDGE;
             emit(reverseSignalID, droneStatus.isReversed);
         }
     } else {
         currentInstructionIndex++;
     }
+
+
     sendTelemetry();
 }
 
@@ -377,27 +432,116 @@ void DroneMobility::handleMessage(cMessage *message) {
     }
 
     MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
-    if(command != nullptr && command->getCommandType() == MobilityCommandType::REVERSE) {
-        droneStatus.isReversed = !droneStatus.isReversed;
-        emit(reverseSignalID, droneStatus.isReversed);
-
-        if(!droneStatus.isIdle) {
-           nextInstruction();
-        }
-        cancelAndDelete(message);
+    if(command != nullptr) {
+        droneStatus.commandQueue.push(command);
+        executeCommand();
     } else {
         VehicleMobility::handleMessage(message);
     }
 }
 
+
+void DroneMobility::executeCommand() {
+    if(!(droneStatus.commandQueue.size() == 0 || droneStatus.currentCommand != -1)) {
+        MobilityCommand *command = droneStatus.commandQueue.front();
+        droneStatus.commandQueue.pop();
+        switch(command->getCommandType()) {
+            case MobilityCommandType::REVERSE:
+            {
+                droneStatus.isReversed = !droneStatus.isReversed;
+
+                // Inverts current instructions
+                int temp = currentInstructionIndex;
+                currentInstructionIndex = droneStatus.lastInstructionIndex;
+                droneStatus.lastInstructionIndex = temp;
+
+                emit(reverseSignalID, droneStatus.isReversed);
+                break;
+            }
+            case MobilityCommandType::GOTO_WAYPOINT:
+            {
+                // Setting command
+                droneStatus.currentCommand = GOTO_WAYPOINT;
+                droneStatus.gotoWaypointTarget = command->getParam1();
+
+                // Idles and inverts if the drone is travelling in the oposite direction of the
+                // waypoint
+                if(droneStatus.targetIndex > droneStatus.gotoWaypointTarget && !droneStatus.isReversed) {
+                    droneStatus.isIdle = true;
+                } else if(droneStatus.targetIndex < droneStatus.gotoWaypointTarget && droneStatus.isReversed) {
+                    droneStatus.isIdle = true;
+                }
+
+                break;
+            }
+            case MobilityCommandType::GOTO_COORDS:
+            {
+                Waypoint tempWaypoint = Waypoint(
+                        command->getParam1(),
+                        command->getParam2(),
+                        command->getParam3());
+
+                // Sets the target to be followed after the drone has reached it's destination
+                int nextIndex = instructionIndexFromWaypoint(command->getParam4());
+                currentInstructionIndex = nextIndex;
+
+                // Sets the waypoint the dron used to get to the destination
+                int lastIndex = instructionIndexFromWaypoint(command->getParam5());
+                droneStatus.lastInstructionIndex = lastIndex;
+                droneStatus.currentCommand = GOTO_COORDS;
+
+                // Adjusting isReversed to be coherent to orientation
+                droneStatus.isReversed = nextIndex < lastIndex;
+
+                // Creates and adds a temporary waypoint to the waypoint list
+                // to serve as a target
+                waypoints.push_back(tempWaypoint);
+                droneStatus.isIdle = false;
+                break;
+            }
+            droneStatus.currentActivity = FOLLOWING_COMMAND;
+        }
+        delete command;
+    }
+    sendTelemetry();
+}
+
 // Sends telemetry to the communications module
-void DroneMobility::sendTelemetry() {
+// If sendTour is true attaches tour to the message
+void DroneMobility::sendTelemetry(bool sendTour) {
     Enter_Method_Silent("sendTelemetry(%d)", 0);
     Telemetry *message = new Telemetry("Telemetry", 0);
     message->setIsReversed(droneStatus.isReversed);
-    message->setNextWaypointID(currentInstructionIndex);
-    message->setLastWaypointID(droneStatus.lastInstructionIndex);
+    message->setNextWaypointID(instructions[currentInstructionIndex].waypointIndex);
+    if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
+        message->setLastWaypointID(instructions[droneStatus.lastInstructionIndex].waypointIndex);
+    }
+    message->setCurrentCommand(droneStatus.currentCommand);
+    message->setDroneActivity(droneStatus.currentActivity);
+
+    if(sendTour) {
+        std::vector<Coord> *coordArray = new std::vector<Coord>;
+        for(Waypoint waypoint : waypoints) {
+            Coord coord = Coord(waypoint.x, waypoint.y, waypoint.timestamp);
+            coordArray->push_back(coord);
+        }
+        message->addPar("tourCoords");
+        message->par("tourCoords").setPointerValue(coordArray);
+    }
+
     send(message, gate("commGate$o"));
+}
+
+
+int DroneMobility::instructionIndexFromWaypoint(int waypointIndex) {
+    // Setting the correct instruction equivalent to the specified next waypoint
+    int index;
+    for(index=0;index<instructions.size();index++) {
+       if(instructions[index].waypointIndex == waypointIndex) {
+           break;
+       }
+    }
+    return index;
 }
 
 }

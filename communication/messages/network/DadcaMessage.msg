@@ -18,7 +18,7 @@ import inet.common.packet.chunk.Chunk;
 namespace inet;
 
 
-enum MessageType
+enum DadcaMessageType
 {
   HEARTBEAT = 0; 
   PAIR_REQUEST = 1; 
@@ -26,14 +26,16 @@ enum MessageType
   BEARER = 3;
 }
 
-class MobileNodeMessage extends FieldsChunk
+class DadcaMessage extends FieldsChunk
 {
-  chunkLength = B(14); // Fixed chunk length
+  chunkLength = B(34); // Fixed chunk length
   int sourceID = -1;  // ID of the message's source
   int destinationID = -1; // ID of the message's destination
   int nextWaypointID = -1; // ID of the next waypoint
   int lastWaypointID = -1; // ID of the last waypoint
-  int dataLength=5; // Length of the imaginary data being carried in the message
+  int dataLength = 5; // Length of the imaginary data being carried in the message
+  int leftNeighbours = 0; // Neighbours to the left of the drone
+  int rightNeighbours = 0; // Neighbours to the right of the drone
   bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
-  MessageType messageType = HEARTBEAT; // Type of message
+  DadcaMessageType messageType = HEARTBEAT; // Type of message
 }

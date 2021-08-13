@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/ZigzagMessage.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -27,7 +27,7 @@
 #include <iostream>
 #include <sstream>
 #include <memory>
-#include "MobileNodeMessage_m.h"
+#include "ZigzagMessage_m.h"
 
 namespace omnetpp {
 
@@ -208,32 +208,32 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 }
 
 EXECUTE_ON_STARTUP(
-    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::MessageType");
-    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::MessageType"));
+    omnetpp::cEnum *e = omnetpp::cEnum::find("inet::ZigzagMessageType");
+    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("inet::ZigzagMessageType"));
     e->insert(HEARTBEAT, "HEARTBEAT");
     e->insert(PAIR_REQUEST, "PAIR_REQUEST");
     e->insert(PAIR_CONFIRM, "PAIR_CONFIRM");
     e->insert(BEARER, "BEARER");
 )
 
-Register_Class(MobileNodeMessage)
+Register_Class(ZigzagMessage)
 
-MobileNodeMessage::MobileNodeMessage() : ::inet::FieldsChunk()
+ZigzagMessage::ZigzagMessage() : ::inet::FieldsChunk()
 {
     this->setChunkLength(B(14));
 
 }
 
-MobileNodeMessage::MobileNodeMessage(const MobileNodeMessage& other) : ::inet::FieldsChunk(other)
+ZigzagMessage::ZigzagMessage(const ZigzagMessage& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
 
-MobileNodeMessage::~MobileNodeMessage()
+ZigzagMessage::~ZigzagMessage()
 {
 }
 
-MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
+ZigzagMessage& ZigzagMessage::operator=(const ZigzagMessage& other)
 {
     if (this == &other) return *this;
     ::inet::FieldsChunk::operator=(other);
@@ -241,7 +241,7 @@ MobileNodeMessage& MobileNodeMessage::operator=(const MobileNodeMessage& other)
     return *this;
 }
 
-void MobileNodeMessage::copy(const MobileNodeMessage& other)
+void ZigzagMessage::copy(const ZigzagMessage& other)
 {
     this->sourceID = other.sourceID;
     this->destinationID = other.destinationID;
@@ -252,7 +252,7 @@ void MobileNodeMessage::copy(const MobileNodeMessage& other)
     this->messageType = other.messageType;
 }
 
-void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
+void ZigzagMessage::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::inet::FieldsChunk::parsimPack(b);
     doParsimPacking(b,this->sourceID);
@@ -264,7 +264,7 @@ void MobileNodeMessage::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->messageType);
 }
 
-void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
+void ZigzagMessage::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::inet::FieldsChunk::parsimUnpack(b);
     doParsimUnpacking(b,this->sourceID);
@@ -276,84 +276,84 @@ void MobileNodeMessage::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->messageType);
 }
 
-int MobileNodeMessage::getSourceID() const
+int ZigzagMessage::getSourceID() const
 {
     return this->sourceID;
 }
 
-void MobileNodeMessage::setSourceID(int sourceID)
+void ZigzagMessage::setSourceID(int sourceID)
 {
     handleChange();
     this->sourceID = sourceID;
 }
 
-int MobileNodeMessage::getDestinationID() const
+int ZigzagMessage::getDestinationID() const
 {
     return this->destinationID;
 }
 
-void MobileNodeMessage::setDestinationID(int destinationID)
+void ZigzagMessage::setDestinationID(int destinationID)
 {
     handleChange();
     this->destinationID = destinationID;
 }
 
-int MobileNodeMessage::getNextWaypointID() const
+int ZigzagMessage::getNextWaypointID() const
 {
     return this->nextWaypointID;
 }
 
-void MobileNodeMessage::setNextWaypointID(int nextWaypointID)
+void ZigzagMessage::setNextWaypointID(int nextWaypointID)
 {
     handleChange();
     this->nextWaypointID = nextWaypointID;
 }
 
-int MobileNodeMessage::getLastWaypointID() const
+int ZigzagMessage::getLastWaypointID() const
 {
     return this->lastWaypointID;
 }
 
-void MobileNodeMessage::setLastWaypointID(int lastWaypointID)
+void ZigzagMessage::setLastWaypointID(int lastWaypointID)
 {
     handleChange();
     this->lastWaypointID = lastWaypointID;
 }
 
-int MobileNodeMessage::getDataLength() const
+int ZigzagMessage::getDataLength() const
 {
     return this->dataLength;
 }
 
-void MobileNodeMessage::setDataLength(int dataLength)
+void ZigzagMessage::setDataLength(int dataLength)
 {
     handleChange();
     this->dataLength = dataLength;
 }
 
-bool MobileNodeMessage::getReversed() const
+bool ZigzagMessage::getReversed() const
 {
     return this->reversed;
 }
 
-void MobileNodeMessage::setReversed(bool reversed)
+void ZigzagMessage::setReversed(bool reversed)
 {
     handleChange();
     this->reversed = reversed;
 }
 
-inet::MessageType MobileNodeMessage::getMessageType() const
+inet::ZigzagMessageType ZigzagMessage::getMessageType() const
 {
     return this->messageType;
 }
 
-void MobileNodeMessage::setMessageType(inet::MessageType messageType)
+void ZigzagMessage::setMessageType(inet::ZigzagMessageType messageType)
 {
     handleChange();
     this->messageType = messageType;
 }
 
-class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
+class ZigzagMessageDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
@@ -367,8 +367,8 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
         FIELD_messageType,
     };
   public:
-    MobileNodeMessageDescriptor();
-    virtual ~MobileNodeMessageDescriptor();
+    ZigzagMessageDescriptor();
+    virtual ~ZigzagMessageDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -390,24 +390,24 @@ class MobileNodeMessageDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(MobileNodeMessageDescriptor)
+Register_ClassDescriptor(ZigzagMessageDescriptor)
 
-MobileNodeMessageDescriptor::MobileNodeMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::MobileNodeMessage)), "inet::FieldsChunk")
+ZigzagMessageDescriptor::ZigzagMessageDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::ZigzagMessage)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
 
-MobileNodeMessageDescriptor::~MobileNodeMessageDescriptor()
+ZigzagMessageDescriptor::~ZigzagMessageDescriptor()
 {
     delete[] propertynames;
 }
 
-bool MobileNodeMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool ZigzagMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<MobileNodeMessage *>(obj)!=nullptr;
+    return dynamic_cast<ZigzagMessage *>(obj)!=nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getPropertyNames() const
+const char **ZigzagMessageDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -418,19 +418,19 @@ const char **MobileNodeMessageDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *MobileNodeMessageDescriptor::getProperty(const char *propertyname) const
+const char *ZigzagMessageDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int MobileNodeMessageDescriptor::getFieldCount() const
+int ZigzagMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? 7+basedesc->getFieldCount() : 7;
 }
 
-unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
+unsigned int ZigzagMessageDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -445,12 +445,12 @@ unsigned int MobileNodeMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,    // FIELD_lastWaypointID
         FD_ISEDITABLE,    // FIELD_dataLength
         FD_ISEDITABLE,    // FIELD_reversed
-        0,    // FIELD_messageType
+        FD_ISEDITABLE,    // FIELD_messageType
     };
     return (field >= 0 && field < 7) ? fieldTypeFlags[field] : 0;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldName(int field) const
+const char *ZigzagMessageDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -470,7 +470,7 @@ const char *MobileNodeMessageDescriptor::getFieldName(int field) const
     return (field >= 0 && field < 7) ? fieldNames[field] : nullptr;
 }
 
-int MobileNodeMessageDescriptor::findField(const char *fieldName) const
+int ZigzagMessageDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
@@ -484,7 +484,7 @@ int MobileNodeMessageDescriptor::findField(const char *fieldName) const
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
+const char *ZigzagMessageDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -499,12 +499,12 @@ const char *MobileNodeMessageDescriptor::getFieldTypeString(int field) const
         "int",    // FIELD_lastWaypointID
         "int",    // FIELD_dataLength
         "bool",    // FIELD_reversed
-        "inet::MessageType",    // FIELD_messageType
+        "inet::ZigzagMessageType",    // FIELD_messageType
     };
     return (field >= 0 && field < 7) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
+const char **ZigzagMessageDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -521,7 +521,7 @@ const char **MobileNodeMessageDescriptor::getFieldPropertyNames(int field) const
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *ZigzagMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -531,13 +531,13 @@ const char *MobileNodeMessageDescriptor::getFieldProperty(int field, const char 
     }
     switch (field) {
         case FIELD_messageType:
-            if (!strcmp(propertyname, "enum")) return "inet::MessageType";
+            if (!strcmp(propertyname, "enum")) return "inet::ZigzagMessageType";
             return nullptr;
         default: return nullptr;
     }
 }
 
-int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) const
+int ZigzagMessageDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -545,13 +545,13 @@ int MobileNodeMessageDescriptor::getFieldArraySize(void *object, int field) cons
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    ZigzagMessage *pp = (ZigzagMessage *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
+const char *ZigzagMessageDescriptor::getFieldDynamicTypeString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -559,13 +559,13 @@ const char *MobileNodeMessageDescriptor::getFieldDynamicTypeString(void *object,
             return basedesc->getFieldDynamicTypeString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    ZigzagMessage *pp = (ZigzagMessage *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }
 }
 
-std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string ZigzagMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -573,7 +573,7 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    ZigzagMessage *pp = (ZigzagMessage *)object; (void)pp;
     switch (field) {
         case FIELD_sourceID: return long2string(pp->getSourceID());
         case FIELD_destinationID: return long2string(pp->getDestinationID());
@@ -581,12 +581,12 @@ std::string MobileNodeMessageDescriptor::getFieldValueAsString(void *object, int
         case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
         case FIELD_dataLength: return long2string(pp->getDataLength());
         case FIELD_reversed: return bool2string(pp->getReversed());
-        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::MessageType");
+        case FIELD_messageType: return enum2string(pp->getMessageType(), "inet::ZigzagMessageType");
         default: return "";
     }
 }
 
-bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool ZigzagMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -594,7 +594,7 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    ZigzagMessage *pp = (ZigzagMessage *)object; (void)pp;
     switch (field) {
         case FIELD_sourceID: pp->setSourceID(string2long(value)); return true;
         case FIELD_destinationID: pp->setDestinationID(string2long(value)); return true;
@@ -602,11 +602,12 @@ bool MobileNodeMessageDescriptor::setFieldValueAsString(void *object, int field,
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
         case FIELD_dataLength: pp->setDataLength(string2long(value)); return true;
         case FIELD_reversed: pp->setReversed(string2bool(value)); return true;
+        case FIELD_messageType: pp->setMessageType((inet::ZigzagMessageType)string2enum(value, "inet::ZigzagMessageType")); return true;
         default: return false;
     }
 }
 
-const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
+const char *ZigzagMessageDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -619,7 +620,7 @@ const char *MobileNodeMessageDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *ZigzagMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -627,7 +628,7 @@ void *MobileNodeMessageDescriptor::getFieldStructValuePointer(void *object, int 
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    MobileNodeMessage *pp = (MobileNodeMessage *)object; (void)pp;
+    ZigzagMessage *pp = (ZigzagMessage *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }

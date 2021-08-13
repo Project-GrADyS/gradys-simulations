@@ -44,6 +44,7 @@ OBJS = \
     $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
     $O/communication/modules/base/UdpSinkMobileNode.o \
     $O/communication/modules/base/UdpSinkMobileSensorNode.o \
+    $O/communication/protocols/DadcaProtocol.o \
     $O/communication/protocols/ZigzagProtocol.o \
     $O/communication/protocols/base/CommunicationProtocolBase.o \
     $O/linklayer/blemesh/BleMeshMac.o \
@@ -54,7 +55,8 @@ OBJS = \
     $O/communication/messages/internal/CommunicationCommand_m.o \
     $O/communication/messages/internal/MobilityCommand_m.o \
     $O/communication/messages/internal/Telemetry_m.o \
-    $O/communication/messages/network/MobileNodeMessage_m.o \
+    $O/communication/messages/network/DadcaMessage_m.o \
+    $O/communication/messages/network/ZigzagMessage_m.o \
     $O/linklayer/base/MacHeaderBase_m.o \
     $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
@@ -64,7 +66,8 @@ MSGFILES = \
     communication/messages/internal/CommunicationCommand.msg \
     communication/messages/internal/MobilityCommand.msg \
     communication/messages/internal/Telemetry.msg \
-    communication/messages/network/MobileNodeMessage.msg \
+    communication/messages/network/DadcaMessage.msg \
+    communication/messages/network/ZigzagMessage.msg \
     linklayer/base/MacHeaderBase.msg \
     linklayer/blemesh/BleMeshMacHeader.msg
 

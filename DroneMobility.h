@@ -16,8 +16,12 @@
 #ifndef DRONEMOBILITY_H_
 #define DRONEMOBILITY_H_
 
+#include <queue>
 #include "inet/mobility/single/VehicleMobility.h"
 #include "inet/common/geometry/common/GeographicCoordinateSystem.h"
+
+#include "communication/messages/internal/MobilityCommand_m.h"
+#include "communication/messages/internal/Telemetry_m.h"
 
 using namespace inet;
 
@@ -70,6 +74,16 @@ class DroneMobility : public VehicleMobility
 
             // Saves the last target index
             int lastInstructionIndex;
+
+            /* Command statuses */
+            // Current MobilityCommunicationCommand being followed
+            int currentCommand=-1;
+            int gotoWaypointTarget=-1;
+
+            // Queue of commands that will execute in order they are recieved
+            std::queue<MobilityCommand*> commandQueue;
+
+            DroneActivity currentActivity;
         };
         DroneStatus droneStatus;
 
@@ -106,6 +120,9 @@ class DroneMobility : public VehicleMobility
         // Função que captura ordens recebidas pela gate de input de ordem e trata
         virtual void handleMessage(cMessage *message) override;
 
+        // Checks if current command has finished and performs next command in queue
+        virtual void executeCommand();
+
     public:
         simsignal_t reverseSignalID;
     private:
@@ -114,7 +131,9 @@ class DroneMobility : public VehicleMobility
     private:
         virtual void createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem);
         // Sends telemetry to the output gate
-        virtual void sendTelemetry();
+        virtual void sendTelemetry(bool sendTour = false);
+
+        virtual int instructionIndexFromWaypoint(int waypointIndex);
 };
 
 }

@@ -1,9 +1,9 @@
 //
-// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/MobileNodeMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.6 from communication/messages/network/DadcaMessage.msg.
 //
 
-#ifndef __INET_MOBILENODEMESSAGE_M_H
-#define __INET_MOBILENODEMESSAGE_M_H
+#ifndef __INET_DADCAMESSAGE_M_H
+#define __INET_DADCAMESSAGE_M_H
 
 #if defined(__clang__)
 #  pragma clang diagnostic ignored "-Wreserved-id-macro"
@@ -19,7 +19,7 @@
 
 namespace inet {
 
-class MobileNodeMessage;
+class DadcaMessage;
 } // namespace inet
 
 #include "inet/common/packet/chunk/Chunk_m.h" // import inet.common.packet.chunk.Chunk
@@ -28,9 +28,9 @@ class MobileNodeMessage;
 namespace inet {
 
 /**
- * Enum generated from <tt>communication/messages/network/MobileNodeMessage.msg:22</tt> by nedtool.
+ * Enum generated from <tt>communication/messages/network/DadcaMessage.msg:22</tt> by nedtool.
  * <pre>
- * enum MessageType
+ * enum DadcaMessageType
  * {
  *     HEARTBEAT = 0;
  *     PAIR_REQUEST = 1;
@@ -39,7 +39,7 @@ namespace inet {
  * }
  * </pre>
  */
-enum MessageType {
+enum DadcaMessageType {
     HEARTBEAT = 0,
     PAIR_REQUEST = 1,
     PAIR_CONFIRM = 2,
@@ -47,22 +47,24 @@ enum MessageType {
 };
 
 /**
- * Class generated from <tt>communication/messages/network/MobileNodeMessage.msg:30</tt> by nedtool.
+ * Class generated from <tt>communication/messages/network/DadcaMessage.msg:30</tt> by nedtool.
  * <pre>
- * class MobileNodeMessage extends FieldsChunk
+ * class DadcaMessage extends FieldsChunk
  * {
- *     chunkLength = B(14); // Fixed chunk length
+ *     chunkLength = B(34); // Fixed chunk length
  *     int sourceID = -1;  // ID of the message's source
  *     int destinationID = -1; // ID of the message's destination
  *     int nextWaypointID = -1; // ID of the next waypoint
  *     int lastWaypointID = -1; // ID of the last waypoint
  *     int dataLength = 5; // Length of the imaginary data being carried in the message
+ *     int leftNeighbours = 0; // Neighbours to the left of the drone
+ *     int rightNeighbours = 0; // Neighbours to the right of the drone
  *     bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
- *     MessageType messageType = HEARTBEAT; // Type of message
+ *     DadcaMessageType messageType = HEARTBEAT; // Type of message
  * }
  * </pre>
  */
-class MobileNodeMessage : public ::inet::FieldsChunk
+class DadcaMessage : public ::inet::FieldsChunk
 {
   protected:
     int sourceID = -1;
@@ -70,22 +72,24 @@ class MobileNodeMessage : public ::inet::FieldsChunk
     int nextWaypointID = -1;
     int lastWaypointID = -1;
     int dataLength = 5;
+    int leftNeighbours = 0;
+    int rightNeighbours = 0;
     bool reversed = false;
-    inet::MessageType messageType = HEARTBEAT;
+    inet::DadcaMessageType messageType = HEARTBEAT;
 
   private:
-    void copy(const MobileNodeMessage& other);
+    void copy(const DadcaMessage& other);
 
   protected:
     // protected and unimplemented operator==(), to prevent accidental usage
-    bool operator==(const MobileNodeMessage&);
+    bool operator==(const DadcaMessage&);
 
   public:
-    MobileNodeMessage();
-    MobileNodeMessage(const MobileNodeMessage& other);
-    virtual ~MobileNodeMessage();
-    MobileNodeMessage& operator=(const MobileNodeMessage& other);
-    virtual MobileNodeMessage *dup() const override {return new MobileNodeMessage(*this);}
+    DadcaMessage();
+    DadcaMessage(const DadcaMessage& other);
+    virtual ~DadcaMessage();
+    DadcaMessage& operator=(const DadcaMessage& other);
+    virtual DadcaMessage *dup() const override {return new DadcaMessage(*this);}
     virtual void parsimPack(omnetpp::cCommBuffer *b) const override;
     virtual void parsimUnpack(omnetpp::cCommBuffer *b) override;
 
@@ -100,16 +104,20 @@ class MobileNodeMessage : public ::inet::FieldsChunk
     virtual void setLastWaypointID(int lastWaypointID);
     virtual int getDataLength() const;
     virtual void setDataLength(int dataLength);
+    virtual int getLeftNeighbours() const;
+    virtual void setLeftNeighbours(int leftNeighbours);
+    virtual int getRightNeighbours() const;
+    virtual void setRightNeighbours(int rightNeighbours);
     virtual bool getReversed() const;
     virtual void setReversed(bool reversed);
-    virtual inet::MessageType getMessageType() const;
-    virtual void setMessageType(inet::MessageType messageType);
+    virtual inet::DadcaMessageType getMessageType() const;
+    virtual void setMessageType(inet::DadcaMessageType messageType);
 };
 
-inline void doParsimPacking(omnetpp::cCommBuffer *b, const MobileNodeMessage& obj) {obj.parsimPack(b);}
-inline void doParsimUnpacking(omnetpp::cCommBuffer *b, MobileNodeMessage& obj) {obj.parsimUnpack(b);}
+inline void doParsimPacking(omnetpp::cCommBuffer *b, const DadcaMessage& obj) {obj.parsimPack(b);}
+inline void doParsimUnpacking(omnetpp::cCommBuffer *b, DadcaMessage& obj) {obj.parsimUnpack(b);}
 
 } // namespace inet
 
-#endif // ifndef __INET_MOBILENODEMESSAGE_M_H
+#endif // ifndef __INET_DADCAMESSAGE_M_H
 

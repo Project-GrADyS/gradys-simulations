@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "ZigzagProtocol.h"
+#include "DadcaProtocol.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"
@@ -26,24 +26,49 @@
 
 namespace projeto {
 
-Define_Module(ZigzagProtocol);
+Define_Module(DadcaProtocol);
 
-void ZigzagProtocol::initialize(int stage)
+void DadcaProtocol::initialize(int stage)
 {
     CommunicationProtocolBase::initialize(stage);
 
     if(stage == INITSTAGE_LOCAL) {
         timeoutDuration = par("timeoutDuration");
+
+        int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
         emit(dataLoadSignalID, currentDataLoad);
 
         updatePayload();
+
+        WATCH(leftNeighbours);
+        WATCH(rightNeighbours);
     }
 }
 
-void ZigzagProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
+void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
+    // Starts a timeout right after the drone has completed a command (Rendevouz)
+    if(currentTelemetry.getCurrentCommand() != -1 && telemetry->getCurrentCommand() == -1) {
+        initiateTimeout(timeoutDuration);
+    }
+
+    // Records if the drone has reached an edge and erases the neighbours after that edge
+    if(currentTelemetry.getDroneActivity() != REACHED_EDGE && telemetry->getDroneActivity() == REACHED_EDGE) {
+        if(telemetry->isReversed()) {
+            rightNeighbours = 0;
+        } else {
+            leftNeighbours = 0;
+        }
+    }
+
+
+
     currentTelemetry = *telemetry;
+
+    if(telemetry->hasObject("tourCoords")) {
+        tour = *(std::vector<Coord>*) telemetry->par("tourCoords").pointerValue();
+    }
 
     // Telemetry during timeout is not stable, it may contain information that
     // has changed after message exchange started
@@ -53,14 +78,25 @@ void ZigzagProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
     updatePayload();
 }
 
-void ZigzagProtocol::handlePacket(Packet *pk) {
-    auto payload = pk->peekAtBack<ZigzagMessage>(B(14), 1);
+void DadcaProtocol::handlePacket(Packet *pk) {
+    auto payload = pk->peekAtBack<DadcaMessage>(B(34), 1);
+
 
     if(payload != nullptr) {
         switch(payload->getMessageType()) {
-            case ZigzagMessageType::HEARTBEAT:
+            case DadcaMessageType::HEARTBEAT:
             {
+                // No communication form other drones matters while the drone is executing
+                if(currentTelemetry.getCurrentCommand() != -1) {
+                    return;
+                }
+
                 if(isTimedout() && lastTarget != payload->getSourceID() && tentativeTarget != payload->getSourceID()) {
+                    resetParameters();
+                }
+
+                // If the drone is collecting data, prefer to pair with other drone
+                if(communicationStatus == COLLECTING) {
                     resetParameters();
                 }
 
@@ -82,8 +118,13 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
                 }
                 break;
             }
-            case ZigzagMessageType::PAIR_REQUEST:
+            case DadcaMessageType::PAIR_REQUEST:
             {
+                // No communication form other drones matters while the drone is executing
+                if(currentTelemetry.getCurrentCommand() != -1) {
+                    break;
+                }
+
                 if(payload->getDestinationID() != this->getParentModule()->getId()) {
                     break;
                 }
@@ -106,35 +147,49 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
 
                     communicationStatus = PAIRED;
                 }
+
                 break;
             }
-            case ZigzagMessageType::PAIR_CONFIRM:
+            case DadcaMessageType::PAIR_CONFIRM:
             {
+                // No communication form other drones matters while the drone is executing
+                if(currentTelemetry.getCurrentCommand() != -1) {
+                    break;
+                }
+
+
                 if(payload->getSourceID() == tentativeTarget &&
                    payload->getDestinationID() == this->getParentModule()->getId()) {
                     std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
                     if(communicationStatus != PAIRED_FINISHED) {
-                        // If both drones are travelling in the same direction, only the one with the biggest ID inverts
-                        if(lastStableTelemetry.isReversed() != payload->getReversed() || this->getParentModule()->getId() > payload->getSourceID()) {
-                            sendReverseOrder();
-
+                        // If both drones are travelling in the same direction, the pairing is canceled
+                        if(lastStableTelemetry.isReversed() != payload->getReversed()) {
                             // Exchanging imaginary data to the drone closest to the start of the mission
                             if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
                                 // Drone closest to the start gets the data
                                 currentDataLoad = currentDataLoad + payload->getDataLength();
+
+                                // Drone closest to the start updates right neighbours
+                                rightNeighbours = payload->getRightNeighbours() + 1;
                             } else {
                                 // Drone farthest away loses data
                                 currentDataLoad = 0;
+
+                                // Drone farthest away updates left neighbours
+                                leftNeighbours = payload->getLeftNeighbours() + 1;
                             }
+
+                            rendevouz();
+
                             // Updating data load
                             emit(dataLoadSignalID, currentDataLoad);
+                            communicationStatus = PAIRED_FINISHED;
                         }
                     }
-                    communicationStatus = PAIRED_FINISHED;
                }
                 break;
             }
-            case ZigzagMessageType::BEARER:
+            case DadcaMessageType::BEARER:
             {
                 if(!isTimedout() && communicationStatus == FREE) {
                     std::cout << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
@@ -142,6 +197,7 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
                     stableDataLoad = currentDataLoad;
                     emit(dataLoadSignalID, currentDataLoad);
                     initiateTimeout(timeoutDuration);
+
                     communicationStatus = COLLECTING;
                 }
                 break;
@@ -151,21 +207,120 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
     }
 }
 
-void ZigzagProtocol::sendReverseOrder() {
-    MobilityCommand *command = new MobilityCommand();
-    command->setCommandType(REVERSE);
+void DadcaProtocol::rendevouz() {
+    // Drone is the left or right one in the pair
+    bool isLeft = !lastStableTelemetry.isReversed();
 
-    sendCommand(command);
+    // Calculates rally point
+    std::vector<double> cumulativeDistances;
+    double totalDistance = 0;
+    Coord lastCoord;
+    for(int i = 0; i < tour.size(); i++) {
+        Coord coord = tour[i];
+
+        if(i > 0) {
+            totalDistance += lastCoord.distance(coord);
+        }
+        cumulativeDistances.push_back(totalDistance);
+
+        lastCoord = coord;
+    }
+    int totalNeighbours = leftNeighbours + rightNeighbours;
+
+    // Shared border where the paired drones will meet
+    double sharedBorder = (double) leftNeighbours / (totalNeighbours + 1);
+    // If the drone is not inverted it will start it's trip from the end
+    // of it's segment and them invert
+    if(isLeft) {
+        sharedBorder += 1.0/(totalNeighbours + 1);
+    }
+    double sharedBorderDistance = totalDistance * sharedBorder;
+
+    // Determines the waypoint index closest to the shared border
+    int waypointIndex;
+    for(waypointIndex=0; waypointIndex < cumulativeDistances.size() ; waypointIndex++) {
+        if(cumulativeDistances[waypointIndex] > sharedBorderDistance) {
+            // Waypoint before the acumulated distance is higher than the
+            // shared border distance
+            waypointIndex--;
+            break;
+        }
+    }
+
+    // Fraction that devides the waypoint before the shared border and the one after it
+    // at the shared border
+    double localBorderFraction = 1 - (cumulativeDistances[waypointIndex + 1] - sharedBorderDistance) / (cumulativeDistances[waypointIndex + 1] - cumulativeDistances[waypointIndex]);
+
+    Coord coordsBefore = tour[waypointIndex];
+    Coord coordsAfter = tour[waypointIndex + 1];
+    Coord sharedBorderCoords = ((coordsAfter - coordsBefore) * localBorderFraction) + coordsBefore;
+
+    bool isAhead = false;
+
+    if(!isLeft) {
+        if(lastStableTelemetry.getNextWaypointID() > waypointIndex) {
+            isAhead = true;
+        }
+    } else {
+        if(lastStableTelemetry.getLastWaypointID() > waypointIndex) {
+            isAhead = true;
+        }
+    }
+
+    // The rendevouz is divided in three steps
+
+    // First the drones navigate to the waypoint closest to the shared border
+    // If the drones are already coming from/going to the waypoint closest they don't need this command
+    if((!isLeft || lastStableTelemetry.getLastWaypointID() != waypointIndex) &&
+            (isLeft || lastStableTelemetry.getNextWaypointID() != waypointIndex)) {
+        MobilityCommand *firstCommand = new MobilityCommand();
+        firstCommand->setCommandType(GOTO_WAYPOINT);
+
+        // If the drone is ahead of the shared border navigate to the next waypoint after it
+        if(isAhead) {
+            firstCommand->setParam1(waypointIndex + 1);
+        } else {
+            firstCommand->setParam1(waypointIndex);
+        }
+
+        sendCommand(firstCommand);
+    }
+
+    // Them the drones meet at the shared border
+    MobilityCommand *secondCommand = new MobilityCommand();
+    secondCommand->setCommandType(GOTO_COORDS);
+    secondCommand->setParam1(sharedBorderCoords.x);
+    secondCommand->setParam2(sharedBorderCoords.y);
+    secondCommand->setParam3(sharedBorderCoords.z);
+
+    // After the drones reach the coords they will be oriented
+    // going from waypointIndex to waypointIndex + 1
+    secondCommand->setParam4(waypointIndex + 1);
+    secondCommand->setParam5(waypointIndex);
+    sendCommand(secondCommand);
+
+
+    // Them the drones reverses
+    // Only the drone on the left needs to reverse
+    // since both drones are oriented unreversed
+    if(isLeft) {
+        MobilityCommand *thirdCommand = new MobilityCommand();
+        thirdCommand->setCommandType(REVERSE);
+        sendCommand(thirdCommand);
+    }
 }
 
-void ZigzagProtocol::updatePayload() {
-    ZigzagMessage *payload = new ZigzagMessage();
+void DadcaProtocol::updatePayload() {
+    DadcaMessage *payload = new DadcaMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     // Sets the reverse flag on the payload
     payload->setReversed(lastStableTelemetry.isReversed());
     payload->setNextWaypointID(lastStableTelemetry.getNextWaypointID());
     payload->setLastWaypointID(lastStableTelemetry.getLastWaypointID());
+
+    payload->setLeftNeighbours(leftNeighbours);
+    payload->setRightNeighbours(rightNeighbours);
 
     if(!isTimedout() && communicationStatus != FREE) {
         communicationStatus = FREE;
@@ -174,14 +329,14 @@ void ZigzagProtocol::updatePayload() {
     switch(communicationStatus) {
         case FREE:
         {
-            payload->setMessageType(ZigzagMessageType::HEARTBEAT);
+            payload->setMessageType(DadcaMessageType::HEARTBEAT);
             payload->setSourceID(this->getParentModule()->getId());
             std::cout << payload->getSourceID() << " set to heartbeat" << endl;
             break;
         }
         case REQUESTING:
         {
-            payload->setMessageType(ZigzagMessageType::PAIR_REQUEST);
+            payload->setMessageType(DadcaMessageType::PAIR_REQUEST);
             payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             std::cout << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
@@ -190,7 +345,7 @@ void ZigzagProtocol::updatePayload() {
         case PAIRED:
         case PAIRED_FINISHED:
         {
-            payload->setMessageType(ZigzagMessageType::PAIR_CONFIRM);
+            payload->setMessageType(DadcaMessageType::PAIR_CONFIRM);
             payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             payload->setDataLength(stableDataLoad);
@@ -218,17 +373,21 @@ void ZigzagProtocol::updatePayload() {
     } else {
         delete payload;
     }
-
 }
 
-void ZigzagProtocol::setTarget(const char *target) {
+void DadcaProtocol::setTarget(const char *target) {
     CommunicationCommand *command = new CommunicationCommand();
     command->setCommandType(SET_TARGET);
     command->setTarget(target);
     sendCommand(command);
 }
 
-bool ZigzagProtocol::isTimedout() {
+bool DadcaProtocol::isTimedout() {
+    // Blocks the timeout if the drone is currently executing a command
+    if(currentTelemetry.getCurrentCommand() != -1) {
+        return false;
+    }
+
     bool oldValue = timeoutSet;
     bool value = CommunicationProtocolBase::isTimedout();
     if(!value && oldValue) {
@@ -237,7 +396,7 @@ bool ZigzagProtocol::isTimedout() {
     return value;
 }
 
-void ZigzagProtocol::resetParameters() {
+void DadcaProtocol::resetParameters() {
     timeoutSet = false;
     lastTarget = tentativeTarget;
     tentativeTarget = -1;

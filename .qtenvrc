@@ -1,5 +1,5 @@
 [General]
-last-configname=Sim4drone
+last-configname=Sim3drone
 last-runnumber=0
 
 [RunModeProfiles]
@@ -7,9 +7,9 @@ fast-max-animation-speed=nan
 fast-max-playback-speed=1e+6
 fast-min-animation-speed=nan
 fast-min-playback-speed=1
-fast-playback-speed=1380.3842646028852
+fast-playback-speed=2.1877616239495525
 run-max-animation-speed=nan
 run-max-playback-speed=100
 run-min-animation-speed=nan
 run-min-playback-speed=0.01
-run-playback-speed=0.24547089156850305
+run-playback-speed=0.251188643150958
