@@ -39,7 +39,7 @@ module BleMeshUwbIrInterface extends InterfaceEntry like IWirelessInterface
             parameters:
                 @display("p=250,200");
         }
-        radio: <default("BleMeshUwbIrRadio")> like IRadio {
+        radio: <default("Ieee802154UwbIrRadio")> like IRadio {
             parameters:
                 @display("p=250,350");
         }
