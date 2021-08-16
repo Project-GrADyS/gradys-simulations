@@ -16,12 +16,15 @@
 namespace projeto;
 
 enum MobilityCommandType {
+    // Makes the drone reverse on it's course
     // No params
     REVERSE=0; 
     
+    // Makes the drone travel to a specific waypoint, following the tour pack
     // Param 1: Waypoint index
     GOTO_WAYPOINT=1;
     
+    // Makes the drone go to a specific coordinate and orient itself so it can continue the tour afterwards
     // Param 1: x component of the coord
     // Param 2: y component of the coord
     // Param 3: z component of the coord

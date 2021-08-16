@@ -169,21 +169,34 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                                 // Drone closest to the start gets the data
                                 currentDataLoad = currentDataLoad + payload->getDataLength();
 
-                                // Drone closest to the start updates right neighbours
-                                rightNeighbours = payload->getRightNeighbours() + 1;
+
+                                // Doesn't update neighbours if the drone has no waypoints
+                                // This prevents counting the groundStation as a drone
+                                if(payload->getNextWaypointID() != -1) {
+                                    // Drone closest to the start updates right neighbours
+                                    rightNeighbours = payload->getRightNeighbours() + 1;
+                                }
                             } else {
                                 // Drone farthest away loses data
                                 currentDataLoad = 0;
 
-                                // Drone farthest away updates left neighbours
-                                leftNeighbours = payload->getLeftNeighbours() + 1;
+                                // Doesn't update neighbours if the drone has no waypoints
+                                // This prevents counting the groundStation as a drone
+                                if(payload->getNextWaypointID() != -1) {
+                                    // Drone farthest away updates left neighbours
+                                    leftNeighbours = payload->getLeftNeighbours() + 1;
+                                }
                             }
 
-                            rendevouz();
-
+                            // Only completes redevouz if tour has been recieved or the paired drone has no waypoints
+                            // This prevents rendevouz with the groundStation
+                            if(tour.size() > 0 && payload->getNextWaypointID() != -1) {
+                                rendevouz();
+                            }
                             // Updating data load
                             emit(dataLoadSignalID, currentDataLoad);
                             communicationStatus = PAIRED_FINISHED;
+
                         }
                     }
                }

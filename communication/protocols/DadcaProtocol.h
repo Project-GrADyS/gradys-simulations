@@ -41,7 +41,6 @@ class DadcaProtocol : public CommunicationProtocolBase
         // Current tour recieved from telemetry
         std::vector<Coord> tour;
 
-        // TODO: Reset neighbours at edges
         int leftNeighbours = 0;
         int rightNeighbours = 0;
 
