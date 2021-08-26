@@ -44,12 +44,16 @@ void DadcaProtocol::initialize(int stage)
 
         WATCH(leftNeighbours);
         WATCH(rightNeighbours);
+        WATCH(communicationStatus);
+        WATCH(tentativeTarget);
+        WATCH(lastTarget);
     }
 }
 
 void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
     // Starts a timeout right after the drone has completed a command (Rendevouz)
     if(currentTelemetry.getCurrentCommand() != -1 && telemetry->getCurrentCommand() == -1) {
+        resetParameters();
         initiateTimeout(timeoutDuration);
     }
 
@@ -335,6 +339,8 @@ void DadcaProtocol::updatePayload() {
     payload->setLeftNeighbours(leftNeighbours);
     payload->setRightNeighbours(rightNeighbours);
 
+    payload->setSourceID(this->getParentModule()->getId());
+
     if(!isTimedout() && communicationStatus != FREE) {
         communicationStatus = FREE;
     }
@@ -343,14 +349,12 @@ void DadcaProtocol::updatePayload() {
         case FREE:
         {
             payload->setMessageType(DadcaMessageType::HEARTBEAT);
-            payload->setSourceID(this->getParentModule()->getId());
             std::cout << payload->getSourceID() << " set to heartbeat" << endl;
             break;
         }
         case REQUESTING:
         {
             payload->setMessageType(DadcaMessageType::PAIR_REQUEST);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             std::cout << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
             break;
@@ -359,7 +363,6 @@ void DadcaProtocol::updatePayload() {
         case PAIRED_FINISHED:
         {
             payload->setMessageType(DadcaMessageType::PAIR_CONFIRM);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             payload->setDataLength(stableDataLoad);
 

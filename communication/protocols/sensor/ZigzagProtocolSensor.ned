@@ -13,14 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols;
+package projeto.communication.protocols.sensor;
 
 import projeto.communication.protocols.base.CommunicationProtocolBase;
 
-simple DadcaProtocol extends CommunicationProtocolBase
+simple ZigzagProtocolSensor extends CommunicationProtocolBase
 {
     parameters:
-        @class(DadcaProtocol);
+        @class(ZigzagProtocol);
         @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
         double timeoutDuration @unit(s) = default(3s);
 }

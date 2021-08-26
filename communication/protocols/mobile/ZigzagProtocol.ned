@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols;
+package projeto.communication.protocols.mobile;
 
 import projeto.communication.protocols.base.CommunicationProtocolBase;
 

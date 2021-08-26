@@ -13,12 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.modules;
+package projeto.communication.protocols.sensor;
 
-import projeto.communication.modules.base.UdpBasicAppMobileSensorNode;
+import projeto.communication.protocols.base.CommunicationProtocolBase;
 
-simple UdpSensorCommunicationApp extends UdpBasicAppMobileSensorNode {
-    @class(UdpSensorCommunicationApp);
-    gates:
-        inout controllerGate;
+simple DadcaProtocolSensor extends CommunicationProtocolBase
+{
+    parameters:
+        @class(DadcaProtocolSensor);
+        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+        double timeoutDuration @unit(s) = default(3s);
 }

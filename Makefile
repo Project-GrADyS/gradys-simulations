@@ -44,9 +44,11 @@ OBJS = \
     $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
     $O/communication/modules/base/UdpSinkMobileNode.o \
     $O/communication/modules/base/UdpSinkMobileSensorNode.o \
-    $O/communication/protocols/DadcaProtocol.o \
-    $O/communication/protocols/ZigzagProtocol.o \
     $O/communication/protocols/base/CommunicationProtocolBase.o \
+    $O/communication/protocols/mobile/DadcaProtocol.o \
+    $O/communication/protocols/mobile/ZigzagProtocol.o \
+    $O/communication/protocols/sensor/DadcaProtocolSensor.o \
+    $O/communication/protocols/sensor/ZigzagProtocolSensor.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
