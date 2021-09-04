@@ -15,8 +15,9 @@
 
 namespace projeto;
 
+// Commands that the mobility module should be capable of carrying out
 enum MobilityCommandType {
-    // Makes the drone reverse on it's course
+    // Makes the drone reverse on its course
     // No params
     REVERSE=0; 
     
@@ -33,7 +34,7 @@ enum MobilityCommandType {
     GOTO_COORDS=2;
 }
 
-
+// Message declaration containing the command Id and its parameters 
 message MobilityCommand {
     MobilityCommandType commandType;
     double param1=-1;

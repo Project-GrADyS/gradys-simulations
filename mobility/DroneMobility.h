@@ -20,8 +20,8 @@
 #include "inet/mobility/single/VehicleMobility.h"
 #include "inet/common/geometry/common/GeographicCoordinateSystem.h"
 
-#include "communication/messages/internal/MobilityCommand_m.h"
-#include "communication/messages/internal/Telemetry_m.h"
+#include "../communication/messages/internal/MobilityCommand_m.h"
+#include "../communication/messages/internal/Telemetry_m.h"
 
 using namespace inet;
 

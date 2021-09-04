@@ -31,8 +31,6 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
 OBJS = \
-    $O/DroneMobility.o \
-    $O/GotoWaypointMobility.o \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
     $O/applications/mamapp/MamDataCollectorApp.o \
@@ -52,6 +50,7 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
+    $O/mobility/DroneMobility.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/messages/internal/CommunicationCommand_m.o \

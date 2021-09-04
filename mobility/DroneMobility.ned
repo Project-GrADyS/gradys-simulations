@@ -1,4 +1,4 @@
-package projeto;
+package projeto.mobility;
 
 import inet.mobility.single.VehicleMobility;
 
