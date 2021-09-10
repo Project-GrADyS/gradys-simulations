@@ -1,6 +1,9 @@
 # Gradys Simulations
 Simulations from Project GrADyS on OMNET++ and INET framework
 
+# Introduction
+
+This is a repository for the simulation framework developed for the GrADyS project. This framework allows the simulation of interconnected network nodes and the implementation of UAV swarms and sensor coordination strategies with the objective of managing these autonomous drone swarms to collect sensor data on the field autonomously and efficiently.
 
 # Installation
 In order to run the simulations and use the components in this repository you need to have both OMNeT++ and the INET framework installed.
