@@ -211,7 +211,8 @@ After creating a new module all you need to do to test it is modifying the desir
 *.quads[*].protocol.typename = "DadcaProtocol"
 ```
 
-## A small example
+## Developing your own communication protocol
+
 In this example we will develop a very simple protocol for our drones and sensors. Our drones will follow their waypoint paths without communication with each other, collecting data from sensors and depositing it at a central ground station. We will create sets of files (*.ned*, *.h* and *.cc*), **SimpleDroneProtocol**, **SimpleSensorProtocol** and **SimpleGroundProtocol** and a message declaration **SimpleMessage.msg**. For your convenience these files have already been created and placed in their respective folders, and the configuration file includes a launch config for this scenario.
 
 Let's start with the message. Since this protocol is very simple we will implement a message with two fields, senderType and content. 
