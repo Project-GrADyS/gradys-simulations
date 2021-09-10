@@ -579,6 +579,7 @@ After developing all our protocols, including *.ned* declarations and *.h* and *
 # Sets the description of the launch configuration.
 # Shown when you launch a simulation and are prompted to select the correct launch configuration.
 description = "simple protocol configuration"
+
 # UAV Configurations
 # This parameter is declared in the mobilityDrones.ned network and defines the number of UAVs
 # in the simulation.
