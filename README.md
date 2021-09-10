@@ -259,7 +259,7 @@ simple SimpleDroneProtocol extends CommunicationProtocolBase
 }
 ```
 
-Note that we also included a signal declaration called dataLoad. Signals are messages that bubble up the module tree and can be used to track information from modules deeper in the tree. In this case whe have configured a statistic visualizer to show this signal's state on the simulation screen.
+Note that we also included a signal declaration called dataLoad. Signals are messages that bubble up the module tree and can be used to track information from modules deeper in the tree. In this case whe have configured a statistic visualizer (provided by INET) to show this signal's state on the simulation screen.
 
 **mobilityDrones-omnetpp.ini**
 ```C++
@@ -519,6 +519,7 @@ class SimpleGroundProtocol: public CommunicationProtocolBase {
 } /* namespace projeto */
 ```
 
+**SimpleGroundProtocol.cc**
 ```C++
 // communication/protocols/ground/SimpleGroundProtocol.cc
 
