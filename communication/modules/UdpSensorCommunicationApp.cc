@@ -67,6 +67,7 @@ void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
                 break;
             }
         }
+
         if(socket.isOpen() && targetName && payloadTemplate) {
             sendPacket(targetName);
         }

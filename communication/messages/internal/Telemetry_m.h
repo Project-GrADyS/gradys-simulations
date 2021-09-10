@@ -26,8 +26,9 @@ class Telemetry;
 namespace projeto {
 
 /**
- * Enum generated from <tt>communication/messages/internal/Telemetry.msg:18</tt> by nedtool.
+ * Enum generated from <tt>communication/messages/internal/Telemetry.msg:19</tt> by nedtool.
  * <pre>
+ * // Activity that the drone is currently carrying out
  * enum DroneActivity
  * {
  *     IDLE = 0;
@@ -45,9 +46,9 @@ enum DroneActivity {
 };
 
 /**
- * Class generated from <tt>communication/messages/internal/Telemetry.msg:26</tt> by nedtool.
+ * Class generated from <tt>communication/messages/internal/Telemetry.msg:27</tt> by nedtool.
  * <pre>
- * // Class designed to share necessary drone information with the communication module
+ * // Message declaration designed to share necessary drone information with the communication module
  * message Telemetry
  * {
  *     int nextWaypointID = -1;

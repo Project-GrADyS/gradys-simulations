@@ -26,11 +26,12 @@ class MobilityCommand;
 namespace projeto {
 
 /**
- * Enum generated from <tt>communication/messages/internal/MobilityCommand.msg:18</tt> by nedtool.
+ * Enum generated from <tt>communication/messages/internal/MobilityCommand.msg:19</tt> by nedtool.
  * <pre>
+ * // Commands that the mobility module should be capable of carrying out
  * enum MobilityCommandType
  * {
- *     // Makes the drone reverse on it's course
+ *     // Makes the drone reverse on its course
  *     // No params
  *     REVERSE = 0;
  * 
@@ -55,8 +56,9 @@ enum MobilityCommandType {
 };
 
 /**
- * Class generated from <tt>communication/messages/internal/MobilityCommand.msg:37</tt> by nedtool.
+ * Class generated from <tt>communication/messages/internal/MobilityCommand.msg:38</tt> by nedtool.
  * <pre>
+ * // Message declaration containing the command Id and its parameters 
  * message MobilityCommand
  * {
  *     MobilityCommandType commandType;
