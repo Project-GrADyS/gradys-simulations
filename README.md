@@ -5,6 +5,8 @@ Simulations from Project GrADyS on OMNET++ and INET framework
 
 This is a repository for the simulation framework developed for the GrADyS project. This framework allows the simulation of interconnected network nodes and the implementation of UAV swarms and sensor coordination strategies with the objective of managing these autonomous drone swarms to collect sensor data on the field autonomously and efficiently.
 
+![Dadca protocol showcase](assets/dadca_showcase.gif)
+
 # Installation
 In order to run the simulations and use the components in this repository you need to have both OMNeT++ and the INET framework installed.
 
@@ -627,6 +629,10 @@ description = "simple protocol configuration"
 ```
 
 With all that you should be able to run the simulation and after selecting "Simple" as a launch configuration you will see the drones and sensors performing the described behaviour.
+
+If you did everything right you should be seeing something like this:
+
+![Simple protocol showcase](assets/simple_showcase.gif)
 
 ---
 
