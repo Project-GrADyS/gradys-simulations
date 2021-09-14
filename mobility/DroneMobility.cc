@@ -19,10 +19,6 @@ namespace projeto {
 Define_Module(DroneMobility);
 
 void DroneMobility::initialize(int stage) {
-    // Registra o sinal de reversão
-    // Serve para indicar que o drone inverteu o sentido de sua viagem
-    reverseSignalID = registerSignal("reverse");
-
     VehicleMobility::initialize(stage);
     verticalSpeed = par("verticalSpeed");
     startTime = par("startTime");
@@ -36,7 +32,8 @@ void DroneMobility::setInitialPosition() {
     lastPosition.z = waypoints[targetPointIndex].timestamp;
 }
 
-// Cria um waypoint a partir de coordenadas e de um sistema de projeção
+// Creates and adds a waypoint to the waypoint list following a coordinate system
+// Helper function
 void DroneMobility::createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem) {
 
     if (coordinateSystem != nullptr) {
@@ -283,7 +280,6 @@ void DroneMobility::move() {
             case Command::REVERSE :
             {
                 droneStatus.isReversed = true;
-                emit(reverseSignalID, droneStatus.isReversed);
                 droneStatus.currentActivity = REACHED_EDGE;
                 DroneMobility::nextInstruction();
                 break;
@@ -415,7 +411,6 @@ void DroneMobility::nextInstruction() {
             currentInstructionIndex = 0;
             droneStatus.isReversed = false;
             droneStatus.currentActivity = REACHED_EDGE;
-            emit(reverseSignalID, droneStatus.isReversed);
         }
     } else {
         currentInstructionIndex++;
@@ -450,12 +445,11 @@ void DroneMobility::executeCommand() {
             {
                 droneStatus.isReversed = !droneStatus.isReversed;
 
-                // Inverts current instructions
+                // Reverses current instructions
                 int temp = currentInstructionIndex;
                 currentInstructionIndex = droneStatus.lastInstructionIndex;
                 droneStatus.lastInstructionIndex = temp;
 
-                emit(reverseSignalID, droneStatus.isReversed);
                 break;
             }
             case MobilityCommandType::GOTO_WAYPOINT:
