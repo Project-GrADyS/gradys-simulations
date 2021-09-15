@@ -59,7 +59,6 @@ void BleMeshMac::initialize(int stage)
     MacProtocolBase::initialize(stage);
     if (stage == INITSTAGE_LOCAL) {
         useMACAcks = par("useMACAcks");
-        queueLength = par("queueLength");
         sifs = par("sifs");
         headerLength = par("headerLength");
         transmissionAttemptInterruptedByRx = false;
@@ -119,6 +118,7 @@ void BleMeshMac::initialize(int stage)
         rxAckTimer = new cMessage("timer-rxAck");
         macState = IDLE_1;
         txAttempts = 0;
+        txQueue = check_and_cast<queueing::IPacketQueue *>(getSubmodule("queue"));
     }
     else if (stage == INITSTAGE_LINK_LAYER) {
         cModule *radioModule = getModuleFromPar<cModule>(par("radioModule"), this);
@@ -140,8 +140,7 @@ void BleMeshMac::initialize(int stage)
         }
         radio->setRadioMode(IRadio::RADIO_MODE_RECEIVER);
 
-        EV_DETAIL << "queueLength = " << queueLength
-                  << " bitrate = " << bitrate
+        EV_DETAIL << " bitrate = " << bitrate
                   << " backoff method = " << par("backoffMethod").stringValue() << endl;
 
         EV_DETAIL << "finished csma init stage 1." << endl;
@@ -178,9 +177,6 @@ BleMeshMac::~BleMeshMac()
     cancelAndDelete(rxAckTimer);
     if (ackMessage)
         delete ackMessage;
-    for (auto & elem : macQueue) {
-        delete (elem);
-    }
 }
 
 void BleMeshMac::configureInterfaceEntry()
@@ -254,24 +250,15 @@ void BleMeshMac::updateStatusIdle(t_mac_event event, cMessage *msg)
 {
     switch (event) {
         case EV_SEND_REQUEST:
-            if (macQueue.size() < queueLength) {
-                macQueue.push_back(static_cast<Packet *>(msg));
+            txQueue->pushPacket(static_cast<Packet *>(msg));
+            if (!txQueue->isEmpty()) {
                 EV_DETAIL << "(1) FSM State IDLE_1, EV_SEND_REQUEST and [TxBuff avail]: startTimerBackOff -> BACKOFF." << endl;
                 updateMacState(BACKOFF_2);
                 NB = 0;
                 //BE = macMinBE;
                 startTimer(TIMER_BACKOFF);
             }
-            else {
-                // queue is full, message has to be deleted
-                EV_DETAIL << "(12) FSM State IDLE_1, EV_SEND_REQUEST and [TxBuff not avail]: dropping packet -> IDLE." << endl;
-                PacketDropDetails details;
-                details.setReason(QUEUE_OVERFLOW);
-                details.setLimit(queueLength);
-                emit(packetDroppedSignal, msg, &details);
-                delete msg;
-                updateMacState(IDLE_1);
-            }
+
             break;
 
         case EV_DUPLICATE_RECEIVED:
@@ -378,17 +365,6 @@ void BleMeshMac::updateStatusBackoff(t_mac_event event, cMessage *msg)
     }
 }
 
-void BleMeshMac::flushQueue()
-{
-    // TODO:
-    macQueue.clear();
-}
-
-void BleMeshMac::clearQueue()
-{
-    macQueue.clear();
-}
-
 void BleMeshMac::attachSignal(Packet *mac, simtime_t_cref startTime)
 {
     simtime_t duration = mac->getBitLength() / bitrate;
@@ -405,7 +381,9 @@ void BleMeshMac::updateStatusCCA(t_mac_event event, cMessage *msg)
                 EV_DETAIL << "(3) FSM State CCA_3, EV_TIMER_CCA, [Channel Idle]: -> TRANSMITFRAME_4." << endl;
                 updateMacState(TRANSMITFRAME_4);
                 radio->setRadioMode(IRadio::RADIO_MODE_TRANSMITTER);
-                Packet *mac = check_and_cast<Packet *>(macQueue.front()->dup());
+                if (currentTxFrame == nullptr)
+                    popTxQueue();
+                Packet *mac = currentTxFrame->dup();
                 attachSignal(mac, simTime() + aTurnaroundTime);
                 //sendDown(msg);
                 // give time for the radio to be in Tx state before transmitting
@@ -424,15 +402,17 @@ void BleMeshMac::updateStatusCCA(t_mac_event event, cMessage *msg)
                     // drop the frame
                     EV_DETAIL << "Tried " << NB << " backoffs, all reported a busy "
                               << "channel. Dropping the packet." << endl;
-                    cMessage *mac = macQueue.front();
-                    macQueue.pop_front();
                     txAttempts = 0;
-                    nbDroppedFrames++;
-                    PacketDropDetails details;
-                    details.setReason(CONGESTION);
-                    details.setLimit(macMaxCSMABackoffs);
-                    emit(packetDroppedSignal, mac, &details);
-                    delete mac;
+                    if (currentTxFrame) {
+                        nbDroppedFrames++;
+                        PacketDropDetails details;
+                        details.setReason(CONGESTION);
+                        details.setLimit(macMaxCSMABackoffs);
+                        dropCurrentTxFrame(details);
+                    }
+                    else {
+                        EV_ERROR << "too many Backoffs, but currentTxFrame is empty\n";    //TODO is it good, or model error?
+                    }
                     manageQueue();
                 }
                 else {
@@ -502,7 +482,7 @@ void BleMeshMac::updateStatusTransmitFrame(t_mac_event event, cMessage *msg)
 {
     if (event == EV_FRAME_TRANSMITTED) {
         //    delete msg;
-        Packet *packet = macQueue.front();
+        Packet *packet = currentTxFrame;
         const auto& csmaHeader = packet->peekAtFront<BleMeshMacHeader>();
         radio->setRadioMode(IRadio::RADIO_MODE_RECEIVER);
 
@@ -526,8 +506,7 @@ void BleMeshMac::updateStatusTransmitFrame(t_mac_event event, cMessage *msg)
         }
         else {
             EV_DETAIL << ": RadioSetupRx, manageQueue..." << endl;
-            macQueue.pop_front();
-            delete packet;
+            deleteCurrentTxFrame();
             manageQueue();
         }
         delete msg;
@@ -547,10 +526,8 @@ void BleMeshMac::updateStatusWaitAck(t_mac_event event, cMessage *msg)
                       << " ProcessAck, manageQueue..." << endl;
             if (rxAckTimer->isScheduled())
                 cancelEvent(rxAckTimer);
-            cMessage *mac = macQueue.front();
-            macQueue.pop_front();
+            deleteCurrentTxFrame();
             txAttempts = 0;
-            delete mac;
             delete msg;
             manageQueue();
             break;
@@ -590,15 +567,11 @@ void BleMeshMac::manageMissingAck(t_mac_event    /*event*/, cMessage *    /*msg*
         // drop packet
         EV_DETAIL << "Packet was transmitted " << txAttempts
                   << " times and I never got an Ack. I drop the packet." << endl;
-        cMessage *mac = macQueue.front();
-        macQueue.pop_front();
         txAttempts = 0;
         PacketDropDetails details;
         details.setReason(RETRY_LIMIT_REACHED);
         details.setLimit(macMaxFrameRetries);
-        emit(packetDroppedSignal, mac, &details);
-        emit(linkBrokenSignal, mac);
-        delete mac;
+        dropCurrentTxFrame(details);
     }
     manageQueue();
 }
@@ -659,22 +632,7 @@ void BleMeshMac::updateStatusTransmitAck(t_mac_event event, cMessage *msg)
 void BleMeshMac::updateStatusNotIdle(cMessage *msg)
 {
     EV_DETAIL << "(20) FSM State NOT IDLE, EV_SEND_REQUEST. Is a TxBuffer available ?" << endl;
-    if (macQueue.size() < queueLength) {
-        macQueue.push_back(static_cast<Packet *>(msg));
-        EV_DETAIL << "(21) FSM State NOT IDLE, EV_SEND_REQUEST"
-                  << " and [TxBuff avail]: enqueue packet and don't move." << endl;
-    }
-    else {
-        // queue is full, message has to be deleted
-        EV_DETAIL << "(22) FSM State NOT IDLE, EV_SEND_REQUEST"
-                  << " and [TxBuff not avail]: dropping packet and don't move."
-                  << endl;
-        PacketDropDetails details;
-        details.setReason(QUEUE_OVERFLOW);
-        details.setLimit(queueLength);
-        emit(packetDroppedSignal, msg, &details);
-        delete msg;
-    }
+    txQueue->pushPacket(static_cast<Packet *>(msg));
 }
 
 /**
@@ -703,7 +661,14 @@ void BleMeshMac::executeMac(t_mac_event event, cMessage *msg)
         // Turn the radio off
         lowPowerMode = true;
         radio->setRadioMode(IRadio::RADIO_MODE_OFF);
-        clearQueue();
+
+        // TODO: Needs to clear the queue
+        // TODO: How do I clear the queue now?
+        while (!txQueue->isEmpty()) {
+            delete txQueue->popPacket(gate(lowerLayerOutGateId)); // TODO: 0 or lowerLayerOutGateId?
+        }
+        NB = 0; // backoff counter should be reset (clearing queue)
+
         macState = IDLE_1;
         return;
     }
@@ -768,8 +733,8 @@ void BleMeshMac::executeMac(t_mac_event event, cMessage *msg)
 
 void BleMeshMac::manageQueue()
 {
-    if (macQueue.size() != 0) {
-        EV_DETAIL << "(manageQueue) there are " << macQueue.size() << " packets to send, entering backoff wait state." << endl;
+    if (currentTxFrame != nullptr || !txQueue->isEmpty()) {
+        EV_DETAIL << "(manageQueue) there are " << txQueue->getNumPackets() + (currentTxFrame == nullptr ? 0 : 1) << " packets to send, entering backoff wait state." << endl;
         if (transmissionAttemptInterruptedByRx) {
             // resume a transmission cycle which was interrupted by
             // a frame reception during CCA check
@@ -988,11 +953,10 @@ void BleMeshMac::handleLowerPacket(Packet *packet)
                     }
                 }
             }
-            else if (macQueue.size() != 0) {
+            else if (currentTxFrame != nullptr) {
                 // message is an ack, and it is for us.
                 // Is it from the right node ?
-                Packet *firstPacket = static_cast<Packet *>(macQueue.front());
-                const auto& csmaHeader = firstPacket->peekAtFront<BleMeshMacHeader>();
+                const auto& csmaHeader = currentTxFrame->peekAtFront<BleMeshMacHeader>();
                 if (src == csmaHeader->getDestAddr()) {
                     nbRecvdAcks++;
                     executeMac(EV_ACK_RECEIVED, packet);
@@ -1020,7 +984,7 @@ void BleMeshMac::handleLowerPacket(Packet *packet)
     }
 }
 
-void BleMeshMac::receiveSignal(cComponent *source, simsignal_t signalID, long value, cObject *details)
+void BleMeshMac::receiveSignal(cComponent *source, simsignal_t signalID, intval_t value, cObject *details)
 {
     Enter_Method_Silent();
     if (signalID == IRadio::transmissionStateChangedSignal) {

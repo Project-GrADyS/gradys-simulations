@@ -55,7 +55,6 @@ OBJS = \
     $O/communication/messages/internal/MobilityCommand_m.o \
     $O/communication/messages/internal/Telemetry_m.o \
     $O/communication/messages/network/MobileNodeMessage_m.o \
-    $O/linklayer/base/MacHeaderBase_m.o \
     $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
 # Message files
@@ -65,7 +64,6 @@ MSGFILES = \
     communication/messages/internal/MobilityCommand.msg \
     communication/messages/internal/Telemetry.msg \
     communication/messages/network/MobileNodeMessage.msg \
-    linklayer/base/MacHeaderBase.msg \
     linklayer/blemesh/BleMeshMacHeader.msg
 
 # SM files

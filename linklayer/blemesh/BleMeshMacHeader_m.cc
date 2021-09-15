@@ -209,11 +209,11 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 
 Register_Class(BleMeshMacHeader)
 
-BleMeshMacHeader::BleMeshMacHeader() : ::inet::MacHeaderBase()
+BleMeshMacHeader::BleMeshMacHeader() : ::inet::FieldsChunk()
 {
 }
 
-BleMeshMacHeader::BleMeshMacHeader(const BleMeshMacHeader& other) : ::inet::MacHeaderBase(other)
+BleMeshMacHeader::BleMeshMacHeader(const BleMeshMacHeader& other) : ::inet::FieldsChunk(other)
 {
     copy(other);
 }
@@ -225,26 +225,68 @@ BleMeshMacHeader::~BleMeshMacHeader()
 BleMeshMacHeader& BleMeshMacHeader::operator=(const BleMeshMacHeader& other)
 {
     if (this == &other) return *this;
-    ::inet::MacHeaderBase::operator=(other);
+    ::inet::FieldsChunk::operator=(other);
     copy(other);
     return *this;
 }
 
 void BleMeshMacHeader::copy(const BleMeshMacHeader& other)
 {
+    this->srcAddr = other.srcAddr;
+    this->destAddr = other.destAddr;
+    this->networkProtocol = other.networkProtocol;
     this->sequenceId = other.sequenceId;
 }
 
 void BleMeshMacHeader::parsimPack(omnetpp::cCommBuffer *b) const
 {
-    ::inet::MacHeaderBase::parsimPack(b);
+    ::inet::FieldsChunk::parsimPack(b);
+    doParsimPacking(b,this->srcAddr);
+    doParsimPacking(b,this->destAddr);
+    doParsimPacking(b,this->networkProtocol);
     doParsimPacking(b,this->sequenceId);
 }
 
 void BleMeshMacHeader::parsimUnpack(omnetpp::cCommBuffer *b)
 {
-    ::inet::MacHeaderBase::parsimUnpack(b);
+    ::inet::FieldsChunk::parsimUnpack(b);
+    doParsimUnpacking(b,this->srcAddr);
+    doParsimUnpacking(b,this->destAddr);
+    doParsimUnpacking(b,this->networkProtocol);
     doParsimUnpacking(b,this->sequenceId);
+}
+
+const MacAddress& BleMeshMacHeader::getSrcAddr() const
+{
+    return this->srcAddr;
+}
+
+void BleMeshMacHeader::setSrcAddr(const MacAddress& srcAddr)
+{
+    handleChange();
+    this->srcAddr = srcAddr;
+}
+
+const MacAddress& BleMeshMacHeader::getDestAddr() const
+{
+    return this->destAddr;
+}
+
+void BleMeshMacHeader::setDestAddr(const MacAddress& destAddr)
+{
+    handleChange();
+    this->destAddr = destAddr;
+}
+
+int BleMeshMacHeader::getNetworkProtocol() const
+{
+    return this->networkProtocol;
+}
+
+void BleMeshMacHeader::setNetworkProtocol(int networkProtocol)
+{
+    handleChange();
+    this->networkProtocol = networkProtocol;
 }
 
 long BleMeshMacHeader::getSequenceId() const
@@ -263,6 +305,9 @@ class BleMeshMacHeaderDescriptor : public omnetpp::cClassDescriptor
   private:
     mutable const char **propertynames;
     enum FieldConstants {
+        FIELD_srcAddr,
+        FIELD_destAddr,
+        FIELD_networkProtocol,
         FIELD_sequenceId,
     };
   public:
@@ -291,7 +336,7 @@ class BleMeshMacHeaderDescriptor : public omnetpp::cClassDescriptor
 
 Register_ClassDescriptor(BleMeshMacHeaderDescriptor)
 
-BleMeshMacHeaderDescriptor::BleMeshMacHeaderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BleMeshMacHeader)), "inet::MacHeaderBase")
+BleMeshMacHeaderDescriptor::BleMeshMacHeaderDescriptor() : omnetpp::cClassDescriptor(omnetpp::opp_typename(typeid(inet::BleMeshMacHeader)), "inet::FieldsChunk")
 {
     propertynames = nullptr;
 }
@@ -326,7 +371,7 @@ const char *BleMeshMacHeaderDescriptor::getProperty(const char *propertyname) co
 int BleMeshMacHeaderDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 1+basedesc->getFieldCount() : 1;
+    return basedesc ? 4+basedesc->getFieldCount() : 4;
 }
 
 unsigned int BleMeshMacHeaderDescriptor::getFieldTypeFlags(int field) const
@@ -338,9 +383,12 @@ unsigned int BleMeshMacHeaderDescriptor::getFieldTypeFlags(int field) const
         field -= basedesc->getFieldCount();
     }
     static unsigned int fieldTypeFlags[] = {
+        0,    // FIELD_srcAddr
+        0,    // FIELD_destAddr
+        FD_ISEDITABLE,    // FIELD_networkProtocol
         FD_ISEDITABLE,    // FIELD_sequenceId
     };
-    return (field >= 0 && field < 1) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 4) ? fieldTypeFlags[field] : 0;
 }
 
 const char *BleMeshMacHeaderDescriptor::getFieldName(int field) const
@@ -352,16 +400,22 @@ const char *BleMeshMacHeaderDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
+        "srcAddr",
+        "destAddr",
+        "networkProtocol",
         "sequenceId",
     };
-    return (field >= 0 && field < 1) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 4) ? fieldNames[field] : nullptr;
 }
 
 int BleMeshMacHeaderDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0] == 's' && strcmp(fieldName, "sequenceId") == 0) return base+0;
+    if (fieldName[0] == 's' && strcmp(fieldName, "srcAddr") == 0) return base+0;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "destAddr") == 0) return base+1;
+    if (fieldName[0] == 'n' && strcmp(fieldName, "networkProtocol") == 0) return base+2;
+    if (fieldName[0] == 's' && strcmp(fieldName, "sequenceId") == 0) return base+3;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -374,9 +428,12 @@ const char *BleMeshMacHeaderDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
+        "inet::MacAddress",    // FIELD_srcAddr
+        "inet::MacAddress",    // FIELD_destAddr
+        "int",    // FIELD_networkProtocol
         "long",    // FIELD_sequenceId
     };
-    return (field >= 0 && field < 1) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 4) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **BleMeshMacHeaderDescriptor::getFieldPropertyNames(int field) const
@@ -443,6 +500,9 @@ std::string BleMeshMacHeaderDescriptor::getFieldValueAsString(void *object, int 
     }
     BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
+        case FIELD_srcAddr: return pp->getSrcAddr().str();
+        case FIELD_destAddr: return pp->getDestAddr().str();
+        case FIELD_networkProtocol: return long2string(pp->getNetworkProtocol());
         case FIELD_sequenceId: return long2string(pp->getSequenceId());
         default: return "";
     }
@@ -458,6 +518,7 @@ bool BleMeshMacHeaderDescriptor::setFieldValueAsString(void *object, int field, 
     }
     BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
+        case FIELD_networkProtocol: pp->setNetworkProtocol(string2long(value)); return true;
         case FIELD_sequenceId: pp->setSequenceId(string2long(value)); return true;
         default: return false;
     }
@@ -486,6 +547,8 @@ void *BleMeshMacHeaderDescriptor::getFieldStructValuePointer(void *object, int f
     }
     BleMeshMacHeader *pp = (BleMeshMacHeader *)object; (void)pp;
     switch (field) {
+        case FIELD_srcAddr: return toVoidPtr(&pp->getSrcAddr()); break;
+        case FIELD_destAddr: return toVoidPtr(&pp->getDestAddr()); break;
         default: return nullptr;
     }
 }

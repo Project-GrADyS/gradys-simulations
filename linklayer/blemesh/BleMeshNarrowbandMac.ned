@@ -18,7 +18,7 @@
 
 package projeto.linklayer.blemesh;
 
-simple BleMeshNarrowbandMac extends BleMeshMac
+module BleMeshNarrowbandMac extends BleMeshMac
 {
     parameters:
         useMACAcks = true;
