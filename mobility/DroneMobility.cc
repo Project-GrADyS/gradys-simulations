@@ -70,7 +70,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
             break;
         }
 
-        // Traduz instrução para struct
+        // Translates instruction to struct
         Instruction readInstruction(
             static_cast<Command>(stoi(lineVector[3])),
             stod(lineVector[4]),
