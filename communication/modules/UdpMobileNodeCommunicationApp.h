@@ -16,7 +16,6 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
 class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
 {
     protected:
-        // NED variable for the duration of the communication timeout
         char *targetName = nullptr;
         FieldsChunk *payloadTemplate = nullptr;
 

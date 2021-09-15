@@ -211,6 +211,8 @@ EXECUTE_ON_STARTUP(
     omnetpp::cEnum *e = omnetpp::cEnum::find("projeto::MobilityCommandType");
     if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("projeto::MobilityCommandType"));
     e->insert(REVERSE, "REVERSE");
+    e->insert(GOTO_WAYPOINT, "GOTO_WAYPOINT");
+    e->insert(GOTO_COORDS, "GOTO_COORDS");
 )
 
 Register_Class(MobilityCommand)
@@ -243,6 +245,7 @@ void MobilityCommand::copy(const MobilityCommand& other)
     this->param2 = other.param2;
     this->param3 = other.param3;
     this->param4 = other.param4;
+    this->param5 = other.param5;
 }
 
 void MobilityCommand::parsimPack(omnetpp::cCommBuffer *b) const
@@ -253,6 +256,7 @@ void MobilityCommand::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->param2);
     doParsimPacking(b,this->param3);
     doParsimPacking(b,this->param4);
+    doParsimPacking(b,this->param5);
 }
 
 void MobilityCommand::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -263,6 +267,7 @@ void MobilityCommand::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->param2);
     doParsimUnpacking(b,this->param3);
     doParsimUnpacking(b,this->param4);
+    doParsimUnpacking(b,this->param5);
 }
 
 projeto::MobilityCommandType MobilityCommand::getCommandType() const
@@ -275,44 +280,54 @@ void MobilityCommand::setCommandType(projeto::MobilityCommandType commandType)
     this->commandType = commandType;
 }
 
-int MobilityCommand::getParam1() const
+double MobilityCommand::getParam1() const
 {
     return this->param1;
 }
 
-void MobilityCommand::setParam1(int param1)
+void MobilityCommand::setParam1(double param1)
 {
     this->param1 = param1;
 }
 
-int MobilityCommand::getParam2() const
+double MobilityCommand::getParam2() const
 {
     return this->param2;
 }
 
-void MobilityCommand::setParam2(int param2)
+void MobilityCommand::setParam2(double param2)
 {
     this->param2 = param2;
 }
 
-int MobilityCommand::getParam3() const
+double MobilityCommand::getParam3() const
 {
     return this->param3;
 }
 
-void MobilityCommand::setParam3(int param3)
+void MobilityCommand::setParam3(double param3)
 {
     this->param3 = param3;
 }
 
-int MobilityCommand::getParam4() const
+double MobilityCommand::getParam4() const
 {
     return this->param4;
 }
 
-void MobilityCommand::setParam4(int param4)
+void MobilityCommand::setParam4(double param4)
 {
     this->param4 = param4;
+}
+
+double MobilityCommand::getParam5() const
+{
+    return this->param5;
+}
+
+void MobilityCommand::setParam5(double param5)
+{
+    this->param5 = param5;
 }
 
 class MobilityCommandDescriptor : public omnetpp::cClassDescriptor
@@ -325,6 +340,7 @@ class MobilityCommandDescriptor : public omnetpp::cClassDescriptor
         FIELD_param2,
         FIELD_param3,
         FIELD_param4,
+        FIELD_param5,
     };
   public:
     MobilityCommandDescriptor();
@@ -387,7 +403,7 @@ const char *MobilityCommandDescriptor::getProperty(const char *propertyname) con
 int MobilityCommandDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 5+basedesc->getFieldCount() : 5;
+    return basedesc ? 6+basedesc->getFieldCount() : 6;
 }
 
 unsigned int MobilityCommandDescriptor::getFieldTypeFlags(int field) const
@@ -404,8 +420,9 @@ unsigned int MobilityCommandDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,    // FIELD_param2
         FD_ISEDITABLE,    // FIELD_param3
         FD_ISEDITABLE,    // FIELD_param4
+        FD_ISEDITABLE,    // FIELD_param5
     };
-    return (field >= 0 && field < 5) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 6) ? fieldTypeFlags[field] : 0;
 }
 
 const char *MobilityCommandDescriptor::getFieldName(int field) const
@@ -422,8 +439,9 @@ const char *MobilityCommandDescriptor::getFieldName(int field) const
         "param2",
         "param3",
         "param4",
+        "param5",
     };
-    return (field >= 0 && field < 5) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldNames[field] : nullptr;
 }
 
 int MobilityCommandDescriptor::findField(const char *fieldName) const
@@ -435,6 +453,7 @@ int MobilityCommandDescriptor::findField(const char *fieldName) const
     if (fieldName[0] == 'p' && strcmp(fieldName, "param2") == 0) return base+2;
     if (fieldName[0] == 'p' && strcmp(fieldName, "param3") == 0) return base+3;
     if (fieldName[0] == 'p' && strcmp(fieldName, "param4") == 0) return base+4;
+    if (fieldName[0] == 'p' && strcmp(fieldName, "param5") == 0) return base+5;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -448,12 +467,13 @@ const char *MobilityCommandDescriptor::getFieldTypeString(int field) const
     }
     static const char *fieldTypeStrings[] = {
         "projeto::MobilityCommandType",    // FIELD_commandType
-        "int",    // FIELD_param1
-        "int",    // FIELD_param2
-        "int",    // FIELD_param3
-        "int",    // FIELD_param4
+        "double",    // FIELD_param1
+        "double",    // FIELD_param2
+        "double",    // FIELD_param3
+        "double",    // FIELD_param4
+        "double",    // FIELD_param5
     };
-    return (field >= 0 && field < 5) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 6) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **MobilityCommandDescriptor::getFieldPropertyNames(int field) const
@@ -528,10 +548,11 @@ std::string MobilityCommandDescriptor::getFieldValueAsString(void *object, int f
     MobilityCommand *pp = (MobilityCommand *)object; (void)pp;
     switch (field) {
         case FIELD_commandType: return enum2string(pp->getCommandType(), "projeto::MobilityCommandType");
-        case FIELD_param1: return long2string(pp->getParam1());
-        case FIELD_param2: return long2string(pp->getParam2());
-        case FIELD_param3: return long2string(pp->getParam3());
-        case FIELD_param4: return long2string(pp->getParam4());
+        case FIELD_param1: return double2string(pp->getParam1());
+        case FIELD_param2: return double2string(pp->getParam2());
+        case FIELD_param3: return double2string(pp->getParam3());
+        case FIELD_param4: return double2string(pp->getParam4());
+        case FIELD_param5: return double2string(pp->getParam5());
         default: return "";
     }
 }
@@ -547,10 +568,11 @@ bool MobilityCommandDescriptor::setFieldValueAsString(void *object, int field, i
     MobilityCommand *pp = (MobilityCommand *)object; (void)pp;
     switch (field) {
         case FIELD_commandType: pp->setCommandType((projeto::MobilityCommandType)string2enum(value, "projeto::MobilityCommandType")); return true;
-        case FIELD_param1: pp->setParam1(string2long(value)); return true;
-        case FIELD_param2: pp->setParam2(string2long(value)); return true;
-        case FIELD_param3: pp->setParam3(string2long(value)); return true;
-        case FIELD_param4: pp->setParam4(string2long(value)); return true;
+        case FIELD_param1: pp->setParam1(string2double(value)); return true;
+        case FIELD_param2: pp->setParam2(string2double(value)); return true;
+        case FIELD_param3: pp->setParam3(string2double(value)); return true;
+        case FIELD_param4: pp->setParam4(string2double(value)); return true;
+        case FIELD_param5: pp->setParam5(string2double(value)); return true;
         default: return false;
     }
 }

@@ -16,17 +16,21 @@
 #ifndef COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
 #define COMMUNICATION_UDPSENSORCOMMUNICATIONAPP_H_
 
+#include "inet/transportlayer/contract/udp/UdpSocket.h"
+#include "inet/common/packet/chunk/Chunk_m.h"
 #include "base/UdpBasicAppMobileSensorNode.h"
 
 namespace projeto {
 
 class UdpSensorCommunicationApp: public UdpBasicAppMobileSensorNode {
     protected:
+        char *targetName = nullptr;
+        FieldsChunk *payloadTemplate = nullptr;
+    protected:
         virtual void setSocketOptions() override;
-        // Preventing automatic packets from being sent
-        // Sensors are passive
         virtual void sendPacket() override { return; };
-        virtual void sendPacket(const char *target);
+        virtual void sendPacket(char *target);
+        virtual void handleMessageWhenUp(cMessage *msg) override;
         virtual void processPacket(Packet *pk) override;
 };
 

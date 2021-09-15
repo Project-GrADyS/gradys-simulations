@@ -15,6 +15,7 @@
 
 package projeto.communication.protocols.base;
 
+// Base implementation for the protocol classes
 moduleinterface IProtocol {
     gates:
         inout mobilityGate;

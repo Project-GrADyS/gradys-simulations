@@ -26,14 +26,36 @@ class Telemetry;
 namespace projeto {
 
 /**
- * Class generated from <tt>communication/messages/internal/Telemetry.msg:19</tt> by nedtool.
+ * Enum generated from <tt>communication/messages/internal/Telemetry.msg:19</tt> by nedtool.
  * <pre>
- * // Class designed to share necessary drone information with the communication module
+ * // Activity that the drone is currently carrying out
+ * enum DroneActivity
+ * {
+ *     IDLE = 0;
+ *     NAVIGATING = 1;
+ *     REACHED_EDGE = 2;
+ *     FOLLOWING_COMMAND = 3;
+ * }
+ * </pre>
+ */
+enum DroneActivity {
+    IDLE = 0,
+    NAVIGATING = 1,
+    REACHED_EDGE = 2,
+    FOLLOWING_COMMAND = 3
+};
+
+/**
+ * Class generated from <tt>communication/messages/internal/Telemetry.msg:27</tt> by nedtool.
+ * <pre>
+ * // Message declaration designed to share necessary drone information with the communication module
  * message Telemetry
  * {
  *     int nextWaypointID = -1;
  *     int lastWaypointID = -1;
+ *     int currentCommand = -1;
  *     bool isReversed = false;
+ *     DroneActivity droneActivity;
  * }
  * </pre>
  */
@@ -42,7 +64,9 @@ class Telemetry : public ::omnetpp::cMessage
   protected:
     int nextWaypointID = -1;
     int lastWaypointID = -1;
+    int currentCommand = -1;
     bool isReversed_ = false;
+    projeto::DroneActivity droneActivity = static_cast<projeto::DroneActivity>(-1);
 
   private:
     void copy(const Telemetry& other);
@@ -65,8 +89,12 @@ class Telemetry : public ::omnetpp::cMessage
     virtual void setNextWaypointID(int nextWaypointID);
     virtual int getLastWaypointID() const;
     virtual void setLastWaypointID(int lastWaypointID);
+    virtual int getCurrentCommand() const;
+    virtual void setCurrentCommand(int currentCommand);
     virtual bool isReversed() const;
     virtual void setIsReversed(bool isReversed);
+    virtual projeto::DroneActivity getDroneActivity() const;
+    virtual void setDroneActivity(projeto::DroneActivity droneActivity);
 };
 
 inline void doParsimPacking(omnetpp::cCommBuffer *b, const Telemetry& obj) {obj.parsimPack(b);}
