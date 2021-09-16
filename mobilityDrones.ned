@@ -25,6 +25,7 @@ network mobilityDrones
 
 		int numUAVs = default(1);
 		int numSensors = default(1);
+		int numRelaySensors = default(3);
 
     types:
 
@@ -52,6 +53,9 @@ network mobilityDrones
         } 
         
         sensors[numSensors]: MobileSensorNode {
+            @display("i=misc/sensor");
+        }
+        sensors_rly[numRelaySensors]: MobileSensorNode {
             @display("i=misc/sensor");
         }
         groundStation: GroundStation {
