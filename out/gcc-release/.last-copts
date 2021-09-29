@@ -1,1 +1,0 @@
--O3 -DNDEBUG=1 -MMD -MP -MF .d    -isystem /Users/marcelo.paulon/msdiss/omnetpp-5.6.1/tools/macosx/include -fno-omit-frame-pointer  -DXMLPARSER=libxml -DPREFER_QTENV -DWITH_QTENV -DWITH_PARSIM -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH  -DINET_IMPORT -I. -I../inet/src -I/Users/marcelo.paulon/msdiss/omnetpp-5.6.1/include
