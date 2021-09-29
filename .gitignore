@@ -36,5 +36,42 @@
 *.out
 *.app
 
+# Ignore cache files
 cache/**
+
+# Ignore binary files
 out/**
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+*.o
+*.obj
+*.pdb
+*.idb
+*.manifest
+.qtenv.ini
+.qtenvrc
+.tkenvrc
+.tkenvlog
+.cmdenv-log
+netanim-trace.txt
+*.out
+/tmp/
+/.computed/
+*.DS_Store
+
+*_m.h
+*_m.cc
+*_sm.h
+*_sm.cc
+
+# IDE-specific
+.vscode/*
+.idea/*
+*.iml
+.pydevproject
+.pydevproject
+.settings/
