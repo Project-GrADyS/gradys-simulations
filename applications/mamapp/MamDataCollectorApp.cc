@@ -68,6 +68,7 @@ void MamDataCollectorApp::initialize(int stage)
         selfMsg = new cMessage("UDPSinkTimer");
 
         dataDelaySignal = registerSignal("dataDelay");
+        uniqueDataCollectedSignal = registerSignal("dataLoad");
     }
 }
 
@@ -322,6 +323,8 @@ void MamDataCollectorApp::processPacket(Packet *pk)
 
         numUnique = uniqueDataSendPacketHashes.size();
         numSenders = uniqueDataSenders.size();
+
+        emit(uniqueDataCollectedSignal, numUnique);
 
         numReceived++;
 

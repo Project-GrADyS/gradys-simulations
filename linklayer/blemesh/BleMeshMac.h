@@ -27,6 +27,7 @@
 #ifndef __INET_BLEMESHMAC_H
 #define __INET_BLEMESHMAC_H
 
+#include "inet/queueing/contract/IPacketQueue.h"
 #include "inet/linklayer/base/MacProtocolBase.h"
 #include "inet/linklayer/common/MacAddress.h"
 #include "inet/linklayer/contract/IMacProtocol.h"
@@ -87,8 +88,6 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
         , initialCW(0)
         , txPower(0)
         , NB(0)
-        , macQueue()
-        , queueLength(0)
         , txAttempts(0)
         , bitrate(0)
         , ackLength(0)
@@ -115,16 +114,9 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
     virtual void handleSelfMessage(cMessage *) override;
 
     /** @brief Handle control messages from lower layer */
-    virtual void receiveSignal(cComponent *source, simsignal_t signalID, long value, cObject *details) override;
-
-    // OperationalBase:
-    virtual void handleStartOperation(LifecycleOperation *operation) override {}    //TODO implementation
-    virtual void handleStopOperation(LifecycleOperation *operation) override {}    //TODO implementation
-    virtual void handleCrashOperation(LifecycleOperation *operation) override {}    //TODO implementation
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, intval_t value, cObject *details) override;
 
   protected:
-    typedef std::list<Packet *> MacQueue;
-
     /** @name Different tracked statistics.*/
     /*@{*/
     long nbTxFrames;
@@ -294,13 +286,6 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
     /** @brief number of backoff performed until now for current frame */
     int NB;
 
-    /** @brief A queue to store packets from upper layer in case another
-       packet is still waiting for transmission..*/
-    MacQueue macQueue;
-
-    /** @brief length of the queue*/
-    unsigned int queueLength;
-
     /** @brief count the number of tx attempts
      *
      * This holds the number of transmission attempts for the current frame.
@@ -317,10 +302,6 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
     /** @brief Generate new interface address*/
     virtual void configureInterfaceEntry() override;
     virtual void handleCommand(cMessage *msg) {}
-
-    virtual void flushQueue();
-
-    virtual void clearQueue() override;
 
     // FSM functions
     void fsmError(t_mac_event event, cMessage *msg);

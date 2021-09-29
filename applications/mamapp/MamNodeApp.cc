@@ -334,6 +334,11 @@ void MamNodeApp::handleMessageWhenUp(cMessage *msg)
             return;
         }
 
+        if (getEnvir()->isLoggingEnabled()) {
+            EV_DEBUG << "Sensor " << this->getParentModule()->getFullName() << " received " << msg->getName() <<
+                    " from " << L3AddressResolver().findHostWithAddress(srcAddr)->getFullName() << endl;
+        }
+
         if (strcmp(msg->getName(), FOUND_MOBILE_SINK) == 0) {
             auto bmeshData = dynamicPtrCast<const BMeshPacket>(packet->peekAtBack());
 

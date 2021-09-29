@@ -59,6 +59,8 @@ class MamDataCollectorApp : public ApplicationBase, public UdpSocket::ICallback
 
     simsignal_t dataDelaySignal = registerSignal("dataDelay");
 
+    simsignal_t uniqueDataCollectedSignal = registerSignal("dataLoad");
+
   public:
     MamDataCollectorApp() {}
     virtual ~MamDataCollectorApp();

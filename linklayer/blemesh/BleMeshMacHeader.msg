@@ -20,7 +20,8 @@
 // **************************************************************************/
 
 import inet.common.INETDefs;
-import linklayer.base.MacHeaderBase;
+import inet.common.packet.chunk.Chunk;
+import inet.linklayer.common.MacAddress;
 
 namespace inet;
 
@@ -29,7 +30,10 @@ namespace inet;
 //
 // @author Daniel Willkomm
 //
-class BleMeshMacHeader extends MacHeaderBase
+class BleMeshMacHeader extends FieldsChunk
 {
+    MacAddress srcAddr;
+    MacAddress destAddr;
+    int networkProtocol = -1;
     long       sequenceId; // Sequence Number to detect duplicate messages
 }

@@ -24,28 +24,36 @@ class BleMeshMacHeader;
 
 #include "inet/common/INETDefs_m.h" // import inet.common.INETDefs
 
-#include "linklayer/base/MacHeaderBase_m.h" // import linklayer.base.MacHeaderBase
+#include "inet/common/packet/chunk/Chunk_m.h" // import inet.common.packet.chunk.Chunk
+
+#include "inet/linklayer/common/MacAddress_m.h" // import inet.linklayer.common.MacAddress
 
 
 namespace inet {
 
 /**
- * Class generated from <tt>linklayer/blemesh/BleMeshMacHeader.msg:33</tt> by nedtool.
+ * Class generated from <tt>linklayer/blemesh/BleMeshMacHeader.msg:34</tt> by nedtool.
  * <pre>
  * //
  * // A CSMA mac header format definition
  * //
  * // \@author Daniel Willkomm
  * //
- * class BleMeshMacHeader extends MacHeaderBase
+ * class BleMeshMacHeader extends FieldsChunk
  * {
+ *     MacAddress srcAddr;
+ *     MacAddress destAddr;
+ *     int networkProtocol = -1;
  *     long sequenceId; // Sequence Number to detect duplicate messages
  * }
  * </pre>
  */
-class BleMeshMacHeader : public ::inet::MacHeaderBase
+class BleMeshMacHeader : public ::inet::FieldsChunk
 {
   protected:
+    MacAddress srcAddr;
+    MacAddress destAddr;
+    int networkProtocol = -1;
     long sequenceId = 0;
 
   private:
@@ -65,6 +73,14 @@ class BleMeshMacHeader : public ::inet::MacHeaderBase
     virtual void parsimUnpack(omnetpp::cCommBuffer *b) override;
 
     // field getter/setter methods
+    virtual const MacAddress& getSrcAddr() const;
+    virtual MacAddress& getSrcAddrForUpdate() { handleChange();return const_cast<MacAddress&>(const_cast<BleMeshMacHeader*>(this)->getSrcAddr());}
+    virtual void setSrcAddr(const MacAddress& srcAddr);
+    virtual const MacAddress& getDestAddr() const;
+    virtual MacAddress& getDestAddrForUpdate() { handleChange();return const_cast<MacAddress&>(const_cast<BleMeshMacHeader*>(this)->getDestAddr());}
+    virtual void setDestAddr(const MacAddress& destAddr);
+    virtual int getNetworkProtocol() const;
+    virtual void setNetworkProtocol(int networkProtocol);
     virtual long getSequenceId() const;
     virtual void setSequenceId(long sequenceId);
 };
