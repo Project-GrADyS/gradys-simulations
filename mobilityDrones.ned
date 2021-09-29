@@ -1,4 +1,4 @@
-package projeto;
+	package projeto;
 
 import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
@@ -12,7 +12,9 @@ import inet.node.ethernet.Eth100M;
 import inet.node.inet.SensorNode;
 import inet.node.inet.StandardHost;
 import inet.node.inet.WirelessHost;
-import inet.physicallayer.common.packetlevel.RadioMedium;
+import inet.physicallayer.apskradio.packetlevel.ApskScalarRadioMedium;
+import inet.physicallayer.ieee802154.bitlevel.Ieee802154UwbIrRadioMedium;
+import inet.physicallayer.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;
 import inet.visualizer.integrated.IntegratedMultiVisualizer;
 import inet.visualizer.integrated.IntegratedVisualizer;
 
@@ -25,7 +27,6 @@ network mobilityDrones
 
 		int numUAVs = default(1);
 		int numSensors = default(1);
-		int numRelaySensors = default(3);
 
     types:
 
@@ -45,7 +46,7 @@ network mobilityDrones
         configurator: Ipv4NetworkConfigurator {
             @display("p=0,200");
         }
-        radioMedium: RadioMedium {
+        radioMedium: Ieee802154NarrowbandScalarRadioMedium {
             @display("p=200,0");
         }
         quads[numUAVs]: MobileNode {
