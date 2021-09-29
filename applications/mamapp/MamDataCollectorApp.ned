@@ -50,7 +50,7 @@ simple MamDataCollectorApp like IApp
         @signal[packetSent](type=inet::Packet); // Discovery packet
         @signal[packetReceived](type=inet::Packet);
         @signal[dataDelay](type=simtime_t);
-		@signal[dataLoad](type=long);
+        @signal[dataLoad](type=long);
 		
         @statistic[packetReceived](title="packets received"; source=packetReceived; record=count,"sum(packetBytes)","vector(packetBytes)"; interpolationmode=none);
         @statistic[throughput](title="throughput"; unit=bps; source="throughput(packetReceived)"; record=vector);
