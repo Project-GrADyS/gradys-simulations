@@ -207,6 +207,15 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
+EXECUTE_ON_STARTUP(
+    omnetpp::cEnum *e = omnetpp::cEnum::find("projeto::DroneActivity");
+    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("projeto::DroneActivity"));
+    e->insert(IDLE, "IDLE");
+    e->insert(NAVIGATING, "NAVIGATING");
+    e->insert(REACHED_EDGE, "REACHED_EDGE");
+    e->insert(FOLLOWING_COMMAND, "FOLLOWING_COMMAND");
+)
+
 Register_Class(Telemetry)
 
 Telemetry::Telemetry(const char *name, short kind) : ::omnetpp::cMessage(name, kind)
@@ -234,7 +243,9 @@ void Telemetry::copy(const Telemetry& other)
 {
     this->nextWaypointID = other.nextWaypointID;
     this->lastWaypointID = other.lastWaypointID;
+    this->currentCommand = other.currentCommand;
     this->isReversed_ = other.isReversed_;
+    this->droneActivity = other.droneActivity;
 }
 
 void Telemetry::parsimPack(omnetpp::cCommBuffer *b) const
@@ -242,7 +253,9 @@ void Telemetry::parsimPack(omnetpp::cCommBuffer *b) const
     ::omnetpp::cMessage::parsimPack(b);
     doParsimPacking(b,this->nextWaypointID);
     doParsimPacking(b,this->lastWaypointID);
+    doParsimPacking(b,this->currentCommand);
     doParsimPacking(b,this->isReversed_);
+    doParsimPacking(b,this->droneActivity);
 }
 
 void Telemetry::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -250,7 +263,9 @@ void Telemetry::parsimUnpack(omnetpp::cCommBuffer *b)
     ::omnetpp::cMessage::parsimUnpack(b);
     doParsimUnpacking(b,this->nextWaypointID);
     doParsimUnpacking(b,this->lastWaypointID);
+    doParsimUnpacking(b,this->currentCommand);
     doParsimUnpacking(b,this->isReversed_);
+    doParsimUnpacking(b,this->droneActivity);
 }
 
 int Telemetry::getNextWaypointID() const
@@ -273,6 +288,16 @@ void Telemetry::setLastWaypointID(int lastWaypointID)
     this->lastWaypointID = lastWaypointID;
 }
 
+int Telemetry::getCurrentCommand() const
+{
+    return this->currentCommand;
+}
+
+void Telemetry::setCurrentCommand(int currentCommand)
+{
+    this->currentCommand = currentCommand;
+}
+
 bool Telemetry::isReversed() const
 {
     return this->isReversed_;
@@ -283,6 +308,16 @@ void Telemetry::setIsReversed(bool isReversed)
     this->isReversed_ = isReversed;
 }
 
+projeto::DroneActivity Telemetry::getDroneActivity() const
+{
+    return this->droneActivity;
+}
+
+void Telemetry::setDroneActivity(projeto::DroneActivity droneActivity)
+{
+    this->droneActivity = droneActivity;
+}
+
 class TelemetryDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -290,7 +325,9 @@ class TelemetryDescriptor : public omnetpp::cClassDescriptor
     enum FieldConstants {
         FIELD_nextWaypointID,
         FIELD_lastWaypointID,
+        FIELD_currentCommand,
         FIELD_isReversed,
+        FIELD_droneActivity,
     };
   public:
     TelemetryDescriptor();
@@ -353,7 +390,7 @@ const char *TelemetryDescriptor::getProperty(const char *propertyname) const
 int TelemetryDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 3+basedesc->getFieldCount() : 3;
+    return basedesc ? 5+basedesc->getFieldCount() : 5;
 }
 
 unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
@@ -367,9 +404,11 @@ unsigned int TelemetryDescriptor::getFieldTypeFlags(int field) const
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,    // FIELD_nextWaypointID
         FD_ISEDITABLE,    // FIELD_lastWaypointID
+        FD_ISEDITABLE,    // FIELD_currentCommand
         FD_ISEDITABLE,    // FIELD_isReversed
+        FD_ISEDITABLE,    // FIELD_droneActivity
     };
-    return (field >= 0 && field < 3) ? fieldTypeFlags[field] : 0;
+    return (field >= 0 && field < 5) ? fieldTypeFlags[field] : 0;
 }
 
 const char *TelemetryDescriptor::getFieldName(int field) const
@@ -383,9 +422,11 @@ const char *TelemetryDescriptor::getFieldName(int field) const
     static const char *fieldNames[] = {
         "nextWaypointID",
         "lastWaypointID",
+        "currentCommand",
         "isReversed",
+        "droneActivity",
     };
-    return (field >= 0 && field < 3) ? fieldNames[field] : nullptr;
+    return (field >= 0 && field < 5) ? fieldNames[field] : nullptr;
 }
 
 int TelemetryDescriptor::findField(const char *fieldName) const
@@ -394,7 +435,9 @@ int TelemetryDescriptor::findField(const char *fieldName) const
     int base = basedesc ? basedesc->getFieldCount() : 0;
     if (fieldName[0] == 'n' && strcmp(fieldName, "nextWaypointID") == 0) return base+0;
     if (fieldName[0] == 'l' && strcmp(fieldName, "lastWaypointID") == 0) return base+1;
-    if (fieldName[0] == 'i' && strcmp(fieldName, "isReversed") == 0) return base+2;
+    if (fieldName[0] == 'c' && strcmp(fieldName, "currentCommand") == 0) return base+2;
+    if (fieldName[0] == 'i' && strcmp(fieldName, "isReversed") == 0) return base+3;
+    if (fieldName[0] == 'd' && strcmp(fieldName, "droneActivity") == 0) return base+4;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -409,9 +452,11 @@ const char *TelemetryDescriptor::getFieldTypeString(int field) const
     static const char *fieldTypeStrings[] = {
         "int",    // FIELD_nextWaypointID
         "int",    // FIELD_lastWaypointID
+        "int",    // FIELD_currentCommand
         "bool",    // FIELD_isReversed
+        "projeto::DroneActivity",    // FIELD_droneActivity
     };
-    return (field >= 0 && field < 3) ? fieldTypeStrings[field] : nullptr;
+    return (field >= 0 && field < 5) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
@@ -423,6 +468,10 @@ const char **TelemetryDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case FIELD_droneActivity: {
+            static const char *names[] = { "enum",  nullptr };
+            return names;
+        }
         default: return nullptr;
     }
 }
@@ -436,6 +485,9 @@ const char *TelemetryDescriptor::getFieldProperty(int field, const char *propert
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case FIELD_droneActivity:
+            if (!strcmp(propertyname, "enum")) return "projeto::DroneActivity";
+            return nullptr;
         default: return nullptr;
     }
 }
@@ -480,7 +532,9 @@ std::string TelemetryDescriptor::getFieldValueAsString(void *object, int field, 
     switch (field) {
         case FIELD_nextWaypointID: return long2string(pp->getNextWaypointID());
         case FIELD_lastWaypointID: return long2string(pp->getLastWaypointID());
+        case FIELD_currentCommand: return long2string(pp->getCurrentCommand());
         case FIELD_isReversed: return bool2string(pp->isReversed());
+        case FIELD_droneActivity: return enum2string(pp->getDroneActivity(), "projeto::DroneActivity");
         default: return "";
     }
 }
@@ -497,7 +551,9 @@ bool TelemetryDescriptor::setFieldValueAsString(void *object, int field, int i, 
     switch (field) {
         case FIELD_nextWaypointID: pp->setNextWaypointID(string2long(value)); return true;
         case FIELD_lastWaypointID: pp->setLastWaypointID(string2long(value)); return true;
+        case FIELD_currentCommand: pp->setCurrentCommand(string2long(value)); return true;
         case FIELD_isReversed: pp->setIsReversed(string2bool(value)); return true;
+        case FIELD_droneActivity: pp->setDroneActivity((projeto::DroneActivity)string2enum(value, "projeto::DroneActivity")); return true;
         default: return false;
     }
 }

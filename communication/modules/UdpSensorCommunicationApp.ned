@@ -19,4 +19,6 @@ import projeto.communication.modules.base.UdpBasicAppMobileSensorNode;
 
 simple UdpSensorCommunicationApp extends UdpBasicAppMobileSensorNode {
     @class(UdpSensorCommunicationApp);
+    gates:
+        inout controllerGate;
 }

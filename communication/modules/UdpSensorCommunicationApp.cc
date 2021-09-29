@@ -1,22 +1,23 @@
 //
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU Lesser General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
+// Copyright (C) 2000 Institut fuer Telematik, Universitaet Karlsruhe
+// Copyright (C) 2004,2011 Andras Varga
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU Lesser General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU Lesser General Public License
-// along with this program.  If not, see http://www.gnu.org/licenses/.
-// 
+// along with this program; if not, see <http://www.gnu.org/licenses/>.
+//
 
 #include "UdpSensorCommunicationApp.h"
-#include "../messages/network/MobileNodeMessage_m.h"
-#include "base/UdpBasicAppMobileSensorNode.h"
-#include "inet/applications/base/ApplicationPacket_m.h"
+
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"
@@ -25,11 +26,17 @@
 #include "inet/networklayer/common/FragmentationTag_m.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
-#include "MobileSensorNode.h"
+#include "inet/applications/base/ApplicationPacket_m.h"
+
+#include "MobileNode.h"
+#include "../messages/internal/CommunicationCommand_m.h"
+
+using namespace inet;
 
 namespace projeto {
 
 Define_Module(UdpSensorCommunicationApp);
+
 
 void UdpSensorCommunicationApp::setSocketOptions() {
     UdpBasicAppMobileSensorNode::setSocketOptions();
@@ -37,44 +44,78 @@ void UdpSensorCommunicationApp::setSocketOptions() {
     socket.joinMulticastGroup(Ipv4Address("224.0.0.9"));
 }
 
-void UdpSensorCommunicationApp::sendPacket(const char *target) {
-    Packet *packet = new Packet("SensorMessage");
+void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
+    CommunicationCommand *command = dynamic_cast<CommunicationCommand *>(msg);
+
+    if(command != nullptr) {
+        switch(command->getCommandType()) {
+            case SET_TARGET:
+            {
+                targetName = strdup(command->getTarget());
+                break;
+            }
+            case SET_PAYLOAD:
+            {
+                if(payloadTemplate != nullptr) {
+                    delete payloadTemplate;
+                }
+                const FieldsChunk *messagePayload = command->getPayloadTemplate();
+                if(messagePayload != nullptr) {
+                    payloadTemplate = (FieldsChunk*) messagePayload->dup();
+                }
+                delete messagePayload;
+                break;
+            }
+        }
+
+        if(socket.isOpen() && targetName && payloadTemplate) {
+            sendPacket(targetName);
+        }
+        cancelAndDelete(msg);
+    }
+    else {
+        UdpBasicAppMobileSensorNode::handleMessageWhenUp(msg);
+    }
+}
+
+void UdpSensorCommunicationApp::sendPacket(char *target) {
+    /*Default package setup*/
+    Packet *packet = new Packet("DroneMessage");
     if(dontFragment)
         packet->addTag<FragmentationReq>()->setDontFragment(true);
     packet->setName(this->getParentModule()->getFullName());
-    const auto& payload = makeShared<MobileNodeMessage>();
-    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    payload->setMessageType(MessageType::BEARER);
-    payload->setSourceID(this->getParentModule()->getId());
+    if(payloadTemplate != nullptr) {
+        packet->insertAtBack(payloadTemplate->dupShared());
 
-    packet->insertAtBack(payload);
-    L3Address destAddr;
-    L3AddressResolver().tryResolve(target, destAddr);
 
-    emit(packetSentSignal, packet);
-    socket.sendTo(packet, destAddr, destPort);
-    numSent++;
+        L3Address destAddr;
+        if(targetName != nullptr && strlen(targetName)  > 0) {
+            // Else sends message to the specific target
+            L3AddressResolver().tryResolve(targetName, destAddr);
+
+            emit(packetSentSignal, packet);
+            socket.sendTo(packet, destAddr, destPort);
+            numSent++;
+        }
+    }
 }
 
 void UdpSensorCommunicationApp::processPacket(Packet *pk) {
-    emit(packetReceivedSignal, pk);
-
-    auto payload = pk->peekAtBack<MobileNodeMessage>(B(14), 1);
-
     // Ignore messages not in address list
     if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {
         delete pk;
         return;
     }
 
-    if(payload != nullptr) {
-        std::cout << this->getParentModule()->getFullName() << " recieving package from " << pk->getName() << endl;
-        // Listens to drone payloads and sends back data
-        sendPacket(pk->getName());
+    // Checks if the output side of the "inout" controllerGate is connected
+    if(gate("controllerGate$o")->isConnected()) {
+        send(pk->dup(), gate("controllerGate$o"));
     }
 
+    emit(packetReceivedSignal, pk);
     delete pk;
 }
 
-} /* namespace projeto */
+} // namespace inet
+

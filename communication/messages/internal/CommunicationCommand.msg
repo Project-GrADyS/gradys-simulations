@@ -18,17 +18,20 @@ import inet.common.packet.chunk.Chunk;
 namespace projeto;
 
 enum CommunicationCommandType {
+    // Sets the payload that the communication module sends
     SET_PAYLOAD=0;
+    // Sets the target of the communication message (null means broadcast)
     SET_TARGET=1;
 }
 
-
+// Message declaration for the communication command
 message CommunicationCommand {
+    // Command Id
     CommunicationCommandType commandType;
     
-    // Template for the SET_PAYLOAD message type
+    // Template for the SET_PAYLOAD message type (message that the communication module should send)
     inet::FieldsChunk *payloadTemplate;
     
-    // Target for the set target type
+    // Target for the set target command
     string target;
 }

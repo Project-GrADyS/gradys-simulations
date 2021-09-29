@@ -15,9 +15,19 @@
 
 namespace projeto;
 
-// Class designed to share necessary drone information with the communication module
+// Activity that the drone is currently carrying out
+enum DroneActivity { 
+    IDLE=0; 
+    NAVIGATING=1;
+    REACHED_EDGE=2; 
+    FOLLOWING_COMMAND=3;
+}
+
+// Message declaration designed to share necessary drone information with the communication module
 message Telemetry {
     int nextWaypointID=-1;
     int lastWaypointID=-1;
+    int currentCommand=-1;
     bool isReversed=false;
+    DroneActivity droneActivity;
 }

@@ -15,15 +15,31 @@
 
 namespace projeto;
 
+// Commands that the mobility module should be capable of carrying out
 enum MobilityCommandType {
+    // Makes the drone reverse on its course
+    // No params
     REVERSE=0; 
+    
+    // Makes the drone travel to a specific waypoint, following the tour pack
+    // Param 1: Waypoint index
+    GOTO_WAYPOINT=1;
+    
+    // Makes the drone go to a specific coordinate and orient itself so it can continue the tour afterwards
+    // Param 1: x component of the coord
+    // Param 2: y component of the coord
+    // Param 3: z component of the coord
+    // Param 4: Next waypoint (Waypoint the drone should go to after reaching the target)
+    // Param 5: Last waypoint (Waypoint the drone used to reach the coords)
+    GOTO_COORDS=2;
 }
 
-
+// Message declaration containing the command Id and its parameters 
 message MobilityCommand {
     MobilityCommandType commandType;
-    int param1;
-    int param2;
-    int param3;
-    int param4;
+    double param1=-1;
+    double param2=-1;
+    double param3=-1;
+    double param4=-1;
+    double param5=-1;
 }

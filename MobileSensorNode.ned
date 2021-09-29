@@ -6,6 +6,7 @@ import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
 
+import projeto.communication.protocols.base.IProtocol;
 
 module MobileSensorNode extends AdhocHost
 {    
@@ -16,8 +17,11 @@ module MobileSensorNode extends AdhocHost
   		int simulationIndexOfFirstNode = 6;
   		
 
-     types:
-        //struct product {  int weight; double price; } 
-        //foo double;
+     submodules:
+  	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
+  	    }
+  	
+  	connections:
+  		app[0].controllerGate <--> protocol.communicationGate;
 
 }

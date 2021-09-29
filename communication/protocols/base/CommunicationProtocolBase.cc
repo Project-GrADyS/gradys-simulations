@@ -29,19 +29,22 @@ void CommunicationProtocolBase::handleMessage(cMessage *msg) {
     if(packet != nullptr) {
         handlePacket(packet);
     }
-
     cancelAndDelete(msg);
 }
 
 void CommunicationProtocolBase::sendCommand(MobilityCommand *order) {
     if(gate("mobilityGate$o")->isConnected()) {
         send(order, gate("mobilityGate$o"));
+    } else {
+        cancelAndDelete(order);
     }
 }
 
 void CommunicationProtocolBase::sendCommand(CommunicationCommand *order) {
     if(gate("communicationGate$o")->isConnected()) {
         send(order, gate("communicationGate$o"));
+    } else {
+        cancelAndDelete(order);
     }
 }
 
