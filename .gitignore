@@ -40,6 +40,8 @@
 cache/**
 
 # Ignore binary files
+gradys-simulations
+gradys-simulations_dbg
 out/**
 *.so
 *.dylib
