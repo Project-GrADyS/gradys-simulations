@@ -62,7 +62,6 @@ OBJS = \
     $O/communication/messages/network/DadcaMessage_m.o \
     $O/communication/messages/network/SimpleMessage_m.o \
     $O/communication/messages/network/ZigzagMessage_m.o \
-    $O/linklayer/base/MacHeaderBase_m.o \
     $O/linklayer/blemesh/BleMeshMacHeader_m.o
 
 # Message files
@@ -74,7 +73,6 @@ MSGFILES = \
     communication/messages/network/DadcaMessage.msg \
     communication/messages/network/SimpleMessage.msg \
     communication/messages/network/ZigzagMessage.msg \
-    linklayer/base/MacHeaderBase.msg \
     linklayer/blemesh/BleMeshMacHeader.msg
 
 # SM files
