@@ -51,10 +51,10 @@ class CommunicationProtocolBase : public cSimpleModule
     // The mobility module exchanges mobility information in the form of telemetry
     virtual void handleTelemetry(Telemetry *telemetry) {};
 
-    // Sends command to mobility
-    virtual void sendCommand(MobilityCommand *order);
-    // Sends command to communication
-    virtual void sendCommand(CommunicationCommand *order);
+    // Sends command to mobility gate. A gate index of -1 broadcasts message to all gates.
+    virtual void sendCommand(MobilityCommand *order, int gateIndex = -1);
+    // Sends command to communication gate. A gate index of -1 broadcasts message to all gates.
+    virtual void sendCommand(CommunicationCommand *order, int gateIndex = -1);
 
     // Sets a timeout
     virtual void initiateTimeout(simtime_t duration);

@@ -23,6 +23,6 @@ simple CommunicationProtocolBase like IProtocol
     parameters:
         @class(CommunicationProtocolBase);
     gates:
-        inout mobilityGate;
-        inout communicationGate;
+        inout mobilityGate[];
+        inout communicationGate[];
 }

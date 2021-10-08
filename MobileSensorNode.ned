@@ -22,6 +22,6 @@ module MobileSensorNode extends AdhocHost
   	    }
   	
   	connections:
-  		app[0].controllerGate <--> protocol.communicationGate;
+  		app[0].controllerGate <--> protocol.communicationGate++;
 
 }
