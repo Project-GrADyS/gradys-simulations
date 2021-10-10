@@ -23,6 +23,7 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
+#include "../../../applications/mamapp/BMeshPacket_m.h"
 
 namespace projeto {
 
@@ -47,6 +48,7 @@ void DadcaProtocol::initialize(int stage)
         WATCH(communicationStatus);
         WATCH(tentativeTarget);
         WATCH(lastTarget);
+        WATCH(currentDataLoad);
     }
 }
 
@@ -83,7 +85,7 @@ void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
 }
 
 void DadcaProtocol::handlePacket(Packet *pk) {
-    auto payload = pk->peekAtBack<DadcaMessage>(B(34), 1);
+    auto payload = dynamicPtrCast<const DadcaMessage>(pk->peekAtBack());
 
 
     if(payload != nullptr) {
@@ -167,7 +169,8 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                     std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
                     if(communicationStatus != PAIRED_FINISHED) {
                         // If both drones are travelling in the same direction, the pairing is canceled
-                        if(lastStableTelemetry.isReversed() != payload->getReversed()) {
+                        // Doesn't apply if one drone is the groundStation
+                        if((lastStableTelemetry.isReversed() != payload->getReversed()) || (tour.size() == 0 || payload->getNextWaypointID() == -1)) {
                             // Exchanging imaginary data to the drone closest to the start of the mission
                             if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
                                 // Drone closest to the start gets the data
@@ -221,6 +224,15 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             }
         }
         updatePayload();
+    }
+
+    auto mamPayload = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack());
+    if(mamPayload != nullptr) {
+        if(!isTimedout() && communicationStatus == FREE) {
+            currentDataLoad++;
+            stableDataLoad = currentDataLoad;
+            emit(dataLoadSignalID, currentDataLoad);
+        }
     }
 }
 
@@ -401,7 +413,7 @@ void DadcaProtocol::setTarget(const char *target) {
 bool DadcaProtocol::isTimedout() {
     // Blocks the timeout if the drone is currently executing a command
     if(currentTelemetry.getCurrentCommand() != -1) {
-        return false;
+        return true;
     }
 
     bool oldValue = timeoutSet;

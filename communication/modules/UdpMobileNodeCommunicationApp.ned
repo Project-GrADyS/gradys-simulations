@@ -27,7 +27,7 @@ simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
     	@class(UdpMobileNodeCommunicationApp);
 		
 	gates:
-        inout controllerGate;
+        inout protocolGate;
 		
 }
 

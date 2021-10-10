@@ -108,9 +108,9 @@ void UdpSensorCommunicationApp::processPacket(Packet *pk) {
         return;
     }
 
-    // Checks if the output side of the "inout" controllerGate is connected
-    if(gate("controllerGate$o")->isConnected()) {
-        send(pk->dup(), gate("controllerGate$o"));
+    // Checks if the output side of the "inout" protocolGate is connected
+    if(gate("protocolGate$o")->isConnected()) {
+        send(pk->dup(), gate("protocolGate$o"));
     }
 
     emit(packetReceivedSignal, pk);

@@ -23,6 +23,6 @@ module MobileNode extends AdhocHost
   	    }
   	
   	connections:
-  		app[0].controllerGate <--> protocol.communicationGate++;
+  		app[0].protocolGate <--> protocol.communicationGate++;
   		protocol.mobilityGate++ <--> mobility.commGate;
 }
