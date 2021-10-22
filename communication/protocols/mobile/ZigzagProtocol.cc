@@ -64,6 +64,11 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
                     resetParameters();
                 }
 
+                // If the drone is collecting data, prefer to pair with other drone
+                if(communicationStatus == COLLECTING) {
+                    resetParameters();
+                }
+
                 if(!isTimedout()) {
                     // Only accepts requests if you are going to the same waypoint as drone or you are going to the waypoint it came from
                     // or if the drone is stationary
@@ -166,6 +171,7 @@ void ZigzagProtocol::updatePayload() {
     payload->setReversed(lastStableTelemetry.isReversed());
     payload->setNextWaypointID(lastStableTelemetry.getNextWaypointID());
     payload->setLastWaypointID(lastStableTelemetry.getLastWaypointID());
+    payload->setSourceID(this->getParentModule()->getId());
 
     if(!isTimedout() && communicationStatus != FREE) {
         communicationStatus = FREE;
@@ -175,14 +181,12 @@ void ZigzagProtocol::updatePayload() {
         case FREE:
         {
             payload->setMessageType(ZigzagMessageType::HEARTBEAT);
-            payload->setSourceID(this->getParentModule()->getId());
             std::cout << payload->getSourceID() << " set to heartbeat" << endl;
             break;
         }
         case REQUESTING:
         {
             payload->setMessageType(ZigzagMessageType::PAIR_REQUEST);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             std::cout << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
             break;
@@ -191,7 +195,6 @@ void ZigzagProtocol::updatePayload() {
         case PAIRED_FINISHED:
         {
             payload->setMessageType(ZigzagMessageType::PAIR_CONFIRM);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             payload->setDataLength(stableDataLoad);
 

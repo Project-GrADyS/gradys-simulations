@@ -46,25 +46,10 @@ class ZigzagProtocolSensor : public CommunicationProtocolBase
         // Name of the current target (for addressing purposes)
         std::string tentativeTargetName;
 
-        // Current imaginary data being carried
-        int currentDataLoad=0;
-        // Stable data load to prevent data loss during pairing
-        int stableDataLoad=currentDataLoad;
-
-        // Last telemetry package recieved
-        Telemetry currentTelemetry = Telemetry();
-        Telemetry lastStableTelemetry = Telemetry();
-
-        ZigzagMessage lastPayload = ZigzagMessage();
-
     protected:
         virtual void initialize(int stage) override;
-        virtual void handleTelemetry(projeto::Telemetry *telemetry) override;
         virtual void handlePacket(Packet *pk) override;
-        virtual bool isTimedout() override;
-        virtual void resetParameters();
     private:
-        virtual void sendReverseOrder();
         virtual void updatePayload();
         virtual void setTarget(const char *target);
     public:
