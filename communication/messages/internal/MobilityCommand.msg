@@ -32,6 +32,10 @@ enum MobilityCommandType {
     // Param 4: Next waypoint (Waypoint the drone should go to after reaching the target)
     // Param 5: Last waypoint (Waypoint the drone used to reach the coords)
     GOTO_COORDS=2;
+    
+    // Orders the drone to return to the home coordinates
+    // No params
+    RETURN_TO_HOME=3;
 }
 
 // Message declaration containing the command Id and its parameters 
