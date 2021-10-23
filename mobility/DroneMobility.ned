@@ -11,6 +11,9 @@ simple DroneMobility extends VehicleMobility
         double yawSpeed @unit(rad) = default(5deg); // Yaw speed in radians per second
         double startTime @unit(s) = default(0s);
         
+        double homeLatitude @unit(degree);
+        double homeLongitude @unit(degree);
+        
 	gates:
 	    inout commGate;
 }

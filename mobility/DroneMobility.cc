@@ -24,12 +24,27 @@ void DroneMobility::initialize(int stage) {
     startTime = par("startTime");
     droneStatus.currentYawSpeed = par("yawSpeed");
 
+    homeLatitude = par("homeLatitude");
+    homeLongitude = par("homeLongitude");
+
     sendTelemetry(true);
 }
 
 void DroneMobility::setInitialPosition() {
+    double x = homeLatitude,y = homeLongitude, z = waypoints[targetPointIndex].timestamp;
+
+    auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this, false);
+    if (coordinateSystem != nullptr) {
+        Coord sceneCoordinate = coordinateSystem->computeSceneCoordinate(GeoCoord(deg(x), deg(y), m(0)));
+        x = sceneCoordinate.x;
+        y = sceneCoordinate.y;
+        z = sceneCoordinate.z;
+    }
+
     VehicleMobility::setInitialPosition();
-    lastPosition.z = waypoints[targetPointIndex].timestamp;
+    lastPosition.x = x;
+    lastPosition.y = y;
+    lastPosition.z = z;
 }
 
 // Creates and adds a waypoint to the waypoint list following a coordinate system

@@ -93,7 +93,9 @@ class DroneMobility : public VehicleMobility
 
         int currentInstructionIndex=0;
 
-        //
+        // Home location
+        double homeLatitude;
+        double homeLongitude;
 
     protected:
         virtual void initialize(int stage) override;
