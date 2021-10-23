@@ -15,6 +15,6 @@ simple DroneMobility extends VehicleMobility
         double homeLongitude @unit(degree);
         
 	gates:
-	    inout commGate;
+	    inout protocolGate[];
 }
 

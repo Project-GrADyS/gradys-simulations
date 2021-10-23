@@ -538,7 +538,14 @@ void DroneMobility::sendTelemetry(bool sendTour) {
         message->par("tourCoords").setPointerValue(coordArray);
     }
 
-    send(message, gate("commGate$o"));
+
+    for(int i=0;i<gateSize("protocolGate");i++) {
+        if(gate("protocolGate$o", i)->isConnected()) {
+            send(message->dup(), gate("protocolGate$o", i));
+        }
+    }
+
+    delete message;
 }
 
 
