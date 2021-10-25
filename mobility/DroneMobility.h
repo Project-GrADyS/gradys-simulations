@@ -76,6 +76,7 @@ class DroneMobility : public VehicleMobility
             /* Command status */
             // Current MobilityCommunicationCommand being followed
             int currentCommand=-1;
+            MobilityCommand currentCommandInstance;
             // Target waypoint for commands that use it
             int gotoWaypointTarget=-1;
 
@@ -96,6 +97,7 @@ class DroneMobility : public VehicleMobility
         // Home location
         double homeLatitude;
         double homeLongitude;
+        Coord homeCoords;
 
     protected:
         virtual void initialize(int stage) override;

@@ -7,6 +7,7 @@ import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
 
 import projeto.communication.protocols.base.IProtocol;
+import projeto.mobility.energy.base.IMobilityEnergy;
 
 module MobileNode extends AdhocHost
 {   
@@ -21,8 +22,11 @@ module MobileNode extends AdhocHost
   	submodules:
   	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
   	    }
+  	    energy: <default("MobilityEnergyBase")> like IMobilityEnergy {
+  	    }
   	
   	connections:
   		app[0].protocolGate <--> protocol.communicationGate++;
   		protocol.mobilityGate++ <--> mobility.protocolGate++;
+  		energy.mobilityGate <--> mobility.protocolGate++;
 }

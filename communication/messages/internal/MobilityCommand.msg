@@ -36,6 +36,15 @@ enum MobilityCommandType {
     // Orders the drone to return to the home coordinates
     // No params
     RETURN_TO_HOME=3;
+    
+    // Idles the drone for a specified time
+    // Param 1: idle time in seconds
+    IDLE_TIME = 4;
+    
+    // Shuts down the drone, making it land and permanently stay idle
+    // This command is special as it takes priority over other commands
+    // No params
+    SHUTDOWN = 5;
 }
 
 // Message declaration containing the command Id and its parameters 

@@ -40,7 +40,7 @@ void DroneMobility::setInitialPosition() {
         y = sceneCoordinate.y;
         z = sceneCoordinate.z;
     }
-
+    homeCoords = Coord(x, y, z);
     VehicleMobility::setInitialPosition();
     lastPosition.x = x;
     lastPosition.y = y;
@@ -174,6 +174,7 @@ void DroneMobility::move() {
                 break;
             }
             case MobilityCommandType::GOTO_COORDS :
+            case MobilityCommandType::RETURN_TO_HOME :
             {
                 if(droneStatus.isIdle) {
                     droneStatus.currentCommand = -1;
@@ -191,6 +192,21 @@ void DroneMobility::move() {
                     DroneMobility::fly();
                 }
                 break;
+            }
+            case MobilityCommandType::IDLE_TIME :
+            {
+                droneStatus.isIdle = true;
+                if(simTime() - droneStatus.idleTime >= droneStatus.currentCommandInstance.getParam1()) {
+                    droneStatus.currentCommand = -1;
+                    droneStatus.isIdle = false;
+                    executeCommand();
+                }
+                break;
+            }
+            case MobilityCommandType::SHUTDOWN :
+            {
+                droneStatus.isIdle = true;
+                climb(0);
             }
         }
     }
@@ -443,7 +459,19 @@ void DroneMobility::handleMessage(cMessage *message) {
 
     MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
     if(command != nullptr) {
+        // Overrides current queue if it is a shutdown command
+        if(command->getCommandType() == SHUTDOWN) {
+            while(!droneStatus.commandQueue.empty())
+            {
+                delete droneStatus.commandQueue.front();
+                droneStatus.commandQueue.pop();
+            }
+            droneStatus.currentCommand = -1;
+        }
+
         droneStatus.commandQueue.push(command);
+
+
         executeCommand();
     } else {
         VehicleMobility::handleMessage(message);
@@ -508,8 +536,40 @@ void DroneMobility::executeCommand() {
                 droneStatus.isIdle = false;
                 break;
             }
-            droneStatus.currentActivity = FOLLOWING_COMMAND;
+            case MobilityCommandType::RETURN_TO_HOME:
+            {
+                Waypoint tempWaypoint = Waypoint(homeCoords.x, homeCoords.y, homeCoords.z);
+
+                currentInstructionIndex = 0;
+                droneStatus.lastInstructionIndex = 0;
+                droneStatus.currentCommand = RETURN_TO_HOME;
+
+                // Adjusting isReversed to be coherent to orientation
+                droneStatus.isReversed = false;
+
+                // Creates and adds a temporary waypoint to the waypoint list
+                // to serve as a target
+                waypoints.push_back(tempWaypoint);
+                droneStatus.isIdle = false;
+                break;
+            }
+            case MobilityCommandType::IDLE_TIME:
+            {
+                droneStatus.currentCommand = MobilityCommandType::IDLE_TIME;
+                droneStatus.currentCommandInstance = *command;
+                droneStatus.isIdle = true;
+                droneStatus.idleTime = simTime();
+                break;
+            }
+            case MobilityCommandType::SHUTDOWN:
+            {
+                droneStatus.isIdle = true;
+                droneStatus.currentCommand = MobilityCommandType::SHUTDOWN;
+                droneStatus.currentCommandInstance = *command;
+                break;
+            }
         }
+        droneStatus.currentActivity = FOLLOWING_COMMAND;
         delete command;
     }
     sendTelemetry();
