@@ -68,7 +68,7 @@ void SimpleConsumptionEnergy::handleMessage(cMessage *msg)
            isReturning = true;
         }
 
-        if(currentConsumption >= batteryCapacity) {
+        if(currentConsumption >= batteryCapacity && currentTelemetry.getCurrentCommand() != IDLE_TIME) {
             MobilityCommand *shutdownCommand = new MobilityCommand();
             shutdownCommand->setCommandType(SHUTDOWN);
 

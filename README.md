@@ -75,6 +75,24 @@ The compound module that represents our UAVs is **MobileNode.ned** and **MobileS
 
  ## Mobility
  The mobility module is responsible for controlling drone movement and responding to requests from the protocol module to change that movement through MobilityCommand messages. It also needs to inform the procol module about the current state of the drone's movement through Telemetry messages. 
+
+ An optional feature of the mobility module is attaching a energy module that simulates limited vehicle battery. It connects to the same gate that the Protocol module uses to communicate with the mobility module and can give the same commands and read the same telemetry. The SimpleConsumptionEnergy, for exemple, simulates battery consumption and sends a Return to Landing signal to the drone when the battery levels get below a certain threshold. It also shuts down the drone if it's battery ever runs completely out.
+
+* **SimpleEnergyConsumption.ned**
+ ```C++
+package projeto.mobility.energy;
+import projeto.mobility.energy.base.MobilityEnergyBase;
+
+simple SimpleConsumptionEnergy extends MobilityEnergyBase
+{
+    parameters:
+        @class(SimpleConsumptionEnergy);
+        double batteryCapacity @unit(mAh);
+        double batteryRTLThreshold @unit(mAh);
+        double batteryConsumption @unit(A);
+        double idleDuration @unit(s);
+}
+ ```
  
  As part of the module initialization the waypoint list is attached to a Telemetry message so the protocol module has access to the tour the mobile node is following.
  

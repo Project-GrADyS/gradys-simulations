@@ -15,9 +15,7 @@
 
 package projeto.mobility.energy;
 import projeto.mobility.energy.base.MobilityEnergyBase;
-//
-// TODO auto-generated module
-//
+
 simple SimpleConsumptionEnergy extends MobilityEnergyBase
 {
     parameters:

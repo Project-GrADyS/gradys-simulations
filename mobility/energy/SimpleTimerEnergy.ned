@@ -19,6 +19,7 @@ import projeto.mobility.energy.base.MobilityEnergyBase;
 simple SimpleTimerEnergy extends MobilityEnergyBase {
     parameters:
         @class(SimpleTimerEnergy);
-        double batteryDuration @unit(s);
+        double batteryShutdownDuration @unit(s);
+        double batteryRTLDuration @unit(s);
         double idleDuration @unit(s) = default(3s);
 }

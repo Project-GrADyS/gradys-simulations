@@ -15,6 +15,8 @@
 
 #ifndef MOBILITY_ENERGY_SIMPLETIMERENERGY_H_
 #define MOBILITY_ENERGY_SIMPLETIMERENERGY_H_
+
+#include "../../communication/messages/internal/Telemetry_m.h"
 #include <omnetpp.h>
 
 using namespace omnetpp;
@@ -30,11 +32,15 @@ class SimpleTimerEnergy : public cSimpleModule {
         virtual ~SimpleTimerEnergy();
 
     public:
-        simtime_t batteryDuration;
+        simtime_t batteryRTLDuration;
+        simtime_t batteryShutdownDuration;
         simtime_t idleDuration;
 
     protected:
-        cMessage *selfMessage;
+        Telemetry currentTelemetry;
+        cMessage *RTLMessage;
+        cMessage *shutdownMessage;
+        bool isReturning;
 };
 
 } /* namespace projeto */

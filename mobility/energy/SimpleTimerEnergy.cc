@@ -15,7 +15,6 @@
 
 #include "SimpleTimerEnergy.h"
 #include "../../communication/messages/internal/MobilityCommand_m.h"
-#include "../../communication/messages/internal/Telemetry_m.h"
 
 namespace projeto {
 
@@ -23,41 +22,71 @@ Define_Module(SimpleTimerEnergy);
 
 void SimpleTimerEnergy::initialize(int stage) {
     if(stage == 0) {
-        batteryDuration = par("batteryDuration");
+        batteryRTLDuration = par("batteryRTLDuration");
+        batteryShutdownDuration = par("batteryShutdownDuration");
         idleDuration = par("idleDuration");
-        selfMessage = new cMessage();
+        RTLMessage = new cMessage();
+        shutdownMessage = new cMessage();
+        isReturning = false;
     }
 }
 
 void SimpleTimerEnergy::handleMessage(cMessage *msg) {
     if(msg->isSelfMessage()) {
-        MobilityCommand *returnCommand = new MobilityCommand();
-        returnCommand->setCommandType(RETURN_TO_HOME);
+        if(msg == RTLMessage && !isReturning) {
+            MobilityCommand *returnCommand = new MobilityCommand();
+            returnCommand->setCommandType(RETURN_TO_HOME);
 
-        cGate *protocolGate = gate("mobilityGate$o");
-        if(protocolGate->isConnected()) {
-            send(returnCommand, protocolGate);
-        }
+            cGate *protocolGate = gate("mobilityGate$o");
+            if(protocolGate->isConnected()) {
+                send(returnCommand, protocolGate);
+            }
 
-        MobilityCommand *idleCommand = new MobilityCommand();
-        idleCommand->setCommandType(IDLE_TIME);
-        idleCommand->setParam1(idleDuration.dbl());
+            MobilityCommand *idleCommand = new MobilityCommand();
+            idleCommand->setCommandType(IDLE_TIME);
+            idleCommand->setParam1(idleDuration.dbl());
 
-        if(protocolGate->isConnected()) {
-            send(idleCommand, protocolGate);
+            if(protocolGate->isConnected()) {
+                send(idleCommand, protocolGate);
+            }
+        } else if(msg == shutdownMessage && currentTelemetry.getCurrentCommand() != IDLE_TIME) {
+            MobilityCommand *returnCommand = new MobilityCommand();
+            returnCommand->setCommandType(SHUTDOWN);
+
+            cGate *protocolGate = gate("mobilityGate$o");
+            if(protocolGate->isConnected()) {
+                send(returnCommand, protocolGate);
+            }
         }
     } else {
         Telemetry *telemetry = dynamic_cast<Telemetry *>(msg);
         if(telemetry != nullptr) {
-            if(telemetry->getDroneActivity() == NAVIGATING && !selfMessage->isScheduled()) {
-                scheduleAt(simTime() + batteryDuration, selfMessage);
+            currentTelemetry = *telemetry;
+
+            if(isReturning && currentTelemetry.getDroneActivity() == NAVIGATING) {
+                isReturning = false;
+
+                if(shutdownMessage->isScheduled()) {
+                    cancelEvent(shutdownMessage);
+                }
             }
+
+            if(telemetry->getDroneActivity() == NAVIGATING) {
+                if(!RTLMessage->isScheduled()) {
+                    scheduleAt(simTime() + batteryRTLDuration, RTLMessage);
+                }
+                if(!shutdownMessage->isScheduled()) {
+                    scheduleAt(simTime() + batteryShutdownDuration, shutdownMessage);
+                }
+            }
+            delete telemetry;
         }
     }
 }
 
 SimpleTimerEnergy::~SimpleTimerEnergy() {
-    cancelAndDelete(selfMessage);
+    cancelAndDelete(RTLMessage);
+    cancelAndDelete(shutdownMessage);
 }
 
 
