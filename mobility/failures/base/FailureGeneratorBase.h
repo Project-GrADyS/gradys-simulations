@@ -13,36 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef MOBILITY_ENERGY_SIMPLETIMERENERGY_H_
-#define MOBILITY_ENERGY_SIMPLETIMERENERGY_H_
+#ifndef MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_
+#define MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_
 
-#include "../../communication/messages/internal/Telemetry_m.h"
 #include <omnetpp.h>
-
 using namespace omnetpp;
 
 namespace projeto {
 
-class SimpleTimerEnergy : public cSimpleModule {
-    public:
-        virtual void initialize(int stage) override;
-
-        virtual void handleMessage(cMessage *msg) override;
-
-        virtual ~SimpleTimerEnergy();
-
-    public:
-        simtime_t batteryRTLDuration;
-        simtime_t batteryShutdownDuration;
-        simtime_t idleDuration;
-
+class FailureGeneratorBase : public cSimpleModule {
     protected:
-        Telemetry currentTelemetry;
-        cMessage *RTLMessage;
-        cMessage *shutdownMessage;
-        bool isReturning;
+        void initialize(int stage) {};
+        void handleMessage(cMessage *msg) {};
 };
 
 } /* namespace projeto */
 
-#endif /* MOBILITY_ENERGY_SIMPLETIMERENERGY_H_ */
+#endif /* MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_ */

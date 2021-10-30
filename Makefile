@@ -54,9 +54,9 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
     $O/mobility/DroneMobility.o \
-    $O/mobility/energy/SimpleConsumptionEnergy.o \
-    $O/mobility/energy/SimpleTimerEnergy.o \
-    $O/mobility/energy/base/MobilityEnergyBase.o \
+    $O/mobility/failures/SimpleConsumptionEnergy.o \
+    $O/mobility/failures/SimpleTimerEnergy.o \
+    $O/mobility/failures/base/FailureGeneratorBase.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/messages/internal/CommunicationCommand_m.o \

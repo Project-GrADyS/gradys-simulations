@@ -13,7 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "SimpleConsumptionEnergy.h"
+#include "../failures/SimpleConsumptionEnergy.h"
+
 #include "../../communication/messages/internal/MobilityCommand_m.h"
 
 namespace projeto {

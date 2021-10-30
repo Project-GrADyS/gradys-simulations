@@ -7,6 +7,7 @@ import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
 
 import projeto.communication.protocols.base.IProtocol;
+import projeto.mobility.failures.base.IFailureGenerator;
 
 module MobileNodeMam extends AdhocHost
 {   
@@ -14,6 +15,7 @@ module MobileNodeMam extends AdhocHost
   		int internalMobNodeId = -1;
   		int simulationIndexOfFirstNode = 6;
   		int nodeType = 171;
+  		int numFailures = 0;
   		
   		
   		@class(MobileNode);
@@ -21,9 +23,14 @@ module MobileNodeMam extends AdhocHost
   	submodules:
   	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
   	    }
+  	    failures[numFailures]: <default("FailureGeneratorBase")> like IFailureGenerator {
+  	    }
   	
   	connections:
   		app[0].protocolGate <--> protocol.communicationGate++;
   		app[1].protocolGate <--> protocol.communicationGate++;
   		protocol.mobilityGate++ <--> mobility.commGate;
+  		for i=0..numFailures-1 {
+      		failures[i].mobilityGate <--> mobility.protocolGate++;
+  		}
 }

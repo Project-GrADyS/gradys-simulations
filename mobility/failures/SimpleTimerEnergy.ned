@@ -13,10 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.energy;
-import projeto.mobility.energy.base.MobilityEnergyBase;
+package projeto.mobility.failures;
+import projeto.mobility.failures.base.FailureGeneratorBase;
 
-simple SimpleTimerEnergy extends MobilityEnergyBase {
+simple SimpleTimerEnergy extends FailureGeneratorBase {
     parameters:
         @class(SimpleTimerEnergy);
         double batteryShutdownDuration @unit(s);

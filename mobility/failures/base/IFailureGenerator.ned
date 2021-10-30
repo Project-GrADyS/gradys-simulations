@@ -13,10 +13,9 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "MobilityEnergyBase.h"
+package projeto.mobility.failures.base;
 
-namespace projeto {
-
-Define_Module(MobilityEnergyBase);
-
-} /* namespace projeto */
+moduleinterface IFailureGenerator {
+    gates:
+        inout mobilityGate;
+}

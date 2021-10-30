@@ -13,15 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.energy.base;
+package projeto.mobility.failures;
+import projeto.mobility.failures.base.FailureGeneratorBase;
 
-//
-// TODO auto-generated module
-//
-simple MobilityEnergyBase like IMobilityEnergy
+simple SimpleConsumptionEnergy extends FailureGeneratorBase
 {
     parameters:
-        @class(MobilityEnergyBase);
-    gates:
-        inout mobilityGate;
+        @class(SimpleConsumptionEnergy);
+        double batteryCapacity @unit(mAh);
+        double batteryRTLThreshold @unit(mAh);
+        double batteryConsumption @unit(A);
+        double idleDuration @unit(s);
 }

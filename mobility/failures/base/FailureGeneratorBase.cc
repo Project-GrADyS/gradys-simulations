@@ -13,15 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.energy;
-import projeto.mobility.energy.base.MobilityEnergyBase;
+#include "FailureGeneratorBase.h"
 
-simple SimpleConsumptionEnergy extends MobilityEnergyBase
-{
-    parameters:
-        @class(SimpleConsumptionEnergy);
-        double batteryCapacity @unit(mAh);
-        double batteryRTLThreshold @unit(mAh);
-        double batteryConsumption @unit(A);
-        double idleDuration @unit(s);
-}
+namespace projeto {
+
+Define_Module(FailureGeneratorBase);
+
+} /* namespace projeto */

@@ -13,9 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.energy.base;
+package projeto.mobility.failures.base;
 
-moduleinterface IMobilityEnergy {
+//
+// TODO auto-generated module
+//
+simple FailureGeneratorBase like IFailureGenerator
+{
+    parameters:
+        @class(FailureGeneratorBase);
     gates:
         inout mobilityGate;
 }
