@@ -21,6 +21,8 @@ enum DroneActivity {
     NAVIGATING=1;
     REACHED_EDGE=2; 
     FOLLOWING_COMMAND=3;
+    RECHARGING=4;
+    SHUTDOWN=5;
 }
 
 // Message declaration designed to share necessary drone information with the communication module

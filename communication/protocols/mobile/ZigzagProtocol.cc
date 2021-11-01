@@ -57,6 +57,12 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
     auto payload = pk->peekAtBack<ZigzagMessage>(B(14), 1);
 
     if(payload != nullptr) {
+        bool destinationIsGroundstation = payload->getNextWaypointID() == -1;
+        // No communication from other drones matters while the drone is executing
+        // or if the drone is recharging/shutdown
+        if(currentTelemetry.getCurrentCommand() != -1 && !destinationIsGroundstation) {
+            return;
+        }
         switch(payload->getMessageType()) {
             case ZigzagMessageType::HEARTBEAT:
             {

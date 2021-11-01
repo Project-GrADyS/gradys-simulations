@@ -25,7 +25,7 @@ void SimpleTimerEnergy::initialize(int stage) {
     if(stage == 0) {
         batteryRTLDuration = par("batteryRTLDuration");
         batteryShutdownDuration = par("batteryShutdownDuration");
-        idleDuration = par("idleDuration");
+        rechargeDuration = par("rechargeDuration");
         RTLMessage = new cMessage();
         shutdownMessage = new cMessage();
         isReturning = false;
@@ -37,22 +37,15 @@ void SimpleTimerEnergy::handleMessage(cMessage *msg) {
         if(msg == RTLMessage && !isReturning) {
             MobilityCommand *returnCommand = new MobilityCommand();
             returnCommand->setCommandType(RETURN_TO_HOME);
+            returnCommand->setParam1(rechargeDuration.dbl());
 
             cGate *protocolGate = gate("mobilityGate$o");
             if(protocolGate->isConnected()) {
                 send(returnCommand, protocolGate);
             }
-
-            MobilityCommand *idleCommand = new MobilityCommand();
-            idleCommand->setCommandType(IDLE_TIME);
-            idleCommand->setParam1(idleDuration.dbl());
-
-            if(protocolGate->isConnected()) {
-                send(idleCommand, protocolGate);
-            }
-        } else if(msg == shutdownMessage && currentTelemetry.getCurrentCommand() != IDLE_TIME) {
+        } else if(msg == shutdownMessage && currentTelemetry.getCurrentCommand() != RECHARGE) {
             MobilityCommand *returnCommand = new MobilityCommand();
-            returnCommand->setCommandType(SHUTDOWN);
+            returnCommand->setCommandType(FORCE_SHUTDOWN);
 
             cGate *protocolGate = gate("mobilityGate$o");
             if(protocolGate->isConnected()) {

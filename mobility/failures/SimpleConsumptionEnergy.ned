@@ -23,5 +23,5 @@ simple SimpleConsumptionEnergy extends FailureGeneratorBase
         double batteryCapacity @unit(mAh);
         double batteryRTLThreshold @unit(mAh);
         double batteryConsumption @unit(A);
-        double idleDuration @unit(s);
+        double rechargeDuration @unit(s);
 }

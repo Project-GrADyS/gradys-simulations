@@ -33,7 +33,7 @@ class SimpleConsumptionEnergy : public cSimpleModule
     double batteryCapacity;
     double batteryRTLThreshold;
     double batteryConsumption;
-    simtime_t idleDuration;
+    simtime_t rechargeDuration;
   private:
     double currentConsumption;
     Telemetry currentTelemetry;

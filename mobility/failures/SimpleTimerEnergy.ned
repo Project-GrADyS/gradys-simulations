@@ -21,5 +21,5 @@ simple SimpleTimerEnergy extends FailureGeneratorBase {
         @class(SimpleTimerEnergy);
         double batteryShutdownDuration @unit(s);
         double batteryRTLDuration @unit(s);
-        double idleDuration @unit(s) = default(3s);
+        double rechargeDuration @unit(s) = default(3s);
 }

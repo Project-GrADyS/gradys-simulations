@@ -27,7 +27,7 @@ void SimpleConsumptionEnergy::initialize(int stage)
         batteryCapacity = par("batteryCapacity");
         batteryRTLThreshold = par("batteryRTLThreshold");
         batteryConsumption = par("batteryConsumption");
-        idleDuration = par("idleDuration");
+        rechargeDuration = par("rechargeDuration");
         selfMessage = new cMessage();
 
         currentConsumption = 0;
@@ -44,34 +44,27 @@ void SimpleConsumptionEnergy::handleMessage(cMessage *msg)
             currentConsumption = 0;
         }
 
-        if(currentTelemetry.getDroneActivity() != IDLE && currentTelemetry.getCurrentCommand() != IDLE_TIME) {
+        if(currentTelemetry.getDroneActivity() != IDLE && currentTelemetry.getCurrentCommand() != RECHARGE) {
             currentConsumption += (batteryConsumption / (60 * 60)) * 1000;
             EV_INFO << "Current battery usage: " << currentConsumption << "mAh/" << batteryCapacity << "mAh" << std::endl;
         }
 
         if(currentConsumption >= batteryRTLThreshold && !isReturning) {
            MobilityCommand *returnCommand = new MobilityCommand();
-           returnCommand->setCommandType(RETURN_TO_HOME);
+           returnCommand->setCommandType(RECHARGE);
+           returnCommand->setParam1(rechargeDuration.dbl());
 
            cGate *protocolGate = gate("mobilityGate$o");
            if(protocolGate->isConnected()) {
                send(returnCommand, protocolGate);
            }
 
-           MobilityCommand *idleCommand = new MobilityCommand();
-           idleCommand->setCommandType(IDLE_TIME);
-           idleCommand->setParam1(idleDuration.dbl());
-
-           if(protocolGate->isConnected()) {
-               send(idleCommand, protocolGate);
-           }
-
            isReturning = true;
         }
 
-        if(currentConsumption >= batteryCapacity && currentTelemetry.getCurrentCommand() != IDLE_TIME) {
+        if(currentConsumption >= batteryCapacity && currentTelemetry.getCurrentCommand() != RECHARGE) {
             MobilityCommand *shutdownCommand = new MobilityCommand();
-            shutdownCommand->setCommandType(SHUTDOWN);
+            shutdownCommand->setCommandType(FORCE_SHUTDOWN);
 
             cGate *protocolGate = gate("mobilityGate$o");
             if(protocolGate->isConnected()) {

@@ -41,10 +41,18 @@ enum MobilityCommandType {
     // Param 1: idle time in seconds
     IDLE_TIME = 4;
     
+    // Simulates vehicle recharging. Basically a combination of the RETURN_TO_HOME and IDLE_TIME commands
+    // Param 1: Time to recharge
+    RECHARGE = 5;
+    
     // Shuts down the drone, making it land and permanently stay idle
     // This command is special as it takes priority over other commands
     // No params
-    SHUTDOWN = 5;
+    FORCE_SHUTDOWN = 6;
+    
+    // Cancels an active FORCE_SHUTDOWN command
+    // No params
+    WAKE_UP = 7;
 }
 
 // Message declaration containing the command Id and its parameters 

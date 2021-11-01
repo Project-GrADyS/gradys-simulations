@@ -203,10 +203,48 @@ void DroneMobility::move() {
                 }
                 break;
             }
-            case MobilityCommandType::SHUTDOWN :
+            case MobilityCommandType::RECHARGE :
+            {
+                if(droneStatus.isIdle) {
+                    // If the drone is idle and not recharging it just reached home
+                    if(droneStatus.currentActivity != RECHARGING) {
+                        // Removing temporary waypoint that was inserted at back
+                        waypoints.pop_back();
+
+                        droneStatus.currentActivity = RECHARGING;
+                        droneStatus.idleTime = simTime();
+
+                        sendTelemetry();
+                    }
+                    else {
+                       if(simTime() - droneStatus.idleTime >= droneStatus.currentCommandInstance.getParam1()) {
+                            // Removing idle status from drone so it can proceed
+                            droneStatus.isIdle = false;
+
+                            currentInstructionIndex = 0;
+                            droneStatus.lastInstructionIndex = -1;
+                            droneStatus.currentCommand = -1;
+
+                            // Adjusting isReversed to be coherent to orientation
+                            droneStatus.isReversed = false;
+
+                            executeCommand();
+                       }
+                    }
+
+                }
+                else {
+                    droneStatus.targetIndex = waypoints.size() - 1;
+                    DroneMobility::fly();
+                }
+                break;
+
+            }
+            case MobilityCommandType::FORCE_SHUTDOWN :
             {
                 droneStatus.isIdle = true;
                 climb(0);
+                break;
             }
         }
     }
@@ -460,13 +498,21 @@ void DroneMobility::handleMessage(cMessage *message) {
     MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
     if(command != nullptr) {
         // Overrides current queue if it is a shutdown command
-        if(command->getCommandType() == SHUTDOWN) {
+        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
             while(!droneStatus.commandQueue.empty())
             {
                 delete droneStatus.commandQueue.front();
                 droneStatus.commandQueue.pop();
             }
             droneStatus.currentCommand = -1;
+        }
+
+        // Also stops current shutdown comand if it is active and the vehicle
+        // receives another command
+        if(droneStatus.currentCommand = MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
+            droneStatus.currentCommand = -1;
+            droneStatus.isIdle = false;
+
         }
 
         droneStatus.commandQueue.push(command);
@@ -483,6 +529,8 @@ void DroneMobility::executeCommand() {
     if(!(droneStatus.commandQueue.size() == 0 || droneStatus.currentCommand != -1)) {
         MobilityCommand *command = droneStatus.commandQueue.front();
         droneStatus.commandQueue.pop();
+
+        droneStatus.currentActivity = FOLLOWING_COMMAND;
         switch(command->getCommandType()) {
             case MobilityCommandType::REVERSE:
             {
@@ -559,17 +607,40 @@ void DroneMobility::executeCommand() {
                 droneStatus.currentCommandInstance = *command;
                 droneStatus.isIdle = true;
                 droneStatus.idleTime = simTime();
+
+                droneStatus.currentActivity = IDLE;
                 break;
             }
-            case MobilityCommandType::SHUTDOWN:
+            case MobilityCommandType::RECHARGE:
+            {
+                Waypoint tempWaypoint = Waypoint(homeCoords.x, homeCoords.y, homeCoords.z);
+
+                // Creates and adds a temporary waypoint to the waypoint list
+                // to serve as a target
+                waypoints.push_back(tempWaypoint);
+                droneStatus.isIdle = false;
+
+                droneStatus.currentCommand = MobilityCommandType::RECHARGE;
+                droneStatus.currentCommandInstance = *command;
+                break;
+
+            }
+            case MobilityCommandType::FORCE_SHUTDOWN:
             {
                 droneStatus.isIdle = true;
-                droneStatus.currentCommand = MobilityCommandType::SHUTDOWN;
+                droneStatus.currentCommand = MobilityCommandType::FORCE_SHUTDOWN;
                 droneStatus.currentCommandInstance = *command;
+
+                droneStatus.currentActivity = SHUTDOWN;
+                break;
+            }
+            case MobilityCommandType::WAKE_UP:
+            {
+                // The command only works on an active FORCE_SHUTDOWN, so it has no meaning in the queue
+                executeCommand();
                 break;
             }
         }
-        droneStatus.currentActivity = FOLLOWING_COMMAND;
         delete command;
     }
     sendTelemetry();

@@ -34,7 +34,7 @@ class SimpleTimerEnergy : public cSimpleModule {
     public:
         simtime_t batteryRTLDuration;
         simtime_t batteryShutdownDuration;
-        simtime_t idleDuration;
+        simtime_t rechargeDuration;
 
     protected:
         Telemetry currentTelemetry;
