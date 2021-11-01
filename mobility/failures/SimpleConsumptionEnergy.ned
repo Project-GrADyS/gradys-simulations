@@ -16,12 +16,16 @@
 package projeto.mobility.failures;
 import projeto.mobility.failures.base.FailureGeneratorBase;
 
+// Simple energy consumption model that sends the vehicle home or shuts it down after certain thresholds
 simple SimpleConsumptionEnergy extends FailureGeneratorBase
 {
     parameters:
         @class(SimpleConsumptionEnergy);
         double batteryCapacity @unit(mAh);
+        // Battery threshold to send the drone home
         double batteryRTLThreshold @unit(mAh);
+        // Vehicle's energy consumption
         double batteryConsumption @unit(A);
+        // Time the vehicle will spend home recharging
         double rechargeDuration @unit(s);
 }

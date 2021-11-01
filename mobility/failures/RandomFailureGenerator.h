@@ -13,14 +13,31 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.failures;
-import projeto.mobility.failures.base.FailureGeneratorBase;
+#ifndef __PROJETO_RANDOMFAILUREGENERATOR_H_
+#define __PROJETO_RANDOMFAILUREGENERATOR_H_
 
-// Simple energy model that sends the vehicle home or shuts it down using timers 
-simple SimpleTimerEnergy extends FailureGeneratorBase {
-    parameters:
-        @class(SimpleTimerEnergy);
-        double batteryShutdownDuration @unit(s);
-        double batteryRTLDuration @unit(s);
-        double rechargeDuration @unit(s) = default(3s);
-}
+#include <omnetpp.h>
+
+using namespace omnetpp;
+
+namespace projeto {
+
+class RandomFailureGenerator : public cSimpleModule
+{
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+
+  protected:
+    double failureStart;
+    double failureMinimumInterval;
+    double failureRollTime;
+    double failureChance;
+    double failureDuration;
+
+    cMessage *timerMessage;
+};
+
+} //namespace
+
+#endif

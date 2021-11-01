@@ -54,6 +54,7 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
     $O/mobility/DroneMobility.o \
+    $O/mobility/failures/RandomFailureGenerator.o \
     $O/mobility/failures/SimpleConsumptionEnergy.o \
     $O/mobility/failures/SimpleTimerEnergy.o \
     $O/mobility/failures/base/FailureGeneratorBase.o \

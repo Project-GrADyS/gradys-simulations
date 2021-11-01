@@ -509,7 +509,7 @@ void DroneMobility::handleMessage(cMessage *message) {
 
         // Also stops current shutdown comand if it is active and the vehicle
         // receives another command
-        if(droneStatus.currentCommand = MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
+        if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
             droneStatus.currentCommand = -1;
             droneStatus.isIdle = false;
 

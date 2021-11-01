@@ -16,11 +16,19 @@
 package projeto.mobility.failures;
 import projeto.mobility.failures.base.FailureGeneratorBase;
 
-// Simple energy model that sends the vehicle home or shuts it down using timers 
-simple SimpleTimerEnergy extends FailureGeneratorBase {
+// Randomly generates failures that make the vehicle shutdown for a period of time 
+simple RandomFailureGenerator extends FailureGeneratorBase
+{
     parameters:
-        @class(SimpleTimerEnergy);
-        double batteryShutdownDuration @unit(s);
-        double batteryRTLDuration @unit(s);
-        double rechargeDuration @unit(s) = default(3s);
+        @class(RandomFailureGenerator);
+        // No failures will be triggered before this timestamp
+        double failureStart @unit(s) =  default(0s);
+        // Minimum interval between failures
+        double failureMinimumInterval @unit(s) = default(0s);
+        // Time between failure rolls
+        double failureRollTime @unit(s) = default(1s);
+       	// Chance of failure every roll
+       	double failureChance;  
+       	// Duration of a failure, normal operation will resume afterwards
+       	double failureDuration @unit(s) = default(15s);
 }
