@@ -65,7 +65,7 @@ To run a simulation simply select one of the *.ini* files and use the OMNeT++ ID
 
 
 # Project Structure
-![Project structure diagram](assets/structure_diagram.svg)
+![Project structure diagram](assets/structure_diagram.png)
 
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple drone mobility model and could react to network events. This setup allows support for a wide array of possible drone coordination protocols.
 
