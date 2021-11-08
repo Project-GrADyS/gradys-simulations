@@ -65,6 +65,8 @@ To run a simulation simply select one of the *.ini* files and use the OMNeT++ ID
 
 
 # Project Structure
+![Project structure diagram](assets/structure_diagram.svg)
+
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple drone mobility model and could react to network events. This setup allows support for a wide array of possible drone coordination protocols.
 
 The described requirement was achieved with three modules, one resposible for communication between drones (communication), one for controlling the node's movement (mobility) and the last to manage the interaction between the last two (protocol). The behaviour and implementation of these modules is detailed further below. They were made in such a way that the messages exchanged between them are sufficiently generic to allow the creation of a new protocol by creating a new protocol module, with no changes to the other ones by levaraging these generic messages to carry out different procedures. The messages exchanged between them are explained further bellow and are contained on *.msg* files like **MobilityCommand.msg**, **Telemetry.msg** and **CommunicationCommand.msg**.
@@ -76,21 +78,25 @@ The compound module that represents our UAVs is **MobileNode.ned** and **MobileS
  ## Mobility
  The mobility module is responsible for controlling drone movement and responding to requests from the protocol module to change that movement through MobilityCommand messages. It also needs to inform the procol module about the current state of the drone's movement through Telemetry messages. 
 
- An optional feature of the mobility module is attaching a energy module that simulates limited vehicle battery. It connects to the same gate that the Protocol module uses to communicate with the mobility module and can give the same commands and read the same telemetry. The SimpleConsumptionEnergy, for exemple, simulates battery consumption and sends a Return to Landing signal to the drone when the battery levels get below a certain threshold. It also shuts down the drone if it's battery ever runs completely out.
+ An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the drone's battery reaches a certain threshold and shuts it down when the battery is depleted.
 
 * **SimpleEnergyConsumption.ned**
  ```C++
-package projeto.mobility.energy;
-import projeto.mobility.energy.base.MobilityEnergyBase;
+package projeto.mobility.failures;
+import projeto.mobility.failures.base.FailureGeneratorBase;
 
-simple SimpleConsumptionEnergy extends MobilityEnergyBase
+// Simple energy consumption model that sends the vehicle home or shuts it down after certain thresholds
+simple SimpleConsumptionEnergy extends FailureGeneratorBase
 {
     parameters:
         @class(SimpleConsumptionEnergy);
         double batteryCapacity @unit(mAh);
+        // Battery threshold to send the drone home
         double batteryRTLThreshold @unit(mAh);
+        // Vehicle's energy consumption
         double batteryConsumption @unit(A);
-        double idleDuration @unit(s);
+        // Time the vehicle will spend home recharging
+        double rechargeDuration @unit(s);
 }
  ```
  
