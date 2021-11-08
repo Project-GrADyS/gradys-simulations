@@ -206,8 +206,15 @@ void DroneMobility::move() {
             case MobilityCommandType::RECHARGE :
             {
                 if(droneStatus.isIdle) {
+                    // If the drone is still flying, land it
+                    if(abs(lastPosition.z - homeCoords.z) > waypointProximity) {
+                        // Removing temporary waypoint that was inserted at back
+                        waypoints.pop_back();
+                        waypoints.push_back(Waypoint(homeCoords.x, homeCoords.y, homeCoords.z));
+                        droneStatus.isIdle = false;
+                    }
                     // If the drone is idle and not recharging it just reached home
-                    if(droneStatus.currentActivity != RECHARGING) {
+                    else if(droneStatus.currentActivity != RECHARGING) {
                         // Removing temporary waypoint that was inserted at back
                         waypoints.pop_back();
 
@@ -613,11 +620,11 @@ void DroneMobility::executeCommand() {
             }
             case MobilityCommandType::RECHARGE:
             {
-                Waypoint tempWaypoint = Waypoint(homeCoords.x, homeCoords.y, homeCoords.z);
-
-                // Creates and adds a temporary waypoint to the waypoint list
-                // to serve as a target
-                waypoints.push_back(tempWaypoint);
+                // Creates and adds two temporary waypoints to the waypoint list
+                // to serve as a home target. The first waypoint guarantees the drone
+                // doesn't land until it has reached home. The next one is created after
+                // it reaches the first
+                waypoints.push_back(Waypoint(homeCoords.x, homeCoords.y, lastPosition.z));
                 droneStatus.isIdle = false;
 
                 droneStatus.currentCommand = MobilityCommandType::RECHARGE;
