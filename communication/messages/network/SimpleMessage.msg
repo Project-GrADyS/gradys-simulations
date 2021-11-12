@@ -27,7 +27,7 @@ enum SenderType
 
 class SimpleMessage extends FieldsChunk
 {
-    chunkLength = B(7); // Fixed chunk le
+    chunkLength = B(7); // Fixed chunk length
     SenderType senderType;
     int content;
 }

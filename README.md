@@ -77,28 +77,6 @@ The compound module that represents our UAVs is **MobileNode.ned** and **MobileS
 
  ## Mobility
  The mobility module is responsible for controlling drone movement and responding to requests from the protocol module to change that movement through MobilityCommand messages. It also needs to inform the procol module about the current state of the drone's movement through Telemetry messages. 
-
- An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the drone's battery reaches a certain threshold and shuts it down when the battery is depleted.
-
-* **SimpleEnergyConsumption.ned**
- ```C++
-package projeto.mobility.failures;
-import projeto.mobility.failures.base.FailureGeneratorBase;
-
-// Simple energy consumption model that sends the vehicle home or shuts it down after certain thresholds
-simple SimpleConsumptionEnergy extends FailureGeneratorBase
-{
-    parameters:
-        @class(SimpleConsumptionEnergy);
-        double batteryCapacity @unit(mAh);
-        // Battery threshold to send the drone home
-        double batteryRTLThreshold @unit(mAh);
-        // Vehicle's energy consumption
-        double batteryConsumption @unit(A);
-        // Time the vehicle will spend home recharging
-        double rechargeDuration @unit(s);
-}
- ```
  
  As part of the module initialization the waypoint list is attached to a Telemetry message so the protocol module has access to the tour the mobile node is following.
  
@@ -157,6 +135,26 @@ message Telemetry {
 
 The only mobility module currently implemented is **DroneMobility.ned** which simulates the movement of a drone. 
 
+ An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the drone's battery reaches a certain threshold and shuts it down when the battery is depleted.
+
+ Configuring the use of failures for your mobile nodes is easy. The *.failures[]* array can be used to add as many failure generators as needed and the number of failures can be configured using the *.numFailures* option.
+
+ ```python
+ # Configuring two types of failures for quads[0]
+
+*.quads[0].numFailures = 2 # Two failures
+*.quads[0].failures[0].typename="SimpleConsumptionEnergy" # The first one will use a simple energy consumption module
+*.quads[0].failures[0].batteryCapacity = 5000mAh
+*.quads[0].failures[0].batteryRTLThreshold = 4500mAh
+*.quads[0].failures[0].batteryConsumption = 10A
+*.quads[0].failures[0].rechargeDuration = 5s
+
+*.quads[1].failures[1].typename="RanfomFailureGenerator" # The second will use a random failure generator
+*.quads[1].failures[1].failureStart = 10s
+*.quads[1].failures[1].failureMininumInterval = 40s
+*.quads[1].failures[1].failureChance = 0.001
+ ```
+
  ## Communication
  INET provides built in support for the simulation of real communications protocols and the communication module takes advantage of this to simulate communication between nodes. It also has to inform the protocol module of the messages being recieved by sharing the messages themselves and listen to orders from the protocol module through CommunicationCommands. Here are the messages used:
  
@@ -193,6 +191,33 @@ message CommunicationCommand {
 
 ## Protocol 
 The protocol module manages the interaction between the movement and communication of the mobile nodes. It makes use of the messages provided by it's two sibling modules to create node interaction strategies. It mostly reacts to messages it recieves from those modules and determines which orders to give them to achieve the desired result.
+
+It gathers information about the current state of the simulation by analysing Telemetry messages recieved from the Mobility module and Packets forwarded to it by the Communication module. An important task it performs is the definition of the message sent by the Communication module. These messages will be sent to other nodes that will themselves handle them. The messages are inserted into IP Packages as payload. They can have different formats depending on the protocol being implemented. Here is the **DadcaMessage.msg** used by the Dadca protocol, for example.
+
+* **DadcaMessage.msg**
+```C++
+enum DadcaMessageType
+{
+  HEARTBEAT = 0; 
+  PAIR_REQUEST = 1; 
+  PAIR_CONFIRM = 2;
+  BEARER = 3;
+}
+
+class DadcaMessage extends FieldsChunk
+{
+  chunkLength = B(34); // Fixed chunk length
+  int sourceID = -1;  // ID of the message's source
+  int destinationID = -1; // ID of the message's destination
+  int nextWaypointID = -1; // ID of the next waypoint
+  int lastWaypointID = -1; // ID of the last waypoint
+  int dataLength = 5; // Length of the imaginary data being carried in the message
+  int leftNeighbours = 0; // Neighbours to the left of the drone
+  int rightNeighbours = 0; // Neighbours to the right of the drone
+  bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
+  DadcaMessageType messageType = HEARTBEAT; // Type of message
+}
+```
 
 Protocools implement an IProtocol interface and extend  **CommunicationProtocolBase.ned** which provides useful stub functions to use when implementing protocols. These functions are as follows:
 ```C++
@@ -255,7 +280,6 @@ import inet.common.packet.chunk.Chunk;
 
 namespace inet;
 
-// Enum defining the type of sender
 enum SenderType
 {
   DRONE = 0;
@@ -263,8 +287,9 @@ enum SenderType
   GROUND_STATION = 2;
 }
 
-class DadcaMessage extends FieldsChunk
+class SimpleMessage extends FieldsChunk
 {
+    chunkLength = B(7); // Fixed chunk length
     SenderType senderType;
     int content;
 }
