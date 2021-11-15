@@ -506,20 +506,16 @@ void DroneMobility::handleMessage(cMessage *message) {
     if(command != nullptr) {
         // Overrides current queue if it is a shutdown command
         if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
-            while(!droneStatus.commandQueue.empty())
-            {
-                delete droneStatus.commandQueue.front();
-                droneStatus.commandQueue.pop();
-            }
+            // Pushes current command to queue so it will resume after shutdown
+            droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
             droneStatus.currentCommand = -1;
         }
 
         // Also stops current shutdown comand if it is active and the vehicle
-        // receives another command
+        // receives a WAKE_UP command
         if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
             droneStatus.currentCommand = -1;
             droneStatus.isIdle = false;
-
         }
 
         droneStatus.commandQueue.push(command);

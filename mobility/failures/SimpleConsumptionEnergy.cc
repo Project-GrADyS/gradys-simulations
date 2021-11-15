@@ -44,7 +44,7 @@ void SimpleConsumptionEnergy::handleMessage(cMessage *msg)
             currentConsumption = 0;
         }
 
-        if(currentTelemetry.getDroneActivity() != IDLE && currentTelemetry.getCurrentCommand() != RECHARGE) {
+        if(currentTelemetry.getDroneActivity() != RECHARGING || currentTelemetry.getDroneActivity() != IDLE) {
             currentConsumption += (batteryConsumption / (60 * 60)) * 1000;
             EV_INFO << "Current battery usage: " << currentConsumption << "mAh/" << batteryCapacity << "mAh" << std::endl;
         }
