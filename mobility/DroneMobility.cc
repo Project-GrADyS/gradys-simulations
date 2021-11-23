@@ -504,22 +504,33 @@ void DroneMobility::handleMessage(cMessage *message) {
 
     MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
     if(command != nullptr) {
-        // Overrides current queue if it is a shutdown command
-        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
-            // Pushes current command to queue so it will resume after shutdown
-            droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
-            droneStatus.currentCommand = -1;
-        }
-
         // Also stops current shutdown comand if it is active and the vehicle
-        // receives a WAKE_UP command
+        // receives another command
         if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
             droneStatus.currentCommand = -1;
             droneStatus.isIdle = false;
+
+        }
+
+        // Saves current command in queue if a shutdown is coming
+        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN && droneStatus.currentCommand != -1) {
+            droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
         }
 
         droneStatus.commandQueue.push(command);
+        // Overrides current queue if it is a shutdown command
+        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
+            MobilityCommand *current = droneStatus.commandQueue.front();
+            while(!droneStatus.commandQueue.empty() && current != command)
+            {
+                // Sends command to back of queue
+                droneStatus.commandQueue.pop();
+                droneStatus.commandQueue.push(current);
 
+                current = droneStatus.commandQueue.front();
+            }
+            droneStatus.currentCommand = -1;
+        }
 
         executeCommand();
     } else {
@@ -534,6 +545,7 @@ void DroneMobility::executeCommand() {
         droneStatus.commandQueue.pop();
 
         droneStatus.currentActivity = FOLLOWING_COMMAND;
+        droneStatus.currentCommandInstance = *command;
         switch(command->getCommandType()) {
             case MobilityCommandType::REVERSE:
             {
@@ -607,7 +619,6 @@ void DroneMobility::executeCommand() {
             case MobilityCommandType::IDLE_TIME:
             {
                 droneStatus.currentCommand = MobilityCommandType::IDLE_TIME;
-                droneStatus.currentCommandInstance = *command;
                 droneStatus.isIdle = true;
                 droneStatus.idleTime = simTime();
 
@@ -624,7 +635,6 @@ void DroneMobility::executeCommand() {
                 droneStatus.isIdle = false;
 
                 droneStatus.currentCommand = MobilityCommandType::RECHARGE;
-                droneStatus.currentCommandInstance = *command;
                 break;
 
             }
@@ -632,7 +642,6 @@ void DroneMobility::executeCommand() {
             {
                 droneStatus.isIdle = true;
                 droneStatus.currentCommand = MobilityCommandType::FORCE_SHUTDOWN;
-                droneStatus.currentCommandInstance = *command;
 
                 droneStatus.currentActivity = SHUTDOWN;
                 break;
