@@ -65,7 +65,12 @@ To run a simulation simply select one of the *.ini* files and use the OMNeT++ ID
 
 
 # Project Structure
+## Diagrams
+**Project Structure Diagram**
 ![Project structure diagram](assets/structure_diagram.png)
+
+**Project Message Diagram**
+![Project message diagram](assets/message_diagram.png)
 
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple drone mobility model and could react to network events. This setup allows support for a wide array of possible drone coordination protocols.
 
@@ -256,6 +261,7 @@ These are the currently implemented protocols:
      This protocol is similar to the ZigZagProtocol. It also manages data collection by mobile nodes in a set path. The difference is that this method aims to speed up the process of equally spacing the drones in the course by implementing a more advanced movement protocol.
 
      When the Pair Confirmation message is recieved by both drones, confirming the pair, both drones take note of the number of neighours on their left (closer to the start) and their right (further from the start) and share this information with their pair. Both update their neighbour count and use it to calculate a point in the course that would represent the extremity of both their sections if their current count of neighbours is accurate. Them they both travel together to this point and revert. This behaviour is implemented with a sequence of commands that get queued on the mobility module.
+    
 
 # Development
 To develop new protocols, you will probably be creating new protocol modules that use the current message definitions and commands to implement new behaviour and management and data collection strategies. If the current set of commands and messages is not enough you are free to add more by modifying the message definitions and the modules so that they can properly react to these new messages.
