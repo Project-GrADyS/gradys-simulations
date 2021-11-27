@@ -160,6 +160,10 @@ The only mobility module currently implemented is **DroneMobility.ned** which si
 *.quads[1].failures[1].failureChance = 0.001
  ```
 
+ Heres a diagram illustrating the functionality of some of these models:
+ 
+ ![Failure message diagram](assets/message_diagram_failure.png)
+
  ## Communication
  INET provides built in support for the simulation of real communications protocols and the communication module takes advantage of this to simulate communication between nodes. It also has to inform the protocol module of the messages being recieved by sharing the messages themselves and listen to orders from the protocol module through CommunicationCommands. Here are the messages used:
  
