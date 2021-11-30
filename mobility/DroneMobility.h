@@ -54,30 +54,30 @@ class DroneMobility : public VehicleMobility
                 autocontinue(autocontinue) { };
         };
 
-        // Struct de controle de estado
+        // Control struct
         struct DroneStatus {
-            // Tempo de início de uma instrução de espera
+            // Start of last timeout instruction
             simtime_t idleTime;
-            // Booleando que indica se está acontecendo uma espera
             bool isIdle = false;
 
-            // Variável que guarda o yaw definido por uma instrução de yaw
+            // Saves the command defined yaw
             double currentYaw = -1;
-            // Velocidade atual de yaw
+            // Saves yaw speed
             double currentYawSpeed;
 
-            // Controle de estado de reversão do trone
             bool isReversed = false;
 
-            // Waypoint (estrutura do VehicleMobility) alvo atual
+            // Current Waypoint (VehicleMobility structure)
             int targetIndex;
 
             // Saves the last target index
             int lastInstructionIndex;
 
-            /* Command statuses */
+            /* Command status */
             // Current MobilityCommunicationCommand being followed
             int currentCommand=-1;
+            MobilityCommand currentCommandInstance;
+            // Target waypoint for commands that use it
             int gotoWaypointTarget=-1;
 
             // Queue of commands that will execute in order they are recieved
@@ -87,15 +87,17 @@ class DroneMobility : public VehicleMobility
         };
         DroneStatus droneStatus;
 
-        // Vetor de instruções
         std::vector<Instruction> instructions;
 
-        // Variáveis que guardam valores da ned file
         double verticalSpeed;
         double startTime;
 
-        // Variável de controle da instrução sendo executada atualmente
         int currentInstructionIndex=0;
+
+        // Home location
+        double homeLatitude;
+        double homeLongitude;
+        Coord homeCoords;
 
     protected:
         virtual void initialize(int stage) override;

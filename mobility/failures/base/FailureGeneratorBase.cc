@@ -13,16 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+#include "FailureGeneratorBase.h"
 
-//
-// TODO auto-generated module
-//
-simple CommunicationProtocolBase like IProtocol
-{
-    parameters:
-        @class(CommunicationProtocolBase);
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
-}
+namespace projeto {
+
+Define_Module(FailureGeneratorBase);
+
+} /* namespace projeto */

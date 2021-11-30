@@ -13,16 +13,31 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+#ifndef __PROJETO_RANDOMFAILUREGENERATOR_H_
+#define __PROJETO_RANDOMFAILUREGENERATOR_H_
 
-//
-// TODO auto-generated module
-//
-simple CommunicationProtocolBase like IProtocol
+#include <omnetpp.h>
+
+using namespace omnetpp;
+
+namespace projeto {
+
+class RandomFailureGenerator : public cSimpleModule
 {
-    parameters:
-        @class(CommunicationProtocolBase);
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
-}
+  protected:
+    virtual void initialize();
+    virtual void handleMessage(cMessage *msg);
+
+  protected:
+    double failureStart;
+    double failureMinimumInterval;
+    double failureRollTime;
+    double failureChance;
+    double failureDuration;
+
+    cMessage *timerMessage;
+};
+
+} //namespace
+
+#endif

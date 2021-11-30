@@ -57,10 +57,21 @@ void ZigzagProtocol::handlePacket(Packet *pk) {
     auto payload = pk->peekAtBack<ZigzagMessage>(B(14), 1);
 
     if(payload != nullptr) {
+        bool destinationIsGroundstation = payload->getNextWaypointID() == -1;
+        // No communication from other drones matters while the drone is executing
+        // or if the drone is recharging/shutdown
+        if(currentTelemetry.getCurrentCommand() != -1 && !destinationIsGroundstation) {
+            return;
+        }
         switch(payload->getMessageType()) {
             case ZigzagMessageType::HEARTBEAT:
             {
                 if(isTimedout() && lastTarget != payload->getSourceID() && tentativeTarget != payload->getSourceID()) {
+                    resetParameters();
+                }
+
+                // If the drone is collecting data, prefer to pair with other drone
+                if(communicationStatus == COLLECTING) {
                     resetParameters();
                 }
 
@@ -166,6 +177,7 @@ void ZigzagProtocol::updatePayload() {
     payload->setReversed(lastStableTelemetry.isReversed());
     payload->setNextWaypointID(lastStableTelemetry.getNextWaypointID());
     payload->setLastWaypointID(lastStableTelemetry.getLastWaypointID());
+    payload->setSourceID(this->getParentModule()->getId());
 
     if(!isTimedout() && communicationStatus != FREE) {
         communicationStatus = FREE;
@@ -175,14 +187,12 @@ void ZigzagProtocol::updatePayload() {
         case FREE:
         {
             payload->setMessageType(ZigzagMessageType::HEARTBEAT);
-            payload->setSourceID(this->getParentModule()->getId());
             std::cout << payload->getSourceID() << " set to heartbeat" << endl;
             break;
         }
         case REQUESTING:
         {
             payload->setMessageType(ZigzagMessageType::PAIR_REQUEST);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             std::cout << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
             break;
@@ -191,7 +201,6 @@ void ZigzagProtocol::updatePayload() {
         case PAIRED_FINISHED:
         {
             payload->setMessageType(ZigzagMessageType::PAIR_CONFIRM);
-            payload->setSourceID(this->getParentModule()->getId());
             payload->setDestinationID(tentativeTarget);
             payload->setDataLength(stableDataLoad);
 

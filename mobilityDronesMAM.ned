@@ -48,9 +48,9 @@ network mobilityDronesMAM
         radioMedium: RadioMedium {
             @display("p=200,0");
         }
-        quads[numUAVs]: MobileNode {
+        quads[numUAVs]: MobileNodeMam {
 			
-        } 
+        }
         
         sensors[numSensors]: AdhocHost {
             @display("i=misc/sensor");

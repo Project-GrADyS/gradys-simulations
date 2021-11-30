@@ -32,19 +32,37 @@ void CommunicationProtocolBase::handleMessage(cMessage *msg) {
     cancelAndDelete(msg);
 }
 
-void CommunicationProtocolBase::sendCommand(MobilityCommand *order) {
-    if(gate("mobilityGate$o")->isConnected()) {
-        send(order, gate("mobilityGate$o"));
+void CommunicationProtocolBase::sendCommand(MobilityCommand *order, int gateIndex) {
+    if(gateIndex == -1) {
+        for(int i=0;i<gateSize("mobilityGate");i++) {
+            if(gate("mobilityGate$o", i)->isConnected()) {
+                send(order->dup(), gate("mobilityGate$o", i));
+            }
+        }
+        delete order;
     } else {
-        cancelAndDelete(order);
+        if(gate("mobilityGate$o", gateIndex)->isConnected()) {
+            send(order, gate("mobilityGate$o", gateIndex));
+        } else {
+            delete order;
+        }
     }
 }
 
-void CommunicationProtocolBase::sendCommand(CommunicationCommand *order) {
-    if(gate("communicationGate$o")->isConnected()) {
-        send(order, gate("communicationGate$o"));
+void CommunicationProtocolBase::sendCommand(CommunicationCommand *order, int gateIndex) {
+    if(gateIndex == -1) {
+        for(int i=0;i<gateSize("communicationGate");i++) {
+            if(gate("communicationGate$o", i)->isConnected()) {
+                send(order->dup(), gate("communicationGate$o", i));
+            }
+        }
+        delete order;
     } else {
-        cancelAndDelete(order);
+        if(gate("communicationGate$o", gateIndex)->isConnected()) {
+            send(order, gate("communicationGate$o", gateIndex));
+        } else {
+            delete order;
+        }
     }
 }
 
@@ -66,8 +84,6 @@ bool CommunicationProtocolBase::isTimedout() {
         return false;
     }
 }
-
-
 
 
 } //namespace

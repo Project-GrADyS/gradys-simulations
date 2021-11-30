@@ -15,7 +15,7 @@ Version 5.6 of OMNeT++ is required, to install it [just follow these instruction
 After installing both OMNeT++ and INET you should be able to clone the repository to youw active OMNeT++ IDE workspace. To do this select File > Impor... then open the "git" section and select "Projects from git" then "Clone Uri". After that just fill in the URL for this repository and finish the process following the displayed instructions.
 
 # Usage
-OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations with 2, 3 and 4 drones following a predetermined course. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration.
+OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations for Wifi only communication and shared Wifi and MAM communication, each with configs for one to four drones. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration. The [Config Wifi] and [Config MAM] configs are base configs for the other ones and should not be ran.
 
 Launch configurations dictate the parameters of your simulation and you can change **mobilityDrones-omnetpp.ini** to suit your necessities. Here are some of the more important parameters that you can try switching yourself:
 
@@ -65,6 +65,13 @@ To run a simulation simply select one of the *.ini* files and use the OMNeT++ ID
 
 
 # Project Structure
+## Diagrams
+**Project Structure Diagram**
+![Project structure diagram](assets/structure_diagram.png)
+
+**Project Message Diagram**
+![Project message diagram](assets/message_diagram.png)
+
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple drone mobility model and could react to network events. This setup allows support for a wide array of possible drone coordination protocols.
 
 The described requirement was achieved with three modules, one resposible for communication between drones (communication), one for controlling the node's movement (mobility) and the last to manage the interaction between the last two (protocol). The behaviour and implementation of these modules is detailed further below. They were made in such a way that the messages exchanged between them are sufficiently generic to allow the creation of a new protocol by creating a new protocol module, with no changes to the other ones by levaraging these generic messages to carry out different procedures. The messages exchanged between them are explained further bellow and are contained on *.msg* files like **MobilityCommand.msg**, **Telemetry.msg** and **CommunicationCommand.msg**.
@@ -133,6 +140,30 @@ message Telemetry {
 
 The only mobility module currently implemented is **DroneMobility.ned** which simulates the movement of a drone. 
 
+ An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the drone's battery reaches a certain threshold and shuts it down when the battery is depleted.
+
+ Configuring the use of failures for your mobile nodes is easy. The *.failures[]* array can be used to add as many failure generators as needed and the number of failures can be configured using the *.numFailures* option.
+
+ ```python
+ # Configuring two types of failures for quads[0]
+
+*.quads[0].numFailures = 2 # Two failures
+*.quads[0].failures[0].typename="SimpleConsumptionEnergy" # The first one will use a simple energy consumption module
+*.quads[0].failures[0].batteryCapacity = 5000mAh
+*.quads[0].failures[0].batteryRTLThreshold = 4500mAh
+*.quads[0].failures[0].batteryConsumption = 10A
+*.quads[0].failures[0].rechargeDuration = 5s
+
+*.quads[1].failures[1].typename="RanfomFailureGenerator" # The second will use a random failure generator
+*.quads[1].failures[1].failureStart = 10s
+*.quads[1].failures[1].failureMininumInterval = 40s
+*.quads[1].failures[1].failureChance = 0.001
+ ```
+
+ Heres a diagram illustrating the functionality of some of these models:
+ 
+ ![Failure message diagram](assets/message_diagram_failure.png)
+
  ## Communication
  INET provides built in support for the simulation of real communications protocols and the communication module takes advantage of this to simulate communication between nodes. It also has to inform the protocol module of the messages being recieved by sharing the messages themselves and listen to orders from the protocol module through CommunicationCommands. Here are the messages used:
  
@@ -169,6 +200,33 @@ message CommunicationCommand {
 
 ## Protocol 
 The protocol module manages the interaction between the movement and communication of the mobile nodes. It makes use of the messages provided by it's two sibling modules to create node interaction strategies. It mostly reacts to messages it recieves from those modules and determines which orders to give them to achieve the desired result.
+
+It gathers information about the current state of the simulation by analysing Telemetry messages recieved from the Mobility module and Packets forwarded to it by the Communication module. An important task it performs is the definition of the message sent by the Communication module. These messages will be sent to other nodes that will themselves handle them. The messages are inserted into IP Packages as payload. They can have different formats depending on the protocol being implemented. Here is the **DadcaMessage.msg** used by the Dadca protocol, for example.
+
+* **DadcaMessage.msg**
+```C++
+enum DadcaMessageType
+{
+  HEARTBEAT = 0; 
+  PAIR_REQUEST = 1; 
+  PAIR_CONFIRM = 2;
+  BEARER = 3;
+}
+
+class DadcaMessage extends FieldsChunk
+{
+  chunkLength = B(34); // Fixed chunk length
+  int sourceID = -1;  // ID of the message's source
+  int destinationID = -1; // ID of the message's destination
+  int nextWaypointID = -1; // ID of the next waypoint
+  int lastWaypointID = -1; // ID of the last waypoint
+  int dataLength = 5; // Length of the imaginary data being carried in the message
+  int leftNeighbours = 0; // Neighbours to the left of the drone
+  int rightNeighbours = 0; // Neighbours to the right of the drone
+  bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
+  DadcaMessageType messageType = HEARTBEAT; // Type of message
+}
+```
 
 Protocools implement an IProtocol interface and extend  **CommunicationProtocolBase.ned** which provides useful stub functions to use when implementing protocols. These functions are as follows:
 ```C++
@@ -207,6 +265,7 @@ These are the currently implemented protocols:
      This protocol is similar to the ZigZagProtocol. It also manages data collection by mobile nodes in a set path. The difference is that this method aims to speed up the process of equally spacing the drones in the course by implementing a more advanced movement protocol.
 
      When the Pair Confirmation message is recieved by both drones, confirming the pair, both drones take note of the number of neighours on their left (closer to the start) and their right (further from the start) and share this information with their pair. Both update their neighbour count and use it to calculate a point in the course that would represent the extremity of both their sections if their current count of neighbours is accurate. Them they both travel together to this point and revert. This behaviour is implemented with a sequence of commands that get queued on the mobility module.
+    
 
 # Development
 To develop new protocols, you will probably be creating new protocol modules that use the current message definitions and commands to implement new behaviour and management and data collection strategies. If the current set of commands and messages is not enough you are free to add more by modifying the message definitions and the modules so that they can properly react to these new messages.
@@ -231,7 +290,6 @@ import inet.common.packet.chunk.Chunk;
 
 namespace inet;
 
-// Enum defining the type of sender
 enum SenderType
 {
   DRONE = 0;
@@ -239,8 +297,9 @@ enum SenderType
   GROUND_STATION = 2;
 }
 
-class DadcaMessage extends FieldsChunk
+class SimpleMessage extends FieldsChunk
 {
+    chunkLength = B(7); // Fixed chunk length
     SenderType senderType;
     int content;
 }

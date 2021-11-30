@@ -68,7 +68,6 @@ void MamDataCollectorApp::initialize(int stage)
         selfMsg = new cMessage("UDPSinkTimer");
 
         dataDelaySignal = registerSignal("dataDelay");
-        uniqueDataCollectedSignal = registerSignal("dataLoad");
     }
 }
 
@@ -95,6 +94,9 @@ void MamDataCollectorApp::handleMessageWhenUp(cMessage *msg)
     }
     else if (msg->arrivedOn("socketIn"))
         socket.processMessage(msg);
+    else if (msg->arrivedOn("protocolGate$i")) {
+
+    }
     else
         throw cRuntimeError("Unknown incoming gate: '%s'", msg->getArrivalGate()->getFullName());
 }
@@ -295,7 +297,7 @@ void MamDataCollectorApp::processPacket(Packet *pk)
     EV_INFO << "Received packet: " << UdpSocket::getReceivedPacketInfo(pk) << " size = " << sizeBytes << " bytes" << endl;
     emit(packetReceivedSignal, pk);
 
-    auto bmeshData = dynamicPtrCast<const BMeshPacket>(pk->popAtBack());
+    auto bmeshData = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack());
 
     int sequence = bmeshData->getSequence();
     std::string packetId = bmeshData->getPacketUuid();
@@ -314,6 +316,12 @@ void MamDataCollectorApp::processPacket(Packet *pk)
         if (uniqueDataSendPacketHashes.find(bmeshData->getPacketUuid()) == uniqueDataSendPacketHashes.end()) {
             uniqueDataSendPacketHashes.insert(bmeshData->getPacketUuid());
             uniqueDataBytesReceived += sizeBytes;
+
+            // Sends unique packet to protocol module
+            cGate *protocolGate = gate("protocolGate$o");
+            if(protocolGate->isConnected()) {
+                send(pk->dup(), protocolGate);
+            }
         } else {
             excessDataPacketsReceived++;
             excessDataBytesReceived += sizeBytes;
@@ -323,8 +331,6 @@ void MamDataCollectorApp::processPacket(Packet *pk)
 
         numUnique = uniqueDataSendPacketHashes.size();
         numSenders = uniqueDataSenders.size();
-
-        emit(uniqueDataCollectedSignal, numUnique);
 
         numReceived++;
 

@@ -63,5 +63,8 @@ simple MamDataCollectorApp like IApp
     gates:
         input socketIn @labels(UdpControlInfo/up);
         output socketOut @labels(UdpControlInfo/down);
+        
+        // Connection to the protocol module
+        inout protocolGate;
 }
 

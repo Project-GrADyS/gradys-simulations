@@ -23,6 +23,7 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
+#include "../../../applications/mamapp/BMeshPacket_m.h"
 
 namespace projeto {
 
@@ -47,6 +48,7 @@ void DadcaProtocol::initialize(int stage)
         WATCH(communicationStatus);
         WATCH(tentativeTarget);
         WATCH(lastTarget);
+        WATCH(currentDataLoad);
     }
 }
 
@@ -66,7 +68,11 @@ void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
         }
     }
 
-
+    // Erases neighbours when drone is recharging or shutdown
+    if((currentTelemetry.getDroneActivity() != RECHARGING && telemetry->getDroneActivity() == RECHARGING) ||
+            (currentTelemetry.getDroneActivity() != SHUTDOWN && telemetry->getDroneActivity() == SHUTDOWN)) {
+        leftNeighbours = rightNeighbours = 0;
+    }
 
     currentTelemetry = *telemetry;
 
@@ -83,15 +89,18 @@ void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
 }
 
 void DadcaProtocol::handlePacket(Packet *pk) {
-    auto payload = pk->peekAtBack<DadcaMessage>(B(34), 1);
+    auto payload = dynamicPtrCast<const DadcaMessage>(pk->peekAtBack());
 
 
     if(payload != nullptr) {
+        bool destinationIsGroundstation = payload->getNextWaypointID() == -1;
+
         switch(payload->getMessageType()) {
             case DadcaMessageType::HEARTBEAT:
             {
-                // No communication form other drones matters while the drone is executing
-                if(currentTelemetry.getCurrentCommand() != -1) {
+                // No communication from other drones matters while the drone is executing
+                // or if the drone is recharging/shutdown
+                if(currentTelemetry.getCurrentCommand() != -1 && !destinationIsGroundstation) {
                     return;
                 }
 
@@ -110,7 +119,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                     if(lastStableTelemetry.getNextWaypointID() == payload->getNextWaypointID() ||
                             lastStableTelemetry.getNextWaypointID() == payload->getLastWaypointID() ||
                             lastStableTelemetry.getNextWaypointID() == -1 ||
-                            payload->getNextWaypointID() == -1) {
+                            destinationIsGroundstation) {
                         tentativeTarget = payload->getSourceID();
                         tentativeTargetName = pk->getName();
                         setTarget(tentativeTargetName.c_str());
@@ -125,7 +134,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             case DadcaMessageType::PAIR_REQUEST:
             {
                 // No communication form other drones matters while the drone is executing
-                if(currentTelemetry.getCurrentCommand() != -1) {
+                if(currentTelemetry.getCurrentCommand() != -1 && !destinationIsGroundstation) {
                     break;
                 }
 
@@ -157,7 +166,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             case DadcaMessageType::PAIR_CONFIRM:
             {
                 // No communication form other drones matters while the drone is executing
-                if(currentTelemetry.getCurrentCommand() != -1) {
+                if(currentTelemetry.getCurrentCommand() != -1 && !destinationIsGroundstation) {
                     break;
                 }
 
@@ -167,7 +176,8 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                     std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
                     if(communicationStatus != PAIRED_FINISHED) {
                         // If both drones are travelling in the same direction, the pairing is canceled
-                        if(lastStableTelemetry.isReversed() != payload->getReversed()) {
+                        // Doesn't apply if one drone is the groundStation
+                        if((lastStableTelemetry.isReversed() != payload->getReversed()) || (tour.size() == 0 || destinationIsGroundstation)) {
                             // Exchanging imaginary data to the drone closest to the start of the mission
                             if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
                                 // Drone closest to the start gets the data
@@ -176,7 +186,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
 
                                 // Doesn't update neighbours if the drone has no waypoints
                                 // This prevents counting the groundStation as a drone
-                                if(payload->getNextWaypointID() != -1) {
+                                if(!destinationIsGroundstation) {
                                     // Drone closest to the start updates right neighbours
                                     rightNeighbours = payload->getRightNeighbours() + 1;
                                 }
@@ -186,7 +196,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
 
                                 // Doesn't update neighbours if the drone has no waypoints
                                 // This prevents counting the groundStation as a drone
-                                if(payload->getNextWaypointID() != -1) {
+                                if(!destinationIsGroundstation) {
                                     // Drone farthest away updates left neighbours
                                     leftNeighbours = payload->getLeftNeighbours() + 1;
                                 }
@@ -194,7 +204,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
 
                             // Only completes redevouz if tour has been recieved or the paired drone has no waypoints
                             // This prevents rendevouz with the groundStation
-                            if(tour.size() > 0 && payload->getNextWaypointID() != -1) {
+                            if(tour.size() > 0 && !destinationIsGroundstation) {
                                 rendevouz();
                             }
                             // Updating data load
@@ -221,6 +231,15 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             }
         }
         updatePayload();
+    }
+
+    auto mamPayload = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack());
+    if(mamPayload != nullptr) {
+        if(!isTimedout() && communicationStatus == FREE) {
+            currentDataLoad++;
+            stableDataLoad = currentDataLoad;
+            emit(dataLoadSignalID, currentDataLoad);
+        }
     }
 }
 
@@ -401,7 +420,7 @@ void DadcaProtocol::setTarget(const char *target) {
 bool DadcaProtocol::isTimedout() {
     // Blocks the timeout if the drone is currently executing a command
     if(currentTelemetry.getCurrentCommand() != -1) {
-        return false;
+        return true;
     }
 
     bool oldValue = timeoutSet;

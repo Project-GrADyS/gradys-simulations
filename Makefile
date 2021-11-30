@@ -1,12 +1,12 @@
 #
-# OMNeT++/OMNEST Makefile for gradys-simulations
+# OMNeT++/OMNEST Makefile for projeto
 #
 # This file was generated with the command:
 #  opp_makemake -f --deep -O out -KINET_PROJ=../inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
-TARGET = gradys-simulations$(D)$(EXE_SUFFIX)
+TARGET = projeto$(D)$(EXE_SUFFIX)
 TARGET_DIR = .
 
 # User interface (uncomment one) (-u option)
@@ -54,6 +54,10 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
     $O/mobility/DroneMobility.o \
+    $O/mobility/failures/RandomFailureGenerator.o \
+    $O/mobility/failures/SimpleConsumptionEnergy.o \
+    $O/mobility/failures/SimpleTimerEnergy.o \
+    $O/mobility/failures/base/FailureGeneratorBase.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/messages/internal/CommunicationCommand_m.o \

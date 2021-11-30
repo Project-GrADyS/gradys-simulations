@@ -13,16 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+package projeto.mobility.failures.base;
 
 //
 // TODO auto-generated module
 //
-simple CommunicationProtocolBase like IProtocol
+simple FailureGeneratorBase like IFailureGenerator
 {
     parameters:
-        @class(CommunicationProtocolBase);
+        @class(FailureGeneratorBase);
     gates:
-        inout mobilityGate[];
-        inout communicationGate[];
+        inout mobilityGate;
 }

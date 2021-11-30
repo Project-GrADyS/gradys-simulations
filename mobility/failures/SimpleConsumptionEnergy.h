@@ -13,21 +13,34 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-import inet.common.packet.chunk.Chunk;
+#ifndef __PROJETO_SIMPLECONSUMPTIONENERGY_H_
+#define __PROJETO_SIMPLECONSUMPTIONENERGY_H_
 
-namespace inet;
+#include <omnetpp.h>
+#include "../../communication/messages/internal/Telemetry_m.h"
 
+using namespace omnetpp;
 
-enum SenderType
+namespace projeto {
+
+class SimpleConsumptionEnergy : public cSimpleModule
 {
-  DRONE = 0;
-  SENSOR = 1;
-  GROUND_STATION = 2;
-}
+  protected:
+    virtual void initialize(int stage) override;
+    virtual void handleMessage(cMessage *msg) override;
 
-class SimpleMessage extends FieldsChunk
-{
-    chunkLength = B(7); // Fixed chunk length
-    SenderType senderType;
-    int content;
-}
+  protected:
+    double batteryCapacity;
+    double batteryRTLThreshold;
+    double batteryConsumption;
+    simtime_t rechargeDuration;
+  private:
+    double currentConsumption;
+    Telemetry currentTelemetry;
+    cMessage *selfMessage;
+    bool isReturning;
+};
+
+} //namespace
+
+#endif

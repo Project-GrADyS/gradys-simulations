@@ -13,16 +13,20 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+#ifndef MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_
+#define MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_
 
-//
-// TODO auto-generated module
-//
-simple CommunicationProtocolBase like IProtocol
-{
-    parameters:
-        @class(CommunicationProtocolBase);
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
-}
+#include <omnetpp.h>
+using namespace omnetpp;
+
+namespace projeto {
+
+class FailureGeneratorBase : public cSimpleModule {
+    protected:
+        void initialize(int stage) {};
+        void handleMessage(cMessage *msg) {};
+};
+
+} /* namespace projeto */
+
+#endif /* MOBILITY_FAILURES_BASE_FAILUREGENERATORBASE_H_ */

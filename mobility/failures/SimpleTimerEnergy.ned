@@ -13,16 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+package projeto.mobility.failures;
+import projeto.mobility.failures.base.FailureGeneratorBase;
 
-//
-// TODO auto-generated module
-//
-simple CommunicationProtocolBase like IProtocol
-{
+// Simple energy model that sends the vehicle home or shuts it down using timers 
+simple SimpleTimerEnergy extends FailureGeneratorBase {
     parameters:
-        @class(CommunicationProtocolBase);
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
+        @class(SimpleTimerEnergy);
+        double batteryShutdownDuration @unit(s);
+        double batteryRTLDuration @unit(s);
+        double rechargeDuration @unit(s) = default(3s);
 }
