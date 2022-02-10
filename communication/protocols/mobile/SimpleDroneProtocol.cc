@@ -29,6 +29,8 @@ void SimpleDroneProtocol::initialize(int stage) {
     // Emits the first dataLoad signal with value 0
     emit(registerSignal("dataLoad"), content);
 
+    WATCH(content);
+    WATCH_MAP(contentSources);
     // Updates the payload so the drone can start sending messages
     updatePayload();
 }
@@ -48,6 +50,9 @@ void SimpleDroneProtocol::handlePacket(Packet *pk) {
             {
                 if(!isTimedout()) {
                     content += message->getContent();
+
+                    contentSources[std::string(pk->getName())]++;
+
                     // Emits signal and updates payload on data content change
                     emit(registerSignal("dataLoad"), content);
                     updatePayload();

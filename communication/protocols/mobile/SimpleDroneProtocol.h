@@ -25,7 +25,9 @@ namespace projeto {
 class SimpleDroneProtocol: public CommunicationProtocolBase {
     protected:
         simtime_t timeoutDuration;
+
         int content = 0;
+        std::map<std::string, int> contentSources;
     protected:
         // Performs the initialization of our module. This is a function that most OMNeT++ modules will override
         virtual void initialize(int stage) override;

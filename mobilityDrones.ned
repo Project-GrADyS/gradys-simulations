@@ -56,6 +56,7 @@ network mobilityDrones
         sensors[numSensors]: MobileSensorNode {
             @display("i=misc/sensor");
         }
+       
         groundStation: GroundStation {
             @display("i=misc/sensor3");
         }
