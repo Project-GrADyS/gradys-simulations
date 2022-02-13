@@ -17,6 +17,7 @@ import inet.physicallayer.ieee802154.bitlevel.Ieee802154UwbIrRadioMedium;
 import inet.physicallayer.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;
 import inet.visualizer.integrated.IntegratedMultiVisualizer;
 import inet.visualizer.integrated.IntegratedVisualizer;
+import inet.physicallayer.contract.packetlevel.IRadioMedium;
 
 
 
@@ -46,7 +47,7 @@ network mobilityDrones
         configurator: Ipv4NetworkConfigurator {
             @display("p=0,200");
         }
-        radioMedium: Ieee802154NarrowbandScalarRadioMedium {
+        radioMedium: <default("Ieee802154NarrowbandScalarRadioMedium")> like IRadioMedium {
             @display("p=200,0");
         }
         quads[numUAVs]: MobileNode {

@@ -27,5 +27,5 @@ simple SimpleConsumptionEnergy extends FailureGeneratorBase
         // Vehicle's energy consumption
         double batteryConsumption @unit(A);
         // Time the vehicle will spend home recharging
-        double rechargeDuration @unit(s);
+        double rechargeDuration @unit(s); // Recharges forever if this parameter is less than zero
 }
