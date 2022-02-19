@@ -31,10 +31,14 @@ class SimpleDroneProtocol: public CommunicationProtocolBase {
     protected:
         // Performs the initialization of our module. This is a function that most OMNeT++ modules will override
         virtual void initialize(int stage) override;
+        // Called when the simulation finishes
+        virtual void finish() override;
         // Gets called when a packet is recieved from the communication module
         virtual void handlePacket(Packet *pk) override;
         // Helper function that updates packet content with the current collected data
         virtual void updatePayload();
+
+    private:
 };
 
 } /* namespace projeto */
