@@ -58,6 +58,7 @@ OBJS = \
     $O/mobility/failures/SimpleConsumptionEnergy.o \
     $O/mobility/failures/SimpleTimerEnergy.o \
     $O/mobility/failures/base/FailureGeneratorBase.o \
+    $O/pathloss/TwoRayNewModel.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/communication/messages/internal/CommunicationCommand_m.o \

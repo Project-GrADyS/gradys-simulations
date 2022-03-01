@@ -91,4 +91,11 @@ void SimpleDroneProtocol::updatePayload() {
     sendCommand(command);
 }
 
+void SimpleDroneProtocol::finish() {
+    CommunicationProtocolBase::finish();
+
+    for(auto const& item : contentSources) {
+        recordScalar(item.first.c_str(), item.second);
+    }
+}
 } /* namespace projeto */
