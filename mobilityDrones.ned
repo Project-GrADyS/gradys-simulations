@@ -1,6 +1,6 @@
-	package projeto;
+package projeto;
 
-import inet.common.geometry.common.OsgGeographicCoordinateSystem;
+import inet.common.geometry.common.SimpleGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.environment.ground.FlatGround;
 import inet.node.inet.AdhocHost;
@@ -25,7 +25,6 @@ import inet.physicallayer.contract.packetlevel.IRadioMedium;
 network mobilityDrones
 {
     parameters:
-
 		int numUAVs = default(1);
 		int numSensors = default(1);
 
@@ -36,7 +35,7 @@ network mobilityDrones
             parameters:
                 @display("p=100,50");
         }
-        coordinateSystem: OsgGeographicCoordinateSystem {
+        coordinateSystem: SimpleGeographicCoordinateSystem {
             parameters:
                 @display("p=100,150");
         }
