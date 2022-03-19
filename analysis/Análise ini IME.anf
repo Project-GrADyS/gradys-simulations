@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-*.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-*.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/ime analysis/Newmap-IME-ini-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="default pathloss at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Free*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="default pathloss at 5mps">
+        <properties name="Graph.Title" value="default pathloss at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="300.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+        <averagedFields>module</averagedFields>
+        <averagedFields>measurement</averagedFields>
+        <averagedFields>replication</averagedFields>
+        <averagedFields>run</averagedFields>
+      </items>
+    </datasets>
+    <datasets name="default pathloass at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Free*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="default pathloss at 10mps">
+        <properties name="Graph.Title" value="default pathloss at 10mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="300.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+        <averagedFields>module</averagedFields>
+        <averagedFields>measurement</averagedFields>
+        <averagedFields>replication</averagedFields>
+        <averagedFields>run</averagedFields>
+      </items>
+    </datasets>
+    <datasets name="two ray at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Two*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="two ray at 5mps">
+        <properties name="Graph.Title" value="two ray at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="300.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+        <averagedFields>module</averagedFields>
+        <averagedFields>measurement</averagedFields>
+        <averagedFields>replication</averagedFields>
+        <averagedFields>run</averagedFields>
+      </items>
+    </datasets>
+    <datasets name="tworay at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Two*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="two ray at 10mps">
+        <properties name="Graph.Title" value="two ray at 10mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="300.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+        <averagedFields>module</averagedFields>
+        <averagedFields>measurement</averagedFields>
+        <averagedFields>replication</averagedFields>
+        <averagedFields>run</averagedFields>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1 //@datasets/@datasets.1/@items.1 //@datasets/@datasets.2/@items.1 //@datasets/@datasets.3/@items.1"/>
+  </chartSheets>
+</scave:Analysis>

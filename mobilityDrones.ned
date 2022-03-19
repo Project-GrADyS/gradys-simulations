@@ -15,6 +15,7 @@ import inet.node.inet.WirelessHost;
 import inet.physicallayer.apskradio.packetlevel.ApskScalarRadioMedium;
 import inet.physicallayer.ieee802154.bitlevel.Ieee802154UwbIrRadioMedium;
 import inet.physicallayer.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;
+import inet.physicallayer.ieee80211.packetlevel.Ieee80211ScalarRadioMedium;
 import inet.visualizer.integrated.IntegratedMultiVisualizer;
 import inet.visualizer.integrated.IntegratedVisualizer;
 import inet.physicallayer.contract.packetlevel.IRadioMedium;

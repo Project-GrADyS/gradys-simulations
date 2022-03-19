@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo20.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo35.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211ScalarRadio,Ieee802154NarrowbandScalarRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=FreeSpacePathLoss,speed=5mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=10mps-#0.vec"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.sca"/>
+    <inputs name="/projeto/analysis/data/speed analysis/Newmap-Radio-Pathloss-Campaign-path=paths#2fvoo#_mapa#_novo50.waypoints,radio=Ieee80211UnitDiskRadio,UnitDiskRadioMedium,pathloss=TwoRayNewModel,speed=5mps-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="Unit Disk with Two Ray at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*UnitDisk*TwoRay*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="Unit Disk with TwoRay at 5mps">
+        <properties name="Graph.Title" value="Unit Disk with TwoRay at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Unit Disk with default pathloss at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*UnitDisk*FreeSpace*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="Unit Disk with default pathloss at 5mps">
+        <properties name="Graph.Title" value="Unit Disk with default pathloss at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Scalar with Two Ray at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Scalar*TwoRay*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="Scalar with Two Ray at 5mps">
+        <properties name="Graph.Title" value="Scalar with Two Ray at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Scalar with default pathloss at 5mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Scalar*Free*5mps*) "/>
+      <items xsi:type="scave:BarChart" name="Salar with default pathloss at 5mps">
+        <properties name="Graph.Title" value="Salar with default pathloss at 5mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Unit Disk with Two Ray at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Unit*Two*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="Unit Disk with TwoRay at 10mps">
+        <properties name="Graph.Title" value="Unit Disk with TwoRay at 10mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="UnitDisk with default pathloss at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Unit*Free*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="Unit Disk with default pathloss at 10mps">
+        <properties name="Graph.Title" value="Unit Disk with default pathloss at 10mps"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="250.0"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Scalar with Two Ray at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Scalar*Two*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="Scalar with Two Ray at 10mps">
+        <properties name="Graph.Title" value="Scalar with Two Ray at 10mps"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+    <datasets name="Scalar with default pathloss at 10mps">
+      <items xsi:type="scave:Add" filterPattern="module(*protocol) AND file(*Scalar*Free*10mps*) "/>
+      <items xsi:type="scave:BarChart" name="Scalar with default pathloss at 10mps">
+        <properties name="Graph.Title" value="Scalar with default pathloss at 10mps"/>
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1 //@datasets/@datasets.2/@items.1 //@datasets/@datasets.1/@items.1 //@datasets/@datasets.3/@items.1 //@datasets/@datasets.4/@items.1 //@datasets/@datasets.6/@items.1 //@datasets/@datasets.5/@items.1 //@datasets/@datasets.7/@items.1"/>
+  </chartSheets>
+</scave:Analysis>
