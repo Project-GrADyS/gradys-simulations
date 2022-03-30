@@ -17,7 +17,7 @@
 package projeto.pathloss;
 
 import inet.physicallayer.contract.packetlevel.IPathLoss;
-
+// https://github.com/erihh3/PFC-TwoRayModel
 module TwoRayNewModel like IPathLoss
 {
     parameters:
