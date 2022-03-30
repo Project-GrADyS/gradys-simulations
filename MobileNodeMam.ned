@@ -15,21 +15,23 @@ module MobileNodeMam extends AdhocHost
   		int internalMobNodeId = -1;
   		int simulationIndexOfFirstNode = 6;
   		int nodeType = 171;
-  		int numFailures = 0;
+  		int numFailures = default(0);
   		
   		
   		@class(MobileNode);
   	
   	submodules:
   	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
+  	        @display("p=237.825,75.6");
   	    }
   	    failures[numFailures]: <default("FailureGeneratorBase")> like IFailureGenerator {
+  	        @display("p=40.949997,159.075");
   	    }
   	
   	connections:
   		app[0].protocolGate <--> protocol.communicationGate++;
+        protocol.mobilityGate++ <--> mobility.protocolGate++;
   		app[1].protocolGate <--> protocol.communicationGate++;
-  		protocol.mobilityGate++ <--> mobility.commGate;
   		for i=0..numFailures-1 {
       		failures[i].mobilityGate <--> mobility.protocolGate++;
   		}
