@@ -13,19 +13,18 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.mobility.failures;
-import projeto.mobility.failures.base.FailureGeneratorBase;
 
-// Simple energy consumption model that sends the vehicle home or shuts it down after certain thresholds
-simple SimpleConsumptionEnergy extends FailureGeneratorBase
+package projeto.pathloss;
+
+import inet.physicallayer.contract.packetlevel.IPathLoss;
+// https://github.com/erihh3/PFC-TwoRayModel
+module TwoRayNewModel like IPathLoss
 {
     parameters:
-        @class(SimpleConsumptionEnergy);
-        double batteryCapacity @unit(mAh);
-        // Battery threshold to send the drone home
-        double batteryRTLThreshold @unit(mAh);
-        // Vehicle's energy consumption
-        double batteryConsumption @unit(A);
-        // Time the vehicle will spend home recharging
-        double rechargeDuration @unit(s); // Recharges forever if this parameter is less than zero
+        @class(TwoRayNewModel);
+        @display("i=block/control");
+        double epsilon_r = default(15);
+        double sigma = default(0.005); 
+        double delta_h = default(0.05);
+        string polarization = default("horizontal");
 }

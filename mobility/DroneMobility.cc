@@ -224,7 +224,8 @@ void DroneMobility::move() {
                         sendTelemetry();
                     }
                     else {
-                       if(simTime() - droneStatus.idleTime >= droneStatus.currentCommandInstance.getParam1()) {
+                        // Recharges forever if the recharge time is less than zero
+                       if(droneStatus.currentCommandInstance.getParam1() >= 0 && simTime() - droneStatus.idleTime >= droneStatus.currentCommandInstance.getParam1()) {
                             // Removing idle status from drone so it can proceed
                             droneStatus.isIdle = false;
 

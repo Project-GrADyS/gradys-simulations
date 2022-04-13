@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=1-#0.sca"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=1-#0.vec"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=2-#0.sca"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=2-#0.vec"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=3-#0.sca"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=3-#0.vec"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=4-#0.sca"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=4-#0.vec"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=5-#0.sca"/>
+    <inputs name="/projeto/analysis/data/interval/Newmap-Messagerate-Campaign-interval=5-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="Intervals">
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[0])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[1])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[2])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[3])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[4])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[5])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[6])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[7])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[8])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[9])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[0])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[1])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[2])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[3])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[4])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[5])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[6])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[7])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[8])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[9])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[0])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[1])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[2])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[3])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[4])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[5])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[6])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[7])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[8])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[9])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[0])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[1])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[2])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[3])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[4])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[5])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[6])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[7])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[8])"/>
+      <items xsi:type="scave:Add" filterPattern="module(mobilityDrones.quads[0].protocol) AND name(sensors[9])"/>
+      <items xsi:type="scave:BarChart" name="Messages by interval">
+        <groupByFields>name</groupByFields>
+        <barFields>experiment</barFields>
+        <averagedFields>module</averagedFields>
+        <averagedFields>measurement</averagedFields>
+        <averagedFields>replication</averagedFields>
+        <averagedFields>run</averagedFields>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets/>
+</scave:Analysis>

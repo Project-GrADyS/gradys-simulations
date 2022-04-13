@@ -67,8 +67,10 @@ void CommunicationProtocolBase::sendCommand(CommunicationCommand *order, int gat
 }
 
 void CommunicationProtocolBase::initiateTimeout(simtime_t duration) {
-    timeoutEnd = simTime() + duration;
-    timeoutSet = true;
+    if(duration > 0) {
+        timeoutEnd = simTime() + duration;
+        timeoutSet = true;
+    }
 }
 
 bool CommunicationProtocolBase::isTimedout() {

@@ -36,7 +36,7 @@ void SimpleTimerEnergy::handleMessage(cMessage *msg) {
     if(msg->isSelfMessage()) {
         if(msg == RTLMessage && !isReturning) {
             MobilityCommand *returnCommand = new MobilityCommand();
-            returnCommand->setCommandType(RETURN_TO_HOME);
+            returnCommand->setCommandType(RECHARGE);
             returnCommand->setParam1(rechargeDuration.dbl());
 
             cGate *protocolGate = gate("mobilityGate$o");

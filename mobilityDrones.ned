@@ -1,6 +1,6 @@
-	package projeto;
+package projeto;
 
-import inet.common.geometry.common.OsgGeographicCoordinateSystem;
+import inet.common.geometry.common.SimpleGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.environment.ground.FlatGround;
 import inet.node.inet.AdhocHost;
@@ -15,8 +15,10 @@ import inet.node.inet.WirelessHost;
 import inet.physicallayer.apskradio.packetlevel.ApskScalarRadioMedium;
 import inet.physicallayer.ieee802154.bitlevel.Ieee802154UwbIrRadioMedium;
 import inet.physicallayer.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;
+import inet.physicallayer.ieee80211.packetlevel.Ieee80211ScalarRadioMedium;
 import inet.visualizer.integrated.IntegratedMultiVisualizer;
 import inet.visualizer.integrated.IntegratedVisualizer;
+import inet.physicallayer.contract.packetlevel.IRadioMedium;
 
 
 
@@ -24,7 +26,6 @@ import inet.visualizer.integrated.IntegratedVisualizer;
 network mobilityDrones
 {
     parameters:
-
 		int numUAVs = default(1);
 		int numSensors = default(1);
 
@@ -35,7 +36,7 @@ network mobilityDrones
             parameters:
                 @display("p=100,50");
         }
-        coordinateSystem: OsgGeographicCoordinateSystem {
+        coordinateSystem: SimpleGeographicCoordinateSystem {
             parameters:
                 @display("p=100,150");
         }
@@ -46,7 +47,7 @@ network mobilityDrones
         configurator: Ipv4NetworkConfigurator {
             @display("p=0,200");
         }
-        radioMedium: Ieee802154NarrowbandScalarRadioMedium {
+        radioMedium: <default("Ieee802154NarrowbandScalarRadioMedium")> like IRadioMedium {
             @display("p=200,0");
         }
         quads[numUAVs]: MobileNode {
@@ -56,6 +57,7 @@ network mobilityDrones
         sensors[numSensors]: MobileSensorNode {
             @display("i=misc/sensor");
         }
+       
         groundStation: GroundStation {
             @display("i=misc/sensor3");
         }

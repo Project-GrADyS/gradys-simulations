@@ -3,7 +3,7 @@ Simulations from Project GrADyS on OMNET++ and INET framework
 
 # Introduction
 
-This is a repository for the simulation framework developed for the GrADyS project. This framework allows the simulation of interconnected network nodes and the implementation of UAV swarms and sensor coordination strategies with the objective of managing these autonomous drone swarms to collect sensor data on the field autonomously and efficiently.
+This is a repository for the simulation framework developed for the GrADyS project. This framework allows the simulation of interconnected network nodes and the implementation of UAV swarms and sensor coordination strategies with the objective of managing these autonomous UAV swarms to collect sensor data on the field autonomously and efficiently.
 
 ![Dadca protocol showcase](assets/dadca_showcase.gif)
 
@@ -15,7 +15,7 @@ Version 5.6 of OMNeT++ is required, to install it [just follow these instruction
 After installing both OMNeT++ and INET you should be able to clone the repository to youw active OMNeT++ IDE workspace. To do this select File > Impor... then open the "git" section and select "Projects from git" then "Clone Uri". After that just fill in the URL for this repository and finish the process following the displayed instructions.
 
 # Usage
-OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations for Wifi only communication and shared Wifi and MAM communication, each with configs for one to four drones. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration. The [Config Wifi] and [Config MAM] configs are base configs for the other ones and should not be ran.
+OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations for Wifi only communication and shared Wifi and MAM communication, each with configs for one to four UAVs. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration. The [Config Wifi] and [Config MAM] configs are base configs for the other ones and should not be ran.
 
 Launch configurations dictate the parameters of your simulation and you can change **mobilityDrones-omnetpp.ini** to suit your necessities. Here are some of the more important parameters that you can try switching yourself:
 
@@ -29,7 +29,7 @@ The number of UAVs and sensors in the simulation:
 
 Some UAV (called quads in this file) parameters:
 ```C++
-// The protocol the drone will follow (protocols explained further bellow)
+// The protocol the UAV will follow (protocols explained further bellow)
 // Change this to test other protocols like "ZigzagProtocol"
 *.quads[*].protocol.typename = "DadcaProtocol" 
 
@@ -72,16 +72,16 @@ To run a simulation simply select one of the *.ini* files and use the OMNeT++ ID
 **Project Message Diagram**
 ![Project message diagram](assets/message_diagram.png)
 
-INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple drone mobility model and could react to network events. This setup allows support for a wide array of possible drone coordination protocols.
+INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple UAV mobility model and could react to network events. This setup allows support for a wide array of possible UAV coordination protocols.
 
-The described requirement was achieved with three modules, one resposible for communication between drones (communication), one for controlling the node's movement (mobility) and the last to manage the interaction between the last two (protocol). The behaviour and implementation of these modules is detailed further below. They were made in such a way that the messages exchanged between them are sufficiently generic to allow the creation of a new protocol by creating a new protocol module, with no changes to the other ones by levaraging these generic messages to carry out different procedures. The messages exchanged between them are explained further bellow and are contained on *.msg* files like **MobilityCommand.msg**, **Telemetry.msg** and **CommunicationCommand.msg**.
+The described requirement was achieved with three modules, one resposible for communication between UAVs (communication), one for controlling the node's movement (mobility) and the last to manage the interaction between the last two (protocol). The behaviour and implementation of these modules is detailed further below. They were made in such a way that the messages exchanged between them are sufficiently generic to allow the creation of a new protocol by creating a new protocol module, with no changes to the other ones by levaraging these generic messages to carry out different procedures. The messages exchanged between them are explained further bellow and are contained on *.msg* files like **MobilityCommand.msg**, **Telemetry.msg** and **CommunicationCommand.msg**.
 
 These three modules are loaded in a *.ned* file. In OMNeT++ *.ned* files define modules that can use other modules forming a module tree. These modules can be simple (the leaves of the module tree) or a compound module that connects simple modules or other compound modules with gates. A network is a special kind of compound module that can be run as a simulation. 
 
 The compound module that represents our UAVs is **MobileNode.ned** and **MobileSensorNode.ned** represents our sensors. These modules contain Communication and Mobility modules (defined in the extended module AdhocHost) and the Protocol module (defined in the file). The **mobilityDrones.ned** file connects all the UAVs(called quads), sensors and some other modules necessary to the simulation.
 
  ## Mobility
- The mobility module is responsible for controlling drone movement and responding to requests from the protocol module to change that movement through MobilityCommand messages. It also needs to inform the procol module about the current state of the drone's movement through Telemetry messages. 
+ The mobility module is responsible for controlling UAV movement and responding to requests from the protocol module to change that movement through MobilityCommand messages. It also needs to inform the procol module about the current state of the UAV's movement through Telemetry messages. 
  
  As part of the module initialization the waypoint list is attached to a Telemetry message so the protocol module has access to the tour the mobile node is following.
  
@@ -91,20 +91,20 @@ The compound module that represents our UAVs is **MobileNode.ned** and **MobileS
 ```C++
 // Commands that the mobility module should be capable of carrying out
 enum MobilityCommandType {
-    // Makes the drone reverse on its course
+    // Makes the UAV reverse on its course
     // No params
     REVERSE=0; 
     
-    // Makes the drone travel to a specific waypoint, following the tour pack
+    // Makes the UAV travel to a specific waypoint, following the tour pack
     // Param 1: Waypoint index
     GOTO_WAYPOINT=1;
     
-    // Makes the drone go to a specific coordinate and orient itself so it can continue the tour afterwards
+    // Makes the UAV go to a specific coordinate and orient itself so it can continue the tour afterwards
     // Param 1: x component of the coord
     // Param 2: y component of the coord
     // Param 3: z component of the coord
-    // Param 4: Next waypoint (Waypoint the drone should go to after reaching the target)
-    // Param 5: Last waypoint (Waypoint the drone used to reach the coords)
+    // Param 4: Next waypoint (Waypoint the UAV should go to after reaching the target)
+    // Param 5: Last waypoint (Waypoint the UAV used to reach the coords)
     GOTO_COORDS=2;
 }
 
@@ -120,7 +120,7 @@ message MobilityCommand {
 ```
 * **Telemetry.msg**
 ```C++
-// Activity that the drone is currently carrying out
+// Activity that the UAV is currently carrying out
 enum DroneActivity { 
     IDLE=0; 
     NAVIGATING=1;
@@ -128,7 +128,7 @@ enum DroneActivity {
     FOLLOWING_COMMAND=3;
 }
 
-// Message declaration designed to share necessary drone information with the communication module
+// Message declaration designed to share necessary UAV information with the communication module
 message Telemetry {
     int nextWaypointID=-1;
     int lastWaypointID=-1;
@@ -138,9 +138,9 @@ message Telemetry {
 }
 ```
 
-The only mobility module currently implemented is **DroneMobility.ned** which simulates the movement of a drone. 
+The only mobility module currently implemented is **DroneMobility.ned** which simulates the movement of a UAV. 
 
- An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the drone's battery reaches a certain threshold and shuts it down when the battery is depleted.
+ An optional feature of the mobility module is attaching a failure generator module. They connect to the mobility module using the same gates the protocol module does and use that to send commands in order to simulate failures. This can be used to trigger random shutdowns and even to simulate energy consumption. An example of a module that simulates energy consumption is the SimpleEnergyConsumption, a parametrized component to simulate consumption and battery capacity. It sends RETURN_TO_HOME messages to the vehicle when the UAV's battery reaches a certain threshold and shuts it down when the battery is depleted.
 
  Configuring the use of failures for your mobile nodes is easy. The *.failures[]* array can be used to add as many failure generators as needed and the number of failures can be configured using the *.numFailures* option.
 
@@ -221,9 +221,9 @@ class DadcaMessage extends FieldsChunk
   int nextWaypointID = -1; // ID of the next waypoint
   int lastWaypointID = -1; // ID of the last waypoint
   int dataLength = 5; // Length of the imaginary data being carried in the message
-  int leftNeighbours = 0; // Neighbours to the left of the drone
-  int rightNeighbours = 0; // Neighbours to the right of the drone
-  bool reversed = false; // Reverse flag which indicates the current direction the drone is travelling in
+  int leftNeighbours = 0; // Neighbours to the left of the UAV
+  int rightNeighbours = 0; // Neighbours to the right of the UAV
+  bool reversed = false; // Reverse flag which indicates the current direction the UAV is travelling in
   DadcaMessageType messageType = HEARTBEAT; // Type of message
 }
 ```
@@ -234,7 +234,7 @@ Protocools implement an IProtocol interface and extend  **CommunicationProtocolB
 virtual void handleMessage(cMessage *msg);
 
 // Handles package received from communication
-// This packet is a message that was sent to the drone
+// This packet is a message that was sent to the UAV
 virtual void handlePacket(Packet *pk) {};
 
 // Handles telemetry received from mobility
@@ -256,15 +256,15 @@ These are the currently implemented protocols:
 
 * **ZigZagProtocol.ned** and **ZigZagProtocolSensor.ned**
 
-     These files implement the mobile node and the sensor side of the ZigZag protocol. This prococol manages a group of drones folowwing a set path passing above several sensors from where they pick up imaginary data from those sensors. The drones also interact with each other sending several messages to coordinate their movement.
+     These files implement the mobile node and the sensor side of the ZigZag protocol. This prococol manages a group of UAVs folowwing a set path passing above several sensors from where they pick up imaginary data from those sensors. The UAVs also interact with each other sending several messages to coordinate their movement.
 
-     Heartbeat messages are sent on a multicast address, if these are picked up by sensors they respond with data. If they are picked up by other drones they initiate a communication pair by sending a Pair Request message which is them confirmed by the other drone with a Pair Confirmation message. The drone furthest away from the starting point of the path sends its data to the other drone in the pair and they both reverse their movement. The objective is that over time the drones will each occupy an equally sized section of the course, picking up data on the way and sharing it at their section's extremities.
+     Heartbeat messages are sent on a multicast address, if these are picked up by sensors they respond with data. If they are picked up by other UAVs they initiate a communication pair by sending a Pair Request message which is them confirmed by the other UAV with a Pair Confirmation message. The UAV furthest away from the starting point of the path sends its data to the other UAV in the pair and they both reverse their movement. The objective is that over time the UAVs will each occupy an equally sized section of the course, picking up data on the way and sharing it at their section's extremities.
 
 * **DadcaProtocol.ned** and **DadcaProtocolSensor.ned**
      
-     This protocol is similar to the ZigZagProtocol. It also manages data collection by mobile nodes in a set path. The difference is that this method aims to speed up the process of equally spacing the drones in the course by implementing a more advanced movement protocol.
+     This protocol is similar to the ZigZagProtocol. It also manages data collection by mobile nodes in a set path. The difference is that this method aims to speed up the process of equally spacing the UAVs in the course by implementing a more advanced movement protocol.
 
-     When the Pair Confirmation message is recieved by both drones, confirming the pair, both drones take note of the number of neighours on their left (closer to the start) and their right (further from the start) and share this information with their pair. Both update their neighbour count and use it to calculate a point in the course that would represent the extremity of both their sections if their current count of neighbours is accurate. Them they both travel together to this point and revert. This behaviour is implemented with a sequence of commands that get queued on the mobility module.
+     When the Pair Confirmation message is recieved by both UAVs, confirming the pair, both UAVs take note of the number of neighours on their left (closer to the start) and their right (further from the start) and share this information with their pair. Both update their neighbour count and use it to calculate a point in the course that would represent the extremity of both their sections if their current count of neighbours is accurate. Them they both travel together to this point and revert. This behaviour is implemented with a sequence of commands that get queued on the mobility module.
     
 
 # Development
@@ -277,7 +277,7 @@ After creating a new module all you need to do to test it is modifying the desir
 
 ## Developing your own communication protocol
 
-In this example we will develop a very simple protocol for our drones and sensors. Our drones will follow their waypoint paths without communication with each other, collecting data from sensors and depositing it at a central ground station. We will create sets of files (*.ned*, *.h* and *.cc*), **SimpleDroneProtocol**, **SimpleSensorProtocol** and **SimpleGroundProtocol** and a message declaration **SimpleMessage.msg**. For your convenience these files have already been created and placed in their respective folders, and the configuration file includes a launch config for this scenario.
+In this example we will develop a very simple protocol for our UAVs and sensors. Our UAVs will follow their waypoint paths without communication with each other, collecting data from sensors and depositing it at a central ground station. We will create sets of files (*.ned*, *.h* and *.cc*), **SimpleDroneProtocol**, **SimpleSensorProtocol** and **SimpleGroundProtocol** and a message declaration **SimpleMessage.msg**. For your convenience these files have already been created and placed in their respective folders, and the configuration file includes a launch config for this scenario.
 
 Let's start with the message. Since this protocol is very simple we will implement a message with two fields, senderType and content. 
 
@@ -305,7 +305,7 @@ class SimpleMessage extends FieldsChunk
 }
 ```
 
-Our protocols will use this message definition to communicate with eachother. Next let's define our drone's protocol. All it needs to do is contantly emit messages with it's current data load, listen to messages from sensors to load more data and listen to messages from the groundStation to unload. The only parameter we are defining is the timeoutDuration, we will not override the default value but it is good to have the option to increase or decrease the drone's timeout. This timeout will be activated to prevent over-communication with the sensors and ground station.
+Our protocols will use this message definition to communicate with eachother. Next let's define our UAV's protocol. All it needs to do is contantly emit messages with it's current data load, listen to messages from sensors to load more data and listen to messages from the groundStation to unload. The only parameter we are defining is the timeoutDuration, we will not override the default value but it is good to have the option to increase or decrease the UAV's timeout. This timeout will be activated to prevent over-communication with the sensors and ground station.
 
 **SimpleDroneProtocol.ned**
 ```C++
@@ -319,7 +319,7 @@ simple SimpleDroneProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(SimpleDroneProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the UAV is carrying
         double timeoutDuration @unit(s) = default(3s);
 }
 ```
@@ -336,7 +336,7 @@ Note that we also included a signal declaration called dataLoad. Signals are mes
 *.visualizer.*.statisticVisualizer.sourceFilter = "*.quads[*].** *.groundStation.**"
 ```
 
-Next we need to add code to our drone module to simulate the required behaviours. Since our simple behavour only includes responding to messages from other nodes, we will only need to override the *initialize* and *handlePacket* functions. We will also create a updatePayload function that will update our message to include the current data content we collected. 
+Next we need to add code to our UAV module to simulate the required behaviours. Since our simple behavour only includes responding to messages from other nodes, we will only need to override the *initialize* and *handlePacket* functions. We will also create a updatePayload function that will update our message to include the current data content we collected. 
 
 **SimpleDroneProcol.h**
 ```C++
@@ -364,7 +364,7 @@ class SimpleDroneProtocol: public CommunicationProtocolBase {
 } /* namespace projeto */
 ```
 
-Our implementation of this header file is also very simple. Our initialization function will perform some startup tasks like setting our initial message and emitting a dataLoad signal so that the initial data load (0) will be displayed by the statistic visualizer described above. The drone will increase it's content count every time it encounters another sensor message and transfer all it's data when it encounters a ground station message. Note: the *par* function loads the value specified in the *.ned* of *ini* files for that parameter.
+Our implementation of this header file is also very simple. Our initialization function will perform some startup tasks like setting our initial message and emitting a dataLoad signal so that the initial data load (0) will be displayed by the statistic visualizer described above. The UAV will increase it's content count every time it encounters another sensor message and transfer all it's data when it encounters a ground station message. Note: the *par* function loads the value specified in the *.ned* of *ini* files for that parameter.
 
 **SimpleDroneProtocol.cc**
 ```C++
@@ -386,7 +386,7 @@ void SimpleDroneProtocol::initialize(int stage) {
     // Emits the first dataLoad signal with value 0
     emit(registerSignal("dataLoad"), content);
 
-    // Updates the payload so the drone can start sending messages
+    // Updates the payload so the UAV can start sending messages
     updatePayload();
 }
 
@@ -464,7 +464,7 @@ simple SimpleSensorProtocol extends CommunicationProtocolBase
 }
 ```
 
-As you can see the file is very similar to the drone's *.ned* file. The only big change is that our *timeoutDuration* parameter has been switched out for a *payloadSize* one. Our sensor is a passive listener so it doens't need a timeout. The payloadSize parameter defines the amound of data the sensor sends to the drone during each communication. We will keep this at the default value 5 but you are free to change it.
+As you can see the file is very similar to the UAV's *.ned* file. The only big change is that our *timeoutDuration* parameter has been switched out for a *payloadSize* one. Our sensor is a passive listener so it doens't need a timeout. The payloadSize parameter defines the amound of data the sensor sends to the UAV during each communication. We will keep this at the default value 5 but you are free to change it.
 
 **SimpleSensorProcol.h**
 ```C++
@@ -483,7 +483,7 @@ class SimpleSensorProtocol: public CommunicationProtocolBase {
         // Initialization function
         virtual void initialize(int stage) override;
 
-        // Handles packet recieved from the drone
+        // Handles packet recieved from the UAV
         virtual void handlePacket(Packet *pk) override;
 };
 
@@ -541,9 +541,9 @@ void SimpleSensorProtocol::handlePacket(Packet *pk) {
 } /* namespace projeto */
 ```
 
-When the sensor recieves messages from the drones they will set the drone as a target (setting a target prevents the message from being broadcasted). The sensor's message is always the same, the only thing that changes is the target. The **UdpSensorCommunicationApp** communication module is programmed to be a passive communication module, that means that it doesn't send constant messages like the **UdpMobileNodeCommunicationApp**, it only sends messages when a new target or payload is set.
+When the sensor recieves messages from the UAVs they will set the UAV as a target (setting a target prevents the message from being broadcasted). The sensor's message is always the same, the only thing that changes is the target. The **UdpSensorCommunicationApp** communication module is programmed to be a passive communication module, that means that it doesn't send constant messages like the **UdpMobileNodeCommunicationApp**, it only sends messages when a new target or payload is set.
 
-Last is the ground station. The ground station needs to listen to messages from drones and collect the data they are carrying and send a confirmation message back to the so they can empty their data load.
+Last is the ground station. The ground station needs to listen to messages from UAVs and collect the data they are carrying and send a confirmation message back to the so they can empty their data load.
 
 **SimpleGroundProtocol.ned**
 ```C++
@@ -557,7 +557,7 @@ simple SimpleGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(SimpleGroundProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the UAV is carrying
 }
 ```
 
@@ -660,7 +660,7 @@ description = "simple protocol configuration"
 *.quads[1].app[0].destAddresses = "quads[0] sensors[0] sensors[1] sensors[2] groundStation"
 
 # The waypointFile parameter is declared in DroneMobility.ned and specifies the waypoint list
-# the drones will follow.
+# the UAVs will follow.
 *.quads[0].mobility.waypointFile = "paths/voo_sensor1.waypoints"
 *.quads[1].mobility.waypointFile = "paths/voo_sensor2.waypoints"
 
@@ -687,7 +687,7 @@ description = "simple protocol configuration"
 *.groundStation.app[0].startTime = 0s
 ```
 
-With all that you should be able to run the simulation and after selecting "Simple" as a launch configuration you will see the drones and sensors performing the described behaviour.
+With all that you should be able to run the simulation and after selecting "Simple" as a launch configuration you will see the UAVs and sensors performing the described behaviour.
 
 If you did everything right you should be seeing something like this:
 
