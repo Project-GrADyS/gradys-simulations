@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for projeto
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -KINET_PROJ=../inet -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake -f --deep -O out -KINET_PROJ=H:/Installs/Ferramentas/omnetpp-5.6.2/samples/inet4 -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -33,6 +33,7 @@ O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 OBJS = \
     $O/MobileNode.o \
     $O/MobileSensorNode.o \
+    $O/antenna/DipoleAntennaCustom.o \
     $O/applications/mamapp/MamDataCollectorApp.o \
     $O/applications/mamapp/MamNodeApp.o \
     $O/applications/mamapp/Md5.o \
@@ -84,7 +85,7 @@ MSGFILES = \
 SMFILES =
 
 # Other makefile variables (-K)
-INET_PROJ=../inet
+INET_PROJ=H:/Installs/Ferramentas/omnetpp-5.6.2/samples/inet4
 
 #------------------------------------------------------------------------------
 

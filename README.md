@@ -17,6 +17,12 @@ After installing both OMNeT++ and INET you should be able to clone the repositor
 # Usage
 OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations for Wifi only communication and shared Wifi and MAM communication, each with configs for one to four UAVs. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration. The [Config Wifi] and [Config MAM] configs are base configs for the other ones and should not be ran.
 
+Recently some more configurations were added to the *.ini* file. They were created to test and measure the results of a simple simulation with a single drone collecting data from a couple of sensors. The simplicity of these simulations is intentional as it allows us to measure the effect that different parameters have on the collection rate and range of the vehicle. The configs set up [simulation campaigns](https://doc.omnetpp.org/omnetpp/manual/#sec:run-sim:simulation-campaigns) that help us figure out the parameters we should use to better reflect the numbers we observe on real-life experiments. 
+
+To aid us in interpreting this data we implemented data reporting to the modules used in these configs. When the parameter campaigns run they generate several *.vec* and other OMNeT++ statistical files. By using OMNeT++'s built in data analysis tools we can extrant information from these runs. Here are some examples:
+
+![Statistics example](./assets/anaylsis_showcase.png)
+
 Launch configurations dictate the parameters of your simulation and you can change **mobilityDrones-omnetpp.ini** to suit your necessities. Here are some of the more important parameters that you can try switching yourself:
 
 
