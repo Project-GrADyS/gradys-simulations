@@ -1,0 +1,7 @@
+run,path,speed,repetition,Module,sensors[0],sensors[1],sensors[2],sensors[3],sensors[4],sensors[5],sensors[6],sensors[7],sensors[8],sensors[9]
+Newmap-DefaultIMECampaign-3-20220731-20:39:26-20644,"""paths/voo_mapa_novo35.waypoints""",10mps,0,mobilityDrones.quads[0].protocol,85,92,147,181,110,59,89,87,117,84
+Newmap-DefaultIMECampaign-2-20220731-20:39:26-13932,"""paths/voo_mapa_novo35.waypoints""",5mps,0,mobilityDrones.quads[0].protocol,252,175,263,353,205,148,186,129,193,196
+Newmap-DefaultIMECampaign-5-20220731-20:39:26-12780,"""paths/voo_mapa_novo50.waypoints""",10mps,0,mobilityDrones.quads[0].protocol,74,114,152,135,151,64,84,78,100,114
+Newmap-DefaultIMECampaign-0-20220731-20:39:26-22596,"""paths/voo_mapa_novo20.waypoints""",5mps,0,mobilityDrones.quads[0].protocol,207,205,238,383,247,130,187,221,174,61
+Newmap-DefaultIMECampaign-1-20220731-20:39:26-24752,"""paths/voo_mapa_novo20.waypoints""",10mps,0,mobilityDrones.quads[0].protocol,113,79,130,201,126,32,90,124,88,32
+Newmap-DefaultIMECampaign-4-20220731-20:39:26-16448,"""paths/voo_mapa_novo50.waypoints""",5mps,0,mobilityDrones.quads[0].protocol,174,196,309,334,280,150,146,155,201,191
