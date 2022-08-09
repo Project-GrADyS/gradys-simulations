@@ -17,9 +17,46 @@ After installing both OMNeT++ and INET you should be able to clone the repositor
 # Usage
 OMNeT++ simulations are initialized by *.ini* files. The already provided **mobilityDrones-omnetpp.ini** file contains some launch configurations for Wifi only communication and shared Wifi and MAM communication, each with configs for one to four UAVs. Launch configurations are defined in the same *.ini* file denoted by the [Config Sim2drone] tag where Sim2drone is the name of the launch configuration. The [Config Wifi] and [Config MAM] configs are base configs for the other ones and should not be ran.
 
+All confiruation files are set to load the simulations on our field test location in Brasilia. If you want to change this you will have to chage these parameters:
+
+```
+# Scene's coordinates
+*.coordinateSystem.sceneLongitude = -47.926634deg
+*.coordinateSystem.sceneLatitude = -15.840075deg
+*.coordinateSystem.sceneHeading = 90deg
+
+# Vehicle's home coordinates
+*.quads[*].mobility.homeLatitude = -15.840068deg
+*.quads[*].mobility.homeLongitude = -47.926633deg
+
+# Ground Station's coordinates
+*.groundStation.mobility.initialLatitude = -15.840068deg
+*.groundStation.mobility.initialLongitude = -47.926633deg
+
+# Sensor's coordinates
+*.sensors[0].mobility.initialLatitude = -15.84245230deg
+*.sensors[0].mobility.initialLongitude = -47.92948720deg
+```
+
+Aditionally, the quads follow a series of waypoints specified in a waypoint file. You will also need to change these to reasonable waypoints on your simulation's location.
+
+**Example of a waypoint file:**
+```
+# Numers 9,10 and 11 specify latitude, logitude and altitude
+QGC WPL 110
+0	1	0	16	0	0	0	0	-15.840075	-47.926634	0	1
+1	0	3	22	0.00000000	0.00000000	0.00000000	0.00000000	-15.84008500	-47.92663560	20.000000	1
+2	0	3	16	0.00000000	0.00000000	0.00000000	0.00000000	-15.84011710	-47.92712550	20.000000	1
+3	0	3	16	5.00000000	0.00000000	0.00000000	0.00000000	-15.84019450	-47.92777060	20.000000	1
+4	0	3	16	0.00000000	0.00000000	0.00000000	0.00000000	-15.84029000	-47.92860750	20.000000	1
+5	0	3	16	5.00000000	0.00000000	0.00000000	0.00000000	-15.84019500	-47.92777060	20.000000	1
+6	0	0	177	2.00000000	4.00000000	0.00000000	0.00000000	0.00000000	0.00000000	0.000000	1
+7	0	0	20	0.00000000	0.00000000	0.00000000	0.00000000	0.00000000	0.00000000	0.000000	1
+```
+
 Recently some more configurations were added to the *.ini* file. They were created to test and measure the results of a simple simulation with a single drone collecting data from a couple of sensors. The simplicity of these simulations is intentional as it allows us to measure the effect that different parameters have on the collection rate and range of the vehicle. The configs set up [simulation campaigns](https://doc.omnetpp.org/omnetpp/manual/#sec:run-sim:simulation-campaigns) that help us figure out the parameters we should use to better reflect the numbers we observe on real-life experiments. 
 
-To aid us in interpreting this data we implemented data reporting to the modules used in these configs. When the parameter campaigns run they generate several *.vec* and other OMNeT++ statistical files. By using OMNeT++'s built in data analysis tools we can extrant information from these runs. Here are some examples:
+To aid us in interpreting this data we implemented data reporting to the modules used in these configs. When the parameter campaigns run they generate several *.vec* and other OMNeT++ statistical files. By using OMNeT++'s built in data analysis tools we can extrant information from these runs. To learn more about how to use these files to generate visualizations using the OMNeT++ IDE, check it's [User Guida](https://doc.omnetpp.org/omnetpp/UserGuide.pdf). Here are some examples:
 
 ![Statistics example](./assets/anaylsis_showcase.png)
 
