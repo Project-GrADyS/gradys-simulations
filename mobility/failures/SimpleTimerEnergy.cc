@@ -15,7 +15,7 @@
 
 #include "../failures/SimpleTimerEnergy.h"
 
-#include "../../communication/messages/internal/MobilityCommand_m.h"
+#include "../../protocols/messages/internal/MobilityCommand_m.h"
 
 namespace projeto {
 

@@ -30,7 +30,7 @@
 
 #include "MobileNode.h"
 #include "base/UdpBasicAppMobileNode.h"
-#include "../messages/internal/CommunicationCommand_m.h"
+#include "../../protocols/messages/internal/CommunicationCommand_m.h"
 
 using namespace inet;
 

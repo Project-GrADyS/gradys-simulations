@@ -18,9 +18,9 @@
 
 #include <omnetpp.h>
 #include "inet/common/packet/Packet.h"
-#include "../../messages/internal/MobilityCommand_m.h"
-#include "../../messages/internal/CommunicationCommand_m.h"
-#include "../../messages/internal/Telemetry_m.h"
+#include "../messages/internal/MobilityCommand_m.h"
+#include "../messages/internal/CommunicationCommand_m.h"
+#include "../messages/internal/Telemetry_m.h"
 
 using namespace omnetpp;
 using namespace inet;

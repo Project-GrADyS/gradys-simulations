@@ -13,34 +13,16 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __PROJETO_SIMPLECONSUMPTIONENERGY_H_
-#define __PROJETO_SIMPLECONSUMPTIONENERGY_H_
+package projeto.protocols.base;
 
-#include <omnetpp.h>
-#include "../../protocols/messages/internal/Telemetry_m.h"
-
-using namespace omnetpp;
-
-namespace projeto {
-
-class SimpleConsumptionEnergy : public cSimpleModule
+//
+// TODO auto-generated module
+//
+simple CommunicationProtocolBase like IProtocol
 {
-  protected:
-    virtual void initialize(int stage) override;
-    virtual void handleMessage(cMessage *msg) override;
-
-  protected:
-    double batteryCapacity;
-    double batteryRTLThreshold;
-    double batteryConsumption;
-    simtime_t rechargeDuration;
-  private:
-    double currentConsumption;
-    Telemetry currentTelemetry;
-    cMessage *selfMessage;
-    bool isReturning;
-};
-
-} //namespace
-
-#endif
+    parameters:
+        @class(CommunicationProtocolBase);
+    gates:
+        inout mobilityGate[];
+        inout communicationGate[];
+}

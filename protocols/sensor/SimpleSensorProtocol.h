@@ -13,16 +13,26 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+#ifndef COMMUNICATION_PROTOCOLS_SENSOR_SIMPLEDRONEPROTOCOL_H_
+#define COMMUNICATION_PROTOCOLS_SENSOR_SIMPLEDRONEPROTOCOL_H_
 
-//
-// TODO auto-generated module
-//
-simple CommunicationProtocolBase like IProtocol
-{
-    parameters:
-        @class(CommunicationProtocolBase);
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
-}
+#include <omnetpp.h>
+#include "../base/CommunicationProtocolBase.h"
+#include "../messages/network/SimpleMessage_m.h"
+
+namespace projeto {
+
+class SimpleSensorProtocol: public CommunicationProtocolBase {
+    protected:
+        int payloadSize;
+    protected:
+        // Initialization function
+        virtual void initialize(int stage) override;
+
+        // Handles packet recieved from the drone
+        virtual void handlePacket(Packet *pk) override;
+};
+
+} /* namespace projeto */
+
+#endif /* COMMUNICATION_PROTOCOLS_SENSOR_SIMPLEDRONEPROTOCOL_H_ */

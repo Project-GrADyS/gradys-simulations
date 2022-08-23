@@ -13,14 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.mobile;
+package projeto.protocols.ground;
 
-import projeto.communication.protocols.base.CommunicationProtocolBase;
+import projeto.protocols.base.CommunicationProtocolBase;
 
-simple DadcaProtocol extends CommunicationProtocolBase
+simple SimpleGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
-        @class(DadcaProtocol);
+        @class(SimpleGroundProtocol);
         @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
-        double timeoutDuration @unit(s) = default(3s);
 }

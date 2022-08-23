@@ -13,23 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_
-#define COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_
+package projeto.protocols.sensor;
 
-#include <omnetpp.h>
-#include "../base/CommunicationProtocolBase.h"
-#include "../../messages/network/SimpleMessage_m.h"
+import projeto.protocols.base.CommunicationProtocolBase;
 
-namespace projeto {
-
-class SimpleGroundProtocol: public CommunicationProtocolBase {
-    protected:
-        int content = 0;
-    protected:
-        virtual void initialize(int stage) override;
-        virtual void handlePacket(Packet *pk) override;
-};
-
-} /* namespace projeto */
-
-#endif /* COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_ */
+simple SimpleSensorProtocol extends CommunicationProtocolBase
+{
+    parameters:
+        @class(SimpleSensorProtocol);
+        int payloadSize = default(5);
+}

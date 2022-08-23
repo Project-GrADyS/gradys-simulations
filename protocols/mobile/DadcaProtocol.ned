@@ -13,12 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.base;
+package projeto.protocols.mobile;
 
-// Base implementation for the protocol classes
-moduleinterface IProtocol {
-    gates:
-        inout mobilityGate[];
-        inout communicationGate[];
-    
+import projeto.protocols.base.CommunicationProtocolBase;
+
+simple DadcaProtocol extends CommunicationProtocolBase
+{
+    parameters:
+        @class(DadcaProtocol);
+        @signal[dataLoad](type=long);
+        double timeoutDuration @unit(s) = default(3s);
 }

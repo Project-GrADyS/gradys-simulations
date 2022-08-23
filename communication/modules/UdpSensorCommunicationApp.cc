@@ -29,7 +29,7 @@
 #include "inet/applications/base/ApplicationPacket_m.h"
 
 #include "MobileNode.h"
-#include "../messages/internal/CommunicationCommand_m.h"
+#include "../../protocols/messages/internal/CommunicationCommand_m.h"
 
 using namespace inet;
 

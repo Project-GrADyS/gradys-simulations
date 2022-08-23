@@ -6,7 +6,7 @@ import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.mobility.contract.IMobility;
 
-import projeto.communication.protocols.base.IProtocol;
+import projeto.protocols.base.IProtocol;
 
 module MobileSensorNode extends AdhocHost
 {    

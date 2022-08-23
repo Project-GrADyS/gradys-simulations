@@ -13,12 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __PROJETO_ZIGZAGPROTOCOL_H_
-#define __PROJETO_ZIGZAGPROTOCOL_H_
+#ifndef __PROJETO_ZIGZAGPROTOCOLSENSOR_H_
+#define __PROJETO_ZIGZAGPROTOCOLSENSOR_H_
 
 #include <omnetpp.h>
 #include "../base/CommunicationProtocolBase.h"
-#include "../../messages/network/ZigzagMessage_m.h"
+#include "../messages/network/ZigzagMessage_m.h"
 
 using namespace omnetpp;
 
@@ -31,7 +31,7 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
  * drone collecting data from sensors and sharing it with other drones. When a drone encounters another
  * they both invert the direction they are traveling in and continue the course in this new direction.
  */
-class ZigzagProtocol : public CommunicationProtocolBase
+class ZigzagProtocolSensor : public CommunicationProtocolBase
 {
     protected:
         simtime_t timeoutDuration;
@@ -46,25 +46,10 @@ class ZigzagProtocol : public CommunicationProtocolBase
         // Name of the current target (for addressing purposes)
         std::string tentativeTargetName;
 
-        // Current imaginary data being carried
-        int currentDataLoad=0;
-        // Stable data load to prevent data loss during pairing
-        int stableDataLoad=currentDataLoad;
-
-        // Last telemetry package recieved
-        Telemetry currentTelemetry = Telemetry();
-        Telemetry lastStableTelemetry = Telemetry();
-
-        ZigzagMessage lastPayload = ZigzagMessage();
-
     protected:
         virtual void initialize(int stage) override;
-        virtual void handleTelemetry(projeto::Telemetry *telemetry) override;
         virtual void handlePacket(Packet *pk) override;
-        virtual bool isTimedout() override;
-        virtual void resetParameters();
     private:
-        virtual void sendReverseOrder();
         virtual void updatePayload();
         virtual void setTarget(const char *target);
     public:

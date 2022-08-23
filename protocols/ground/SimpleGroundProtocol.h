@@ -13,14 +13,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.mobile;
+#ifndef COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_
+#define COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_
 
-import projeto.communication.protocols.base.CommunicationProtocolBase;
+#include <omnetpp.h>
+#include "../base/CommunicationProtocolBase.h"
+#include "../messages/network/SimpleMessage_m.h"
 
-simple ZigzagProtocol extends CommunicationProtocolBase
-{
-    parameters:
-        @class(ZigzagProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
-        double timeoutDuration @unit(s) = default(3s);
-}
+namespace projeto {
+
+class SimpleGroundProtocol: public CommunicationProtocolBase {
+    protected:
+        int content = 0;
+    protected:
+        virtual void initialize(int stage) override;
+        virtual void handlePacket(Packet *pk) override;
+};
+
+} /* namespace projeto */
+
+#endif /* COMMUNICATION_PROTOCOLS_GROUND_SIMPLEDRONEPROTOCOL_H_ */

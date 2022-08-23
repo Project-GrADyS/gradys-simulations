@@ -13,13 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package projeto.communication.protocols.ground;
+package projeto.protocols.base;
 
-import projeto.communication.protocols.base.CommunicationProtocolBase;
-
-simple SimpleGroundProtocol extends CommunicationProtocolBase
-{
-    parameters:
-        @class(SimpleGroundProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+// Base implementation for the protocol classes
+moduleinterface IProtocol {
+    gates:
+        inout mobilityGate[];
+        inout communicationGate[];
+    
 }

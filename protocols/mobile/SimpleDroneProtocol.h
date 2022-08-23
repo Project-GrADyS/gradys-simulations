@@ -18,7 +18,7 @@
 
 #include <omnetpp.h>
 #include "../base/CommunicationProtocolBase.h"
-#include "../../messages/network/SimpleMessage_m.h"
+#include "../messages/network/SimpleMessage_m.h"
 
 namespace projeto {
 
