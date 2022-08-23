@@ -425,7 +425,20 @@ void DroneMobility::fly() {
     if(lastPosition.x != coordTarget.x || lastPosition.y != coordTarget.y) {
         // Setting the waypoint index for VehicleMobility::move()
         targetPointIndex = droneStatus.targetIndex;
-        VehicleMobility::move();
+        Waypoint target = waypoints[targetPointIndex];
+
+        /** 2D move **/
+        double dx = target.x - lastPosition.x;
+        double dy = target.y - lastPosition.y;
+
+        heading = atan2(dy, dx) / M_PI * 180;
+        double timeStep = (simTime() - lastUpdate).dbl();
+
+        Coord tempSpeed = Coord(cos(M_PI * heading / 180), sin(M_PI * heading / 180)) * speed;
+        Coord tempPosition = lastPosition + tempSpeed * timeStep;
+
+        lastVelocity = tempPosition - lastPosition;
+        lastPosition = tempPosition;
 
         // Checks if we have overshot the waypoint on the x axis
         if (checkIfOvershoots(previousPosition.x, target.x, lastPosition.x)) {
@@ -438,10 +451,6 @@ void DroneMobility::fly() {
             lastVelocity = lastPosition - previousPosition;
         }
     }
-
-    // Restoring height, reset by VehicleMobility::move()
-    lastPosition.z = previousPosition.z;
-    lastVelocity.z = previousVelocity.z;
 
     if(lastPosition.z != coordTarget.z) {
         DroneMobility::climb(target.timestamp);
