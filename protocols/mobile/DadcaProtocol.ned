@@ -22,5 +22,6 @@ simple DadcaProtocol extends CommunicationProtocolBase
     parameters:
         @class(DadcaProtocol);
         @signal[dataLoad](type=long);
+        @statistic[dataLoad](record=vector,last); // Declaration of dataLoad signal used to track current data load that the drone is carrying
         double timeoutDuration @unit(s) = default(3s);
 }
