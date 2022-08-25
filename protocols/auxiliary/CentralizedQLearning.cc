@@ -32,7 +32,7 @@ void incorporateHash(std::size_t& hash,unsigned int value) {
     hash ^= value + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 }
 
-std::size_t hash_vector(const std::vector<unsigned int>& vector) {
+std::size_t hashVector(const std::vector<unsigned int>& vector) {
   std::size_t seed = vector.size();
   for(auto value : vector) {
     hashValue(value);
@@ -57,7 +57,6 @@ void CentralizedQLearning::initialize(int stage)
         epsilon = 1;
     }
     if(stage == 1) {
-        populatePossibleCommands();
         scheduleAt(simTime() + timeInterval, trainingTimer);
     }
 }
@@ -83,12 +82,14 @@ void CentralizedQLearning::handleMessage(cMessage *msg)
     }
 }
 
-void CentralizedQLearning::registerAgent(CentralizedQAgent *agent) {
+int CentralizedQLearning::registerAgent(CentralizedQAgent *agent) {
     agents.push_back(agent);
+    return agents.size() - 1;
 }
 
-void CentralizedQLearning::registerSensor(CentralizedQSensor *sensor) {
+int CentralizedQLearning::registerSensor(CentralizedQSensor *sensor) {
     sensors.push_back(sensor);
+    return sensors.size() - 1;
 }
 
 void CentralizedQLearning::trainIfReady() {
@@ -108,67 +109,83 @@ void CentralizedQLearning::trainIfReady() {
 
 void CentralizedQLearning::train() {
     /****** Collecting current global state ******/
-    GlobalState X = {};
+    GlobalState newState = {};
     for(CentralizedQAgent* agent : agents) {
-        X.push_back(agent->getAgentState());
+        LocalState state = agent->getAgentState();
+
+        // Rounding location to the first increment of distance interval
+        state.first = distanceInterval * std::round(state.first / distanceInterval);
+        newState.push_back(state);
     }
     /*********************************************/
 
-    /****** Computing current optimal command ******/
-    JointCommand U = {};
-    int index = 0;
-    // If a random variable falls under epsilon, we generate a random command
-    if(uniform(0, 1) > epsilon) {
-        for(CentralizedQAgent* agent : agents) {
-            // Generating a valid random command
-            LocalCommand command = generateRandomCommand(index);
+    if(trainState == DECISION) {
+        X = newState;
+        /****** Computing current optimal (or random) command ******/
+        // If a random variable falls under epsilon, we generate a random command
+        if(uniform(0, 1) > epsilon) {
+            U = generateRandomJointControl();
+        // Else we pick the command with the minimum Q-Value for the current state
+        } else {
+            JointControl optimalControl = {};
+            double bestQValue = std::numeric_limits<double>::infinity();
+            bool controlFound = false;
 
-            U.push_back(command);
-            index++;
+
+            if(optimalControlMap.count(X) == 0) {
+                U = generateRandomJointControl();
+            }
+            U = optimalControlMap[X];
         }
-    // Else we pick the command with the minimum Q-Value for the current state
+        /***********************************************/
+
+        dispatchJointCommand();
+        trainState = LEARNING;
     } else {
-        JointCommand bestCommand = {};
-        double bestQValue = std::numeric_limits<double>::infinity();
-        bool commandFound = false;
+        // Computing cost
+        double cost = computeCost(X);
+        // Emitting current training cost for data collection
+        emit(trainingCostSignal, cost);
 
-        for(const JointCommand& Ucandidate : possibleCommandList) {
-            QTableKey key = {X, Ucandidate};
+        /****** Updating Q Table *****/
+        // Key that will be updated
+        QTableKey key = {X, U};
+        // Previous value held by that key
+        double previousQValue = (QTable.count(key) == 0) ? 0 : QTable[key];
 
-            if(qTable.count(key) == 0) {
-                continue;
-            }
+        // Optimal control for the next state
+        // If the optimal control map doesn't have a optimal control stored for this new state, it means that the QTable row for this state
+        // has no values. In that case we generate a random joint control.
+        JointControl nextOptimalControl = (optimalControlMap.count(newState) == 0) ? generateRandomJointControl() : optimalControlMap[newState];
 
-            double qValue = qTable[key];
-            if(qValue < bestQValue) {
-                bestQValue = qValue;
-                bestCommand = Ucandidate;
-                commandFound = true;
-            }
+        // Getting the Q Value for the next stage
+        QTableKey nextKey = {newState, nextOptimalControl};
+        double nextStateQValue = (QTable.count(nextKey) == 0) ? 0 : QTable[nextKey];
+
+        // Calculating the new QValue and updating the QTable
+        double QValue = (1 - learningRate) * previousQValue + learningRate * (cost + gamma * nextStateQValue);
+        QTable[key] = QValue;
+
+        // Updating the optimal control map
+        if(optimalControlMap.count(X) == 0 || QValue < QTable[{X, optimalControlMap[X]}]) {
+            optimalControlMap[X] = U;
         }
-        if(!commandFound) {
-            for(CentralizedQAgent* agent : agents) {
-               // Generating a valid random command
-               LocalCommand command = generateRandomCommand(index);
+        /*****************************/
 
-               U.push_back(command);
-               index++;
-           }
-        }
-        U = bestCommand;
+        // Decaying the epsilon after training step
+        epsilon -= epsilon * epsilonDecay;
+
+        trainState = DECISION;
+    }
+    scheduleAt(simTime() + trainingTimeout, timeout);
+}
+
+void CentralizedQLearning::dispatchJointCommand() {
+    int index = 0;
+    for(CentralizedQAgent* agent : agents) {
+        agent->applyCommand(U[index]);
         index++;
     }
-    /***********************************************/
-
-    double cost = computeCost(X);
-
-
-    // Decaying the epsilon after training step
-    epsilon -= epsilon * epsilonDecay;
-
-    // Emitting current training cost for data collection
-    emit(trainingCostSignal, cost);
-    scheduleAt(simTime() + trainingTimeout, timeout);
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& X) {
@@ -178,59 +195,34 @@ double CentralizedQLearning::computeCost(const GlobalState& X) {
             cost += sensor->getAwaitingPackages() * (*std::max_element(state.second.begin(), state.second.end()));
         }
     }
+    return cost;
 }
 
-bool CentralizedQLearning::commandIsValid(const LocalCommand& command, unsigned int agent) {
+bool CentralizedQLearning::commandIsValid(const LocalControl& command, unsigned int agent) {
     return command.second != agent;
 }
 
-LocalCommand CentralizedQLearning::generateRandomCommand(unsigned int agent) {
-    LocalCommand command;
+LocalControl CentralizedQLearning::generateRandomLocalControl(unsigned int agent) {
+    LocalControl command;
     do {
-        command = LocalCommand(intuniform(0, 1), intuniform(0, agents.size() - 1));
+        command = LocalControl(intuniform(0, 1), intuniform(0, agents.size() - 1));
     } while(commandIsValid(command, agent));
     return command;
 }
 
-void CentralizedQLearning::generateJointCommand(std::vector<LocalCommand> possibleLocalCommands, JointCommand commandChain) {
-    if(commandChain.size() == agents.size()) {
-        possibleCommandList.push_back(commandChain);
-    }
+JointControl CentralizedQLearning::generateRandomJointControl() {
+    JointControl U = {};
+    int index = 0;
+    for(CentralizedQAgent* agent : agents) {
+       // Generating a valid random command
+       LocalControl command = generateRandomLocalControl(index);
+
+       U.push_back(command);
+       index++;
+   }
+    return U;
 }
 
-void CentralizedQLearning::populatePossibleCommands() {
-    std::vector<LocalCommand> possibleLocalCommands = {};
-    for(unsigned char movement = 0; movement <= 1; movement++) {
-        for(unsigned char sharing = 0; sharing <= agents.size(); sharing++) {
-            possibleLocalCommands.push_back(LocalCommand(movement, sharing));
-        }
-    }
-
-    std::deque<JointCommand> commandChains;
-
-    for(const LocalCommand& command : possibleLocalCommands) {
-        commandChains.push_back({command});
-    }
-
-    int size = 1;
-    while(size < agents.size()) {
-        JointCommand back = commandChains.back();
-        for(const JointCommand& chain : commandChains) {
-            for(const LocalCommand& command : possibleLocalCommands) {
-                JointCommand newChain = JointCommand(chain);
-                newChain.push_back(command);
-                commandChains.push_back(newChain);
-            }
-            commandChains.pop_front();
-            if(chain == back) break;
-        }
-        size++;
-    }
-
-    for(const JointCommand& command : commandChains) {
-        possibleCommandList.push_back(command);
-    }
-}
 
 CentralizedQLearning::~CentralizedQLearning() {
     cancelAndDelete(trainingTimer);

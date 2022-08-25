@@ -47,7 +47,7 @@ class UdpBasicAppMobileNode : public ApplicationBase, public UdpSocket::ICallbac
 
     // chooses random destination address
     virtual L3Address chooseDestAddr();
-    virtual void sendPacket();
+    virtual void sendPacket(const FieldsChunk* payload = nullptr, char *target = nullptr);
     virtual void processPacket(Packet *msg);
     virtual void setSocketOptions();
 

@@ -19,14 +19,12 @@
 #include <omnetpp.h>
 #include "../base/CommunicationProtocolBase.h"
 #include "../auxiliary/CentralizedQLearning.h"
-#include "../messages/network/DadcaMessage_m.h"
+#include "../messages/internal/Telemetry_m.h"
 #include "inet/common/geometry/common/Coord.h"
 
 using namespace omnetpp;
 
 namespace projeto {
-
-enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_FINISHED=4 };
 
 /*
  * CentralizedQProtocol implements a protocol that recieves and sends DadcaMessages to simulate a
@@ -35,59 +33,38 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
  */
 class CentralizedQProtocol : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQAgent
 {
-    protected:
-        simtime_t timeoutDuration;
+public:
+    // Gets the agent's current state
+    const LocalState& getAgentState() { return currentState; }
 
-        // DADCA variables
-        // Current tour recieved from telemetry
-        std::vector<Coord> tour;
+    // Applies a command to the agent
+    virtual void applyCommand(const LocalControl& command);
 
-        int leftNeighbours = 0;
-        int rightNeighbours = 0;
+    bool isReady() { return hasCompletedCommand; }
 
-        // Communication status variable
-        CommunicationStatus communicationStatus = FREE;
+protected:
+    CentralizedQLearning* learning;
 
+    int agentId;
+    bool hasCompletedCommand;
+    LocalState currentState = {};
+    Telemetry lastTelemetry;
 
-        // Current target
-        int tentativeTarget = -1;
-        // Previous target
-        int lastTarget = -1;
-        // Name of the current target (for addressing purposes)
-        std::string tentativeTargetName;
+    std::vector<Coord> tour;
+    std::vector<double> tourPercentages;
 
-        // Current imaginary data being carried
-        int currentDataLoad=0;
-        // Stable data load to prevent data loss during pairing
-        int stableDataLoad=currentDataLoad;
+protected:
+    virtual void initialize(int stage) override;
 
-        // Last telemetry package recieved
-        Telemetry currentTelemetry = Telemetry();
-        Telemetry lastStableTelemetry = Telemetry();
+    // Saves telemetry recieved by mobility
+    virtual void handleTelemetry(Telemetry *telemetry) override;
 
-        DadcaMessage lastPayload = DadcaMessage();
+    // Reacts to message recieved and updates payload accordingly
+    virtual void handlePacket(Packet *pk) override;
 
-    protected:
-        virtual void initialize(int stage) override;
-
-        // Saves telemetry recieved by mobility
-        virtual void handleTelemetry(projeto::Telemetry *telemetry) override;
-        // Reacts to message recieved and updates payload accordingly
-        virtual void handlePacket(Packet *pk) override;
-        // Checks if timeout has finished and resets parameters if it has
-        virtual bool isTimedout() override;
-        // Resets parameters
-        virtual void resetParameters();
-    private:
-        // Sends sequence of orders that defines a rendevouz point, navigates
-        // to it and reverses
-        virtual void rendevouz();
-
-        // Updates payload that communication will send
-        virtual void updatePayload();
-        virtual void setTarget(const char *target);
-    public:
-        simsignal_t dataLoadSignalID;
+    virtual void communicate(const LocalControl& control);
+public:
+    simsignal_t dataLoadSignalID;
 };
 
 } //namespace

@@ -678,6 +678,9 @@ void DroneMobility::sendTelemetry(bool sendTour) {
     if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
         message->setLastWaypointID(instructions[droneStatus.lastInstructionIndex].waypointIndex);
     }
+    message->setCurrentX(lastPosition.x);
+    message->setCurrentY(lastPosition.y);
+    message->setCurrentZ(lastPosition.z);
     message->setCurrentCommand(droneStatus.currentCommand);
     message->setDroneActivity(droneStatus.currentActivity);
 

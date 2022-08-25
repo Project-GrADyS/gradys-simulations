@@ -66,6 +66,9 @@ void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
                 delete messagePayload;
                 break;
             }
+            default: {
+                break;
+            }
         }
 
         if(socket.isOpen() && targetName && payloadTemplate) {

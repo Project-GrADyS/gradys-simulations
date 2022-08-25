@@ -56,6 +56,7 @@ void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
             case SET_TARGET:
             {
                 targetName = strdup(command->getTarget());
+                sendPacket();
                 break;
             }
             case SET_PAYLOAD:
@@ -68,12 +69,14 @@ void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
                     payloadTemplate = (FieldsChunk*) messagePayload->dup();
                 }
                 delete messagePayload;
+                sendPacket();
                 break;
             }
+            case SEND_MESSAGE:
+                sendPacket(command->getPayloadTemplate(), strdup(command->getTarget()));
+                break;
         }
-        if(socket.isOpen()) {
-            sendPacket();
-        }
+
         cancelAndDelete(msg);
     }
     else {
@@ -82,21 +85,32 @@ void UdpMobileNodeCommunicationApp::handleMessageWhenUp(cMessage *msg) {
 }
 
 
-void UdpMobileNodeCommunicationApp::sendPacket() {
+void UdpMobileNodeCommunicationApp::sendPacket(const FieldsChunk* payload, char *target) {
+    if(!socket.isOpen()) {
+        return;
+    }
+
+    if(payload == nullptr) {
+        payload = payloadTemplate;
+    }
+    if(target == nullptr) {
+        target = targetName;
+    }
+
     /*Default package setup*/
     Packet *packet = new Packet("DroneMessage");
     if(dontFragment)
         packet->addTag<FragmentationReq>()->setDontFragment(true);
     packet->setName(this->getParentModule()->getFullName());
 
-    if(payloadTemplate != nullptr) {
-        packet->insertAtBack(payloadTemplate->dupShared());
+    if(payload != nullptr) {
+        packet->insertAtBack(payload->dupShared());
 
 
         L3Address destAddr;
-        if(targetName != nullptr && strlen(targetName)  > 0) {
+        if(target != nullptr && strlen(target)  > 0) {
             // Else sends message to the specific target
-            L3AddressResolver().tryResolve(targetName, destAddr);
+            L3AddressResolver().tryResolve(target, destAddr);
         } else {
             // No specific target means the message should go to the multicast address
             destAddr = Ipv4Address("224.0.0.9");

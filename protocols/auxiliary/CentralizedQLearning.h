@@ -24,23 +24,22 @@ using namespace omnetpp;
 
 namespace projeto {
 
-
 // This is the command set local an agent. It is composed of a mobility component
 // and a communication component.
-using LocalCommand = std::pair<unsigned char, unsigned char>;
+using LocalControl = std::pair<unsigned char, unsigned char>;
 
 // This is the system1s joint command, composed of all the agent's local commands.
-using JointCommand = std::vector<LocalCommand>;
+using JointControl = std::vector<LocalControl>;
 
 // This is the state local to an agent, it is composed of a localization component
 // and a vector recording data stored by this agend and it's origin.
-using LocalState = std::pair<int, std::vector<unsigned int>>;
+using LocalState = std::pair<double, std::vector<unsigned int>>;
 
 // This is the system's global state, composed of all the agent's local states
 using GlobalState = std::vector<LocalState>;
 
 // This is the key used to index into the Q Table
-using QTableKey = std::pair<GlobalState, JointCommand>;
+using QTableKey = std::pair<GlobalState, JointControl>;
 
 /****** QTableKey hashing ******/
 
@@ -50,8 +49,21 @@ void hashValue(unsigned int &value);
 // https://stackoverflow.com/a/72073933
 void incorporateHash(std::size_t& hash,unsigned int value);
 
-std::size_t hash_vector(const std::vector<unsigned int>& vector);
+std::size_t hashVector(const std::vector<unsigned int>& vector);
 
+struct GlobalStateHash {
+public:
+    GlobalStateHash();
+    std::size_t operator() (const GlobalState& key) const {
+        std::size_t hash = key.size();
+        for(const LocalState& state : key) {
+            unsigned int value = hashVector(state.second);
+            hashValue(value);
+            incorporateHash(hash, value);
+        }
+        return hash;
+    }
+};
 
 struct QTableKeyHash {
 public:
@@ -60,12 +72,12 @@ public:
         std::size_t hash = key.first.size() + key.second.size();
         // https://stackoverflow.com/a/72073933
         for(const LocalState& state : key.first) {
-            unsigned int value = hash_vector(state.second);
+            unsigned int value = hashVector(state.second);
             hashValue(value);
             incorporateHash(hash, value);
         }
 
-        for(const LocalCommand& command : key.second) {
+        for(const LocalControl& command : key.second) {
             unsigned int value = command.first ^ command.second;
             hashValue(value);
             incorporateHash(hash, value);
@@ -82,6 +94,11 @@ enum CentralizedQLearningMessages {
     TRAIN_TIMEOUT
 };
 
+enum CentralizedQLearningState {
+    DECISION,
+    LEARNING
+};
+
 class CentralizedQLearning : public cSimpleModule
 {
 public:
@@ -92,7 +109,7 @@ public:
         virtual const LocalState& getAgentState();
 
         // Applies a command to the agent
-        virtual void applyCommand(const LocalCommand& command);
+        virtual void applyCommand(const LocalControl& command);
 
         // Determines if an agent has already applied the last commant it received
         virtual bool isReady();
@@ -105,10 +122,12 @@ public:
     };
 
     // Registers the centralized agent "agent"
-    virtual void registerAgent(CentralizedQAgent *agent);
+    virtual int registerAgent(CentralizedQAgent *agent);
+    int agentCount() { return agents.size(); }
 
     // Registers a centralized sensor "sensor"
-    virtual void registerSensor(CentralizedQSensor *sensor);
+    virtual int registerSensor(CentralizedQSensor *sensor);
+    int sensorCount() { return sensors.size(); }
 
 
 protected:
@@ -119,11 +138,13 @@ protected:
     // Training functions
     virtual void trainIfReady();
     virtual void train();
+    virtual void dispatchJointCommand();
     virtual double computeCost(const GlobalState& X);
 
     // Helpers
-    virtual bool commandIsValid(const LocalCommand& command, unsigned int agent);
-    virtual LocalCommand generateRandomCommand(unsigned int agent);
+    virtual bool commandIsValid(const LocalControl& command, unsigned int agent);
+    virtual LocalControl generateRandomLocalControl(unsigned int agent);
+    virtual JointControl generateRandomJointControl();
 
     // Destructor
     virtual ~CentralizedQLearning();
@@ -150,11 +171,19 @@ protected:
     double distanceInterval;
 
     // Training variables
+    // Current state of the traninig process. The traninign process has two states:
+    // 1- DECISION: For the current state an optimal (or random) joint command will be calculated and dispatched to the agents
+    // 2- LEARNING: The results from the decision will be observed in the state and an optimization step will take place
+    CentralizedQLearningState trainState = DECISION;
+    // Current global state
+    GlobalState X = {};
+    // Current joint command
+    JointControl U = {};
     double epsilon = 1;
-    std::unordered_map<std::pair<GlobalState, JointCommand>, double, QTableKeyHash> qTable = {};
+    std::unordered_map<std::pair<GlobalState, JointControl>, double, QTableKeyHash> QTable = {};
     // This is an auxiliary vector that contains the optimal joint command for every global state.
     // This severely reduces the computation cost of find the JointCommand argmin for a specific state on the QTable.
-    std::unordered_map<GlobalState, const JointCommand&> optimalCommandVector = {};
+    std::unordered_map<GlobalState, JointControl, GlobalStateHash> optimalControlMap = {};
 
     // Helper variables
     // Variables for debugging and data collection

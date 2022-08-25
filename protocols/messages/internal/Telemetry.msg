@@ -30,6 +30,12 @@ message Telemetry {
     int nextWaypointID=-1;
     int lastWaypointID=-1;
     int currentCommand=-1;
+    double currentX;
+    double currentY;
+    double currentZ;
+    double currentLat;
+    double currentLon;
+    double currentAlt;
     bool isReversed=false;
     DroneActivity droneActivity;
 }

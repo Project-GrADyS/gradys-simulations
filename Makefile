@@ -68,6 +68,7 @@ OBJS = \
     $O/protocols/messages/internal/CommunicationCommand_m.o \
     $O/protocols/messages/internal/MobilityCommand_m.o \
     $O/protocols/messages/internal/Telemetry_m.o \
+    $O/protocols/messages/network/CentralizedQMessage_m.o \
     $O/protocols/messages/network/DadcaMessage_m.o \
     $O/protocols/messages/network/SimpleMessage_m.o \
     $O/protocols/messages/network/ZigzagMessage_m.o
@@ -79,6 +80,7 @@ MSGFILES = \
     protocols/messages/internal/CommunicationCommand.msg \
     protocols/messages/internal/MobilityCommand.msg \
     protocols/messages/internal/Telemetry.msg \
+    protocols/messages/network/CentralizedQMessage.msg \
     protocols/messages/network/DadcaMessage.msg \
     protocols/messages/network/SimpleMessage.msg \
     protocols/messages/network/ZigzagMessage.msg
