@@ -363,6 +363,7 @@ void DroneMobility::move() {
             }
         }
     }
+    sendTelemetry();
 }
 
 bool checkIfOvershoots(double origin, double target, double current) {
@@ -672,7 +673,7 @@ void DroneMobility::executeCommand() {
 // If sendTour is true attaches tour to the message
 void DroneMobility::sendTelemetry(bool sendTour) {
     Enter_Method_Silent("sendTelemetry(%d)", 0);
-    Telemetry *message = new Telemetry("Telemetry", 0);
+    Telemetry *message = new Telemetry();
     message->setIsReversed(droneStatus.isReversed);
     message->setNextWaypointID(instructions[currentInstructionIndex].waypointIndex);
     if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
