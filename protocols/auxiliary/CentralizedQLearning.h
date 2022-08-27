@@ -22,8 +22,6 @@
 
 using namespace omnetpp;
 
-namespace projeto {
-
 // This is the command set local an agent. It is composed of a mobility component
 // and a communication component.
 using LocalControl = std::pair<unsigned char, unsigned char>;
@@ -41,52 +39,28 @@ using GlobalState = std::vector<LocalState>;
 // This is the key used to index into the Q Table
 using QTableKey = std::pair<GlobalState, JointControl>;
 
+namespace projeto {
+
 /****** QTableKey hashing ******/
 
 // https://stackoverflow.com/a/72073933
-void hashValue(unsigned int &value);
+extern void hashValue(unsigned int &value);
 
 // https://stackoverflow.com/a/72073933
-void incorporateHash(std::size_t& hash,unsigned int value);
+extern void incorporateHash(std::size_t& hash,unsigned int value);
 
-std::size_t hashVector(const std::vector<unsigned int>& vector);
+extern std::size_t hashVector(const std::vector<unsigned int>& vector);
 
-struct GlobalStateHash {
+class GlobalStateHash {
 public:
-    GlobalStateHash();
-    std::size_t operator() (const GlobalState& key) const {
-        std::size_t hash = key.size();
-        for(const LocalState& state : key) {
-            unsigned int value = hashVector(state.second);
-            hashValue(value);
-            incorporateHash(hash, value);
-        }
-        return hash;
-    }
+    virtual std::size_t operator() (const GlobalState& key) const;
 };
 
-struct QTableKeyHash {
+class QTableKeyHash {
 public:
-    QTableKeyHash();
-    std::size_t operator() (const QTableKey& key) const {
-        std::size_t hash = key.first.size() + key.second.size();
-        // https://stackoverflow.com/a/72073933
-        for(const LocalState& state : key.first) {
-            unsigned int value = hashVector(state.second);
-            hashValue(value);
-            incorporateHash(hash, value);
-        }
-
-        for(const LocalControl& command : key.second) {
-            unsigned int value = command.first ^ command.second;
-            hashValue(value);
-            incorporateHash(hash, value);
-        }
-        return hash;
-    }
+    virtual std::size_t operator() (const QTableKey& key) const;
 };
 
-/*******************************/
 
 // Message types used for timing the module's execution
 enum CentralizedQLearningMessages {
@@ -106,20 +80,24 @@ public:
     class CentralizedQAgent {
     public:
         // Gets the agent's current state
-        virtual const LocalState& getAgentState();
+        virtual const LocalState& getAgentState() = 0;
 
         // Applies a command to the agent
-        virtual void applyCommand(const LocalControl& command);
+        virtual void applyCommand(const LocalControl& command) = 0;
 
         // Determines if an agent has already applied the last commant it received
-        virtual bool isReady();
+        virtual bool isReady() = 0;
 
     };
+
 
     class CentralizedQSensor {
     public:
-        virtual int getAwaitingPackages();
+        virtual int getAwaitingPackages() = 0;
     };
+
+
+public:
 
     // Registers the centralized agent "agent"
     virtual int registerAgent(CentralizedQAgent *agent);
@@ -133,6 +111,7 @@ public:
 protected:
     // OMNeT++ functions
     virtual void initialize(int stage) override;
+    virtual int numInitStages() const override { return 2; };
     virtual void handleMessage(cMessage *msg) override;
 
     // Training functions

@@ -59,6 +59,7 @@ OBJS = \
     $O/protocols/mobile/DadcaProtocol.o \
     $O/protocols/mobile/SimpleDroneProtocol.o \
     $O/protocols/mobile/ZigzagProtocol.o \
+    $O/protocols/sensor/CentralizedQProtocolSensor.o \
     $O/protocols/sensor/DadcaProtocolSensor.o \
     $O/protocols/sensor/SimpleSensorProtocol.o \
     $O/protocols/sensor/ZigzagProtocolSensor.o \

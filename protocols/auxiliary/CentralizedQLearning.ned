@@ -15,9 +15,6 @@
 
 package projeto.protocols.auxiliary;
 
-//
-// TODO auto-generated module
-//
 simple CentralizedQLearning
 {
     parameters:
@@ -28,7 +25,7 @@ simple CentralizedQLearning
         // HyperParameters for the Centralized Q-Learning algorithm
         double learningRate = default(0.1);
         double gamma = default(0.99);
-        double epsilon_decay = default(0.01);
+        double epsilonDecay = default(0.01);
         
         // Parameters for the simulated scenario
         double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifieshe interval between 

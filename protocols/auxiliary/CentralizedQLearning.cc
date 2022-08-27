@@ -41,13 +41,39 @@ std::size_t hashVector(const std::vector<unsigned int>& vector) {
   return seed;
 }
 
+std::size_t GlobalStateHash::operator()(const GlobalState& key) const {
+   std::size_t hash = key.size();
+   for(const LocalState& state : key) {
+       unsigned int value = hashVector(state.second) ^ static_cast<std::size_t>(state.first);
+       hashValue(value);
+       incorporateHash(hash, value);
+   }
+   return hash;
+}
+
+std::size_t QTableKeyHash::operator()(const QTableKey& key) const {
+   std::size_t hash = key.first.size() + key.second.size();
+   // https://stackoverflow.com/a/72073933
+   for(const LocalState& state : key.first) {
+       unsigned int value = hashVector(state.second);
+       hashValue(value);
+       incorporateHash(hash, value);
+   }
+
+   for(const LocalControl& command : key.second) {
+       unsigned int value = command.first ^ command.second;
+       hashValue(value);
+       incorporateHash(hash, value);
+   }
+   return hash;
+}
 
 void CentralizedQLearning::initialize(int stage)
 {
     if(stage == 0) {
         learningRate = par("learningRate");
         gamma = par("gamma");
-        epsilonDecay = par("episilon_decay");
+        epsilonDecay = par("epsilonDecay");
 
         timeInterval =  par("timeInterval");
         trainingTimeout = par("trainingTimeout");
@@ -55,6 +81,8 @@ void CentralizedQLearning::initialize(int stage)
 
         // Epsilon starts with a value of 1 and will slowly decay during training
         epsilon = 1;
+
+        WATCH(epsilon);
     }
     if(stage == 1) {
         scheduleAt(simTime() + timeInterval, trainingTimer);
@@ -123,14 +151,11 @@ void CentralizedQLearning::train() {
         X = newState;
         /****** Computing current optimal (or random) command ******/
         // If a random variable falls under epsilon, we generate a random command
-        if(uniform(0, 1) > epsilon) {
+        if(uniform(0, 1) < epsilon) {
             U = generateRandomJointControl();
         // Else we pick the command with the minimum Q-Value for the current state
         } else {
             JointControl optimalControl = {};
-            double bestQValue = std::numeric_limits<double>::infinity();
-            bool controlFound = false;
-
 
             if(optimalControlMap.count(X) == 0) {
                 U = generateRandomJointControl();
@@ -176,6 +201,9 @@ void CentralizedQLearning::train() {
         epsilon -= epsilon * epsilonDecay;
 
         trainState = DECISION;
+    }
+    if(timeout->isScheduled()) {
+        cancelEvent(timeout);
     }
     scheduleAt(simTime() + trainingTimeout, timeout);
 }

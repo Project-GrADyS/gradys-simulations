@@ -23,7 +23,7 @@ class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
     protected:
         virtual void initialize(int stage) override;
         virtual void setSocketOptions() override;
-        virtual void sendPacket(const FieldsChunk* payload = nullptr, char *target = nullptr) override;
+        virtual void sendPacket(const FieldsChunk* payload = nullptr, char *target = nullptr);
         virtual void processPacket(Packet *pk) override;
         virtual void handleMessageWhenUp(cMessage *msg) override;
 };

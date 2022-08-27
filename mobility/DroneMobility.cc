@@ -20,14 +20,16 @@ Define_Module(DroneMobility);
 
 void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
-    verticalSpeed = par("verticalSpeed");
-    startTime = par("startTime");
-    droneStatus.currentYawSpeed = par("yawSpeed");
+    if(stage == 0) {
+        verticalSpeed = par("verticalSpeed");
+        startTime = par("startTime");
+        droneStatus.currentYawSpeed = par("yawSpeed");
 
-    homeLatitude = par("homeLatitude");
-    homeLongitude = par("homeLongitude");
+        homeLatitude = par("homeLatitude");
+        homeLongitude = par("homeLongitude");
 
-    sendTelemetry(true);
+        sendTelemetry(true);
+    }
 }
 
 void DroneMobility::setInitialPosition() {
@@ -109,7 +111,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
         else if (readInstruction.command == Command::TAKEOFF) {
             double z = stod(lineVector[10]);
 
-            createWaypoint(0, 0, z, nullptr);
+            createWaypoint(homeLatitude, homeLongitude, z, coordinateSystem);
 
             // Set the waypoint index on the instruction
             readInstruction.waypointIndex = waypoints.size() - 1;

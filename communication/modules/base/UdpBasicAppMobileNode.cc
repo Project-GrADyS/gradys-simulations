@@ -113,7 +113,7 @@ L3Address UdpBasicAppMobileNode::chooseDestAddr()
     return destAddresses[k];
 }
 
-void UdpBasicAppMobileNode::sendPacket()
+void UdpBasicAppMobileNode::sendPacket(const FieldsChunk*, char*)
 {
     ///////////////// OMNET++ & INET ////////////////////////
     std::ostringstream str;  //This is THE PA

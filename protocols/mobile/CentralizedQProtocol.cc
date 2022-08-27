@@ -23,8 +23,8 @@
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include "../../applications/mamapp/BMeshPacket_m.h"
-#include "../messages/network/CentralizedQMessage_m.h"
 #include "../messages/internal/CommunicationCommand_m.h"
+#include "../messages/internal/MobilityCommand_m.h"
 #include "CentralizedQProtocol.h"
 
 #include <numeric>
@@ -44,6 +44,13 @@ void CentralizedQProtocol::initialize(int stage)
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         agentId = learning->registerAgent(this);
+
+        WATCH(agentId);
+        WATCH(currentState.first);
+        WATCH_VECTOR(currentState.second);
+
+        WATCH(lastControl.first);
+        WATCH(lastControl.second);
     }
     if(stage == 1) {
         std::vector<unsigned int> emptyVector = {};
@@ -60,14 +67,14 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
         tour = *(std::vector<Coord>*) telemetry->par("tourCoords").pointerValue();
 
         // Pre-computing what fraction of the total tour each coord represents
-        Coord& lastCoord = tour[0];
+        const Coord *lastCoord = &tour[0];
         double currentCoordDistance = 0;
 
         // Starting by computing the cumulative distance at each coord
         for(const Coord& coord : tour) {
-            currentCoordDistance += lastCoord.distance(coord);
+            currentCoordDistance += lastCoord->distance(coord);
             tourPercentages.push_back(currentCoordDistance);
-            lastCoord = coord;
+            lastCoord = &coord;
         }
 
         // Finishing by dividing that cumulative distance by the total distance
@@ -78,6 +85,12 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
 
     }
 
+    // If the UAV hasn't started his path yet, his movement state is 0
+    if(telemetry->getLastWaypointID() == -1) {
+        currentState.first = 0;
+        return;
+    }
+
     // Updating movement component of the global state
     Coord currentWaypoint = tour[telemetry->getLastWaypointID()];
     Coord nextWaypoint = tour[telemetry->getNextWaypointID()];
@@ -86,14 +99,34 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     relativeDistance /= currentWaypoint.distance(nextWaypoint);
     relativeDistance += tourPercentages[telemetry->getLastWaypointID()] * (telemetry->isReversed() ? -1 : 1);
     currentState.first = relativeDistance;
+
+    lastTelemetry = *telemetry;
+}
+
+void CentralizedQProtocol::applyCommand(const LocalControl& control) {
+    Enter_Method_Silent();
+    if(lastTelemetry.getLastWaypointID() == -1) {
+        return;
+    }
+
+    hasCompletedControl = false;
+    if(control.second != 0) {
+        communicate(control.second, UAV, SHARE);
+    }
+
+    if(control.first == 0 && lastTelemetry.isReversed()) {
+        reverse();
+    } else if(control.first == 1 && !lastTelemetry.isReversed()) {
+        reverse();
+    }
+
+    lastControl = control;
 }
 
 void CentralizedQProtocol::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
-
-
-    if(payload != nullptr && (payload->getTargetId == agentId || payload->getTargetId == -1)) {
-        if(payload->getMessageType == INFO) {
+    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1)) {
+        if(payload->getMessageType() == SHARE) {
             // Adding packages to storage after they are received
             int index = payload->getNodeId() + (payload->getNodeType() == SENSOR ? 0 : learning->sensorCount());
             currentState.second[index] += payload->getPacketLoad();
@@ -102,39 +135,52 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             for(unsigned int value : currentState.second) {
                 sum += value;
             }
+
+            communicate(payload->getNodeId(), payload->getNodeType(), ACK);
             emit(dataLoadSignalID, sum);
         } else {
             // Zeroing all package content when an ACK is received
             for(int i=0;i<currentState.second.size();i++) {
                 currentState.second[i] = 0;
             }
+            hasCompletedControl = true;
         }
     }
 }
 
-void CentralizedQProtocol::communicate(const LocalControl& control) {
+void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, MessageType messageType) {
     CentralizedQMessage *payload = new CentralizedQMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    if(control.second == 0 || control.second == agentId) {
+    if(targetAgent == 0 || targetAgent == agentId) {
         return;
     }
 
-    payload->setNodeType(UAV);
-    payload->setMessageType(SHARE);
+    payload->setNodeType(targetType);
+    payload->setMessageType(messageType);
     payload->setNodeId(agentId);
-    payload->setTargetId(control.second);
+    payload->setTargetId(targetAgent);
 
-    double packetLoad = 0;
-    for(int value : currentState.second) {
-        packetLoad += value;
+    if(messageType == MessageType::SHARE) {
+        double packetLoad = 0;
+        for(int value : currentState.second) {
+            packetLoad += value;
+        }
+        payload->setPacketLoad(packetLoad);
     }
-    payload->setPacketLoad(packetLoad);
+
 
     CommunicationCommand *command = new CommunicationCommand();
     command->setCommandType(SEND_MESSAGE);
     command->setTarget("");
     command->setPayloadTemplate(payload);
+    sendCommand(command);
+}
+
+void CentralizedQProtocol::reverse() {
+    MobilityCommand *command = new MobilityCommand();
+    command->setCommandType(REVERSE);
+
     sendCommand(command);
 }
 } //namespace

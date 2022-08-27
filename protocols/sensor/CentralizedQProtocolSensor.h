@@ -13,8 +13,8 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __PROJETO_CentralizedQProtocol_H_
-#define __PROJETO_CentralizedQProtocol_H_
+#ifndef __PROJETO_CentralizedQProtocolSensor_H_
+#define __PROJETO_CentralizedQProtocolSensor_H_
 
 #include <omnetpp.h>
 #include "../base/CommunicationProtocolBase.h"
@@ -27,47 +27,37 @@ using namespace omnetpp;
 
 namespace projeto {
 
-/*
- * CentralizedQProtocol implements a protocol that recieves and sends DadcaMessages to simulate a
- * drone collecting data from sensors and sharing it with other drones. This protocol implements
- * the DADCA protocol.
- */
-class CentralizedQProtocol : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQAgent
+enum CentralizedQProtocolSensorMessages {
+    GENERATE,
+    COMMUNICATE
+};
+
+class CentralizedQProtocolSensor : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQSensor
 {
 public:
     // Gets the agent's current state
-    const LocalState& getAgentState() override { return currentState; };
+    virtual int getAwaitingPackages() override { return awaitingPackages; };
+    virtual void handleMessage(cMessage *msg) override;
 
-    // Applies a command to the agent
-    virtual void applyCommand(const LocalControl& command) override;
 
-    bool isReady() override { return hasCompletedControl; }
 
 protected:
     CentralizedQLearning* learning;
 
-    int agentId;
-    bool hasCompletedControl = true;
-    LocalState currentState = {};
-    LocalControl lastControl = {};
-    Telemetry lastTelemetry;
+    int sensorId;
+    int awaitingPackages = 0;
 
-    std::vector<Coord> tour;
-    std::vector<double> tourPercentages;
+    simtime_t beta;
+    simtime_t messageInterval;
+
+    cMessage *generationMessage = new cMessage(nullptr, GENERATE);
+    cMessage *commMessage = new cMessage(nullptr, COMMUNICATE);
 
 protected:
     virtual void initialize(int stage) override;
-    virtual int numInitStages() const override { return 2; };
-
-    // Saves telemetry recieved by mobility
-    virtual void handleTelemetry(Telemetry *telemetry) override;
 
     // Reacts to message recieved and updates payload accordingly
     virtual void handlePacket(Packet *pk) override;
-
-    virtual void communicate(int targetAgent, NodeType targetType, MessageType messageType);
-
-    virtual void reverse();
 public:
     simsignal_t dataLoadSignalID;
 };
