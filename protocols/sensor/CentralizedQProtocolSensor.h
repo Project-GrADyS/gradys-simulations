@@ -28,8 +28,8 @@ using namespace omnetpp;
 namespace projeto {
 
 enum CentralizedQProtocolSensorMessages {
-    GENERATE,
-    COMMUNICATE
+    GENERATE, // This message times the generation of a new packet
+    COMMUNICATE // This message times the transmission of packages
 };
 
 class CentralizedQProtocolSensor : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQSensor

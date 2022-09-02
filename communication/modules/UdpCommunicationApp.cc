@@ -16,7 +16,7 @@
 // along with this program; if not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "UdpSensorCommunicationApp.h"
+#include "UdpCommunicationApp.h"
 
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
@@ -35,16 +35,19 @@ using namespace inet;
 
 namespace projeto {
 
-Define_Module(UdpSensorCommunicationApp);
+Define_Module(UdpCommunicationApp);
 
+void UdpCommunicationApp::initialize(int stage) {
+    UdpBasicApp::initialize(stage);
+}
 
-void UdpSensorCommunicationApp::setSocketOptions() {
-    UdpBasicAppMobileSensorNode::setSocketOptions();
+void UdpCommunicationApp::setSocketOptions() {
+    UdpBasicApp::setSocketOptions();
     // Joining multicast group used to communicate multicast messages to other drones
     socket.joinMulticastGroup(Ipv4Address("224.0.0.9"));
 }
 
-void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
+void UdpCommunicationApp::handleMessageWhenUp(cMessage *msg) {
     CommunicationCommand *command = dynamic_cast<CommunicationCommand *>(msg);
 
     if(command != nullptr) {
@@ -52,6 +55,7 @@ void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
             case SET_TARGET:
             {
                 targetName = strdup(command->getTarget());
+                sendPacket();
                 break;
             }
             case SET_PAYLOAD:
@@ -64,47 +68,64 @@ void UdpSensorCommunicationApp::handleMessageWhenUp(cMessage *msg) {
                     payloadTemplate = (FieldsChunk*) messagePayload->dup();
                 }
                 delete messagePayload;
+                sendPacket();
                 break;
             }
-            default: {
+            case SEND_MESSAGE:
+                sendPacket(command->getPayloadTemplate(), strdup(command->getTarget()));
                 break;
-            }
         }
 
-        if(socket.isOpen() && targetName && payloadTemplate) {
-            sendPacket(targetName);
-        }
         cancelAndDelete(msg);
     }
     else {
-        UdpBasicAppMobileSensorNode::handleMessageWhenUp(msg);
+        UdpBasicApp::handleMessageWhenUp(msg);
     }
 }
 
-void UdpSensorCommunicationApp::sendPacket(char *target) {
+
+void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, char *target) {
+    if(!socket.isOpen()) {
+        return;
+    }
+
+    if(payload == nullptr) {
+        payload = payloadTemplate;
+    }
+    if(target == nullptr) {
+        target = targetName;
+    }
+
     /*Default package setup*/
     Packet *packet = new Packet("DroneMessage");
     if(dontFragment)
         packet->addTag<FragmentationReq>()->setDontFragment(true);
     packet->setName(this->getParentModule()->getFullName());
 
-    if(payloadTemplate != nullptr) {
-        packet->insertAtBack(payloadTemplate->dupShared());
+    if(payload != nullptr) {
+        packet->insertAtBack(payload->dupShared());
 
 
         L3Address destAddr;
-        if(targetName != nullptr && strlen(targetName)  > 0) {
+        if(target != nullptr && strlen(target)  > 0) {
             // Else sends message to the specific target
-            L3AddressResolver().tryResolve(targetName, destAddr);
-
-            emit(packetSentSignal, packet);
-            socket.sendTo(packet, destAddr, destPort);
-            numSent++;
+            L3AddressResolver().tryResolve(target, destAddr);
+        } else {
+            // No specific target means the message should go to the multicast address
+            destAddr = Ipv4Address("224.0.0.9");
         }
+
+        emit(packetSentSignal, packet);
+        socket.sendTo(packet, destAddr, destPort);
+        numSent++;
     }
 }
 
-void UdpSensorCommunicationApp::processPacket(Packet *pk) {
+void UdpCommunicationApp::processPacket(Packet *pk) {
+    const char* name = pk->getFullName();
+    const char* parentName = this->getParentModule()->getFullName();
+
+    const char* str = par("destAddresses").stringValue();
     // Ignore messages not in address list
     if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {
         delete pk;

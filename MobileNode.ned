@@ -12,13 +12,8 @@ import projeto.mobility.failures.base.IFailureGenerator;
 module MobileNode extends AdhocHost
 {
     parameters:
-        int internalMobNodeId = -1;
-        int simulationIndexOfFirstNode = 6;
-        int nodeType = 171;
-        int numFailures = default(0);
-
-
         @class(MobileNode);
+        int numFailures = default(0);
 
     submodules:
         protocol: <default("CommunicationProtocolBase")> like IProtocol {

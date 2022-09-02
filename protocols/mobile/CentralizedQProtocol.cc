@@ -111,13 +111,13 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 
     hasCompletedControl = false;
     if(control.second != 0) {
-        communicate(control.second, UAV, SHARE);
+        //communicate(control.second, UAV, SHARE);
     }
 
     if(control.first == 0 && lastTelemetry.isReversed()) {
-        reverse();
+        //reverse();
     } else if(control.first == 1 && !lastTelemetry.isReversed()) {
-        reverse();
+        //reverse();
     }
 
     lastControl = control;
@@ -125,13 +125,13 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 
 void CentralizedQProtocol::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
-    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1)) {
+    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == UAV) {
         if(payload->getMessageType() == SHARE) {
             // Adding packages to storage after they are received
             int index = payload->getNodeId() + (payload->getNodeType() == SENSOR ? 0 : learning->sensorCount());
             currentState.second[index] += payload->getPacketLoad();
 
-            double sum = 0;
+            long sum = 0;
             for(unsigned int value : currentState.second) {
                 sum += value;
             }
@@ -152,13 +152,14 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
     CentralizedQMessage *payload = new CentralizedQMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    if(targetAgent == 0 || targetAgent == agentId) {
+    if(targetAgent == agentId && targetType == UAV) {
         return;
     }
 
-    payload->setNodeType(targetType);
+    payload->setNodeType(UAV);
     payload->setMessageType(messageType);
     payload->setNodeId(agentId);
+    payload->setTargetNodeType(targetType);
     payload->setTargetId(targetAgent);
 
     if(messageType == MessageType::SHARE) {
@@ -172,8 +173,8 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
 
     CommunicationCommand *command = new CommunicationCommand();
     command->setCommandType(SEND_MESSAGE);
-    command->setTarget("");
     command->setPayloadTemplate(payload);
+    command->setTarget(nullptr);
     sendCommand(command);
 }
 

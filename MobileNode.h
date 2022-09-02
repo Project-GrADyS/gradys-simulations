@@ -32,13 +32,6 @@ namespace projeto {
 class MobileNode : public cModule  {
   protected:
     virtual void initialize() override;
-    virtual void handleMessage(cMessage *msg);
-  public:
-    int processMessage(inet::Packet *msg);
-    string generateNextPacketToSend();
-    int internalMobNodeId = -1;
-    long sentMsgs = -1;
-  //  mobileNodeType myType = missing;
 
 };
 

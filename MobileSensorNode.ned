@@ -16,7 +16,6 @@ module MobileSensorNode extends AdhocHost
   		int internalMobNodeId = -1;
   		int simulationIndexOfFirstNode = 6;
   		
-
      submodules:
   	    protocol: <default("CommunicationProtocolBase")> like IProtocol {
   	    }

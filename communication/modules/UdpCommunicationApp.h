@@ -5,7 +5,7 @@
 
 #include "inet/transportlayer/contract/udp/UdpSocket.h"
 #include "inet/common/packet/chunk/Chunk_m.h"
-#include "base/UdpBasicAppMobileNode.h"
+#include "inet/applications/udpapp/UdpBasicApp.h"
 
 using namespace inet;
 
@@ -13,7 +13,7 @@ namespace projeto {
 
 enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_FINISHED=4 };
 
-class UdpMobileNodeCommunicationApp : public UdpBasicAppMobileNode
+class UdpCommunicationApp : public UdpBasicApp
 {
     protected:
         char *targetName = nullptr;

@@ -18,13 +18,13 @@
 
 package projeto.communication.modules;
 
-import inet.applications.contract.IApp;
-import projeto.communication.modules.base.UdpBasicAppMobileNode;
 
-simple UdpMobileNodeCommunicationApp extends UdpBasicAppMobileNode
+import inet.applications.udpapp.UdpBasicApp;
+
+simple UdpCommunicationApp extends UdpBasicApp
 {
     parameters:
-    	@class(UdpMobileNodeCommunicationApp);
+    	@class(UdpCommunicationApp);
 		
 	gates:
         inout protocolGate;

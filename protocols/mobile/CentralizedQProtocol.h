@@ -41,6 +41,8 @@ public:
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
 
+    // Informs the centralized Q learning module if the module is ready to receive a new
+    // set of commands
     bool isReady() override { return hasCompletedControl; }
 
 protected:

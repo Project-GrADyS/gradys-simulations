@@ -29,9 +29,11 @@ enum MessageType {
 }
 
 class CentralizedQMessage extends inet::FieldsChunk {
-    NodeType nodeType;
-    MessageType messageType;
-    int nodeId;
-    int targetId;
-    int packetLoad;
+    chunkLength = inet::B(15); // Fixed chunk length
+    NodeType nodeType; // Type of the sender node
+    MessageType messageType; // Type of message
+    int nodeId; // Id of the sender node
+    int targetId; // Id of the target node
+    NodeType targetNodeType; // Type of the target node
+    int packetLoad; // Number of packets sent in message
 }

@@ -37,12 +37,7 @@ OBJS = \
     $O/applications/mamapp/MamDataCollectorApp.o \
     $O/applications/mamapp/MamNodeApp.o \
     $O/applications/mamapp/Md5.o \
-    $O/communication/modules/UdpMobileNodeCommunicationApp.o \
-    $O/communication/modules/UdpSensorCommunicationApp.o \
-    $O/communication/modules/base/UdpBasicAppMobileNode.o \
-    $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
-    $O/communication/modules/base/UdpSinkMobileNode.o \
-    $O/communication/modules/base/UdpSinkMobileSensorNode.o \
+    $O/communication/modules/UdpCommunicationApp.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
