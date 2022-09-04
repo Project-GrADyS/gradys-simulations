@@ -11,11 +11,6 @@ import projeto.protocols.base.IProtocol;
 module GroundStation extends AdhocHost
 {   
     parameters:
-  		int internalMobNodeId = -1;
-  		int simulationIndexOfFirstNode = 6;
-  		int nodeType = 171;
-  		
-  		
   		@class(MobileNode);
   	
   	submodules:
