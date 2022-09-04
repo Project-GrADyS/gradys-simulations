@@ -126,7 +126,9 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 void CentralizedQProtocol::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
     if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == UAV) {
-        if(payload->getMessageType() == SHARE) {
+        switch(payload->getMessageType()) {
+        case SHARE:
+        {
             // Adding packages to storage after they are received
             int index = payload->getNodeId() + (payload->getNodeType() == SENSOR ? 0 : learning->sensorCount());
             currentState.second[index] += payload->getPacketLoad();
@@ -138,12 +140,24 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
 
             communicate(payload->getNodeId(), payload->getNodeType(), ACK);
             emit(dataLoadSignalID, sum);
-        } else {
+            break;
+        }
+        case RECEIVE:
+        {
+            communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
+            break;
+        }
+        case ACK:
+        {
             // Zeroing all package content when an ACK is received
             for(int i=0;i<currentState.second.size();i++) {
                 currentState.second[i] = 0;
             }
-            hasCompletedControl = true;
+            if (payload->getNodeType() == UAV) {
+                hasCompletedControl = true;
+            }
+            break;
+        }
         }
     }
 }

@@ -49,6 +49,7 @@ OBJS = \
     $O/pathloss/TwoRayNewModel.o \
     $O/protocols/auxiliary/CentralizedQLearning.o \
     $O/protocols/base/CommunicationProtocolBase.o \
+    $O/protocols/ground/CentralizedQProtocolGround.o \
     $O/protocols/ground/SimpleGroundProtocol.o \
     $O/protocols/mobile/CentralizedQProtocol.o \
     $O/protocols/mobile/DadcaProtocol.o \

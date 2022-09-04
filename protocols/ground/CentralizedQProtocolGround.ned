@@ -13,29 +13,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-import inet.common.packet.chunk.Chunk;
+package projeto.protocols.ground;
 
-namespace projeto;
+import projeto.protocols.base.CommunicationProtocolBase;
 
+simple CentralizedQProtocolGround extends CommunicationProtocolBase
+{
+    parameters:
+        @class(CentralizedQProtocolGround);
+        @signal[dataLoad](type=long);
+        @statistic[dataLoad](record=vector,last);
+        double messageInterval @unit(s) = default(1s);
+        
 
-enum NodeType {
-    UAV=1;
-    SENSOR=2;
-    GROUND=3;
-}
-
-enum MessageType {
-    SHARE=1;
-    ACK=2;
-    RECEIVE=3;
-}
-
-class CentralizedQMessage extends inet::FieldsChunk {
-    chunkLength = inet::B(15); // Fixed chunk length
-    NodeType nodeType; // Type of the sender node
-    MessageType messageType; // Type of message
-    int nodeId; // Id of the sender node
-    int targetId; // Id of the target node
-    NodeType targetNodeType; // Type of the target node
-    int packetLoad; // Number of packets sent in message
 }
