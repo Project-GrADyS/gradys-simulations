@@ -115,9 +115,9 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     }
 
     if(control.first == 0 && lastTelemetry.isReversed()) {
-        //reverse();
+        reverse();
     } else if(control.first == 1 && !lastTelemetry.isReversed()) {
-        //reverse();
+        reverse();
     }
 
     lastControl = control;
