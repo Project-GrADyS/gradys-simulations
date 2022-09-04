@@ -46,14 +46,27 @@ public:
     bool isReady() override { return hasCompletedControl; }
 
 protected:
+    // Reference to the learning module
     CentralizedQLearning* learning;
 
+    // ID of this agent
     int agentId;
+
+    // Variable used to inform the learning module if the last
+    // control received was completed
     bool hasCompletedControl = true;
+
+    // Saving the current state and control
     LocalState currentState = {};
-    LocalControl lastControl = {};
+    LocalControl currentControl = {};
+
+    // Saving the last telemetry received
     Telemetry lastTelemetry;
 
+    // Information about the waypoint mission the UAVs are following. The first variable is a list
+    // of waypoint coordinates and the second variable is a list of numbers representing the fraction
+    // of the total tour that the coordinate in that index represents. This is used to speed up the
+    // computation of the mobility component of the current state
     std::vector<Coord> tour;
     std::vector<double> tourPercentages;
 
@@ -61,14 +74,19 @@ protected:
     virtual void initialize(int stage) override;
     virtual int numInitStages() const override { return 2; };
 
-    // Saves telemetry recieved by mobility
+    // Handles telemetry received by the mobility module and uses it to compute the mobility component
+    // of the current state. The most current telemetry message is saved.
     virtual void handleTelemetry(Telemetry *telemetry) override;
 
-    // Reacts to message recieved and updates payload accordingly
+    // Handles packets received by the communication module. These packet can be from other UAVs, sensors
+    // and the ground station. This function implements the specific behavior triggered by the reception
+    // of these packet types.
     virtual void handlePacket(Packet *pk) override;
 
+    // Helper function that sends a network messages with content specified by the function's parameters
     virtual void communicate(int targetAgent, NodeType targetType, MessageType messageType);
 
+    // Helper function that reverses the course of the UAVs movement
     virtual void reverse();
 public:
     simsignal_t dataLoadSignalID;

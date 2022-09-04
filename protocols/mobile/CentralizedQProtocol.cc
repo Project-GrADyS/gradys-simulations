@@ -49,8 +49,8 @@ void CentralizedQProtocol::initialize(int stage)
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
 
-        WATCH(lastControl.first);
-        WATCH(lastControl.second);
+        WATCH(currentControl.first);
+        WATCH(currentControl.second);
     }
     if(stage == 1) {
         std::vector<unsigned int> emptyVector = {};
@@ -105,28 +105,41 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     Enter_Method_Silent();
+    // Ignores commands if the UAV hasn't started the tour yet. The last waypoint is -1 when the UAV
+    // hasn't reached the first waypoint in the mission yet
     if(lastTelemetry.getLastWaypointID() == -1) {
         return;
     }
 
+    // Sets the completed flag to false to represent the command just received
     hasCompletedControl = false;
+
+    // If the communication component of the control is not zero, tries to communicate with that
+    // agent
     if(control.second != 0) {
-        //communicate(control.second, UAV, SHARE);
+        communicate(control.second, UAV, SHARE);
     }
 
+    // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
+    // already traveling in. In that case, the agent reverses
     if(control.first == 0 && lastTelemetry.isReversed()) {
         reverse();
     } else if(control.first == 1 && !lastTelemetry.isReversed()) {
         reverse();
     }
 
-    lastControl = control;
+    // Saves the received control
+    currentControl = control;
 }
 
 void CentralizedQProtocol::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+
+    // Ignores packages that are not destined for this agent's id (or id -1 which sends messages to every node) or are not destined
+    // to this node's type
     if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == UAV) {
         switch(payload->getMessageType()) {
+        // SHARE packets are handled by adding their contents to the agent's state and sending an ACK message in reply
         case SHARE:
         {
             // Adding packages to storage after they are received
@@ -142,17 +155,22 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             emit(dataLoadSignalID, sum);
             break;
         }
+        // RECEIVE messages are handled by responding to the message with a SHARE message containing the agent's
+        // held data
         case RECEIVE:
         {
             communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
             break;
         }
+        // ACK messages are handled by removing the packets contained in the agent as this message is sent
+        // in response to a SHARE message.
         case ACK:
         {
             // Zeroing all package content when an ACK is received
             for(int i=0;i<currentState.second.size();i++) {
                 currentState.second[i] = 0;
             }
+            emit(dataLoadSignalID, 0);
             if (payload->getNodeType() == UAV) {
                 hasCompletedControl = true;
             }
@@ -163,19 +181,23 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
 }
 
 void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, MessageType messageType) {
-    CentralizedQMessage *payload = new CentralizedQMessage();
-    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
-
+    // Agent refuses to talk to itself
     if(targetAgent == agentId && targetType == UAV) {
         return;
     }
 
+    CentralizedQMessage *payload = new CentralizedQMessage();
+    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
+
+
     payload->setNodeType(UAV);
-    payload->setMessageType(messageType);
     payload->setNodeId(agentId);
+    payload->setMessageType(messageType);
     payload->setTargetNodeType(targetType);
     payload->setTargetId(targetAgent);
 
+    // If the message type is SHARE, include the agent's packet load in the message.
+    // Not including this on other messages saves computation.
     if(messageType == MessageType::SHARE) {
         double packetLoad = 0;
         for(int value : currentState.second) {
