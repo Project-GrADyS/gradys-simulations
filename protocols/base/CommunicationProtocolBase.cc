@@ -21,8 +21,6 @@ Define_Module(CommunicationProtocolBase);
 
 
 void CommunicationProtocolBase::handleMessage(cMessage *msg) {
-    const char* name = msg->getFullName();
-    const char* parentName = this->getParentModule()->getFullName();
     Telemetry *telemetry = dynamic_cast<Telemetry *>(msg);
     if(telemetry != nullptr) {
         handleTelemetry(telemetry);

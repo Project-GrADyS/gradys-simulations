@@ -122,10 +122,6 @@ void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, char *target) {
 }
 
 void UdpCommunicationApp::processPacket(Packet *pk) {
-    const char* name = pk->getFullName();
-    const char* parentName = this->getParentModule()->getFullName();
-
-    const char* str = par("destAddresses").stringValue();
     // Ignore messages not in address list
     if(std::find(destAddressStr.begin(), destAddressStr.end(), std::string(pk->getFullName())) == destAddressStr.end()) {
         delete pk;
