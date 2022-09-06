@@ -30,12 +30,15 @@ namespace projeto {
 class CentralizedQProtocolGround : public CommunicationProtocolBase
 {
 protected:
+    // Packets collected from agents stored in the ground station
     int receivedPackets = 0;
 
 protected:
+    // OMNET++ methods
     virtual void initialize(int stage) override;
 
-    // Reacts to message recieved and updates payload accordingly
+    // Reacts to messages received from the commuication module and reacts
+    // accordingly
     virtual void handlePacket(Packet *pk) override;
 public:
     simsignal_t dataLoadSignalID;

@@ -93,7 +93,7 @@ public:
 
     class CentralizedQSensor {
     public:
-        virtual int getAwaitingPackages() = 0;
+        virtual int getAwaitingPackets() = 0;
     };
 
 

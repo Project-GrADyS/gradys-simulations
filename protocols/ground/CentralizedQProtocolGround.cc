@@ -45,11 +45,14 @@ void CentralizedQProtocolGround::initialize(int stage)
 
 void CentralizedQProtocolGround::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+    // Ignoring messages not destined for a passive node
     if(payload != nullptr && payload->getTargetNodeType() == PASSIVE) {
         switch(payload->getMessageType()) {
+            // The ground station is constantly waiting for agents to be nearby so it can request
+            // the packets they are carrying. When it hears a REQUEST message from one, it sends
+            // a request message back.
             case REQUEST:
             {
-                // Trying to send the currently awaiting packages to any listening sensor
                 CentralizedQMessage *response = new CentralizedQMessage();
                 response->setNodeType(PASSIVE);
                 response->setMessageType(REQUEST);
@@ -64,12 +67,13 @@ void CentralizedQProtocolGround::handlePacket(Packet *pk) {
                 sendCommand(command);
                 break;
             }
+            // When an agent shares it's packet load to the ground station it collet's and saves the data
+            // and responds with an acknowledgment so the agent can discard the sent packets.
             case SHARE:
             {
                 receivedPackets += payload->getPacketLoad();
                 emit(dataLoadSignalID, receivedPackets);
 
-                // Trying to send the currently awaiting packages to any listening sensor
                 CentralizedQMessage *response = new CentralizedQMessage();
                 response->setNodeType(PASSIVE);
                 response->setMessageType(ACK);

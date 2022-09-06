@@ -46,17 +46,23 @@ void CentralizedQProtocolSensor::initialize(int stage)
         sensorId = learning->registerSensor(this);
         beta = par("beta");
 
-        scheduleAt(simTime() + beta, generationMessage);
+        // Scheduling packet generation timer
+        scheduleAt(simTime() + beta, generationTimer);
     }
+}
+
+void CentralizedQProtocolSensor::finish() {
+    cancelAndDelete(generationTimer);
 }
 
 void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
     if (msg->isSelfMessage()) {
-        if(msg == generationMessage) {
+        // This means the timer has triggered and a new packet should be generated
+        if(msg == generationTimer) {
             // Generating a new package and storing it with the awaited packages
-            awaitingPackages++;
-            emit(dataLoadSignalID, awaitingPackages);
-            scheduleAt(simTime() + beta, generationMessage);
+            awaitingPackets++;
+            emit(dataLoadSignalID, awaitingPackets);
+            scheduleAt(simTime() + beta, generationTimer);
             return;
         }
     }
@@ -65,18 +71,19 @@ void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
 
 void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+    // Ignores messages not destined for this sensor id (or -1)
     if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)  && payload->getTargetNodeType() == PASSIVE) {
         switch(payload->getMessageType()) {
+            // When a sensor receives a REQUEST messages it sends all it's awaiting packets to the sender
             case REQUEST:
             {
-                // Trying to send the currently awaiting packages to any listening sensor
                 CentralizedQMessage *response = new CentralizedQMessage();
                 response->setNodeType(PASSIVE);
                 response->setNodeId(sensorId);
                 response->setMessageType(SHARE);
                 response->setTargetId(payload->getNodeId());
                 response->setTargetNodeType(payload->getNodeType());
-                response->setPacketLoad(awaitingPackages);
+                response->setPacketLoad(awaitingPackets);
 
                 CommunicationCommand *command = new CommunicationCommand();
                 command->setCommandType(SEND_MESSAGE);
@@ -85,9 +92,12 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
                 sendCommand(command);
                 break;
             }
+            // When a sensor receives an ACK message it means that the packets that it's shared have reached
+            // an agent and it is acknowledging that fact. In that case the sensor discards the currently
+            // awaiting packets.
             case ACK:
             {
-                awaitingPackages = 0;
+                awaitingPackets = 0;
                 emit(dataLoadSignalID, 0);
                 break;
             }

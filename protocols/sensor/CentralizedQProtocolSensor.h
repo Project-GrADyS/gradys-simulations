@@ -30,25 +30,34 @@ namespace projeto {
 class CentralizedQProtocolSensor : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQSensor
 {
 public:
-    // Gets the agent's current state
-    virtual int getAwaitingPackages() override { return awaitingPackages; };
-    virtual void handleMessage(cMessage *msg) override;
+    // Gets the number of awaiting packages the sensor has stored
+    virtual int getAwaitingPackets() override { return awaitingPackets; };
 
 
 
 protected:
+    // Reference to the central learning module
     CentralizedQLearning* learning;
 
+    // ID of this sensor
     int sensorId;
-    int awaitingPackages = 0;
+    // Number of packets waiting to be picked up
+    int awaitingPackets = 0;
 
+    // Variables that control the generation of new packets. Packets are generated
+    // every beta seconds. The generation timer controls this behavior, every time
+    // the timer triggers a new packet is generated and stored.
     simtime_t beta;
-    cMessage *generationMessage = new cMessage();
+    cMessage *generationTimer = new cMessage();
 
 protected:
+    // OMNET++ methods
     virtual void initialize(int stage) override;
+    virtual void finish() override;
+    virtual void handleMessage(cMessage *msg) override;
 
-    // Reacts to message recieved and updates payload accordingly
+    // Reacts to message received from the communication module
+    // and reacts accordingly.
     virtual void handlePacket(Packet *pk) override;
 public:
     simsignal_t dataLoadSignalID;

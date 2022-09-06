@@ -220,7 +220,7 @@ double CentralizedQLearning::computeCost(const GlobalState& X) {
     double cost = 0;
     for(const LocalState& state : X) {
         for(CentralizedQSensor *sensor : sensors) {
-            cost += sensor->getAwaitingPackages() * (*std::max_element(state.second.begin(), state.second.end()));
+            cost += sensor->getAwaitingPackets() * (*std::max_element(state.second.begin(), state.second.end()));
         }
     }
     return cost;
