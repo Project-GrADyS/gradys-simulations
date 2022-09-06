@@ -24,7 +24,6 @@ simple CentralizedQProtocolSensor extends CommunicationProtocolBase
         @signal[dataLoad](type=long);
         @statistic[dataLoad](record=vector,last);
         double beta @unit(s) = default(5s);
-        double messageInterval @unit(s) = default(1s);
         
 
 }

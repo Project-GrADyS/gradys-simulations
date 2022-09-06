@@ -70,9 +70,17 @@ protected:
     std::vector<Coord> tour;
     std::vector<double> tourPercentages;
 
+
+    // Variables that control the agent's request timer. Each time this timer fires the agent shares
+    // to the whole network a message of REQUEST type.
+    simtime_t requestInterval;
+    cMessage* requestTimer = new cMessage();
+
 protected:
+    // OMNeT++ and INET functions
     virtual void initialize(int stage) override;
     virtual int numInitStages() const override { return 2; };
+    virtual void handleMessage(cMessage *msg) override;
 
     // Handles telemetry received by the mobility module and uses it to compute the mobility component
     // of the current state. The most current telemetry message is saved.

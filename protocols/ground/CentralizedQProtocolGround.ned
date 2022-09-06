@@ -23,7 +23,6 @@ simple CentralizedQProtocolGround extends CommunicationProtocolBase
         @class(CentralizedQProtocolGround);
         @signal[dataLoad](type=long);
         @statistic[dataLoad](record=vector,last);
-        double messageInterval @unit(s) = default(1s);
         
 
 }

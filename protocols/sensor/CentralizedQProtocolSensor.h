@@ -27,11 +27,6 @@ using namespace omnetpp;
 
 namespace projeto {
 
-enum CentralizedQProtocolSensorMessages {
-    GENERATE, // This message times the generation of a new packet
-    COMMUNICATE // This message times the transmission of packages
-};
-
 class CentralizedQProtocolSensor : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQSensor
 {
 public:
@@ -48,10 +43,7 @@ protected:
     int awaitingPackages = 0;
 
     simtime_t beta;
-    simtime_t messageInterval;
-
-    cMessage *generationMessage = new cMessage(nullptr, GENERATE);
-    cMessage *commMessage = new cMessage(nullptr, COMMUNICATE);
+    cMessage *generationMessage = new cMessage();
 
 protected:
     virtual void initialize(int stage) override;

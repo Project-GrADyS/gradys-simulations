@@ -32,14 +32,8 @@ class CentralizedQProtocolGround : public CommunicationProtocolBase
 protected:
     int receivedPackets = 0;
 
-    simtime_t messageInterval;
-
-    cMessage *receiveMessage = new cMessage(nullptr);
-
 protected:
     virtual void initialize(int stage) override;
-
-    virtual void handleMessage(cMessage *msg) override;
 
     // Reacts to message recieved and updates payload accordingly
     virtual void handlePacket(Packet *pk) override;

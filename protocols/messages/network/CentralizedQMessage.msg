@@ -19,15 +19,14 @@ namespace projeto;
 
 
 enum NodeType {
-    UAV=1;
-    SENSOR=2;
-    GROUND=3;
+    AGENT=1;
+    PASSIVE=2;
 }
 
 enum MessageType {
     SHARE=1;
     ACK=2;
-    RECEIVE=3;
+    REQUEST=3;
 }
 
 class CentralizedQMessage extends inet::FieldsChunk {

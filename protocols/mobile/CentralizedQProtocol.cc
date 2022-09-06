@@ -45,6 +45,11 @@ void CentralizedQProtocol::initialize(int stage)
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         agentId = learning->registerAgent(this);
 
+        // Gets actual interval from exponential distribution, this prevents collision between agents, as otherwise all of them
+        // would be messaging at the same time.
+        requestInterval = exponential(par("sharingInterval").doubleValue());
+        scheduleAt(simTime() + requestInterval, requestTimer);
+
         WATCH(agentId);
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
@@ -59,6 +64,18 @@ void CentralizedQProtocol::initialize(int stage)
         }
         currentState.second = emptyVector;
     }
+}
+
+void CentralizedQProtocol::handleMessage(cMessage *msg) {
+    if(msg->isSelfMessage()) {
+        if(msg == requestTimer) {
+            communicate(-1, PASSIVE, REQUEST);
+
+            scheduleAt(simTime() + requestInterval, requestTimer);
+            return;
+        }
+    }
+    CommunicationProtocolBase::handleMessage(msg);
 }
 
 void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
@@ -137,27 +154,27 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
 
     // Ignores packages that are not destined for this agent's id (or id -1 which sends messages to every node) or are not destined
     // to this node's type
-    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == UAV) {
+    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == AGENT) {
         switch(payload->getMessageType()) {
         // SHARE packets are handled by adding their contents to the agent's state and sending an ACK message in reply
         case SHARE:
         {
             // Adding packages to storage after they are received
-            int index = payload->getNodeId() + (payload->getNodeType() == SENSOR ? 0 : learning->sensorCount());
+            int index = payload->getNodeId() + (payload->getNodeType() == PASSIVE ? 0 : learning->sensorCount());
             currentState.second[index] += payload->getPacketLoad();
 
             long sum = 0;
             for(unsigned int value : currentState.second) {
                 sum += value;
             }
+            emit(dataLoadSignalID, sum);
 
             communicate(payload->getNodeId(), payload->getNodeType(), ACK);
-            emit(dataLoadSignalID, sum);
             break;
         }
-        // RECEIVE messages are handled by responding to the message with a SHARE message containing the agent's
+        // REQUEST messages are handled by responding to the message with a SHARE message containing the agent's
         // held data
-        case RECEIVE:
+        case REQUEST:
         {
             communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
             break;
@@ -171,7 +188,7 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
                 currentState.second[i] = 0;
             }
             emit(dataLoadSignalID, 0);
-            if (payload->getNodeType() == UAV) {
+            if (payload->getNodeType() == AGENT) {
                 hasCompletedControl = true;
             }
             break;
@@ -182,7 +199,7 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
 
 void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, MessageType messageType) {
     // Agent refuses to talk to itself
-    if(targetAgent == agentId && targetType == UAV) {
+    if(targetAgent == agentId && targetType == AGENT) {
         return;
     }
 
@@ -190,7 +207,7 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
 
-    payload->setNodeType(UAV);
+    payload->setNodeType(AGENT);
     payload->setNodeId(agentId);
     payload->setMessageType(messageType);
     payload->setTargetNodeType(targetType);

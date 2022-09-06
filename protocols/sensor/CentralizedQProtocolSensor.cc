@@ -45,50 +45,58 @@ void CentralizedQProtocolSensor::initialize(int stage)
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         sensorId = learning->registerSensor(this);
         beta = par("beta");
-        messageInterval = par("messageInterval");
 
         scheduleAt(simTime() + beta, generationMessage);
-        scheduleAt(simTime() + messageInterval, commMessage);
     }
 }
 
 void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
     if (msg->isSelfMessage()) {
-        if(msg->getKind() == GENERATE) {
+        if(msg == generationMessage) {
             // Generating a new package and storing it with the awaited packages
             awaitingPackages++;
             emit(dataLoadSignalID, awaitingPackages);
             scheduleAt(simTime() + beta, generationMessage);
-        } else {
-            // Trying to send the currently awaiting packages to any listening sensor
-            CentralizedQMessage *payload = new CentralizedQMessage();
-            payload->setNodeType(SENSOR);
-            payload->setMessageType(SHARE);
-            payload->setNodeId(sensorId);
-            payload->setTargetId(-1);
-            payload->setTargetNodeType(UAV);
-            payload->setPacketLoad(awaitingPackages);
-
-            CommunicationCommand *command = new CommunicationCommand();
-            command->setCommandType(SEND_MESSAGE);
-            command->setPayloadTemplate(payload);
-            command->setTarget(nullptr);
-            sendCommand(command);
-
-            scheduleAt(simTime() + messageInterval, commMessage);
+            return;
         }
-        return;
     }
     CommunicationProtocolBase::handleMessage(msg);
 }
 
 void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
-    if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)  && payload->getTargetNodeType() == SENSOR) {
-        if(payload->getMessageType() == ACK) {
-            awaitingPackages = 0;
-            emit(dataLoadSignalID, 0);
+    if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)  && payload->getTargetNodeType() == PASSIVE) {
+        switch(payload->getMessageType()) {
+            case REQUEST:
+            {
+                // Trying to send the currently awaiting packages to any listening sensor
+                CentralizedQMessage *response = new CentralizedQMessage();
+                response->setNodeType(PASSIVE);
+                response->setNodeId(sensorId);
+                response->setMessageType(SHARE);
+                response->setTargetId(payload->getNodeId());
+                response->setTargetNodeType(payload->getNodeType());
+                response->setPacketLoad(awaitingPackages);
+
+                CommunicationCommand *command = new CommunicationCommand();
+                command->setCommandType(SEND_MESSAGE);
+                command->setPayloadTemplate(response);
+                command->setTarget(nullptr);
+                sendCommand(command);
+                break;
+            }
+            case ACK:
+            {
+                awaitingPackages = 0;
+                emit(dataLoadSignalID, 0);
+                break;
+            }
+            default:
+            {
+                return;
+            }
         }
     }
 }
+
 } //namespace

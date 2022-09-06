@@ -40,57 +40,56 @@ void CentralizedQProtocolGround::initialize(int stage)
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
         emit(dataLoadSignalID, 0);
-
-        messageInterval = par("messageInterval");
-
-        scheduleAt(simTime() + messageInterval, receiveMessage);
     }
-}
-
-void CentralizedQProtocolGround::handleMessage(cMessage* msg) {
-    if (msg->isSelfMessage()) {
-        if(msg == receiveMessage) {
-            // Trying to send the currently awaiting packages to any listening sensor
-            CentralizedQMessage *payload = new CentralizedQMessage();
-            payload->setNodeType(GROUND);
-            payload->setMessageType(RECEIVE);
-            payload->setNodeId(0);
-            payload->setTargetId(-1);
-            payload->setTargetNodeType(UAV);
-
-            CommunicationCommand *command = new CommunicationCommand();
-            command->setCommandType(SEND_MESSAGE);
-            command->setPayloadTemplate(payload);
-            command->setTarget(nullptr);
-            sendCommand(command);
-
-            scheduleAt(simTime() + messageInterval, receiveMessage);
-            return;
-        }
-    }
-    CommunicationProtocolBase::handleMessage(msg);
 }
 
 void CentralizedQProtocolGround::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
-    if(payload != nullptr && (payload->getTargetId() == 0 || payload->getTargetId() == -1)  && payload->getTargetNodeType() == GROUND) {
-        if(payload->getMessageType() == SHARE) {
-            receivedPackets += payload->getPacketLoad();
-            emit(dataLoadSignalID, receivedPackets);
+    if(payload != nullptr && payload->getTargetNodeType() == PASSIVE) {
+        switch(payload->getMessageType()) {
+            case REQUEST:
+            {
+                // Trying to send the currently awaiting packages to any listening sensor
+                CentralizedQMessage *response = new CentralizedQMessage();
+                response->setNodeType(PASSIVE);
+                response->setMessageType(REQUEST);
+                response->setNodeId(0);
+                response->setTargetId(payload->getNodeId());
+                response->setTargetNodeType(payload->getNodeType());
 
-            CentralizedQMessage *response = new CentralizedQMessage();
-            response->setNodeType(GROUND);
-            response->setMessageType(ACK);
-            response->setNodeId(0);
-            response->setTargetId(payload->getNodeId());
-            response->setTargetNodeType(UAV);
+                CommunicationCommand *command = new CommunicationCommand();
+                command->setCommandType(SEND_MESSAGE);
+                command->setPayloadTemplate(response);
+                command->setTarget(nullptr);
+                sendCommand(command);
+                break;
+            }
+            case SHARE:
+            {
+                receivedPackets += payload->getPacketLoad();
+                emit(dataLoadSignalID, receivedPackets);
 
-            CommunicationCommand *command = new CommunicationCommand();
-            command->setCommandType(SEND_MESSAGE);
-            command->setPayloadTemplate(response);
-            command->setTarget(nullptr);
-            sendCommand(command);
+                // Trying to send the currently awaiting packages to any listening sensor
+                CentralizedQMessage *response = new CentralizedQMessage();
+                response->setNodeType(PASSIVE);
+                response->setMessageType(ACK);
+                response->setNodeId(0);
+                response->setTargetId(payload->getNodeId());
+                response->setTargetNodeType(payload->getNodeType());
+
+                CommunicationCommand *command = new CommunicationCommand();
+                command->setCommandType(SEND_MESSAGE);
+                command->setPayloadTemplate(response);
+                command->setTarget(nullptr);
+                sendCommand(command);
+                break;
+            }
+            default:
+            {
+                return;
+            }
         }
     }
 }
+
 } //namespace
