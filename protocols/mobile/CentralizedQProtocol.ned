@@ -25,4 +25,5 @@ simple CentralizedQProtocol extends CommunicationProtocolBase
         @statistic[dataLoad](record=vector,last); // Declaration of dataLoad signal used to track current data load that the drone is carrying
         
 		double sharingInterval @unit(s) = default(1s);
+		double communicationDelay @unit(s) = default(100ms);
 }

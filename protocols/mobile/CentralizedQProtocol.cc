@@ -50,6 +50,8 @@ void CentralizedQProtocol::initialize(int stage)
         requestInterval = exponential(par("sharingInterval").doubleValue());
         scheduleAt(simTime() + requestInterval, requestTimer);
 
+        communicationDelay = par("communicationDelay");
+
         WATCH(agentId);
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
@@ -72,6 +74,9 @@ void CentralizedQProtocol::handleMessage(cMessage *msg) {
             communicate(-1, PASSIVE, REQUEST);
 
             scheduleAt(simTime() + requestInterval, requestTimer);
+            return;
+        } else if (msg == applyCommunicationControl) {
+            communicate(currentControl.second, AGENT, SHARE);
             return;
         }
     }
@@ -131,11 +136,11 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     // Sets the completed flag to false to represent the command just received
     hasCompletedControl = false;
 
-    // If the communication component of the control is not zero, tries to communicate with that
-    // agent
-    if(control.second != 0) {
-        communicate(control.second, UAV, SHARE);
+    // Tries to communicate with agent
+    if(applyCommunicationControl->isScheduled()) {
+        cancelEvent(applyCommunicationControl);
     }
+    scheduleAt(simTime() + exponential(communicationDelay),applyCommunicationControl);
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses

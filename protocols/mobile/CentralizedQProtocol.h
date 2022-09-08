@@ -76,6 +76,9 @@ protected:
     simtime_t requestInterval;
     cMessage* requestTimer = new cMessage();
 
+    simtime_t communicationDelay;
+    cMessage* applyCommunicationControl = new cMessage();
+
 protected:
     // OMNeT++ and INET functions
     virtual void initialize(int stage) override;
