@@ -234,7 +234,7 @@ LocalControl CentralizedQLearning::generateRandomLocalControl(unsigned int agent
     LocalControl command;
     do {
         command = LocalControl(intuniform(0, 1), intuniform(0, agents.size() - 1));
-    } while(commandIsValid(command, agent));
+    } while(!commandIsValid(command, agent));
     return command;
 }
 
