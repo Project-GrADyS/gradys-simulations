@@ -498,13 +498,11 @@ void DroneMobility::nextInstruction() {
 
         if(currentInstructionIndex < 0) {
             currentInstructionIndex = 0;
-            droneStatus.isReversed = false;
             droneStatus.currentActivity = REACHED_EDGE;
         }
     } else {
         currentInstructionIndex++;
     }
-
 
     sendTelemetry();
 }
@@ -563,12 +561,7 @@ void DroneMobility::executeCommand() {
             case MobilityCommandType::REVERSE:
             {
                 droneStatus.isReversed = !droneStatus.isReversed;
-
-                // Reverses current instructions
-                int temp = currentInstructionIndex;
-                currentInstructionIndex = droneStatus.lastInstructionIndex;
-                droneStatus.lastInstructionIndex = temp;
-
+                nextInstruction();
                 break;
             }
             case MobilityCommandType::GOTO_WAYPOINT:

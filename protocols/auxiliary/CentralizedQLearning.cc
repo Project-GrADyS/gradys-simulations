@@ -83,6 +83,8 @@ void CentralizedQLearning::initialize(int stage)
         epsilon = 1;
 
         WATCH(epsilon);
+        WATCH(trainingSteps);
+        WATCH(lastCost);
     }
     if(stage == 1) {
         scheduleAt(simTime() + timeInterval, trainingTimer);
@@ -169,6 +171,8 @@ void CentralizedQLearning::train() {
     } else {
         // Computing cost
         double cost = computeCost(X);
+        lastCost = cost;
+
         // Emitting current training cost for data collection
         emit(trainingCostSignal, cost);
 
@@ -201,6 +205,7 @@ void CentralizedQLearning::train() {
         epsilon -= epsilon * epsilonDecay;
 
         trainState = DECISION;
+        trainingSteps++;
     }
     if(timeout->isScheduled()) {
         cancelEvent(timeout);
@@ -220,7 +225,7 @@ double CentralizedQLearning::computeCost(const GlobalState& X) {
     double cost = 0;
     for(const LocalState& state : X) {
         for(CentralizedQSensor *sensor : sensors) {
-            cost += sensor->getAwaitingPackets() * (*std::max_element(state.second.begin(), state.second.end()));
+            cost += sensor->getAwaitingPackets() + (*std::max_element(state.second.begin(), state.second.end()));
         }
     }
     return cost;

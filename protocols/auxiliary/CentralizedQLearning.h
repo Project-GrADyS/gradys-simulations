@@ -164,6 +164,9 @@ protected:
     // This severely reduces the computation cost of find the JointCommand argmin for a specific state on the QTable.
     std::unordered_map<GlobalState, JointControl, GlobalStateHash> optimalControlMap = {};
 
+    int trainingSteps = 0;
+    double lastCost = 0;
+
     // Helper variables
     // Variables for debugging and data collection
     simsignal_t trainingCostSignal = registerSignal("trainingCost");
