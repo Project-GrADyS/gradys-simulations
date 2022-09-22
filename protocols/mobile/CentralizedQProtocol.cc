@@ -111,16 +111,10 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
         // Starting by computing the cumulative distance at each coord
         for(const Coord& coord : tour) {
             currentCoordDistance += lastCoord->distance(coord);
-            tourPercentages.push_back(currentCoordDistance);
+            tourDistances.push_back(currentCoordDistance);
             lastCoord = &coord;
         }
-
-        // Finishing by dividing that cumulative distance by the total distance
-        int index = 0;
-        for(double distance : tourPercentages) {
-            tourPercentages[index++] = distance / currentCoordDistance;
-        }
-
+        totalMissionLength = tourDistances[tour.size() - 1];
     }
 
     // If the UAV hasn't started his path yet, his movement state is 0

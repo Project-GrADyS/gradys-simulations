@@ -70,7 +70,11 @@ protected:
     // of the total tour that the coordinate in that index represents. This is used to speed up the
     // computation of the mobility component of the current state
     std::vector<Coord> tour;
-    std::vector<double> tourPercentages;
+    std::vector<double> tourDistances;
+    double totalMissionLength;
+    // This is the distance interval received from the centralized learning module. It is used to
+    // calculate a discrete mobility state based on the continuous position of the agent
+    double distanceInterval;
 
 
     // Variables that control the agent's request timer. Each time this timer fires the agent shares
