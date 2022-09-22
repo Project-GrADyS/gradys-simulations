@@ -94,27 +94,19 @@ void CentralizedQLearning::initialize(int stage)
 void CentralizedQLearning::handleMessage(cMessage *msg)
 {
     if(msg->isSelfMessage()) {
-        switch(msg->getKind()) {
-
-        case TRAIN:
+        if(msg == trainingTimer) {
             trainIfReady();
             scheduleAt(simTime() + timeInterval, msg);
-            break;
-
-        case TRAIN_TIMEOUT:
-            train();
-            break;
-
         }
-
     } else {
         cSimpleModule::handleMessage(msg);
     }
 }
 
-int CentralizedQLearning::registerAgent(CentralizedQAgent *agent) {
+CentralizedQLearning::AgentInfo CentralizedQLearning::registerAgent(CentralizedQAgent *agent) {
     agents.push_back(agent);
-    return agents.size() - 1;
+    AgentInfo info = {static_cast<int>(agents.size() - 1), distanceInterval};
+    return info;
 }
 
 int CentralizedQLearning::registerSensor(CentralizedQSensor *sensor) {

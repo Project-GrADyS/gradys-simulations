@@ -31,7 +31,7 @@ using JointControl = std::vector<LocalControl>;
 
 // This is the state local to an agent, it is composed of a localization component
 // and a vector recording data stored by this agend and it's origin.
-using LocalState = std::pair<double, std::vector<unsigned int>>;
+using LocalState = std::pair<unsigned int, std::vector<unsigned int>>;
 
 // This is the system's global state, composed of all the agent's local states
 using GlobalState = std::vector<LocalState>;
@@ -99,8 +99,13 @@ public:
 
 public:
 
+    struct AgentInfo {
+        int agentId;
+        double distanceInterval;
+    };
+
     // Registers the centralized agent "agent"
-    virtual int registerAgent(CentralizedQAgent *agent);
+    virtual AgentInfo registerAgent(CentralizedQAgent *agent);
     int agentCount() { return agents.size(); }
 
     // Registers a centralized sensor "sensor"
@@ -136,8 +141,7 @@ protected:
     std::vector<CentralizedQSensor*> sensors;
 
     // Messages used to time the module's execution
-    cMessage *trainingTimer = new cMessage(nullptr, CentralizedQLearningMessages::TRAIN);
-    cMessage *timeout = new cMessage(nullptr, CentralizedQLearningMessages::TRAIN_TIMEOUT);
+    cMessage *trainingTimer = new cMessage(nullptr);
 
     // Hyper-parameters
     double learningRate;
@@ -146,7 +150,6 @@ protected:
 
     // Simulation parameters
     double timeInterval;
-    double trainingTimeout;
     double distanceInterval;
 
     // Training variables

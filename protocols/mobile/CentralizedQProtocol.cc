@@ -43,12 +43,13 @@ void CentralizedQProtocol::initialize(int stage)
         emit(dataLoadSignalID, 0);
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
-        agentId = learning->registerAgent(this);
 
         // Gets actual interval from exponential distribution, this prevents collision between agents, as otherwise all of them
         // would be messaging at the same time.
-        requestInterval = exponential(par("sharingInterval").doubleValue());
+        requestInterval = exponential(par("requestInterval").doubleValue());
         scheduleAt(simTime() + requestInterval, requestTimer);
+
+        communicationTimeout = par("communicationTimeout");
 
         communicationDelay = par("communicationDelay");
 
@@ -56,10 +57,18 @@ void CentralizedQProtocol::initialize(int stage)
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
 
+        WATCH(hasCompletedCommunication);
+        WATCH(hasCompletedMobility);
+
         WATCH(currentControl.first);
         WATCH(currentControl.second);
     }
     if(stage == 1) {
+        auto info = learning->registerAgent(this);
+        agentId = info.agentId;
+        distanceInterval = info.distanceInterval;
+    }
+    if(stage == 2) {
         std::vector<unsigned int> emptyVector = {};
         for(int i=0;i<learning->agentCount() + learning->sensorCount();i++) {
             emptyVector.push_back(0);
@@ -77,6 +86,13 @@ void CentralizedQProtocol::handleMessage(cMessage *msg) {
             return;
         } else if (msg == applyCommunicationControl) {
             communicate(currentControl.second, AGENT, SHARE);
+            if(timeoutTimer->isScheduled()) {
+                cancelEvent(timeoutTimer);
+            }
+            scheduleAt(simTime() + communicationTimeout, timeoutTimer);
+            return;
+        } else if (msg == timeoutTimer) {
+            hasCompletedCommunication = true;
             return;
         }
     }
@@ -117,30 +133,54 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     Coord currentWaypoint = tour[telemetry->getLastWaypointID()];
     Coord nextWaypoint = tour[telemetry->getNextWaypointID()];
 
-    double relativeDistance = currentWaypoint.distance(Coord(telemetry->getCurrentX(), telemetry->getCurrentY(), telemetry->getCurrentZ()));
-    relativeDistance /= currentWaypoint.distance(nextWaypoint);
-    relativeDistance += tourPercentages[telemetry->getLastWaypointID()] * (telemetry->isReversed() ? -1 : 1);
-    currentState.first = relativeDistance;
+    int fartherWaypointIndex = std::max(telemetry->getLastWaypointID(), telemetry->getNextWaypointID());
+    int closerWaypointIndex = std::min(telemetry->getLastWaypointID(), telemetry->getNextWaypointID());
+
+    double distance = tourDistances[closerWaypointIndex];
+
+    // If the agent is between two waypoints, add that to the total distance
+    if(fartherWaypointIndex != closerWaypointIndex) {
+        distance += tour[closerWaypointIndex].distance(Coord(telemetry->getCurrentX(), telemetry->getCurrentY(), telemetry->getCurrentZ()));
+    }
+    currentState.first = std::round(distance / distanceInterval);
+
+    if(currentControl.first == 0) {
+        if(currentState.first > lastMobilityState) {
+            hasCompletedMobility = true;
+        } else if(lastMobilityState == std::round(totalMissionLength / distanceInterval)) {
+            hasCompletedMobility = true;
+        }
+    } else {
+        if(currentState.first < lastMobilityState) {
+            hasCompletedMobility = true;
+        } else if(lastMobilityState == 0) {
+            hasCompletedMobility = true;
+        }
+    }
 
     lastTelemetry = *telemetry;
 }
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     Enter_Method_Silent();
+
     // Ignores commands if the UAV hasn't started the tour yet. The last waypoint is -1 when the UAV
     // hasn't reached the first waypoint in the mission yet
     if(lastTelemetry.getLastWaypointID() == -1) {
         return;
     }
 
-    // Sets the completed flag to false to represent the command just received
-    hasCompletedControl = false;
+    // Sets the completed flags to false when receiving a new command
+    hasCompletedCommunication = false;
+    hasCompletedMobility = false;
+
+    lastMobilityState = currentState.first;
 
     // Tries to communicate with agent
     if(applyCommunicationControl->isScheduled()) {
         cancelEvent(applyCommunicationControl);
     }
-    scheduleAt(simTime() + exponential(communicationDelay),applyCommunicationControl);
+    scheduleAt(simTime() + exponential(communicationDelay), applyCommunicationControl);
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses
@@ -194,7 +234,10 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             }
             emit(dataLoadSignalID, 0);
             if (payload->getNodeType() == AGENT) {
-                hasCompletedControl = true;
+                hasCompletedCommunication = true;
+                if(timeoutTimer->isScheduled()) {
+                    cancelEvent(timeoutTimer);
+                }
             }
             break;
         }

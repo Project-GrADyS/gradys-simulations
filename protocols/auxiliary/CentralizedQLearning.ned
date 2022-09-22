@@ -20,20 +20,21 @@ simple CentralizedQLearning
     parameters:
         @class(CentralizedQLearning);
         @signal[trainingCost](type=double);
+        @signal[epsilon](type=double);
+        @statistic[epsilon](record=vector);
         @statistic[trainingCost](record=vector);
         @statistic[cumTrainCost](source=sum(trainingCost); record=vector);
+        @statistic[cumAvgTrainCost](source=avg(trainingCost); record=vector);
         // HyperParameters for the Centralized Q-Learning algorithm
         double learningRate = default(0.1);
         double gamma = default(0.99);
         double epsilonDecay = default(0.01);
         
         // Parameters for the simulated scenario
-        double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifieshe interval between 
-                                                       // each discretized time state.
-                                                       
-        double trainingTimeout @unit(s) = default(1s); // The maximum interval between training steps
-        
-        double distanceInterval @unit(m) = default(1m); // For our MAMDP model the location component of the state space has to be discrete. This
+        double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifies the interval between 
+                                                       // each discretized time state. Agents may not be ready for another step after at this interval.
+
+        double distanceInterval @unit(m) = default(20m); // For our MAMDP model the location component of the state space has to be discrete. This
         											    // parameter specifies the interval between each discretized location stage.
-        
+
 }

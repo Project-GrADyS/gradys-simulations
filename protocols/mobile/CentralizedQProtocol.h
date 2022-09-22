@@ -43,7 +43,7 @@ public:
 
     // Informs the centralized Q learning module if the module is ready to receive a new
     // set of commands
-    bool isReady() override { return hasCompletedControl; }
+    bool isReady() override { return hasCompletedCommunication && hasCompletedMobility; }
 
 protected:
     // Reference to the learning module
@@ -54,7 +54,9 @@ protected:
 
     // Variable used to inform the learning module if the last
     // control received was completed
-    bool hasCompletedControl = true;
+    bool hasCompletedCommunication = true;
+    bool hasCompletedMobility = true;
+    unsigned int lastMobilityState;
 
     // Saving the current state and control
     LocalState currentState = {};
@@ -76,13 +78,16 @@ protected:
     simtime_t requestInterval;
     cMessage* requestTimer = new cMessage();
 
+    simtime_t communicationTimeout;
+    cMessage* timeoutTimer = new cMessage();
+
     simtime_t communicationDelay;
     cMessage* applyCommunicationControl = new cMessage();
 
 protected:
     // OMNeT++ and INET functions
     virtual void initialize(int stage) override;
-    virtual int numInitStages() const override { return 2; };
+    virtual int numInitStages() const override { return 3; };
     virtual void handleMessage(cMessage *msg) override;
 
     // Handles telemetry received by the mobility module and uses it to compute the mobility component
