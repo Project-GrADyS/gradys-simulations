@@ -237,13 +237,11 @@ LocalControl CentralizedQLearning::generateRandomLocalControl(unsigned int agent
 
 JointControl CentralizedQLearning::generateRandomJointControl() {
     JointControl U = {};
-    int index = 0;
-    for(CentralizedQAgent* agent : agents) {
+    for(int index = 0;index < agents.size(); index++) {
        // Generating a valid random command
        LocalControl command = generateRandomLocalControl(index);
 
        U.push_back(command);
-       index++;
    }
     return U;
 }
