@@ -502,6 +502,11 @@ void DroneMobility::nextInstruction() {
         }
     } else {
         currentInstructionIndex++;
+
+        if(currentInstructionIndex >= instructions.size()) {
+            currentInstructionIndex = instructions.size() - 1;
+            droneStatus.currentActivity = REACHED_EDGE;
+        }
     }
 
     sendTelemetry();
