@@ -57,6 +57,9 @@ void CentralizedQProtocol::initialize(int stage)
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
 
+        WATCH(currentDistance);
+        WATCH_VECTOR(collectedPackets);
+
         WATCH(hasCompletedCommunication);
         WATCH(hasCompletedMobility);
 
@@ -67,12 +70,14 @@ void CentralizedQProtocol::initialize(int stage)
         auto info = learning->registerAgent(this);
         agentId = info.agentId;
         distanceInterval = info.distanceInterval;
+        communicationStorageInterval = info.communicationStorageInterval;
     }
     if(stage == 2) {
         std::vector<unsigned int> emptyVector = {};
         for(int i=0;i<learning->agentCount() + learning->sensorCount();i++) {
             emptyVector.push_back(0);
         }
+        collectedPackets = emptyVector;
         currentState.second = emptyVector;
     }
 }
@@ -119,8 +124,11 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
 
     // If the UAV hasn't started his path yet, his movement state is 0
     if(telemetry->getLastWaypointID() == -1) {
-        currentState.first = 0;
+        currentDistance = 0;
+        hasStartedMission = false;
         return;
+    } else {
+        hasStartedMission = true;
     }
 
     // Updating movement component of the global state
@@ -136,23 +144,33 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     if(fartherWaypointIndex != closerWaypointIndex) {
         distance += tour[closerWaypointIndex].distance(Coord(telemetry->getCurrentX(), telemetry->getCurrentY(), telemetry->getCurrentZ()));
     }
-    currentState.first = std::round(distance / distanceInterval);
+    currentDistance = distance;
 
+    unsigned int adjustedDistance = std::round(currentDistance / distanceInterval);
     if(currentControl.first == 0) {
-        if(currentState.first > lastMobilityState) {
+        if(adjustedDistance > currentState.first) {
             hasCompletedMobility = true;
-        } else if(lastMobilityState == std::round(totalMissionLength / distanceInterval)) {
+        } else if(adjustedDistance == std::round(totalMissionLength / distanceInterval)) {
             hasCompletedMobility = true;
         }
     } else {
-        if(currentState.first < lastMobilityState) {
+        if(adjustedDistance < currentState.first) {
             hasCompletedMobility = true;
-        } else if(lastMobilityState == 0) {
+        } else if(adjustedDistance == 0) {
             hasCompletedMobility = true;
         }
     }
 
     lastTelemetry = *telemetry;
+}
+
+const LocalState& CentralizedQProtocol::getAgentState() {
+    currentState.first = std::round(currentDistance / distanceInterval);
+
+    for(int index=0;index<collectedPackets.size();index++) {
+        currentState.second[index] = std::ceil(collectedPackets[index]/communicationStorageInterval);
+    }
+    return currentState;
 }
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
@@ -167,8 +185,6 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     // Sets the completed flags to false when receiving a new command
     hasCompletedCommunication = false;
     hasCompletedMobility = false;
-
-    lastMobilityState = currentState.first;
 
     // Tries to communicate with agent
     if(applyCommunicationControl->isScheduled()) {
@@ -200,10 +216,10 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
         {
             // Adding packages to storage after they are received
             int index = payload->getNodeId() + (payload->getNodeType() == PASSIVE ? 0 : learning->sensorCount());
-            currentState.second[index] += payload->getPacketLoad();
+            collectedPackets[index] += payload->getPacketLoad();
 
             long sum = 0;
-            for(unsigned int value : currentState.second) {
+            for(unsigned int value : collectedPackets) {
                 sum += value;
             }
             emit(dataLoadSignalID, sum);
@@ -223,8 +239,8 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
         case ACK:
         {
             // Zeroing all package content when an ACK is received
-            for(int i=0;i<currentState.second.size();i++) {
-                currentState.second[i] = 0;
+            for(int i=0;i<collectedPackets.size();i++) {
+                collectedPackets[i] = 0;
             }
             emit(dataLoadSignalID, 0);
             if (payload->getNodeType() == AGENT) {
@@ -259,7 +275,7 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
     // Not including this on other messages saves computation.
     if(messageType == MessageType::SHARE) {
         double packetLoad = 0;
-        for(int value : currentState.second) {
+        for(int value : collectedPackets) {
             packetLoad += value;
         }
         payload->setPacketLoad(packetLoad);

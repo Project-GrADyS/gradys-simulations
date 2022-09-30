@@ -73,14 +73,20 @@ void CentralizedQLearning::initialize(int stage)
     if(stage == 0) {
         learningRate = par("learningRate");
         gamma = par("gamma");
-        epsilonDecay = par("epsilonDecay");
+        epsilonDecayStrategy = static_cast<EpsilonDecayStrategy>(par("epsilonDecayStrategy").intValue());
+        epsilonHorizon = static_cast<double>(par("epsilonHorizon").intValue());
+        epsilonSteps = par("epsilonSteps");
+        epsilonStart = par("epsilonStart");
+        epsilonEnd = par("epsilonEnd");
+        epsilonShortCircuit = par("epsilonShortCircuit");
 
         timeInterval =  par("timeInterval");
-        trainingTimeout = par("trainingTimeout");
         distanceInterval = par("distanceInterval");
 
+        communicationStorageInterval = par("communicationStorageInterval");
+
         // Epsilon starts with a value of 1 and will slowly decay during training
-        epsilon = 1;
+        epsilon = epsilonStart;
 
         WATCH(epsilon);
         WATCH(trainingSteps);
@@ -105,7 +111,7 @@ void CentralizedQLearning::handleMessage(cMessage *msg)
 
 CentralizedQLearning::AgentInfo CentralizedQLearning::registerAgent(CentralizedQAgent *agent) {
     agents.push_back(agent);
-    AgentInfo info = {static_cast<int>(agents.size() - 1), distanceInterval};
+    AgentInfo info = {static_cast<int>(agents.size() - 1), distanceInterval, communicationStorageInterval};
     return info;
 }
 
@@ -134,9 +140,6 @@ void CentralizedQLearning::train() {
     GlobalState newState = {};
     for(CentralizedQAgent* agent : agents) {
         LocalState state = agent->getAgentState();
-
-        // Rounding location to the first increment of distance interval
-        state.first = distanceInterval * std::round(state.first / distanceInterval);
         newState.push_back(state);
     }
     /*********************************************/
@@ -193,16 +196,11 @@ void CentralizedQLearning::train() {
         }
         /*****************************/
 
-        // Decaying the epsilon after training step
-        epsilon -= epsilon * epsilonDecay;
+        decayEpsilon();
 
         trainState = DECISION;
         trainingSteps++;
     }
-    if(timeout->isScheduled()) {
-        cancelEvent(timeout);
-    }
-    scheduleAt(simTime() + trainingTimeout, timeout);
 }
 
 void CentralizedQLearning::dispatchJointCommand() {
@@ -221,6 +219,36 @@ double CentralizedQLearning::computeCost(const GlobalState& X) {
         }
     }
     return cost;
+}
+
+void CentralizedQLearning::decayEpsilon() {
+    if (trainingSteps > epsilonHorizon) {
+        // If the epsilon short circuit is on the simulation ends
+        // after the horizon is reached.
+        if (epsilonShortCircuit) {
+            endSimulation();
+        }
+
+        epsilon = epsilonEnd;
+        return;
+    }
+    switch(epsilonDecayStrategy) {
+    case LINEAR:
+        epsilon -= ((epsilonStart - epsilonEnd) / epsilonHorizon);
+        break;
+    case EXPONENTIAL:
+        epsilon *= std::pow((epsilonEnd/epsilonStart), 1/epsilonHorizon);
+        break;
+    case STEPS:
+    {
+        if(trainingSteps % static_cast<int>(std::floor(epsilonHorizon / epsilonSteps)) == 0 && trainingSteps > 0)
+        {
+            epsilon -= (epsilonStart - epsilonEnd) / epsilonSteps;
+        }
+        break;
+    }
+    }
+    emit(epsilonSignal, epsilon);
 }
 
 bool CentralizedQLearning::commandIsValid(const LocalControl& command, unsigned int agent) {

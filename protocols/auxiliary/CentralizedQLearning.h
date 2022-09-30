@@ -60,17 +60,17 @@ class QTableKeyHash {
 public:
     virtual std::size_t operator() (const QTableKey& key) const;
 };
-
-
-// Message types used for timing the module's execution
-enum CentralizedQLearningMessages {
-    TRAIN,
-    TRAIN_TIMEOUT
-};
+/*******************************/
 
 enum CentralizedQLearningState {
     DECISION,
     LEARNING
+};
+
+enum EpsilonDecayStrategy {
+    LINEAR = 1,
+    EXPONENTIAL = 2,
+    STEPS = 3
 };
 
 class CentralizedQLearning : public cSimpleModule
@@ -102,6 +102,7 @@ public:
     struct AgentInfo {
         int agentId;
         double distanceInterval;
+        double communicationStorageInterval;
     };
 
     // Registers the centralized agent "agent"
@@ -124,6 +125,7 @@ protected:
     virtual void train();
     virtual void dispatchJointCommand();
     virtual double computeCost(const GlobalState& X);
+    virtual void decayEpsilon();
 
     // Helpers
     virtual bool commandIsValid(const LocalControl& command, unsigned int agent);
@@ -146,11 +148,17 @@ protected:
     // Hyper-parameters
     double learningRate;
     double gamma;
-    double epsilonDecay;
+    EpsilonDecayStrategy epsilonDecayStrategy;
+    double epsilonHorizon;
+    long epsilonSteps;
+    double epsilonStart;
+    double epsilonEnd;
+    bool epsilonShortCircuit;
 
     // Simulation parameters
     double timeInterval;
     double distanceInterval;
+    double communicationStorageInterval;
 
     // Training variables
     // Current state of the traninig process. The traninign process has two states:
@@ -173,6 +181,7 @@ protected:
     // Helper variables
     // Variables for debugging and data collection
     simsignal_t trainingCostSignal = registerSignal("trainingCost");
+    simsignal_t epsilonSignal = registerSignal("epsilon");
 
 };
 

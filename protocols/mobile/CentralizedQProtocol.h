@@ -36,14 +36,14 @@ class CentralizedQProtocol : public CommunicationProtocolBase, public Centralize
 {
 public:
     // Gets the agent's current state
-    const LocalState& getAgentState() override { return currentState; };
+    const LocalState& getAgentState() override;
 
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
 
     // Informs the centralized Q learning module if the module is ready to receive a new
     // set of commands
-    bool isReady() override { return hasCompletedCommunication && hasCompletedMobility; }
+    bool isReady() override { return hasCompletedCommunication && hasCompletedMobility && hasStartedMission; }
 
 protected:
     // Reference to the learning module
@@ -56,10 +56,13 @@ protected:
     // control received was completed
     bool hasCompletedCommunication = true;
     bool hasCompletedMobility = true;
-    unsigned int lastMobilityState;
+    bool hasStartedMission = false;
 
     // Saving the current state and control
     LocalState currentState = {};
+    double currentDistance = 0;
+    std::vector<unsigned int> collectedPackets = {};
+
     LocalControl currentControl = {};
 
     // Saving the last telemetry received
@@ -75,6 +78,7 @@ protected:
     // This is the distance interval received from the centralized learning module. It is used to
     // calculate a discrete mobility state based on the continuous position of the agent
     double distanceInterval;
+    double communicationStorageInterval;
 
 
     // Variables that control the agent's request timer. Each time this timer fires the agent shares
