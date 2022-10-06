@@ -25,6 +25,18 @@ simple CentralizedQLearning
         @statistic[trainingCost](record=vector);
         @statistic[cumTrainCost](source=sum(trainingCost); record=vector);
         @statistic[cumAvgTrainCost](source=avg(trainingCost); record=vector);
+        
+        // Flag that dictates if the module is run in training or testing mode.
+        // If set to true the module will use the hyper parameters below and train using
+        // a centralized Q learning algorithm. The output of this training is a Q Table
+        // exported after the simulation's end. Otherwise the module will import the Q Table
+        // and use it to make decisions.
+        bool trainingMode = default(true);
+        
+        // Path to the Centralized Q Table. If "trainingMode" is set to true the table is exported
+        // to this path, otherwise it is imported from this path.
+        string qTablePath;
+        
         // HyperParameters for the Centralized Q-Learning algorithm
         double learningRate = default(0.1);
         double gamma = default(0.99);

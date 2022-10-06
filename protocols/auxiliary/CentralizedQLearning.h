@@ -119,6 +119,7 @@ protected:
     virtual void initialize(int stage) override;
     virtual int numInitStages() const override { return 2; };
     virtual void handleMessage(cMessage *msg) override;
+    virtual void finish() override;
 
     // Training functions
     virtual void trainIfReady();
@@ -128,14 +129,17 @@ protected:
     virtual void decayEpsilon();
 
     // Helpers
+    virtual void initializeQTable();
+    virtual void exportQTable();
+    virtual void importQTable();
     virtual bool commandIsValid(const LocalControl& command, unsigned int agent);
     virtual LocalControl generateRandomLocalControl(unsigned int agent);
     virtual JointControl generateRandomJointControl();
 
-    // Destructor
-    virtual ~CentralizedQLearning();
-
 protected:
+    bool trainingMode;
+    char* qTablePath;
+
     // Vector of registered agents
     std::vector<CentralizedQAgent*> agents;
 
