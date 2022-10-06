@@ -24,6 +24,8 @@
       <items xsi:type="scave:Add" filterPattern="name(cumAvgTrainCost*)" type="VECTOR"/>
       <items xsi:type="scave:LineChart" name="Average Training Cost" lineNameFormat="">
         <properties name="Graph.Title" value="Average Training Cost"/>
+        <properties name="X.Axis.Title" value="Time (s)"/>
+        <properties name="Y.Axis.Title" value="Avg Cost"/>
         <properties name="Legend.Display" value="true"/>
         <properties name="Line.Name//gradys-simulations/results/UFL-Campaign-strategy=1-#0.vec UFL-Campaign-0-20220925-18:50:57-16532 0 strategy-1 $strategy=1" value="Linear epsilon strategy"/>
         <properties name="Line.Name//gradys-simulations/results/UFL-Campaign-strategy=2-#0.vec UFL-Campaign-1-20220925-18:50:57-2808 1 strategy-2 $strategy=2" value="Exponentia epsilon strategy"/>
@@ -34,6 +36,9 @@
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.vec UFL-Campaign-Epsilon-0-20220930-16:18:39-22020 0 strategy-1 $strategy=1" value="Linear"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=2-#0.vec UFL-Campaign-Epsilon-1-20220930-16:18:39-19916 1 strategy-2 $strategy=2" value="Exponential"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=3-#0.vec UFL-Campaign-Epsilon-2-20220930-16:18:39-34656 2 strategy-3 $strategy=3" value="Discrete Steps"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.vec UFL-Campaign-Epsilon-0-20221006-00:40:24-15836 0 strategy-1 $strategy=1" value="linear"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=2-#0.vec UFL-Campaign-Epsilon-1-20221006-00:40:24-18400 1 strategy-2 $strategy=2" value="exponential"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=3-#0.vec UFL-Campaign-Epsilon-2-20221006-00:40:24-2896 2 strategy-3 $strategy=3" value="discrete steps"/>
       </items>
     </datasets>
   </datasets>

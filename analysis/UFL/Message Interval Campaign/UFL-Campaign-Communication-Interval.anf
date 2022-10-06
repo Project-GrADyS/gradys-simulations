@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=1-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=1-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=10-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=10-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=100-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=100-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=2-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=2-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=20-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=20-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=5-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=5-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=50-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=50-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="Cost">
+      <items xsi:type="scave:Add" filterPattern="name(*Avg*)" type="VECTOR"/>
+      <items xsi:type="scave:LineChart" name="Average cost per communication storage interval" lineNameFormat="">
+        <properties name="Graph.Title" value="Average cost per communication storage interval"/>
+        <properties name="X.Axis.Title" value="time(s)"/>
+        <properties name="Y.Axis.Title" value="Average Cost"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=1-#0.vec UFL-Campaign-Communication-Interval-0-20221001-22:50:39-17832 0 communication-interval-1 $interval=1" value="1"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=5-#0.vec UFL-Campaign-Communication-Interval-1-20221001-22:50:39-24284 1 communication-interval-5 $interval=5" value="5"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=10-#0.vec UFL-Campaign-Communication-Interval-2-20221001-22:50:39-22148 2 communication-interval-10 $interval=10" value="10"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=20-#0.vec UFL-Campaign-Communication-Interval-3-20221001-22:50:39-23588 3 communication-interval-20 $interval=20" value="20"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=50-#0.vec UFL-Campaign-Communication-Interval-4-20221001-22:50:39-18656 4 communication-interval-50 $interval=50" value="50"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=100-#0.vec UFL-Campaign-Communication-Interval-5-20221001-22:50:39-17656 5 communication-interval-100 $interval=100" value="100"/>
+        <properties name="Symbols.Size" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=1-#0.vec UFL-Campaign-Communication-Interval-0-20221005-22:11:28-30580 0 communication-interval-1 $interval=1" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=1-#0.vec UFL-Campaign-Communication-Interval-0-20221005-22:11:28-30580 0 communication-interval-1 $interval=1" value="1"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=2-#0.vec UFL-Campaign-Communication-Interval-1-20221005-22:11:28-12736 1 communication-interval-2 $interval=2" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=2-#0.vec UFL-Campaign-Communication-Interval-1-20221005-22:11:28-12736 1 communication-interval-2 $interval=2" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=5-#0.vec UFL-Campaign-Communication-Interval-2-20221005-22:11:28-33900 2 communication-interval-5 $interval=5" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=5-#0.vec UFL-Campaign-Communication-Interval-2-20221005-22:11:28-33900 2 communication-interval-5 $interval=5" value="5"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=10-#0.vec UFL-Campaign-Communication-Interval-3-20221005-22:11:28-11524 3 communication-interval-10 $interval=10" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=10-#0.vec UFL-Campaign-Communication-Interval-3-20221005-22:11:28-11524 3 communication-interval-10 $interval=10" value="10"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=20-#0.vec UFL-Campaign-Communication-Interval-4-20221005-22:11:28-8128 4 communication-interval-20 $interval=20" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=20-#0.vec UFL-Campaign-Communication-Interval-4-20221005-22:11:28-8128 4 communication-interval-20 $interval=20" value="20"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=50-#0.vec UFL-Campaign-Communication-Interval-5-20221005-22:11:28-34728 5 communication-interval-50 $interval=50" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=50-#0.vec UFL-Campaign-Communication-Interval-5-20221005-22:11:28-34728 5 communication-interval-50 $interval=50" value="50"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=100-#0.vec UFL-Campaign-Communication-Interval-6-20221005-22:11:28-2908 6 communication-interval-100 $interval=100" value="2"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Message Interval Campaign/data/UFL-Campaign-Communication-Interval-interval=100-#0.vec UFL-Campaign-Communication-Interval-6-20221005-22:11:28-2908 6 communication-interval-100 $interval=100" value="100"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+  </chartSheets>
+</scave:Analysis>
