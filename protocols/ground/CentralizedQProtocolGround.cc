@@ -39,7 +39,26 @@ void CentralizedQProtocolGround::initialize(int stage)
     if(stage == INITSTAGE_LOCAL) {
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
+        throughputSignalID = registerSignal("throughput");
+
+        dataLoggingInterval = par("dataLoggingInterval");
+
+        CentralizedQLearning* learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
+        learning->registerGround(this);
+
+        scheduleAt(simTime() + dataLoggingInterval, dataLoggingTimer);
+
         emit(dataLoadSignalID, 0);
+        emit(throughputSignalID, 0);
+    }
+}
+
+void CentralizedQProtocolGround::handleMessage(cMessage *msg) {
+    if(msg == dataLoggingTimer) {
+        emit(throughputSignalID, receivedPackets / simTime());
+        scheduleAt(simTime() + dataLoggingInterval, dataLoggingTimer);
+    } else {
+        CommunicationProtocolBase::handleMessage(msg);
     }
 }
 
@@ -94,6 +113,11 @@ void CentralizedQProtocolGround::handlePacket(Packet *pk) {
             }
         }
     }
+}
+
+void CentralizedQProtocolGround::finish() {
+    CommunicationProtocolBase::finish();
+    cancelAndDelete(dataLoggingTimer);
 }
 
 } //namespace

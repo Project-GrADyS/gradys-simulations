@@ -22,7 +22,9 @@ simple CentralizedQProtocolGround extends CommunicationProtocolBase
     parameters:
         @class(CentralizedQProtocolGround);
         @signal[dataLoad](type=long);
+        @signal[throughput](type=double);
         @statistic[dataLoad](record=vector,last);
-        
+        @statistic[throughput](record=vector,last);
+        double dataLoggingInterval @unit(s) = default(10s);
 
 }

@@ -96,6 +96,11 @@ public:
         virtual int getAwaitingPackets() = 0;
     };
 
+    class CentralizedQGround {
+    public:
+        virtual int getReceivedPackets() = 0;
+    };
+
 
 public:
 
@@ -112,6 +117,9 @@ public:
     // Registers a centralized sensor "sensor"
     virtual int registerSensor(CentralizedQSensor *sensor);
     int sensorCount() { return sensors.size(); }
+
+    // Registers the ground station
+    virtual void registerGround(CentralizedQGround *ground);
 
 
 protected:
@@ -145,6 +153,8 @@ protected:
 
     // Vector of registered sensors
     std::vector<CentralizedQSensor*> sensors;
+
+    CentralizedQGround* ground;
 
     // Messages used to time the module's execution
     cMessage *trainingTimer = new cMessage(nullptr);

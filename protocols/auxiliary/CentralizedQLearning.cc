@@ -127,6 +127,10 @@ int CentralizedQLearning::registerSensor(CentralizedQSensor *sensor) {
     return sensors.size() - 1;
 }
 
+void CentralizedQLearning::registerGround(CentralizedQGround *groundStation) {
+    ground = groundStation;
+}
+
 void CentralizedQLearning::trainIfReady() {
     bool allReady = true;
     for(CentralizedQAgent* agent : agents) {

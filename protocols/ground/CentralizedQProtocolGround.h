@@ -27,21 +27,28 @@ using namespace omnetpp;
 
 namespace projeto {
 
-class CentralizedQProtocolGround : public CommunicationProtocolBase
+class CentralizedQProtocolGround : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQGround
 {
+public:
+    int getReceivedPackets() override { return receivedPackets; }
 protected:
     // Packets collected from agents stored in the ground station
-    int receivedPackets = 0;
+    unsigned long receivedPackets = 0;
+
+    simtime_t dataLoggingInterval;
+    cMessage* dataLoggingTimer = new cMessage();
 
 protected:
     // OMNET++ methods
     virtual void initialize(int stage) override;
+    virtual void handleMessage(cMessage *msg) override;
+    virtual void finish() override;
 
-    // Reacts to messages received from the commuication module and reacts
-    // accordingly
+    // Reacts to messages received from the commuication module
     virtual void handlePacket(Packet *pk) override;
 public:
     simsignal_t dataLoadSignalID;
+    simsignal_t throughputSignalID;
 };
 
 } //namespace
