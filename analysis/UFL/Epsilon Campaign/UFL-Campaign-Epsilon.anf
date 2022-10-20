@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
   <inputs>
+    <inputs name="/gradys-simulations/results/UFL-Centralized-Optimal-#0.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.sca"/>
     <inputs name="/gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=2-#0.sca"/>
@@ -18,6 +19,7 @@
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.vec UFL-Campaign-Epsilon-0-20220930-16:18:39-22020 0 strategy-1 $strategy=1" value="Linear"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=2-#0.vec UFL-Campaign-Epsilon-1-20220930-16:18:39-19916 1 strategy-2 $strategy=2" value="Exponential"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=3-#0.vec UFL-Campaign-Epsilon-2-20220930-16:18:39-34656 2 strategy-3 $strategy=3" value="Discrete steps"/>
+        <properties name="Line.Color//gradys-simulations/results/UFL-Centralized-Optimal-#0.vec UFL-Centralized-Optimal-0-20221006-10:43:04-37668 0 UFL-Centralized-Optimal " value="magenta"/>
       </items>
     </datasets>
     <datasets name="Cost">
@@ -39,6 +41,7 @@
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=1-#0.vec UFL-Campaign-Epsilon-0-20221006-00:40:24-15836 0 strategy-1 $strategy=1" value="linear"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=2-#0.vec UFL-Campaign-Epsilon-1-20221006-00:40:24-18400 1 strategy-2 $strategy=2" value="exponential"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Epsilon Campaign/data/UFL-Campaign-Epsilon-strategy=3-#0.vec UFL-Campaign-Epsilon-2-20221006-00:40:24-2896 2 strategy-3 $strategy=3" value="discrete steps"/>
+        <properties name="Line.Color//gradys-simulations/results/UFL-Centralized-Optimal-#0.vec UFL-Centralized-Optimal-0-20221006-10:43:04-37668 0 UFL-Centralized-Optimal " value="magenta"/>
       </items>
     </datasets>
   </datasets>

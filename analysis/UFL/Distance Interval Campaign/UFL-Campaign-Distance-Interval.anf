@@ -11,6 +11,7 @@
     <inputs name="/gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=50m-#0.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=5m-#0.sca"/>
     <inputs name="/gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=5m-#0.vec"/>
+    <inputs name="/gradys-simulations/results/UFL-Centralized-Optimal-#0.vec"/>
   </inputs>
   <datasets>
     <datasets name="Cost">
@@ -19,6 +20,8 @@
         <properties name="Graph.Title" value="Avg training cost per distance interval"/>
         <properties name="X.Axis.Title" value="Time (s)"/>
         <properties name="Y.Axis.Title" value="Avg. Cost"/>
+        <properties name="Y.Axis.Min" value="0.0"/>
+        <properties name="Y.Axis.Max" value="1000.0"/>
         <properties name="Legend.Display" value="true"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=5m-#0.vec UFL-Campaign-Distance-Interval-0-20220929-10:13:55-9128 0 distance-interval-5m $interval=5m" value="5m"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=10m-#0.vec UFL-Campaign-Distance-Interval-1-20220929-10:13:55-13368 1 distance-interval-10m $interval=10m" value="10m"/>
@@ -38,6 +41,13 @@
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=50m-#0.vec UFL-Campaign-Distance-Interval-3-20221005-22:56:31-5688 3 distance-interval-50m $interval=50m" value="50m"/>
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=100m-#0.vec UFL-Campaign-Distance-Interval-4-20221005-22:56:31-18040 4 distance-interval-100m $interval=100m" value="100m"/>
         <properties name="Symbols.Size" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/results/UFL-Centralized-Optimal-#0.vec UFL-Centralized-Optimal-0-20221006-10:43:04-37668 0 UFL-Centralized-Optimal " value="2"/>
+        <properties name="Line.Color//gradys-simulations/results/UFL-Centralized-Optimal-#0.vec UFL-Centralized-Optimal-0-20221006-10:43:04-37668 0 UFL-Centralized-Optimal " value="magenta"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=5m-#0.vec UFL-Campaign-Distance-Interval-0-20221006-19:51:44-27080 0 distance-interval-5m $interval=5m" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=10m-#0.vec UFL-Campaign-Distance-Interval-1-20221006-19:51:44-38900 1 distance-interval-10m $interval=10m" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=20m-#0.vec UFL-Campaign-Distance-Interval-2-20221006-19:51:44-22944 2 distance-interval-20m $interval=20m" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=50m-#0.vec UFL-Campaign-Distance-Interval-3-20221006-19:51:44-38504 3 distance-interval-50m $interval=50m" value="2"/>
+        <properties name="Symbols.Size//gradys-simulations/analysis/UFL/Distance Interval Campaign/data/UFL-Campaign-Distance-Interval-interval=100m-#0.vec UFL-Campaign-Distance-Interval-4-20221006-19:51:44-19244 4 distance-interval-100m $interval=100m" value="2"/>
       </items>
     </datasets>
   </datasets>
