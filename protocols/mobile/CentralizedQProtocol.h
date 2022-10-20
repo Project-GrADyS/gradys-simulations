@@ -38,6 +38,8 @@ public:
     // Gets the agent's current state
     const LocalState& getAgentState() override;
 
+    std::vector<unsigned int> getCollectedPackets() override { return collectedPackets; };
+
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
 

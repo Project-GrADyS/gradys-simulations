@@ -42,9 +42,9 @@ simple CentralizedQLearning
         double gamma = default(0.99);
         // Defines the strategy used to decay epsilon. A decay stategy defines how the epsilon value will decay from 1 to 0. 
         // The possible strategies are:
-        // 1 - "linear" - In epsilonHorizon training steps epsilon will decay linearly from epsilonStart to epsilonEnd
-        // 2 - "exponetial" - In episilonHorizon training steps epsilon will decay exponentially from epsilonStart to epsilonEnd
-        // 3 - "steps" - In episilonHorizon training steps the episilon will decay by ((epsilonEnd - epsilonStart) / episilonSteps) every episilonSteps training steps
+        // 1 = "linear" - In epsilonHorizon training steps epsilon will decay linearly from epsilonStart to epsilonEnd
+        // 2 = "exponetial" - In episilonHorizon training steps epsilon will decay exponentially from epsilonStart to epsilonEnd
+        // 3 = "steps" - In episilonHorizon training steps the episilon will decay by ((epsilonEnd - epsilonStart) / episilonSteps) every episilonSteps training steps
         int epsilonDecayStrategy = default(2);
         double epsilonStart = default(1);
         double epsilonEnd = default(0.01);
@@ -55,6 +55,13 @@ simple CentralizedQLearning
         // If this boolean is set to true the simulation will automatically end when
         // the epsilon horizon is reached
         bool epsilonShortCircuit = default(false);
+        
+        // Defines the cost function used during learning. The possible options are:
+        // 1 = "Default"
+        // 2 = "Simplified"
+        // 3 = "Condition"
+        // 4 = "Throughput"
+        int costFunction = default(3);
 
         // Parameters for the simulated scenario
         double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifies the interval between 

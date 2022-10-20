@@ -86,6 +86,8 @@ void CentralizedQLearning::initialize(int stage)
         epsilonEnd = par("epsilonEnd");
         epsilonShortCircuit = par("epsilonShortCircuit");
 
+        costFunction = static_cast<CostFunction>(par("costFunction").intValue());
+
         timeInterval =  par("timeInterval");
         distanceInterval = par("distanceInterval");
 
@@ -174,21 +176,24 @@ void CentralizedQLearning::train() {
             }
             /***********************************************/
 
-            dispatchJointCommand();
-            trainState = LEARNING;
-        } else {
             // Computing cost
-            double cost = computeCost(X);
+            double cost = computeCost();
             lastCost = cost;
 
             // Emitting current training cost for data collection
             emit(trainingCostSignal, cost);
 
+            dispatchJointCommand();
+            trainState = LEARNING;
+        } else {
+
             /****** Updating Q Table *****/
             // Key that will be updated
             QTableKey key = {X, U};
             // Previous value held by that key
-            double previousQValue = (QTable.count(key) == 0) ? 0 : QTable[key];
+            double previousQValue = (QTable.count(key) == 0) ? -100 : QTable[key];
+
+            // TODO: Try using min instead of optimalControlMap
 
             // Optimal control for the next state
             // If the optimal control map doesn't have a optimal control stored for this new state, it means that the QTable row for this state
@@ -197,10 +202,10 @@ void CentralizedQLearning::train() {
 
             // Getting the Q Value for the next stage
             QTableKey nextKey = {newState, nextOptimalControl};
-            double nextStateQValue = (QTable.count(nextKey) == 0) ? 0 : QTable[nextKey];
+            double nextStateQValue = (QTable.count(nextKey) == 0) ? -100 : QTable[nextKey];
 
             // Calculating the new QValue and updating the QTable
-            double QValue = (1 - learningRate) * previousQValue + learningRate * (cost + gamma * nextStateQValue);
+            double QValue = previousQValue + learningRate * (lastCost + gamma * nextStateQValue);
             QTable[key] = QValue;
 
             // Updating the optimal control map
@@ -214,8 +219,9 @@ void CentralizedQLearning::train() {
             trainState = DECISION;
             trainingSteps++;
 
+            X = newState;
             // Immediately start DECISION step
-            // train();
+            train();
         }
     } else {
         X = newState;
@@ -243,14 +249,86 @@ void CentralizedQLearning::dispatchJointCommand() {
     }
 }
 
-double CentralizedQLearning::computeCost(const GlobalState& X) {
-    double cost = 0;
-    for(const LocalState& state : X) {
-        for(CentralizedQSensor *sensor : sensors) {
-            cost += sensor->getAwaitingPackets() + (*std::max_element(state.second.begin(), state.second.end()));
+double CentralizedQLearning::computeCost() {
+    switch(costFunction) {
+    case DEFAULT:
+    {
+        double cost = 0;
+        for(CentralizedQAgent *agent : agents) {
+            std::vector<unsigned int> agentPackets = agent->getCollectedPackets();
+
+            unsigned int maxPacket = 0;
+            for(auto packet : agentPackets) {
+                if (packet > maxPacket) {
+                    maxPacket = packet;
+                }
+            }
+
+            for(CentralizedQSensor *sensor : sensors) {
+                cost += sensor->getAwaitingPackets() * maxPacket;
+            }
         }
+
+        cost /= agents.size() * sensors.size();
+
+        return cost;
     }
-    return cost;
+    case SIMPLIFIED:
+    {
+        double cost = 0;
+        for(CentralizedQSensor *sensor : sensors) {
+            cost += sensor->getAwaitingPackets();
+        }
+
+        cost /= sensors.size();
+
+        return cost;
+    }
+
+    // Large cost for moving away from ground station while carrying packets
+    // Cost for sharing while it has no packets - False alarm cost -- OMMITING THIS ONE FOR NOW
+    // Large cost for sending data further away from the ground station
+    case CONDITIONAL:
+    {
+        double cost = 0;
+        for(CentralizedQSensor *sensor : sensors) {
+            cost += sensor->getAwaitingPackets();
+        }
+
+        for(int index = 0; index < agents.size(); index++) {
+            std::vector<unsigned int> packets = X[index].second;
+            // Checking if the agent has packets
+            bool hasPackets = false;
+            for(unsigned int load: packets) {
+                if (load > 0) {
+                    hasPackets = true;
+                    break;
+                }
+            }
+
+            // Checks if the agent is moving away from the ground station and if it previously had packets
+            if(hasPackets && U[index].first == 0) {
+                cost += 100; // Punishes if agent is moving away from ground station with packets
+            }
+
+
+            // If the target is further away and the agent sent it's packets to it,
+            unsigned char target = U[index].second;
+            if(!hasPackets && X[target].first > X[index].first) {
+                cost += 100; // Punish for sending data away from the ground station
+            }
+        }
+
+        return cost;
+    }
+
+    // Notes 2:
+    // Negative throughput
+    case THROUGHPUT:
+    {
+        return -(ground->getReceivedPackets()/simTime());
+    }
+    }
 }
 
 void CentralizedQLearning::decayEpsilon() {

@@ -73,6 +73,13 @@ enum EpsilonDecayStrategy {
     STEPS = 3
 };
 
+enum CostFunction {
+    DEFAULT = 1,
+    SIMPLIFIED = 2,
+    CONDITIONAL = 3,
+    THROUGHPUT = 4
+};
+
 class CentralizedQLearning : public cSimpleModule
 {
 public:
@@ -81,6 +88,8 @@ public:
     public:
         // Gets the agent's current state
         virtual const LocalState& getAgentState() = 0;
+
+        virtual std::vector<unsigned int> getCollectedPackets() = 0;
 
         // Applies a command to the agent
         virtual void applyCommand(const LocalControl& command) = 0;
@@ -133,7 +142,7 @@ protected:
     virtual void trainIfReady();
     virtual void train();
     virtual void dispatchJointCommand();
-    virtual double computeCost(const GlobalState& X);
+    virtual double computeCost();
     virtual void decayEpsilon();
 
     // Helpers
@@ -168,6 +177,7 @@ protected:
     double epsilonStart;
     double epsilonEnd;
     bool epsilonShortCircuit;
+    CostFunction costFunction;
 
     // Simulation parameters
     double timeInterval;
