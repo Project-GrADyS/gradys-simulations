@@ -40,8 +40,13 @@ class DadcaProtocolSensor : public CommunicationProtocolBase
 
         DadcaMessage lastPayload = DadcaMessage();
 
+        cMessage *generationTimer = new cMessage();
+        simtime_t generationInterval;
+        int awaitingPackets = 0;
     protected:
         virtual void initialize(int stage) override;
+
+        virtual void handleMessage(cMessage *msg) override;
 
         // Sensor does not recieve telemetry
         virtual void handleTelemetry(projeto::Telemetry *telemetry) override { return; };
@@ -49,8 +54,7 @@ class DadcaProtocolSensor : public CommunicationProtocolBase
         virtual void handlePacket(Packet *pk) override;
     private:
         // Updates payload that communication will send
-        virtual void updatePayload();
-        virtual void setTarget(const char *target);
+        virtual void updatePayload(const char *target);
     public:
         simsignal_t dataLoadSignalID;
 };

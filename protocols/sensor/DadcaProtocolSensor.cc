@@ -34,7 +34,20 @@ void DadcaProtocolSensor::initialize(int stage)
     CommunicationProtocolBase::initialize(stage);
 
     if(stage == INITSTAGE_LOCAL) {
-        updatePayload();
+        generationInterval = par("generationInterval");
+        scheduleAt(simTime() + generationInterval, generationTimer);
+        dataLoadSignalID = registerSignal("dataLoad");
+        emit(dataLoadSignalID, awaitingPackets);
+    }
+}
+
+void DadcaProtocolSensor::handleMessage(cMessage *msg) {
+    if(msg == generationTimer) {
+        awaitingPackets++;
+        emit(dataLoadSignalID, awaitingPackets);
+        scheduleAt(simTime() + generationInterval, generationTimer);
+    } else {
+        CommunicationProtocolBase::handleMessage(msg);
     }
 }
 
@@ -45,37 +58,33 @@ void DadcaProtocolSensor::handlePacket(Packet *pk) {
     if(payload != nullptr) {
         if(payload->getMessageType() == DadcaMessageType::HEARTBEAT)
         {
-            std::cout << this->getParentModule()->getFullName() << " recieved heartbeat from " << tentativeTarget << endl;
+            EV_INFO << this->getParentModule()->getFullName() << " recieved heartbeat from " << tentativeTarget << endl;
             tentativeTarget = payload->getSourceID();
             tentativeTargetName = pk->getName();
-            setTarget(tentativeTargetName.c_str());
-            updatePayload();
+            updatePayload(tentativeTargetName.c_str());
         }
     }
 }
 
-void DadcaProtocolSensor::updatePayload() {
+void DadcaProtocolSensor::updatePayload(const char* target) {
     DadcaMessage *payload = new DadcaMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
     payload->setMessageType(DadcaMessageType::BEARER);
     payload->setSourceID(this->getParentModule()->getId());
     payload->setDestinationID(tentativeTarget);
-    std::cout << payload->getSourceID() << " sending bearer to " << tentativeTarget  << endl;
+    payload->setDataLength(awaitingPackets);
+    EV_INFO << payload->getSourceID() << " sending bearer to " << tentativeTarget  << endl;
 
     lastPayload = *payload;
 
     CommunicationCommand *command = new CommunicationCommand();
-    command->setCommandType(SET_PAYLOAD);
+    command->setCommandType(SEND_MESSAGE);
     command->setPayloadTemplate(payload);
-    sendCommand(command);
-}
-
-void DadcaProtocolSensor::setTarget(const char *target) {
-    CommunicationCommand *command = new CommunicationCommand();
-    command->setCommandType(SET_TARGET);
     command->setTarget(target);
     sendCommand(command);
+    awaitingPackets = 0;
+    emit(dataLoadSignalID, 0);
 }
 
 } //namespace

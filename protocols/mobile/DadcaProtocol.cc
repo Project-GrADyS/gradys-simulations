@@ -62,10 +62,15 @@ void DadcaProtocol::handleTelemetry(projeto::Telemetry *telemetry) {
     // Records if the drone has reached an edge and erases the neighbours after that edge
     if(currentTelemetry.getDroneActivity() != REACHED_EDGE && telemetry->getDroneActivity() == REACHED_EDGE) {
         if(telemetry->isReversed()) {
-            rightNeighbours = 0;
-        } else {
             leftNeighbours = 0;
+        } else {
+            rightNeighbours = 0;
         }
+
+        // Reverses course
+        MobilityCommand *command = new MobilityCommand();
+        command->setCommandType(REVERSE);
+        sendCommand(command);
     }
 
     // Erases neighbours when drone is recharging or shutdown
@@ -126,7 +131,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                         initiateTimeout(timeoutDuration);
                         communicationStatus = REQUESTING;
 
-                        std::cout << this->getParentModule()->getId() << " recieved heartbeat from " << tentativeTarget << endl;
+                        EV_INFO << this->getParentModule()->getId() << " recieved heartbeat from " << tentativeTarget << endl;
                     }
                 }
                 break;
@@ -149,11 +154,11 @@ void DadcaProtocol::handlePacket(Packet *pk) {
 
                 if(isTimedout()) {
                     if(payload->getSourceID() == tentativeTarget) {
-                        std::cout << payload->getDestinationID() << " recieved a pair request while timed out from " << payload->getSourceID() << endl;
+                        EV_INFO << payload->getDestinationID() << " recieved a pair request while timed out from " << payload->getSourceID() << endl;
                         communicationStatus = PAIRED;
                     }
                 } else {
-                    std::cout << payload->getDestinationID() << " recieved a pair request while not timed out from  " << payload->getSourceID() << endl;
+                    EV_INFO << payload->getDestinationID() << " recieved a pair request while not timed out from  " << payload->getSourceID() << endl;
                     tentativeTarget = payload->getSourceID();
                     tentativeTargetName = pk->getName();
                     initiateTimeout(timeoutDuration);
@@ -173,7 +178,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
 
                 if(payload->getSourceID() == tentativeTarget &&
                    payload->getDestinationID() == this->getParentModule()->getId()) {
-                    std::cout << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
+                    EV_INFO << payload->getDestinationID() << " recieved a pair confirmation from  " << payload->getSourceID() << endl;
                     if(communicationStatus != PAIRED_FINISHED) {
                         // If both drones are travelling in the same direction, the pairing is canceled
                         // Doesn't apply if one drone is the groundStation
@@ -219,7 +224,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             case DadcaMessageType::BEARER:
             {
                 if(!isTimedout() && communicationStatus == FREE) {
-                    std::cout << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
+                    EV_INFO << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
                     currentDataLoad = currentDataLoad + payload->getDataLength();
                     stableDataLoad = currentDataLoad;
                     emit(dataLoadSignalID, currentDataLoad);
@@ -368,14 +373,14 @@ void DadcaProtocol::updatePayload() {
         case FREE:
         {
             payload->setMessageType(DadcaMessageType::HEARTBEAT);
-            std::cout << payload->getSourceID() << " set to heartbeat" << endl;
+            EV_INFO << payload->getSourceID() << " set to heartbeat" << endl;
             break;
         }
         case REQUESTING:
         {
             payload->setMessageType(DadcaMessageType::PAIR_REQUEST);
             payload->setDestinationID(tentativeTarget);
-            std::cout << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
+            EV_INFO << payload->getSourceID() << " set to pair request to " << payload->getDestinationID() << endl;
             break;
         }
         case PAIRED:
@@ -385,7 +390,7 @@ void DadcaProtocol::updatePayload() {
             payload->setDestinationID(tentativeTarget);
             payload->setDataLength(stableDataLoad);
 
-            std::cout << payload->getSourceID() << " set to pair confirmation to " << payload->getDestinationID() << endl;
+            EV_INFO << payload->getSourceID() << " set to pair confirmation to " << payload->getDestinationID() << endl;
             break;
         }
         case COLLECTING:
