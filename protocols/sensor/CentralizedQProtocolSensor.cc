@@ -101,10 +101,6 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
                 emit(dataLoadSignalID, 0);
                 break;
             }
-            default:
-            {
-                return;
-            }
         }
     }
 }

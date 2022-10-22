@@ -54,28 +54,26 @@ void UdpCommunicationApp::handleMessageWhenUp(cMessage *msg) {
         switch(command->getCommandType()) {
             case SET_TARGET:
             {
-                targetName = strdup(command->getTarget());
+                targetName = command->getTarget();
                 sendPacket();
                 break;
             }
             case SET_PAYLOAD:
             {
-                if(payloadTemplate != nullptr) {
-                    delete payloadTemplate;
-                }
                 const FieldsChunk *messagePayload = command->getPayloadTemplate();
                 if(messagePayload != nullptr) {
-                    payloadTemplate = (FieldsChunk*) messagePayload->dup();
+                    payloadTemplate = *messagePayload;
                 }
-                delete messagePayload;
                 sendPacket();
                 break;
             }
             case SEND_MESSAGE:
-                sendPacket(command->getPayloadTemplate(), strdup(command->getTarget()));
+                sendPacket(command->getPayloadTemplate(), command->getTarget());
                 break;
         }
-
+        if(command->getPayloadTemplate() != nullptr) {
+            delete command->getPayloadTemplate();
+        }
         cancelAndDelete(msg);
     }
     else {
@@ -84,16 +82,16 @@ void UdpCommunicationApp::handleMessageWhenUp(cMessage *msg) {
 }
 
 
-void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, char *target) {
+void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, const char *target) {
     if(!socket.isOpen()) {
         return;
     }
 
     if(payload == nullptr) {
-        payload = payloadTemplate;
+        payload = dynamic_cast<FieldsChunk*>(payloadTemplate.dup());
     }
     if(target == nullptr) {
-        target = targetName;
+        target = targetName.c_str();
     }
 
     /*Default package setup*/

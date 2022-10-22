@@ -16,14 +16,14 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
 class UdpCommunicationApp : public UdpBasicApp
 {
 protected:
-    char *targetName = nullptr;
-    FieldsChunk *payloadTemplate = nullptr;
+    std::string targetName;
+    FieldsChunk payloadTemplate;
 
 
 protected:
     virtual void initialize(int stage) override;
     virtual void setSocketOptions() override;
-    virtual void sendPacket(const FieldsChunk* payload = nullptr, char *target = nullptr);
+    virtual void sendPacket(const FieldsChunk* payload = nullptr, const char *target = nullptr);
     virtual void processPacket(Packet *pk) override;
     virtual void handleMessageWhenUp(cMessage *msg) override;
 };

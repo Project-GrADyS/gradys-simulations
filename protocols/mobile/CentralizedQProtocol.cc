@@ -107,7 +107,10 @@ void CentralizedQProtocol::handleMessage(cMessage *msg) {
 void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     // Computing tour - This only happens once when the drones read their missions
     if(telemetry->hasObject("tourCoords")) {
-        tour = *(std::vector<Coord>*) telemetry->par("tourCoords").pointerValue();
+        auto tourPointer = (std::vector<Coord>*)(telemetry->par("tourCoords").pointerValue());
+        tour = *tourPointer;
+
+        delete tourPointer;
 
         // Pre-computing what fraction of the total tour each coord represents
         const Coord *lastCoord = &tour[0];
