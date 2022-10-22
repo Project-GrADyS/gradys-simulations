@@ -49,7 +49,7 @@ void CentralizedQProtocolGround::initialize(int stage)
         scheduleAt(simTime() + dataLoggingInterval, dataLoggingTimer);
 
         emit(dataLoadSignalID, 0);
-        emit(throughputSignalID, 0);
+        emit(throughputSignalID, 0.);
     }
 }
 
@@ -91,7 +91,7 @@ void CentralizedQProtocolGround::handlePacket(Packet *pk) {
             case SHARE:
             {
                 receivedPackets += payload->getPacketLoad();
-                emit(dataLoadSignalID, receivedPackets);
+                emit(dataLoadSignalID, static_cast<long>(receivedPackets));
 
                 CentralizedQMessage *response = new CentralizedQMessage();
                 response->setNodeType(PASSIVE);

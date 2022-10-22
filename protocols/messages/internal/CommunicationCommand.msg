@@ -32,7 +32,7 @@ message CommunicationCommand {
     CommunicationCommandType commandType;
     
     // Template for the SET_PAYLOAD message type (message that the communication module should send)
-    inet::FieldsChunk *payloadTemplate;
+    inet::FieldsChunk *payloadTemplate = nullptr;
     
     // Target for the set target command
     string target;
