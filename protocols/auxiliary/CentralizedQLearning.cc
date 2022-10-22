@@ -205,7 +205,7 @@ void CentralizedQLearning::train() {
             double nextStateQValue = (QTable.count(nextKey) == 0) ? -100 : QTable[nextKey];
 
             // Calculating the new QValue and updating the QTable
-            double QValue = previousQValue + learningRate * (lastCost + gamma * nextStateQValue);
+            double QValue = (1 - learningRate) * previousQValue + learningRate * (lastCost + gamma * nextStateQValue);
             QTable[key] = QValue;
 
             // Updating the optimal control map
