@@ -65,6 +65,9 @@ protected:
     double currentDistance = 0;
     std::vector<unsigned int> collectedPackets = {};
 
+    // Maximum number of packets
+    int packetLimit;
+
     LocalControl currentControl = {};
 
     // Saving the last telemetry received
