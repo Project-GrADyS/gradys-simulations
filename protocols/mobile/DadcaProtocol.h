@@ -57,6 +57,9 @@ class DadcaProtocol : public CommunicationProtocolBase
 
         // Current imaginary data being carried
         int currentDataLoad=0;
+
+        // Maximum number of collected packets
+        int packetLimit;
         // Stable data load to prevent data loss during pairing
         int stableDataLoad=currentDataLoad;
 

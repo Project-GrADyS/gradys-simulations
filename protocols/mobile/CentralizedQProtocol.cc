@@ -53,6 +53,8 @@ void CentralizedQProtocol::initialize(int stage)
 
         communicationDelay = par("communicationDelay");
 
+        packetLimit = par("packetLimit");
+
         WATCH(agentId);
         WATCH(currentState.first);
         WATCH_VECTOR(currentState.second);
@@ -225,6 +227,12 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             for(unsigned int value : collectedPackets) {
                 sum += value;
             }
+
+            if(sum > packetLimit) {
+                collectedPackets[index] = collectedPackets[index] - (sum - packetLimit);
+                sum = packetLimit;
+            }
+
             emit(dataLoadSignalID, sum);
 
             communicate(payload->getNodeId(), payload->getNodeType(), ACK);

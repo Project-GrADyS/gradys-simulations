@@ -16,8 +16,8 @@ enum CommunicationStatus { FREE=0, REQUESTING=1, PAIRED=2, COLLECTING=3, PAIRED_
 class UdpCommunicationApp : public UdpBasicApp
 {
 protected:
-    std::string targetName;
-    FieldsChunk payloadTemplate;
+    std::string targetName = {};
+    FieldsChunk *payloadTemplate = nullptr;
 
 
 protected:

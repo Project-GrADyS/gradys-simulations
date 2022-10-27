@@ -36,6 +36,8 @@ void DadcaProtocol::initialize(int stage)
     if(stage == INITSTAGE_LOCAL) {
         timeoutDuration = par("timeoutDuration");
 
+        packetLimit = par("packetLimit");
+
         int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
@@ -187,6 +189,9 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                             if(lastStableTelemetry.getLastWaypointID() < payload->getLastWaypointID()) {
                                 // Drone closest to the start gets the data
                                 currentDataLoad = currentDataLoad + payload->getDataLength();
+                                if(currentDataLoad > packetLimit) {
+                                    currentDataLoad = packetLimit;
+                                }
 
 
                                 // Doesn't update neighbours if the drone has no waypoints
@@ -226,6 +231,9 @@ void DadcaProtocol::handlePacket(Packet *pk) {
                 if(!isTimedout() && communicationStatus == FREE) {
                     EV_INFO << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
                     currentDataLoad = currentDataLoad + payload->getDataLength();
+                    if(currentDataLoad > packetLimit) {
+                        currentDataLoad = packetLimit;
+                    }
                     stableDataLoad = currentDataLoad;
                     emit(dataLoadSignalID, currentDataLoad);
                     initiateTimeout(timeoutDuration);
@@ -242,6 +250,9 @@ void DadcaProtocol::handlePacket(Packet *pk) {
     if(mamPayload != nullptr) {
         if(!isTimedout() && communicationStatus == FREE) {
             currentDataLoad++;
+            if(currentDataLoad > packetLimit) {
+                currentDataLoad = packetLimit;
+            }
             stableDataLoad = currentDataLoad;
             emit(dataLoadSignalID, currentDataLoad);
         }
