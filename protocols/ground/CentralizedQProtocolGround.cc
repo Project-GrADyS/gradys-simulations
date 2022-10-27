@@ -55,7 +55,7 @@ void CentralizedQProtocolGround::initialize(int stage)
 
 void CentralizedQProtocolGround::handleMessage(cMessage *msg) {
     if(msg == dataLoggingTimer) {
-        emit(throughputSignalID, receivedPackets / simTime());
+        emit(throughputSignalID, static_cast<double>(receivedPackets) / simTime());
         scheduleAt(simTime() + dataLoggingInterval, dataLoggingTimer);
     } else {
         CommunicationProtocolBase::handleMessage(msg);
