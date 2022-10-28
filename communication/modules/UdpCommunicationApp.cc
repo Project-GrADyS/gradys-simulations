@@ -85,6 +85,13 @@ void UdpCommunicationApp::handleMessageWhenUp(cMessage *msg) {
 }
 
 
+void UdpCommunicationApp::sendPacket() {
+    if(payloadTemplate != nullptr) {
+        sendPacket(nullptr, nullptr);
+    }
+}
+
+
 void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, const char *target) {
     if(!socket.isOpen()) {
         return;

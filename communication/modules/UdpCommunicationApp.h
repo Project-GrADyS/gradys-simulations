@@ -23,7 +23,8 @@ protected:
 protected:
     virtual void initialize(int stage) override;
     virtual void setSocketOptions() override;
-    virtual void sendPacket(const FieldsChunk* payload = nullptr, const char *target = nullptr);
+    virtual void sendPacket() override;
+    virtual void sendPacket(const FieldsChunk* payload, const char *target);
     virtual void processPacket(Packet *pk) override;
     virtual void handleMessageWhenUp(cMessage *msg) override;
 };
