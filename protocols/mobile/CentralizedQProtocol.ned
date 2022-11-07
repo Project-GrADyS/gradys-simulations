@@ -23,15 +23,15 @@ simple CentralizedQProtocol extends CommunicationProtocolBase
         @class(CentralizedQProtocol);
         @signal[dataLoad](type=long);
         @statistic[dataLoad](record=vector,last); // Declaration of dataLoad signal used to track current data load that the drone is carrying
-        
+
         // Interval at which general REQUEST messages are sent to the network
-		double requestInterval @unit(s) = default(1s);
-		
-		// Delay between communication commands and actual messages being sent. Actual
-		// delay will be exponentially close to this, randomized to prevent collision
-		double communicationDelay @unit(s) = default(100ms);
-		// Timeout after which a communication control will be considered void
-		double communicationTimeout @unit(s) = default(100ms);
-		
-		int packetLimit = default(200); // Limit of packets that this UAV can carry
+        double requestInterval @unit(s) = default(1s);
+
+        // Delay between communication commands and actual messages being sent. Actual
+        // delay will be exponentially close to this, randomized to prevent collision
+        double communicationDelay @unit(s) = default(100ms);
+        // Timeout after which a communication control will be considered void
+        double communicationTimeout @unit(s) = default(100ms);
+
+        int packetLimit = default(200); // Limit of packets that this UAV can carry
 }

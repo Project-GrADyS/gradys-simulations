@@ -176,22 +176,22 @@ void CentralizedQLearning::train() {
             }
             /***********************************************/
 
-            // Computing cost
-            double cost = computeCost();
-            lastCost = cost;
 
-            // Emitting current training cost for data collection
-            emit(trainingCostSignal, cost);
 
             dispatchJointCommand();
             trainState = LEARNING;
         } else {
+            // Computing cost
+            double cost = computeCost(newState);
+            lastCost = cost;
+            // Emitting current training cost for data collection
+            emit(trainingCostSignal, cost);
 
             /****** Updating Q Table *****/
             // Key that will be updated
             QTableKey key = {X, U};
             // Previous value held by that key
-            double previousQValue = (QTable.count(key) == 0) ? -100 : QTable[key];
+            double previousQValue = (QTable.count(key) == 0) ? 0 : QTable[key];
 
             // TODO: Try using min instead of optimalControlMap
 
@@ -202,7 +202,7 @@ void CentralizedQLearning::train() {
 
             // Getting the Q Value for the next stage
             QTableKey nextKey = {newState, nextOptimalControl};
-            double nextStateQValue = (QTable.count(nextKey) == 0) ? -100 : QTable[nextKey];
+            double nextStateQValue = (QTable.count(nextKey) == 0) ? 0 : QTable[nextKey];
 
             // Calculating the new QValue and updating the QTable
             double QValue = (1 - learningRate) * previousQValue + learningRate * (lastCost + gamma * nextStateQValue);
@@ -219,7 +219,6 @@ void CentralizedQLearning::train() {
             trainState = DECISION;
             trainingSteps++;
 
-            X = newState;
             // Immediately start DECISION step
             train();
         }
@@ -249,7 +248,7 @@ void CentralizedQLearning::dispatchJointCommand() {
     }
 }
 
-double CentralizedQLearning::computeCost() {
+double CentralizedQLearning::computeCost(const GlobalState& newState) {
     switch(costFunction) {
     case DEFAULT:
     {
@@ -365,7 +364,7 @@ void CentralizedQLearning::initializeQTable() {
     if(trainingMode) {
         QTable = {};
     } else {
-
+        importQTable();
     }
 }
 
@@ -489,7 +488,7 @@ void CentralizedQLearning::importQTable() {
     file.open(qTablePath);
 
     std::regex tableMatcher(
-        "{\\s*\"globalState\":\\s*{\\s*\"mobility\":\\s*(\\[.*\\]),\\s*\"communication\":\\s*(\\[.*\\])\\s*},\\s*\"jointControl\":\\s*(\\[.*\\]),\\s*\"qValue\":\\s*(.*)\\s*},?"
+        "\\{\\s*\"globalState\":\\s*\\{\\s*\"mobility\":\\s*(\\[.*\\]),\\s*\"communication\":\\s*(\\[.*\\])\\s*\\},\\s*\"jointControl\":\\s*(\\[.*\\]),\\s*\"qValue\":\\s*(.*)\\s*\\},?"
     );
 
     if(!file.good()) {
@@ -530,22 +529,14 @@ void CentralizedQLearning::importQTable() {
 
             globalState.push_back(state);
             jointControl.push_back(control);
-
-            optimalControlMap[globalState] = jointControl;
         }
+        optimalControlMap[globalState] = jointControl;
     }
 }
 
-bool CentralizedQLearning::commandIsValid(const LocalControl& command, unsigned int agent) {
-    return command.second != agent;
-}
 
 LocalControl CentralizedQLearning::generateRandomLocalControl(unsigned int agent) {
-    LocalControl command;
-    do {
-        command = LocalControl(intuniform(0, 1), intuniform(0, agents.size() - 1));
-    } while(!commandIsValid(command, agent));
-    return command;
+    return LocalControl(intuniform(0, 1), intuniform(0, agents.size() - 1));
 }
 
 JointControl CentralizedQLearning::generateRandomJointControl() {
@@ -562,7 +553,7 @@ JointControl CentralizedQLearning::generateRandomJointControl() {
 void CentralizedQLearning::finish() {
     cancelAndDelete(trainingTimer);
 
-    // Exporting QTable
+    // Exporting QTable if we were training
     if (trainingMode) {
         exportQTable();
     }

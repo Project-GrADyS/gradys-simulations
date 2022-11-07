@@ -44,15 +44,15 @@ void CentralizedQProtocol::initialize(int stage)
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
 
-        // Gets actual interval from exponential distribution, this prevents collision between agents, as otherwise all of them
-        // would be messaging at the same time.
-        requestInterval = exponential(par("requestInterval").doubleValue());
-        scheduleAt(simTime() + requestInterval, requestTimer);
 
         communicationTimeout = par("communicationTimeout");
 
         communicationDelay = par("communicationDelay");
 
+        requestInterval = par("requestInterval");
+        // Introduces a bit for randomness to the first (and subsequent) messages, this helps prevent
+        // collision when sending messages
+        scheduleAt(requestInterval + uniform(0,communicationDelay), requestTimer);
         packetLimit = par("packetLimit");
 
         WATCH(agentId);
@@ -195,7 +195,7 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     if(applyCommunicationControl->isScheduled()) {
         cancelEvent(applyCommunicationControl);
     }
-    scheduleAt(simTime() + exponential(communicationDelay), applyCommunicationControl);
+    scheduleAt(simTime() + uniform(0,communicationDelay), applyCommunicationControl);
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses

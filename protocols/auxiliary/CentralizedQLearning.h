@@ -142,14 +142,13 @@ protected:
     virtual void trainIfReady();
     virtual void train();
     virtual void dispatchJointCommand();
-    virtual double computeCost();
+    virtual double computeCost(const GlobalState& newState);
     virtual void decayEpsilon();
 
     // Helpers
     virtual void initializeQTable();
     virtual void exportQTable();
     virtual void importQTable();
-    virtual bool commandIsValid(const LocalControl& command, unsigned int agent);
     virtual LocalControl generateRandomLocalControl(unsigned int agent);
     virtual JointControl generateRandomJointControl();
 
