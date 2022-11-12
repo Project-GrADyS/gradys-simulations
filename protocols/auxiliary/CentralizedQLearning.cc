@@ -153,8 +153,30 @@ void CentralizedQLearning::train() {
     GlobalState newState = {};
     for(CentralizedQAgent* agent : agents) {
         LocalState state = agent->getAgentState();
+
+
+        // TODO: Remove
+        if(costFunction == SANITY || costFunction == SANITY_2) {
+            //Zeroing out every communication state
+            for(int i=0;i<state.second.size();i++) {
+                state.second[i] = 0;
+            }
+        }
         newState.push_back(state);
     }
+    if(costFunction == SANITY_2) {
+        for(int i = 0; i < sensors.size(); i++) {
+            unsigned int awaiting = sensors[i]->getAwaitingPackets();
+            if (awaiting > 80) {
+                newState[0].second[i] = 2;
+            } else if (awaiting > 10) {
+                newState[0].second[i] = 1;
+            } else {
+                newState[0].second[i] = 0;
+            }
+        }
+    }
+
     /*********************************************/
 
     if(trainingMode) {
@@ -237,7 +259,6 @@ void CentralizedQLearning::train() {
         dispatchJointCommand();
         trainingSteps++;
     }
-
 }
 
 void CentralizedQLearning::dispatchJointCommand() {
@@ -326,6 +347,22 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     case THROUGHPUT:
     {
         return -(ground->getReceivedPackets()/simTime());
+    }
+    case SANITY:
+    {
+        double distanceSum = 0;
+        for(const LocalState& state : newState) {
+            distanceSum += state.first;
+        }
+        return distanceSum / agents.size();
+    }
+    case SANITY_2:
+    {
+        unsigned int sum = 0;
+        for(auto sensor: sensors) {
+            sum += sensor->getAwaitingPackets();
+        }
+        return sum;
     }
     }
 }
@@ -544,6 +581,9 @@ JointControl CentralizedQLearning::generateRandomJointControl() {
     for(int index = 0;index < agents.size(); index++) {
        // Generating a valid random command
        LocalControl command = generateRandomLocalControl(index);
+       if (costFunction == SANITY_2) {
+           command.second = 0;
+       }
 
        U.push_back(command);
    }

@@ -47,7 +47,7 @@ simple CentralizedQLearning
         // 3 = "steps" - In episilonHorizon training steps the episilon will decay by ((epsilonEnd - epsilonStart) / episilonSteps) every episilonSteps training steps
         int epsilonDecayStrategy = default(2);
         double epsilonStart = default(1);
-        double epsilonEnd = default(0.01);
+        double epsilonEnd = default(0.001);
         int epsilonHorizon = default(100000);
         // Only relevant to the "steps" strategy
         int epsilonSteps = default(10);

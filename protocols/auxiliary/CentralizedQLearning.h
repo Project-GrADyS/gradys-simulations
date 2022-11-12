@@ -77,7 +77,9 @@ enum CostFunction {
     DEFAULT = 1,
     SIMPLIFIED = 2,
     CONDITIONAL = 3,
-    THROUGHPUT = 4
+    THROUGHPUT = 4,
+    SANITY=5,
+    SANITY_2=6
 };
 
 class CentralizedQLearning : public cSimpleModule
