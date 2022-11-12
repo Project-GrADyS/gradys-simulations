@@ -38,7 +38,7 @@ public:
     // Gets the agent's current state
     const LocalState& getAgentState() override;
 
-    std::vector<unsigned int> getCollectedPackets() override { return collectedPackets; };
+    std::vector<uint16_t> getCollectedPackets() override { return collectedPackets; };
 
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
@@ -63,7 +63,7 @@ protected:
     // Saving the current state and control
     LocalState currentState = {};
     double currentDistance = 0;
-    std::vector<unsigned int> collectedPackets = {};
+    std::vector<uint16_t> collectedPackets = {};
 
     // Maximum number of packets
     int packetLimit;

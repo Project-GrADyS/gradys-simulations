@@ -56,8 +56,8 @@ void CentralizedQProtocol::initialize(int stage)
         packetLimit = par("packetLimit");
 
         WATCH(agentId);
-        WATCH(currentState.first);
-        WATCH_VECTOR(currentState.second);
+        WATCH(currentState.mobility);
+        WATCH_VECTOR(currentState.communication);
 
         WATCH(currentDistance);
         WATCH_VECTOR(collectedPackets);
@@ -65,8 +65,8 @@ void CentralizedQProtocol::initialize(int stage)
         WATCH(hasCompletedCommunication);
         WATCH(hasCompletedMobility);
 
-        WATCH(currentControl.first);
-        WATCH(currentControl.second);
+        WATCH(currentControl.mobility);
+        WATCH(currentControl.communication);
     }
     if(stage == 1) {
         auto info = learning->registerAgent(this);
@@ -75,12 +75,12 @@ void CentralizedQProtocol::initialize(int stage)
         communicationStorageInterval = info.communicationStorageInterval;
     }
     if(stage == 2) {
-        std::vector<unsigned int> emptyVector = {};
+        std::vector<uint16_t> emptyVector = {};
         for(int i=0;i<learning->agentCount() + learning->sensorCount();i++) {
             emptyVector.push_back(0);
         }
         collectedPackets = emptyVector;
-        currentState.second = emptyVector;
+        currentState.communication = emptyVector;
     }
 }
 
@@ -92,7 +92,7 @@ void CentralizedQProtocol::handleMessage(cMessage *msg) {
             scheduleAt(simTime() + requestInterval, requestTimer);
             return;
         } else if (msg == applyCommunicationControl) {
-            communicate(currentControl.second, AGENT, SHARE);
+            communicate(currentControl.communication, AGENT, SHARE);
             if(timeoutTimer->isScheduled()) {
                 cancelEvent(timeoutTimer);
             }
@@ -152,14 +152,14 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     currentDistance = distance;
 
     unsigned int adjustedDistance = std::round(currentDistance / distanceInterval);
-    if(currentControl.first == 0) {
-        if(adjustedDistance > currentState.first) {
+    if(currentControl.mobility == 0) {
+        if(adjustedDistance > currentState.mobility) {
             hasCompletedMobility = true;
         } else if(adjustedDistance == std::round(totalMissionLength / distanceInterval)) {
             hasCompletedMobility = true;
         }
     } else {
-        if(adjustedDistance < currentState.first) {
+        if(adjustedDistance < currentState.mobility) {
             hasCompletedMobility = true;
         } else if(adjustedDistance == 0) {
             hasCompletedMobility = true;
@@ -170,10 +170,10 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
 }
 
 const LocalState& CentralizedQProtocol::getAgentState() {
-    currentState.first = std::round(currentDistance / distanceInterval);
+    currentState.mobility = std::round(currentDistance / distanceInterval);
 
     for(int index=0;index<collectedPackets.size();index++) {
-        currentState.second[index] = std::ceil(collectedPackets[index]/communicationStorageInterval);
+        currentState.communication[index] = std::ceil(collectedPackets[index]/communicationStorageInterval);
     }
     return currentState;
 }
@@ -199,9 +199,9 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses
-    if(control.first == 0 && lastTelemetry.isReversed()) {
+    if(control.mobility == 0 && lastTelemetry.isReversed()) {
         reverse();
-    } else if(control.first == 1 && !lastTelemetry.isReversed()) {
+    } else if(control.mobility == 1 && !lastTelemetry.isReversed()) {
         reverse();
     }
 

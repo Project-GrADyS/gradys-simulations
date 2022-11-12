@@ -24,14 +24,28 @@ using namespace omnetpp;
 
 // This is the command set local an agent. It is composed of a mobility component
 // and a communication component.
-using LocalControl = std::pair<unsigned char, unsigned char>;
+struct LocalControl {
+    uint8_t mobility;
+    uint8_t communication;
+
+    bool operator==(const LocalControl& other) const {
+        return this->mobility == other.mobility && this->communication == other.communication;
+    }
+};
 
 // This is the system1s joint command, composed of all the agent's local commands.
 using JointControl = std::vector<LocalControl>;
 
 // This is the state local to an agent, it is composed of a localization component
 // and a vector recording data stored by this agend and it's origin.
-using LocalState = std::pair<unsigned int, std::vector<unsigned int>>;
+struct LocalState {
+    uint16_t mobility;
+    std::vector<uint16_t> communication;
+
+    bool operator==(const LocalState& other) const {
+        return this->mobility == other.mobility && this->communication == other.communication;
+    }
+};
 
 // This is the system's global state, composed of all the agent's local states
 using GlobalState = std::vector<LocalState>;
@@ -44,12 +58,12 @@ namespace projeto {
 /****** QTableKey hashing ******/
 
 // https://stackoverflow.com/a/72073933
-extern void hashValue(unsigned int &value);
+extern void hashValue(uint16_t &value);
 
 // https://stackoverflow.com/a/72073933
-extern void incorporateHash(std::size_t& hash,unsigned int value);
+extern void incorporateHash(std::size_t& hash,uint16_t value);
 
-extern std::size_t hashVector(const std::vector<unsigned int>& vector);
+extern std::size_t hashVector(const std::vector<uint16_t>& vector);
 
 class GlobalStateHash {
 public:
@@ -91,7 +105,7 @@ public:
         // Gets the agent's current state
         virtual const LocalState& getAgentState() = 0;
 
-        virtual std::vector<unsigned int> getCollectedPackets() = 0;
+        virtual std::vector<uint16_t> getCollectedPackets() = 0;
 
         // Applies a command to the agent
         virtual void applyCommand(const LocalControl& command) = 0;
@@ -151,7 +165,7 @@ protected:
     virtual void initializeQTable();
     virtual void exportQTable();
     virtual void importQTable();
-    virtual LocalControl generateRandomLocalControl(unsigned int agent);
+    virtual LocalControl generateRandomLocalControl();
     virtual JointControl generateRandomJointControl();
 
 protected:

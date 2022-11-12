@@ -24,18 +24,18 @@ namespace projeto {
 
 Define_Module(CentralizedQLearning);
 
-void hashValue(unsigned int &value) {
+void hashValue(uint16_t &value) {
     value = ((value >> 16) ^ value) * 0x45d9f3b;
     value = ((value >> 16) ^ value) * 0x45d9f3b;
     value = (value >> 16) ^ value;
 }
 
 // https://stackoverflow.com/a/72073933
-void incorporateHash(std::size_t& hash,unsigned int value) {
+void incorporateHash(std::size_t& hash, uint16_t value) {
     hash ^= value + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 }
 
-std::size_t hashVector(const std::vector<unsigned int>& vector) {
+std::size_t hashVector(const std::vector<uint16_t>& vector) {
   std::size_t seed = vector.size();
   for(auto value : vector) {
     hashValue(value);
@@ -47,7 +47,7 @@ std::size_t hashVector(const std::vector<unsigned int>& vector) {
 std::size_t GlobalStateHash::operator()(const GlobalState& key) const {
    std::size_t hash = key.size();
    for(const LocalState& state : key) {
-       unsigned int value = hashVector(state.second) ^ static_cast<std::size_t>(state.first);
+       uint16_t value = hashVector(state.communication) ^ static_cast<std::size_t>(state.mobility);
        hashValue(value);
        incorporateHash(hash, value);
    }
@@ -58,13 +58,13 @@ std::size_t QTableKeyHash::operator()(const QTableKey& key) const {
    std::size_t hash = key.first.size() + key.second.size();
    // https://stackoverflow.com/a/72073933
    for(const LocalState& state : key.first) {
-       unsigned int value = hashVector(state.second);
+       uint16_t value = hashVector(state.communication);
        hashValue(value);
        incorporateHash(hash, value);
    }
 
    for(const LocalControl& command : key.second) {
-       unsigned int value = command.first ^ command.second;
+       uint16_t value = command.mobility ^ command.communication;
        hashValue(value);
        incorporateHash(hash, value);
    }
@@ -158,8 +158,8 @@ void CentralizedQLearning::train() {
         // TODO: Remove
         if(costFunction == SANITY || costFunction == SANITY_2) {
             //Zeroing out every communication state
-            for(int i=0;i<state.second.size();i++) {
-                state.second[i] = 0;
+            for(int i=0;i<state.communication.size();i++) {
+                state.communication[i] = 0;
             }
         }
         newState.push_back(state);
@@ -168,11 +168,11 @@ void CentralizedQLearning::train() {
         for(int i = 0; i < sensors.size(); i++) {
             unsigned int awaiting = sensors[i]->getAwaitingPackets();
             if (awaiting > 80) {
-                newState[0].second[i] = 2;
+                newState[0].communication[i] = 2;
             } else if (awaiting > 10) {
-                newState[0].second[i] = 1;
+                newState[0].communication[i] = 1;
             } else {
-                newState[0].second[i] = 0;
+                newState[0].communication[i] = 0;
             }
         }
     }
@@ -280,7 +280,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     {
         double cost = 0;
         for(CentralizedQAgent *agent : agents) {
-            std::vector<unsigned int> agentPackets = agent->getCollectedPackets();
+            std::vector<uint16_t> agentPackets = agent->getCollectedPackets();
 
             unsigned int maxPacket = 0;
             for(auto packet : agentPackets) {
@@ -321,7 +321,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         }
 
         for(int index = 0; index < agents.size(); index++) {
-            std::vector<unsigned int> packets = X[index].second;
+            std::vector<uint16_t> packets = X[index].communication;
             // Checking if the agent has packets
             bool hasPackets = false;
             for(unsigned int load: packets) {
@@ -332,14 +332,14 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
             }
 
             // Checks if the agent is moving away from the ground station and if it previously had packets
-            if(hasPackets && U[index].first == 0) {
+            if(hasPackets && U[index].mobility == 0) {
                 cost += 100; // Punishes if agent is moving away from ground station with packets
             }
 
 
             // If the target is further away and the agent sent it's packets to it,
-            unsigned char target = U[index].second;
-            if(!hasPackets && X[target].first > X[index].first) {
+            unsigned char target = U[index].communication;
+            if(!hasPackets && X[target].mobility > X[index].mobility) {
                 cost += 100; // Punish for sending data away from the ground station
             }
         }
@@ -357,7 +357,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     {
         double distanceSum = 0;
         for(const LocalState& state : newState) {
-            distanceSum += state.first;
+            distanceSum += state.mobility;
         }
         return distanceSum / agents.size();
     }
@@ -441,7 +441,7 @@ void CentralizedQLearning::exportQTable() {
 
 
         for(int index = 0; index < globalState.size(); index++) {
-            file << globalState[index].first;
+            file << globalState[index].mobility;
             if(index < globalState.size() - 1) {
                 file << ", ";
             }
@@ -451,9 +451,9 @@ void CentralizedQLearning::exportQTable() {
 
         for(int index = 0; index < globalState.size(); index++) {
             file << "[";
-            for(int commIndex = 0; commIndex < globalState[index].second.size(); commIndex++) {
-                file << globalState[index].second[commIndex];
-                if(commIndex < globalState[index].second.size() - 1) {
+            for(int commIndex = 0; commIndex < globalState[index].communication.size(); commIndex++) {
+                file << globalState[index].communication[commIndex];
+                if(commIndex < globalState[index].communication.size() - 1) {
                     file << ", ";
                 }
             }
@@ -468,7 +468,7 @@ void CentralizedQLearning::exportQTable() {
         file << "    \"jointControl\": [";
 
         for(int index = 0; index < jointControl.size(); index++) {
-            file << "[" << +jointControl[index].first << ", " << +jointControl[index].second << "]";
+            file << "[" << +jointControl[index].mobility << ", " << +jointControl[index].communication << "]";
             if(index < jointControl.size() - 1) {
                 file << ", ";
             }
@@ -488,12 +488,12 @@ void CentralizedQLearning::exportQTable() {
     file.close();
 }
 
-std::vector<unsigned int> parseVectorString(std::string str) {
+std::vector<uint16_t> parseVectorString(std::string str) {
     str.erase(std::remove(str.begin(), str.end(), '['), str.end());
     str.erase(std::remove(str.begin(), str.end(), ']'), str.end());
 
     size_t pos = 0;
-    std::vector<unsigned int> vector;
+    std::vector<uint16_t> vector;
     std::string delimiter = ", ";
     while ((pos = str.find(delimiter)) != std::string::npos) {
         std::string token = str.substr(0, pos);
@@ -509,8 +509,8 @@ std::vector<unsigned int> parseVectorString(std::string str) {
     return vector;
 }
 
-std::vector<std::vector<unsigned int>> parseNestedVectorString(std::string str) {
-    std::vector<std::vector<unsigned int>> nestedVector;
+std::vector<std::vector<uint16_t>> parseNestedVectorString(std::string str) {
+    std::vector<std::vector<uint16_t>> nestedVector;
 
     std::regex arrayMatcher("\\[[^[\\]]*\\]");
 
@@ -549,9 +549,9 @@ void CentralizedQLearning::importQTable() {
 
     for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
         std::smatch match = *i;
-        std::vector<unsigned int> mobilityStates = parseVectorString(match[1].str());
-        std::vector<std::vector<unsigned int>> communicationStates = parseNestedVectorString(match[2].str());
-        std::vector<std::vector<unsigned int>> jointControlVector = parseNestedVectorString(match[3].str());
+        std::vector<uint16_t> mobilityStates = parseVectorString(match[1].str());
+        std::vector<std::vector<uint16_t>> communicationStates = parseNestedVectorString(match[2].str());
+        std::vector<std::vector<uint16_t>> jointControlVector = parseNestedVectorString(match[3].str());
 
         size_t stateSize = mobilityStates.size();
         if(communicationStates.size() != stateSize || jointControlVector.size() != stateSize) {
@@ -563,11 +563,11 @@ void CentralizedQLearning::importQTable() {
         for(size_t index = 0; index < stateSize; index++) {
             LocalState state = {};
             LocalControl control = {};
-            state.first = mobilityStates[index];
-            state.second = communicationStates[index];
+            state.mobility = mobilityStates[index];
+            state.communication = communicationStates[index];
 
-            control.first = jointControlVector[index][0];
-            control.second = jointControlVector[index][1];
+            control.mobility = jointControlVector[index][0];
+            control.communication = jointControlVector[index][1];
 
             globalState.push_back(state);
             jointControl.push_back(control);
@@ -577,17 +577,17 @@ void CentralizedQLearning::importQTable() {
 }
 
 
-LocalControl CentralizedQLearning::generateRandomLocalControl(unsigned int agent) {
-    return LocalControl(intuniform(0, 1), intuniform(0, agents.size() - 1));
+LocalControl CentralizedQLearning::generateRandomLocalControl() {
+    return {static_cast<uint8_t>(intuniform(0, 1)), static_cast<uint8_t>(intuniform(0, agents.size() - 1))};
 }
 
 JointControl CentralizedQLearning::generateRandomJointControl() {
     JointControl U = {};
     for(int index = 0;index < agents.size(); index++) {
        // Generating a valid random command
-       LocalControl command = generateRandomLocalControl(index);
+       LocalControl command = generateRandomLocalControl();
        if (costFunction == SANITY_2) {
-           command.second = 0;
+           command.communication = 0;
        }
 
        U.push_back(command);
