@@ -245,6 +245,11 @@ void CentralizedQLearning::train() {
             train();
         }
     } else {
+        double cost = computeCost(newState);
+        lastCost = cost;
+        // Emitting current training cost for data collection
+        emit(trainingCostSignal, cost);
+
         X = newState;
         // If the module is in testing mode, use the optimal control map to get the optimal command
         JointControl optimalControl = {};
