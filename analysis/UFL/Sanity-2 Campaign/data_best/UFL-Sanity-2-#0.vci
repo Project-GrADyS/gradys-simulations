@@ -1,0 +1,278 @@
+file 80013754 1668829399                                        
+version 2
+run UFL-Sanity-2-0-20221119-00:04:06-40432
+attr configname UFL-Sanity-2
+attr datetime 20221119-00:04:06
+attr experiment UFL-Sanity-2
+attr inifile mobilityDrones-omnetpp.ini
+attr iterationvars ""
+attr iterationvarsf ""
+attr measurement ""
+attr network mobilityDronesCentralizedQLearning
+attr processid 40432
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param *.learner.distanceInterval 80m
+param *.learner.costFunction 6
+param *.learner.trainingMode true
+param *.quads[*].protocol.typename "\"CentralizedQProtocol\""
+param *.sensors[*].protocol.typename "\"CentralizedQProtocolSensor\""
+param *.groundStation.protocol.typename "\"CentralizedQProtocolGround\""
+param *.learner.trainingMode true
+param *.learner.qTablePath "\"H:\\\\\\\\Projetos\\\\GrADyS\\\\gradys-simulations\\\\qTable.json\""
+param *.quads[*].mobility.startTime 0s
+param **.app[0].startTime exponential(1s)
+param *.coordinateSystem.sceneLatitude 29.6314706413837deg
+param *.coordinateSystem.sceneLongitude -82.3528289794922deg
+param *.numUAVs 3
+param *.quads[*].mobility.speed 5mps
+param *.quads[*].mobility.homeLatitude 29.6264252808517deg
+param *.quads[*].mobility.homeLongitude -82.3603177070618deg
+param *.quads[0].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[1] quads[2] groundStation\""
+param *.quads[1].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[0] quads[2] groundStation\""
+param *.quads[2].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[0] quads[1] groundStation\""
+param *.quads[0].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[1] quads[2] groundStation\""
+param *.quads[1].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[0] quads[2] groundStation\""
+param *.quads[2].app[0].destAddresses "\"sensors[0] sensors[1] sensors[2] sensors[3] sensors[4] sensors[5] quads[0] quads[1] groundStation\""
+param *.quads[*].numFailures 0
+param *.quads[*].protocol.typename "\"DadcaProtocol\""
+param *.quads[*].protocol.timeoutDuration 20s
+param *.quads[*].app[0].sendInterval 1s
+param *.quads[0].mobility.startTime 0s
+param *.quads[1].mobility.startTime 40s
+param *.quads[2].mobility.startTime 80s
+param *.quads[0].app[*].startTime "normal(1s, 1s)"
+param *.quads[1].app[*].startTime "normal(40s, 1s)"
+param *.quads[2].app[*].startTime "normal(80s, 1s)"
+param *.quads[*].mobility.waypointFile "\"paths/UFLpath.waypoints\""
+param *.numSensors 6
+param *.sensors[*].protocol.typename "\"DadcaProtocolSensor\""
+param *.sensors[*].app[0].destAddresses "\"quads[0] quads[1] quads[2]\""
+param *.sensors[*].mobility.typename "\"StationaryMobility\""
+param *.sensors[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.sensors[*].mobility.initialAltitude 0m
+param *.sensors[0].mobility.initialLatitude 29.6266770885695deg
+param *.sensors[0].mobility.initialLongitude -82.3613905906677deg
+param *.sensors[1].mobility.initialLatitude 29.6283278124665deg
+param *.sensors[1].mobility.initialLongitude -82.3614871501923deg
+param *.sensors[2].mobility.initialLatitude 29.6292417609568deg
+param *.sensors[2].mobility.initialLongitude -82.3597919940948deg
+param *.sensors[3].mobility.initialLatitude 29.6294842356952deg
+param *.sensors[3].mobility.initialLongitude -82.3572063446045deg
+param *.sensors[4].mobility.initialLatitude 29.6296054728455deg
+param *.sensors[4].mobility.initialLongitude -82.3539769649506deg
+param *.sensors[5].mobility.initialLatitude 29.6314706413837deg
+param *.sensors[5].mobility.initialLongitude -82.3528289794922deg
+param *.groundStation.protocol.typename "\"DadcaProtocolGround\""
+param *.groundStation.mobility.initialLatitude 29.6264252808517deg
+param *.groundStation.mobility.initialLongitude -82.3603177070618deg
+param *.groundStation.mobility.initialAltitude 0m
+param *.groundStation.app[0].destAddresses "\"quads[0] quads[1] quads[2]\""
+param *.groundStation.protocol.dataLoggingInterval 10min
+param *.quads[*].numApps 1
+param *.quads[*].app[0].typename "\"UdpCommunicationApp\""
+param *.quads[*].app[0].localPort 1000
+param *.quads[*].app[0].destPort 1000
+param *.quads[*].app[0].sendInterval 1s
+param *.quads[*].app[0].startTime 1s
+param *.quads[*].app[0].stopTime -1s
+param *.quads[*].app[0].messageLength 1454Byte
+param *.quads[*].protocol.typename "\"DadcaProtocol\""
+param *.quads[*].mobility.typename "\"DroneMobility\""
+param *.quads[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.quads[*].mobility.waypointFile "\"paths/voo_ar.waypoints\""
+param *.quads[*].mobility.waypointProximity 1m
+param *.quads[*].mobility.speed 10mps
+param *.quads[*].mobility.homeLatitude -15.840068deg
+param *.quads[*].mobility.homeLongitude -47.926633deg
+param *.groundStation.mobility.typename "\"StationaryMobility\""
+param *.groundStation.mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.groundStation.numApps 1
+param *.groundStation.app[0].typename "\"UdpCommunicationApp\""
+param *.groundStation.app[0].destPort 1000
+param *.groundStation.app[0].localPort 1000
+param *.groundStation.app[0].sendInterval 1s
+param *.groundStation.app[0].messageLength 1454Byte
+param *.groundStation.protocol.typename "\"DadcaProtocolGround\""
+param *.groundStation.mobility.initialLatitude -15.840068deg
+param *.groundStation.mobility.initialLongitude -47.926633deg
+param *.groundStation.mobility.initialAltitude 0m
+param *.groundStation.app[0].startTime 130s
+param *.numSensors 8
+param *.sensors[*].numApps 1
+param *.sensors[*].mobility.typename "\"StationaryMobility\""
+param *.sensors[*].mobility.coordinateSystemModule "\"coordinateSystem\""
+param *.sensors[*].app[0].typename "\"UdpCommunicationApp\""
+param *.sensors[0..2].protocol.typename "\"DadcaProtocolSensor\""
+param *.sensors[*].app[0].destPort 1000
+param *.sensors[*].app[0].localPort 1000
+param *.sensors[*].app[0].sendInterval 8s
+param *.sensors[*].app[0].startTime exponential(1s)
+param *.sensors[*].app[0].messageLength 1454Byte
+param *.sensors[*].mobility.initialAltitude 0m
+param *.sensors[0].mobility.initialLatitude -15.84245230deg
+param *.sensors[0].mobility.initialLongitude -47.92948720deg
+param *.sensors[1].mobility.initialLatitude -15.84262780deg
+param *.sensors[1].mobility.initialLongitude -47.92650460deg
+param *.sensors[2].mobility.initialLatitude -15.84161630deg
+param *.sensors[2].mobility.initialLongitude -47.92395110deg
+param *.sensors[3].mobility.initialLatitude -15.8436264deg
+param *.sensors[3].mobility.initialLongitude -47.9270250deg
+param *.sensors[4].mobility.initialLatitude -15.8406461deg
+param *.sensors[4].mobility.initialLongitude -47.9240263deg
+param *.sensors[5].mobility.initialLatitude -15.8416370deg
+param *.sensors[5].mobility.initialLongitude -47.9227066deg
+param *.sensors[6].mobility.initialLatitude -15.8437115deg
+param *.sensors[6].mobility.initialLongitude -47.9259145deg
+param *.sensors[7].mobility.initialLatitude -15.8437425deg
+param *.sensors[7].mobility.initialLongitude -47.9246378deg
+param *.visualizer.osgVisualizer.typename "\"IntegratedOsgVisualizer\""
+param *.visualizer.osgVisualizer.sceneVisualizer.typename "\"SceneOsgEarthVisualizer\""
+param *.visualizer.osgVisualizer.sceneVisualizer.mapFile "\"map.earth\""
+param *.visualizer.osgVisualizer.sceneVisualizer.sceneImageSize 10000m
+param **.sceneMinX -10000m
+param **.sceneMinY -10000m
+param **.sceneMinZ -10000m
+param **.sceneMaxX 10000m
+param **.sceneMaxY 10000m
+param **.sceneMaxZ 10000m
+param **.wlan[0].radio.displayCommunicationRange true
+param *.visualizer.osgVisualizer.networkNodeVisualizer.displayModuleName true
+param *.visualizer.*.statisticVisualizer.signalName "\"dataLoad\""
+param *.visualizer.*.statisticVisualizer.format "\"(%v)\""
+param *.visualizer.*.statisticVisualizer.textColor "\"red\""
+param *.visualizer.*.statisticVisualizer.font "\"Courier New, 12px, bold\""
+param *.visualizer.*.statisticVisualizer.opacity 1
+param *.visualizer.*.statisticVisualizer.sourceFilter "\"*.quads[*].** *.groundStation.** *.sensors[*].**\""
+param *.visualizer.*.mobilityVisualizer.displayMobility true
+param *.visualizer.*.mobilityVisualizer.displayPositions true
+param *.visualizer.*.mobilityVisualizer.displayOrientations true
+param *.visualizer.*.mobilityVisualizer.displayVelocities true
+param *.visualizer.*.mobilityVisualizer.displayMovementTrails true
+param *.visualizer.*.mobilityVisualizer.animationSpeed 10
+param **.constraintAreaMinX -10000m
+param **.constraintAreaMinY -10000m
+param **.constraintAreaMinZ -10000m
+param **.constraintAreaMaxX 10000m
+param **.constraintAreaMaxY 10000m
+param **.constraintAreaMaxZ 10000m
+param *.coordinateSystem.sceneLongitude -47.926634deg
+param *.coordinateSystem.sceneLatitude -15.840075deg
+param *.coordinateSystem.sceneHeading 0deg
+param *.environment.ground.typename "\"FlatGround\""
+param *.quads[*].osgModel "\"3d/drone.ive.10.scale.0,0,90.rot\""
+param **.mobility.initFromDisplayString false
+param *.sensor*.wlan[0].radio.energyConsumer.typename "\"SensorStateBasedEpEnergyConsumer\""
+param *.sensor*.wlan[0].radio.energyConsumer.offPowerConsumption 0mW
+param *.sensor*.wlan[0].radio.energyConsumer.sleepPowerConsumption 1mW
+param *.sensor*.wlan[0].radio.energyConsumer.switchingPowerConsumption 1mW
+param *.sensor*.wlan[0].radio.energyConsumer.receiverIdlePowerConsumption 2mW
+param *.sensor*.wlan[0].radio.energyConsumer.receiverBusyPowerConsumption 5mW
+param *.sensor*.wlan[0].radio.energyConsumer.receiverReceivingPowerConsumption 10mW
+param *.sensor*.wlan[0].radio.energyConsumer.transmitterIdlePowerConsumption 2mW
+param *.sensor*.wlan[0].radio.energyConsumer.transmitterTransmittingPowerConsumption 100mW
+param *.sensor*.energyStorage.typename "\"IdealEpEnergyStorage\""
+param *.sensor*.wlan[0].radio.displayInterferenceRange false
+
+vector 0 mobilityDronesCentralizedQLearning.quads[0].protocol dataLoad:vector ETV
+0	2146392 1092065 0 18767620 0 29364.098020404034 32768 0 200 4610517 899772287
+0	10171121 1130372 18767714 36797086 29364.098509069055 59959.098749128879 32768 0 200 5086915 1000307161
+0	16377770 1126157 36797655 54010166 59960.098140513784 89403.098220448345 32768 0 200 4640999 901199739
+0	22681288 1147313 54010574 71822426 89404.09862041519 118330.098100466063 32768 0 200 4810803 936296493
+0	31974617 1160013 71823112 89417784 118331.098380499248 148096.098480273003 32768 0 200 4742793 924180655
+0	38417819 1172970 89417985 107416504 148096.099716849558 177993.098560193266 32768 0 200 4639444 896869762
+0	47367315 1200036 107417052 126393679 177994.098280226086 209523.098100120207 32768 0 200 5504057 1081695171
+0	53876104 1187451 126394214 143958099 209524.098300087888 237651.098560026503 32768 0 200 4173481 807391151
+0	59417394 1176029 143958639 160743926 237652.098540058086 262750.098260069049 32768 0 200 2968079 557837987
+0	69357218 1197855 160744525 179124604 262751.098100037292 293650.099316859017 32768 0 200 5257918 1028306302
+0	71729316 306004 179125136 183029259 293651.098364557858 299999.099216911125 8512 0 200 784214 143394446
+vector 1 mobilityDronesCentralizedQLearning.quads[1].protocol dataLoad:vector ETV
+1	1076790 1069602 0 18480844 0 28939.047899290338 32768 0 200 1948289 319204557
+1	9060485 1110636 18480897 35503789 28939.048059552733 57504.047999443012 32768 0 200 2663698 454717620
+1	15265091 1112679 35504328 53786010 57505.048099409846 89023.048187591186 32768 0 200 2786839 467586855
+1	23828601 1124671 53786102 72059740 89023.048755657898 118652.0481188968 32768 0 200 2098804 339153744
+1	30833869 1140748 72060426 89045087 118653.047938877629 147430.047818870714 32768 0 200 2437309 413822151
+1	36285262 1151030 89045730 106425881 147431.047678870714 176058.048099126973 32768 0 200 2229377 382798303
+1	46192808 1174507 106426635 125724673 176059.047959159671 208257.047959154035 32768 0 200 2374873 378233271
+1	55063555 1176586 125725183 144417482 208258.048059121352 238502.047979071304 32768 0 200 2621895 436393475
+1	61619286 1168727 144418153 162612301 238503.047759048608 265612.048139319034 32768 0 200 2069973 361350025
+1	70555073 1174243 162612934 180527591 265613.047819352122 295970.047519031068 32768 0 200 2354872 380150854
+1	72035320 169592 180528146 183028735 295971.048098999421 299999.047659282226 4771 0 200 244327 38735079
+vector 2 mobilityDronesCentralizedQLearning.quads[2].protocol dataLoad:vector ETV
+2	11368 1065422 0 16576978 0 25905.080678579905 32768 0 200 1830727 310889109
+2	7957246 1103239 16577094 35098433 25905.081546944141 56890.080827292753 32768 0 200 1901020 294417758
+2	13198728 1106121 35099178 53201703 56891.080658607819 88091.080214445312 32768 0 200 2044451 319633645
+2	21560117 1121171 53201904 70942598 88091.081190741503 116639.080274197455 32768 0 200 1994696 327785618
+2	33134630 1139279 70943144 89923234 116640.08007423022 148957.080193923096 32768 0 200 2120779 338982837
+2	39590789 1154813 89923942 108358063 148958.080593923096 179715.080214076448 32768 0 200 2358641 390662979
+2	43781062 1160103 108358859 123963950 179716.080554044927 205550.081390991413 32768 0 200 1195104 178705104
+2	51671536 1169696 123964487 141305494 205551.080658580164 233525.08033454781 32768 0 200 2058265 341166361
+2	58246228 1171166 141305695 160091312 233525.08117066999 261900.080454371488 32768 0 200 2284951 393190033
+2	67159880 1169961 160092005 177813134 261901.080194543004 291208.080294088563 32768 0 200 2098353 351979899
+2	72204912 286188 177813678 183028887 291209.080434056841 299999.080533924772 7899 0 200 885883 156424371
+vector 3 mobilityDronesCentralizedQLearning.sensors[0].protocol dataLoad:vector ETV
+3	4196024 945328 0 25869870 0 41651.048715983231 32768 0 518 416216 88917082
+3	18476120 952992 25870587 56356762 41652.049015983231 92807.098732946807 32768 0 418 516842 87153554
+3	28877932 973593 56357349 87967371 92808.081246879572 145937.081431035613 32768 0 747 815859 250198841
+3	41753628 1018184 87968043 115730429 145938.080558937092 191380 32768 0 588 539056 149418086
+3	52841232 1034872 115732887 143016008 191385 235995.098764813385 32768 0 593 673575 196704905
+3	63804803 1056573 143016637 165792749 235996.09896483008 270929.099372675891 32768 0 355 226466 33367002
+3	72491100 554832 165792882 183029349 270930 300000 17918 0 695 507722 166295944
+vector 4 mobilityDronesCentralizedQLearning.sensors[1].protocol dataLoad:vector ETV
+4	5141352 938679 0 29184187 0 46919.080598379024 32768 0 258 213077 21771127
+4	20604697 955420 29184478 58940050 46919.099808821653 96217.098624248465 32768 0 326 272375 34279957
+4	29851525 982344 58940560 88833104 96218.098784297179 147160 32768 0 704 535033 154782211
+4	42771812 1009250 88835833 118730095 147165 196680 32768 0 449 299038 50843938
+4	57225357 1020871 118730389 149226458 196680.048552380637 246065.098704306788 32768 0 548 355844 77619444
+4	68329841 1027377 149226693 178716910 246066.047703030258 292910 32768 0 448 360654 70375516
+4	73045932 176155 178719593 183029350 292915 300000 5554 0 523 76314 27590036
+vector 5 mobilityDronesCentralizedQLearning.sensors[2].protocol dataLoad:vector ETV
+5	7021726 935520 0 30833896 0 49647.080658101146 32768 0 161 183576 11600216
+5	17503927 972193 30834603 55442333 49648.080818147528 91620.098684398192 32768 0 193 108604 6347428
+5	27891686 986246 55443064 84006488 91621.098544349028 138841.04846328706 32768 0 185 181622 13452356
+5	40745602 1008026 84007228 111835821 138842.048563272181 185133.048863270532 32768 0 200 194685 14514673
+5	50643796 1027740 111835996 139995848 185133.080538717182 231535 32768 0 350 232234 29724328
+5	64861376 1024121 139998566 170834833 231540 279466.080778796491 32768 0 390 245361 32340671
+5	73222087 383080 170835514 183029351 279467.08035874677 300000 12438 0 206 93924 7543536
+vector 6 mobilityDronesCentralizedQLearning.sensors[3].protocol dataLoad:vector ETV
+6	6080031 941695 0 29709449 0 47736.081198608026 32768 0 221 218160 17200532
+6	12216383 982345 29710015 51747904 47737.080778558484 85660.080478046116 32768 0 185 102460 6615118
+6	25897052 994908 51748591 77757807 85661.080918005946 128090 32768 0 240 167681 15241379
+6	34273909 1005012 77757958 103894572 128090.047962942725 171834.099184868765 32768 0 254 158282 13413086
+6	49610800 1032996 103894655 130538678 171835 215925 32768 0 156 143984 8618268
+6	62788013 1016790 130538820 163524702 215925.04788374987 267116.098984987949 32768 0 332 297836 33589880
+6	73605167 728473 163525231 183029352 267117.098865037804 300000 23235 0 124 102990 5175292
+vector 7 mobilityDronesCentralizedQLearning.sensors[4].protocol dataLoad:vector ETV
+7	3238457 957567 0 25824131 0 41585.080757995695 32768 0 616 391385 112818081
+7	14304849 960242 25824818 53609690 41586.080818034065 88752.098824428124 32768 0 241 208651 20268067
+7	26891960 999726 53610249 79410814 88753.080778895777 131213.081218050093 32768 0 765 435262 169196344
+7	35278921 1006341 79411221 106347574 131214.080378009467 175905 32768 0 383 232111 36097641
+7	48567351 1043449 106347721 130413005 175905.048223287422 215733.081218359412 32768 0 353 168463 24178783
+7	60593423 1025863 130413590 161199092 215734.081198310486 263300 32768 0 733 476539 155089659
+7	74333640 1033179 161203507 183029353 263305 300000 32251 0 275 139685 14379183
+vector 8 mobilityDronesCentralizedQLearning.sensors[5].protocol dataLoad:vector ETV
+8	11301493 914890 0 38147271 0 62182.098204659522 32768 0 658 966837 247542711
+8	24953272 943780 38147780 74364863 62183.098564609868 122200 32768 0 828 973488 301225618
+8	37436292 981527 74367825 107158593 122205 177491.081378513628 32768 0 465 541933 90618405
+8	56240141 985216 107158965 147348186 177492.048302999313 242750 32768 0 573 925081 193958193
+8	75366819 958539 147350764 183029354 242755 300000 31430 0 960 1407697 604825781
+vector 9 mobilityDronesCentralizedQLearning.groundStation.protocol dataLoad:vector ETV
+9	19429112 1175585 0 57556334 0 94166.09834428271 32768 0 33869 520125321 12075317128365
+9	44941165 1251643 57557192 124248733 94167.081146854484 205949.048731796246 32768 33869 68966 1701080010 91926725567058
+9	65885497 1274383 124249381 171207700 205950.048247771652 279997.080542661073 32768 68966 100042 2771622509 2.3684962691027e+014
+9	76325358 210286 171208229 183029162 279998.048183630913 299999.098688734484 5273 100042 106375 543224251 55990828951547
+vector 10 mobilityDronesCentralizedQLearning.groundStation.protocol throughput:vector ETV
+10	76535644 18326 0 183029348 0 300000 501 0 0.44724358974359 176.53423607938 62.584824669545
+vector 11 mobilityDronesCentralizedQLearning.learner trainingCost:vector ETV
+11	76553970 802702 38 183024891 0.3 299993.5 23844 0 6.8333333333333 45324.166666667 138379.91666664
+vector 12 mobilityDronesCentralizedQLearning.learner cumTrainCost:vector ETV
+attr source sum(trainingCost)
+12	77356672 833964 38 183024891 0.3 299993.5 23844 2 45324.166666667 529939500.5 15757956797617
+vector 13 mobilityDronesCentralizedQLearning.learner cumAvgTrainCost:vector ETV
+attr source avg(trainingCost)
+13	78190636 899493 38 183024891 0.3 299993.5 23844 0.92777777777778 3.5130434782609 45073.229463924 85948.013814487
+vector 14 mobilityDronesCentralizedQLearning.learner epsilon:vector ETV
+14	79090129 923625 38 183024891 0.3 299993.5 23844 0.19261051834604 0.99993092483301 11687.75619754 6969.2297715423

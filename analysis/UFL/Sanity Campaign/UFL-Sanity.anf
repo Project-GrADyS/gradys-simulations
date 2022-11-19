@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Old-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Old-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Test-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="Avg Train Cost">
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.learner) AND name(cumAvgTrainCost:vector)" type="VECTOR"/>
+      <items xsi:type="scave:LineChart" name="" lineNameFormat="">
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Old-#0.vec UFL-Sanity-Old-0-20221108-23:23:34-27028 communication-sanity-old" value="Training"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Sanity Campaign/data/UFL-Sanity-Test-#0.vec UFL-Sanity-Test-0-20221108-21:15:24-14140 communication-sanity-test" value="Testing"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+  </chartSheets>
+</scave:Analysis>

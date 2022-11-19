@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data/UFL-Sanity-2-Test-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data/UFL-Sanity-2-Test-#0.vec"/>
+  </inputs>
+  <datasets>
+    <datasets name="Avg Cost">
+      <items xsi:type="scave:Add" filterPattern="name(*Avg*)" type="VECTOR"/>
+      <items xsi:type="scave:LineChart" name="" lineNameFormat=""/>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+  </chartSheets>
+</scave:Analysis>
