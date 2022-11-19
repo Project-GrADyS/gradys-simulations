@@ -98,6 +98,7 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
             case ACK:
             {
                 awaitingPackets = 0;
+                visited = true;
                 emit(dataLoadSignalID, 0);
                 break;
             }

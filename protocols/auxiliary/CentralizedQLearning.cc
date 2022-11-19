@@ -166,12 +166,17 @@ void CentralizedQLearning::train() {
     }
     if(costFunction == SANITY_2) {
         for(int i = 0; i < sensors.size(); i++) {
-            unsigned int awaiting = sensors[i]->getAwaitingPackets();
-            if (awaiting > 80) {
+            int awaiting = sensors[i]->getAwaitingPackets();
+            if (awaiting >= 80) {
+                newState[0].communication[i] = 10;
+            }
+            else if (awaiting >= 35 || !sensors[i]->hasBeenVisited()) {
                 newState[0].communication[i] = 2;
-            } else if (awaiting > 10) {
+            }
+            else if (awaiting >= 10) {
                 newState[0].communication[i] = 1;
-            } else {
+            }
+            else {
                 newState[0].communication[i] = 0;
             }
         }
@@ -197,7 +202,6 @@ void CentralizedQLearning::train() {
                 }
             }
             /***********************************************/
-
 
 
             dispatchJointCommand();
@@ -363,11 +367,11 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     }
     case SANITY_2:
     {
-        unsigned int sum = 0;
-        for(auto sensor: sensors) {
-            sum += sensor->getAwaitingPackets();
+        double total = 0;
+        for(int i = 0; i < sensors.size(); i++) {
+            total += newState[0].communication[i];
         }
-        return sum;
+        return total / sensors.size();
     }
     }
 }

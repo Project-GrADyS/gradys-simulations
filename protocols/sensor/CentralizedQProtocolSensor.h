@@ -32,6 +32,7 @@ class CentralizedQProtocolSensor : public CommunicationProtocolBase, public Cent
 public:
     // Gets the number of awaiting packages the sensor has stored
     virtual int getAwaitingPackets() override { return awaitingPackets; };
+    virtual bool hasBeenVisited() override { return visited; };
 
 
 
@@ -43,6 +44,8 @@ protected:
     int sensorId;
     // Number of packets waiting to be picked up
     int awaitingPackets = 0;
+
+    bool visited = false;
 
     // Variables that control the generation of new packets. Packets are generated
     // every beta seconds. The generation timer controls this behavior, every time

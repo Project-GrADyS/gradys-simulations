@@ -119,6 +119,8 @@ public:
     class CentralizedQSensor {
     public:
         virtual int getAwaitingPackets() = 0;
+
+        virtual bool hasBeenVisited() = 0;
     };
 
     class CentralizedQGround {
