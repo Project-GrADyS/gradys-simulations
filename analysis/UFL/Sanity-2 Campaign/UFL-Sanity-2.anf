@@ -3,16 +3,50 @@
   <inputs>
     <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-#0.sca"/>
     <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-#0.vec"/>
-    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data/UFL-Sanity-2-Test-#0.sca"/>
-    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data/UFL-Sanity-2-Test-#0.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec"/>
   </inputs>
   <datasets>
     <datasets name="Avg Cost">
       <items xsi:type="scave:Add" filterPattern="name(*Avg*)" type="VECTOR"/>
-      <items xsi:type="scave:LineChart" name="" lineNameFormat=""/>
+      <items xsi:type="scave:LineChart" name="Average cost by time" lineNameFormat="">
+        <properties name="Graph.Title" value="Average cost by time"/>
+        <properties name="X.Axis.Title" value="Time (s)"/>
+        <properties name="Y.Axis.Title" value="Avg Cost"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Border" value="true"/>
+        <properties name="Legend.Position" value="Inside"/>
+        <properties name="Legend.Anchoring" value="NorthEast"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Sanity-2 Campaign/data/UFL-Sanity-2-Test-#0.vec UFL-Sanity-2-Test-0-20221119-11:44:11-4380 UFL-Sanity-2-Test" value="Test"/>
+        <properties name="Line.Name//gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-#0.vec UFL-Sanity-2-0-20221119-00:04:06-40432 UFL-Sanity-2" value="Train"/>
+      </items>
+    </datasets>
+    <datasets name="Test Dataload">
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[0].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[1].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[2].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[3].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[4].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="file(&quot;/gradys-simulations/analysis/UFL/Sanity-2 Campaign/data_best/UFL-Sanity-2-Test-#0.vec&quot;) AND attr:configname(UFL-Sanity-2-Test) AND attr:runnumber(0) AND module(mobilityDronesCentralizedQLearning.sensors[5].protocol) AND name(dataLoad:vector)" type="VECTOR"/>
+      <items xsi:type="scave:LineChart" name="Awaiting packets by time" lineNameFormat="">
+        <properties name="Graph.Title" value="Awaiting packets by time"/>
+        <properties name="X.Axis.Title" value="Time (s)"/>
+        <properties name="Y.Axis.Title" value="Awaiting packets"/>
+        <properties name="Legend.Display" value="true"/>
+        <properties name="Legend.Border" value="true"/>
+        <properties name="Legend.Position" value="Inside"/>
+        <properties name="Legend.Anchoring" value="NorthEast"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[0].protocol" value="Sensor 0"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[1].protocol" value="Sensor 1"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[2].protocol" value="Sensor 2"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[3].protocol" value="Sensor 3"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[4].protocol" value="Sensor 4"/>
+        <properties name="Symbols.Size/mobilityDronesCentralizedQLearning.sensors[5].protocol" value="1"/>
+        <properties name="Line.Name/mobilityDronesCentralizedQLearning.sensors[5].protocol" value="Sensor 5"/>
+      </items>
     </datasets>
   </datasets>
   <chartSheets>
-    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1"/>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1 //@datasets/@datasets.1/@items.6"/>
   </chartSheets>
 </scave:Analysis>
