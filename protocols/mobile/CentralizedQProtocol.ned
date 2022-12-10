@@ -30,8 +30,6 @@ simple CentralizedQProtocol extends CommunicationProtocolBase
         // Delay between communication commands and actual messages being sent. Actual
         // delay will be exponentially close to this, randomized to prevent collision
         double communicationDelay @unit(s) = default(100ms);
-        // Timeout after which a communication control will be considered void
-        double communicationTimeout @unit(s) = default(100ms);
 
-        int packetLimit = default(200); // Limit of packets that this UAV can carry
+        int packetLimit = default(1000); // Limit of packets that this UAV can carry
 }

@@ -26,10 +26,9 @@ using namespace omnetpp;
 // and a communication component.
 struct LocalControl {
     uint8_t mobility;
-    uint8_t communication;
 
     bool operator==(const LocalControl& other) const {
-        return this->mobility == other.mobility && this->communication == other.communication;
+        return this->mobility == other.mobility;
     }
 };
 
@@ -40,7 +39,7 @@ using JointControl = std::vector<LocalControl>;
 // and a vector recording data stored by this agend and it's origin.
 struct LocalState {
     uint16_t mobility;
-    std::vector<uint16_t> communication;
+    uint32_t communication;
 
     bool operator==(const LocalState& other) const {
         return this->mobility == other.mobility && this->communication == other.communication;
@@ -48,7 +47,14 @@ struct LocalState {
 };
 
 // This is the system's global state, composed of all the agent's local states
-using GlobalState = std::vector<LocalState>;
+struct GlobalState {
+    std::vector<LocalState> agents;
+    std::vector<uint32_t> sensors;
+
+    bool operator==(const GlobalState& other) const {
+        return this->agents == other.agents && this->sensors == other.sensors;
+    }
+};
 
 // This is the key used to index into the Q Table
 using QTableKey = std::pair<GlobalState, JointControl>;
@@ -58,12 +64,12 @@ namespace projeto {
 /****** QTableKey hashing ******/
 
 // https://stackoverflow.com/a/72073933
-extern void hashValue(uint16_t &value);
+extern void hashValue(uint32_t &value);
 
 // https://stackoverflow.com/a/72073933
-extern void incorporateHash(std::size_t& hash,uint16_t value);
+extern void incorporateHash(std::size_t& hash,uint32_t value);
 
-extern std::size_t hashVector(const std::vector<uint16_t>& vector);
+extern std::size_t hashVector(const std::vector<uint32_t>& vector);
 
 class GlobalStateHash {
 public:
@@ -87,15 +93,6 @@ enum EpsilonDecayStrategy {
     STEPS = 3
 };
 
-enum CostFunction {
-    DEFAULT = 1,
-    SIMPLIFIED = 2,
-    CONDITIONAL = 3,
-    THROUGHPUT = 4,
-    SANITY=5,
-    SANITY_2=6
-};
-
 class CentralizedQLearning : public cSimpleModule
 {
 public:
@@ -103,9 +100,9 @@ public:
     class CentralizedQAgent {
     public:
         // Gets the agent's current state
-        virtual const LocalState& getAgentState() = 0;
+        virtual double getCurrentPosition() = 0;
 
-        virtual std::vector<uint16_t> getCollectedPackets() = 0;
+        virtual uint32_t getCollectedPackets() = 0;
 
         // Applies a command to the agent
         virtual void applyCommand(const LocalControl& command) = 0;
@@ -118,14 +115,14 @@ public:
 
     class CentralizedQSensor {
     public:
-        virtual int getAwaitingPackets() = 0;
+        virtual uint32_t getAwaitingPackets() = 0;
 
         virtual bool hasBeenVisited() = 0;
     };
 
     class CentralizedQGround {
     public:
-        virtual int getReceivedPackets() = 0;
+        virtual uint32_t getReceivedPackets() = 0;
     };
 
 
@@ -194,12 +191,12 @@ protected:
     double epsilonStart;
     double epsilonEnd;
     bool epsilonShortCircuit;
-    CostFunction costFunction;
 
     // Simulation parameters
     double timeInterval;
     double distanceInterval;
     double communicationStorageInterval;
+    double sensorStorageTolerance;
 
     // Training variables
     // Current state of the traninig process. The traninign process has two states:

@@ -21,6 +21,7 @@ namespace projeto;
 enum NodeType {
     AGENT=1;
     PASSIVE=2;
+    ALL=3;
 }
 
 enum MessageType {
@@ -37,4 +38,5 @@ class CentralizedQMessage extends inet::FieldsChunk {
     int targetId; // Id of the target node
     NodeType targetNodeType; // Type of the target node
     int packetLoad; // Number of packets sent in message
+    double nodePosition; // Position of the node, irrelevant for sensor and ground nodes
 }

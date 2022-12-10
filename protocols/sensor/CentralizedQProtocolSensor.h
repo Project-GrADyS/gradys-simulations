@@ -31,7 +31,7 @@ class CentralizedQProtocolSensor : public CommunicationProtocolBase, public Cent
 {
 public:
     // Gets the number of awaiting packages the sensor has stored
-    virtual int getAwaitingPackets() override { return awaitingPackets; };
+    virtual uint32_t getAwaitingPackets() override { return awaitingPackets; };
     virtual bool hasBeenVisited() override { return visited; };
 
 
@@ -43,7 +43,7 @@ protected:
     // ID of this sensor
     int sensorId;
     // Number of packets waiting to be picked up
-    int awaitingPackets = 0;
+    uint32_t awaitingPackets = 0;
 
     bool visited = false;
 

@@ -30,10 +30,10 @@ namespace projeto {
 class CentralizedQProtocolGround : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQGround
 {
 public:
-    int getReceivedPackets() override { return receivedPackets; }
+    uint32_t getReceivedPackets() override { return receivedPackets; }
 protected:
     // Packets collected from agents stored in the ground station
-    unsigned long receivedPackets = 0;
+    uint32_t receivedPackets = 0;
 
     simtime_t dataLoggingInterval;
     cMessage* dataLoggingTimer = new cMessage();

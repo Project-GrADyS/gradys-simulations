@@ -55,23 +55,17 @@ simple CentralizedQLearning
         // If this boolean is set to true the simulation will automatically end when
         // the epsilon horizon is reached
         bool epsilonShortCircuit = default(false);
-        
-        // Defines the cost function used during learning. The possible options are:
-        // 1 = "Default"
-        // 2 = "Simplified"
-        // 3 = "Condition"
-        // 4 = "Throughput"
-        int costFunction = default(3);
 
         // Parameters for the simulated scenario
         double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifies the interval between 
                                                        // each discretized time state. Agents may not be ready for another step after at this interval.
 
-        double distanceInterval @unit(m) = default(20m); // For our MAMDP model the location component of the state space has to be discrete. This
+        double distanceInterval @unit(m) = default(80m); // For our MAMDP model the location component of the state space has to be discrete. This
         											    // parameter specifies the interval between each discretized location stage.
         											    
-     	double communicationStorageInterval = default(1); // This parameters allows the simplification of the communication part of the local state.
-     													  // The values stored in each of the indexes of the agent's local state are going to be divided
-     													  // by communicationStorageInterval and rounded up.
+     	double communicationStorageInterval = default(80); // This parameters allows the simplification of the communication part of the local state.
+     													   // The values stored in each of the indexes of the agent's local state are going to be divided
+     													   // by communicationStorageInterval and rounded up.
+     	double sensorStorageTolerance = default(35); // Awaiting packets below this value will be considered as no awaiting packets at all
 
 }

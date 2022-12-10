@@ -61,7 +61,7 @@ void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
         if(msg == generationTimer) {
             // Generating a new package and storing it with the awaited packages
             awaitingPackets++;
-            emit(dataLoadSignalID, awaitingPackets);
+            emit(dataLoadSignalID, static_cast<long>(awaitingPackets));
             scheduleAt(simTime() + beta, generationTimer);
             return;
         }
@@ -72,7 +72,8 @@ void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
 void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
     // Ignores messages not destined for this sensor id (or -1)
-    if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)  && payload->getTargetNodeType() == PASSIVE) {
+    if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)
+            && (payload->getTargetNodeType() == PASSIVE || payload->getTargetNodeType() == ALL)) {
         switch(payload->getMessageType()) {
             // When a sensor receives a REQUEST messages it sends all it's awaiting packets to the sender
             case REQUEST:
@@ -102,6 +103,8 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
                 emit(dataLoadSignalID, 0);
                 break;
             }
+            case SHARE:
+                break;
         }
     }
 }

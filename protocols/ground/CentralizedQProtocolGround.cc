@@ -65,7 +65,7 @@ void CentralizedQProtocolGround::handleMessage(cMessage *msg) {
 void CentralizedQProtocolGround::handlePacket(Packet *pk) {
     auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
     // Ignoring messages not destined for a passive node
-    if(payload != nullptr && payload->getTargetNodeType() == PASSIVE) {
+    if(payload != nullptr && (payload->getTargetNodeType() == PASSIVE || payload->getTargetNodeType() == ALL)) {
         switch(payload->getMessageType()) {
             // The ground station is constantly waiting for agents to be nearby so it can request
             // the packets they are carrying. When it hears a REQUEST message from one, it sends

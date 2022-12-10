@@ -44,29 +44,24 @@ void CentralizedQProtocol::initialize(int stage)
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
 
-
-        communicationTimeout = par("communicationTimeout");
-
         communicationDelay = par("communicationDelay");
 
         requestInterval = par("requestInterval");
         // Introduces a bit for randomness to the first (and subsequent) messages, this helps prevent
         // collision when sending messages
-        scheduleAt(requestInterval + uniform(0,communicationDelay), requestTimer);
+        scheduleAt(uniform(0,communicationDelay), requestTimer);
         packetLimit = par("packetLimit");
 
         WATCH(agentId);
         WATCH(currentState.mobility);
-        WATCH_VECTOR(currentState.communication);
+        WATCH(currentState.communication);
 
         WATCH(currentDistance);
-        WATCH_VECTOR(collectedPackets);
+        WATCH(collectedPackets);
 
-        WATCH(hasCompletedCommunication);
         WATCH(hasCompletedMobility);
 
         WATCH(currentControl.mobility);
-        WATCH(currentControl.communication);
     }
     if(stage == 1) {
         auto info = learning->registerAgent(this);
@@ -75,31 +70,20 @@ void CentralizedQProtocol::initialize(int stage)
         communicationStorageInterval = info.communicationStorageInterval;
     }
     if(stage == 2) {
-        std::vector<uint16_t> emptyVector = {};
-        for(int i=0;i<learning->agentCount() + learning->sensorCount();i++) {
-            emptyVector.push_back(0);
-        }
-        collectedPackets = emptyVector;
-        currentState.communication = emptyVector;
+        collectedPackets = 0;
+        currentState.communication = 0;
     }
 }
 
 void CentralizedQProtocol::handleMessage(cMessage *msg) {
     if(msg->isSelfMessage()) {
         if(msg == requestTimer) {
-            communicate(-1, PASSIVE, REQUEST);
-
+            communicate(-1, ALL, REQUEST);
             scheduleAt(simTime() + requestInterval, requestTimer);
             return;
-        } else if (msg == applyCommunicationControl) {
-            communicate(currentControl.communication, AGENT, SHARE);
-            if(timeoutTimer->isScheduled()) {
-                cancelEvent(timeoutTimer);
-            }
-            scheduleAt(simTime() + communicationTimeout, timeoutTimer);
-            return;
-        } else if (msg == timeoutTimer) {
-            hasCompletedCommunication = true;
+        } else if (msg == communicationDelayTimer) {
+            communicate(requestTargetId, AGENT, SHARE);
+            requestTargetId = -1;
             return;
         }
     }
@@ -169,15 +153,6 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     lastTelemetry = *telemetry;
 }
 
-const LocalState& CentralizedQProtocol::getAgentState() {
-    currentState.mobility = std::round(currentDistance / distanceInterval);
-
-    for(int index=0;index<collectedPackets.size();index++) {
-        currentState.communication[index] = std::ceil(collectedPackets[index]/communicationStorageInterval);
-    }
-    return currentState;
-}
-
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     Enter_Method_Silent();
 
@@ -188,14 +163,7 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     }
 
     // Sets the completed flags to false when receiving a new command
-    hasCompletedCommunication = false;
     hasCompletedMobility = false;
-
-    // Tries to communicate with agent
-    if(applyCommunicationControl->isScheduled()) {
-        cancelEvent(applyCommunicationControl);
-    }
-    scheduleAt(simTime() + uniform(0,communicationDelay), applyCommunicationControl);
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses
@@ -214,26 +182,20 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
 
     // Ignores packages that are not destined for this agent's id (or id -1 which sends messages to every node) or are not destined
     // to this node's type
-    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1) && payload->getTargetNodeType() == AGENT) {
+    if(payload != nullptr && (payload->getTargetId() == agentId || payload->getTargetId() == -1)
+            && (payload->getTargetNodeType() == AGENT || payload->getTargetNodeType() == ALL)) {
         switch(payload->getMessageType()) {
         // SHARE packets are handled by adding their contents to the agent's state and sending an ACK message in reply
         case SHARE:
         {
-            // Adding packages to storage after they are received
-            int index = payload->getNodeId() + (payload->getNodeType() == PASSIVE ? 0 : learning->sensorCount());
-            collectedPackets[index] += payload->getPacketLoad();
+            // Adding packets to storage
+            collectedPackets += payload->getPacketLoad();
 
-            long sum = 0;
-            for(unsigned int value : collectedPackets) {
-                sum += value;
+            if(collectedPackets > packetLimit) {
+                collectedPackets = packetLimit;
             }
 
-            if(sum > packetLimit) {
-                collectedPackets[index] = collectedPackets[index] - (sum - packetLimit);
-                sum = packetLimit;
-            }
-
-            emit(dataLoadSignalID, sum);
+            emit(dataLoadSignalID, static_cast<long>(collectedPackets));
 
             communicate(payload->getNodeId(), payload->getNodeType(), ACK);
             break;
@@ -242,7 +204,20 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
         // held data
         case REQUEST:
         {
-            communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
+            // If it's not an agent, fulfill the request
+            if (payload->getNodeType() != AGENT) {
+                communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
+            }
+            // If it is, only fulfill if it is closer to the GS than you
+            else if (payload->getNodeType() == AGENT && currentDistance > payload->getNodePosition()) {
+                if (payload->getNodePosition() < requestTargetPosition || requestTargetId == -1) {
+                    requestTargetId = payload->getNodeId();
+                    requestTargetPosition = payload->getNodePosition();
+                }
+                if(!communicationDelayTimer->isScheduled()) {
+                    scheduleAt(simTime() + communicationDelay, communicationDelayTimer);
+                }
+            }
             break;
         }
         // ACK messages are handled by removing the packets contained in the agent as this message is sent
@@ -250,16 +225,8 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
         case ACK:
         {
             // Zeroing all package content when an ACK is received
-            for(int i=0;i<collectedPackets.size();i++) {
-                collectedPackets[i] = 0;
-            }
+            collectedPackets = 0;
             emit(dataLoadSignalID, 0);
-            if (payload->getNodeType() == AGENT) {
-                hasCompletedCommunication = true;
-                if(timeoutTimer->isScheduled()) {
-                    cancelEvent(timeoutTimer);
-                }
-            }
             break;
         }
         }
@@ -281,16 +248,8 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
     payload->setMessageType(messageType);
     payload->setTargetNodeType(targetType);
     payload->setTargetId(targetAgent);
-
-    // If the message type is SHARE, include the agent's packet load in the message.
-    // Not including this on other messages saves computation.
-    if(messageType == MessageType::SHARE) {
-        double packetLoad = 0;
-        for(int value : collectedPackets) {
-            packetLoad += value;
-        }
-        payload->setPacketLoad(packetLoad);
-    }
+    payload->setNodePosition(currentDistance);
+    payload->setPacketLoad(collectedPackets);
 
 
     CommunicationCommand *command = new CommunicationCommand();

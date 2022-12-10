@@ -24,18 +24,18 @@ namespace projeto {
 
 Define_Module(CentralizedQLearning);
 
-void hashValue(uint16_t &value) {
+void hashValue(uint32_t &value) {
     value = ((value >> 16) ^ value) * 0x45d9f3b;
     value = ((value >> 16) ^ value) * 0x45d9f3b;
     value = (value >> 16) ^ value;
 }
 
 // https://stackoverflow.com/a/72073933
-void incorporateHash(std::size_t& hash, uint16_t value) {
+void incorporateHash(std::size_t& hash, uint32_t value) {
     hash ^= value + 0x9e3779b9 + (hash << 6) + (hash >> 2);
 }
 
-std::size_t hashVector(const std::vector<uint16_t>& vector) {
+std::size_t hashVector(const std::vector<uint32_t>& vector) {
   std::size_t seed = vector.size();
   for(auto value : vector) {
     hashValue(value);
@@ -45,26 +45,27 @@ std::size_t hashVector(const std::vector<uint16_t>& vector) {
 }
 
 std::size_t GlobalStateHash::operator()(const GlobalState& key) const {
-   std::size_t hash = key.size();
-   for(const LocalState& state : key) {
-       uint16_t value = hashVector(state.communication) ^ static_cast<std::size_t>(state.mobility);
+   std::size_t hash = key.agents.size();
+   for(const LocalState& state : key.agents) {
+       uint32_t value = state.communication;
+       hashValue(value);
+       incorporateHash(hash, value);
+
+       value = state.mobility;
        hashValue(value);
        incorporateHash(hash, value);
    }
+   incorporateHash(hash, hashVector(key.sensors));
    return hash;
 }
 
 std::size_t QTableKeyHash::operator()(const QTableKey& key) const {
-   std::size_t hash = key.first.size() + key.second.size();
+   std::size_t hash = key.first.agents.size() + key.second.size();
    // https://stackoverflow.com/a/72073933
-   for(const LocalState& state : key.first) {
-       uint16_t value = hashVector(state.communication);
-       hashValue(value);
-       incorporateHash(hash, value);
-   }
+   incorporateHash(hash, static_cast<uint32_t>(GlobalStateHash()(key.first)));
 
    for(const LocalControl& command : key.second) {
-       uint16_t value = command.mobility ^ command.communication;
+       uint32_t value = command.mobility;
        hashValue(value);
        incorporateHash(hash, value);
    }
@@ -86,7 +87,7 @@ void CentralizedQLearning::initialize(int stage)
         epsilonEnd = par("epsilonEnd");
         epsilonShortCircuit = par("epsilonShortCircuit");
 
-        costFunction = static_cast<CostFunction>(par("costFunction").intValue());
+        sensorStorageTolerance = par("sensorStorageTolerance");
 
         timeInterval =  par("timeInterval");
         distanceInterval = par("distanceInterval");
@@ -152,34 +153,27 @@ void CentralizedQLearning::train() {
     /****** Collecting current global state ******/
     GlobalState newState = {};
     for(CentralizedQAgent* agent : agents) {
-        LocalState state = agent->getAgentState();
-
-
-        // TODO: Remove
-        if(costFunction == SANITY || costFunction == SANITY_2) {
-            //Zeroing out every communication state
-            for(int i=0;i<state.communication.size();i++) {
-                state.communication[i] = 0;
-            }
+        uint32_t packets = agent->getCollectedPackets();
+        packets = std::floor(packets / communicationStorageInterval);
+        if (packets > 3) {
+            packets = 3;
         }
-        newState.push_back(state);
+
+        double position = agent->getCurrentPosition();
+        position = std::round(position / distanceInterval);
+
+        LocalState state = {
+                .communication = packets,
+                .mobility = static_cast<uint16_t>(position)
+        };
+        newState.agents.push_back(state);
     }
-    if(costFunction == SANITY_2) {
-        for(int i = 0; i < sensors.size(); i++) {
-            int awaiting = sensors[i]->getAwaitingPackets();
-            if (awaiting >= 80) {
-                newState[0].communication[i] = 10;
-            }
-            else if (awaiting >= 35 || !sensors[i]->hasBeenVisited()) {
-                newState[0].communication[i] = 2;
-            }
-            else if (awaiting >= 10) {
-                newState[0].communication[i] = 1;
-            }
-            else {
-                newState[0].communication[i] = 0;
-            }
+    for(auto sensor : sensors) {
+        auto value = std::floor(static_cast<double>(sensor->getAwaitingPackets()) / sensorStorageTolerance);
+        if(value > 3) {
+            value = 3;
         }
+        newState.sensors.push_back(value);
     }
 
     /*********************************************/
@@ -279,101 +273,17 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
-    switch(costFunction) {
-    case DEFAULT:
-    {
-        double cost = 0;
-        for(CentralizedQAgent *agent : agents) {
-            std::vector<uint16_t> agentPackets = agent->getCollectedPackets();
-
-            unsigned int maxPacket = 0;
-            for(auto packet : agentPackets) {
-                if (packet > maxPacket) {
-                    maxPacket = packet;
-                }
-            }
-
-            for(CentralizedQSensor *sensor : sensors) {
-                cost += sensor->getAwaitingPackets() * maxPacket;
-            }
-        }
-
-        cost /= agents.size() * sensors.size();
-
-        return cost;
-    }
-    case SIMPLIFIED:
-    {
-        double cost = 0;
-        for(CentralizedQSensor *sensor : sensors) {
-            cost += sensor->getAwaitingPackets();
-        }
-
-        cost /= sensors.size();
-
-        return cost;
+    double cost = 0;
+    for (auto state: newState.agents) {
+        cost += state.communication * state.mobility;
     }
 
-    // Large cost for moving away from ground station while carrying packets
-    // Cost for sharing while it has no packets - False alarm cost -- OMMITING THIS ONE FOR NOW
-    // Large cost for sending data further away from the ground station
-    case CONDITIONAL:
-    {
-        double cost = 0;
-        for(CentralizedQSensor *sensor : sensors) {
-            cost += sensor->getAwaitingPackets();
-        }
-
-        for(int index = 0; index < agents.size(); index++) {
-            std::vector<uint16_t> packets = X[index].communication;
-            // Checking if the agent has packets
-            bool hasPackets = false;
-            for(unsigned int load: packets) {
-                if (load > 0) {
-                    hasPackets = true;
-                    break;
-                }
-            }
-
-            // Checks if the agent is moving away from the ground station and if it previously had packets
-            if(hasPackets && U[index].mobility == 0) {
-                cost += 100; // Punishes if agent is moving away from ground station with packets
-            }
-
-
-            // If the target is further away and the agent sent it's packets to it,
-            unsigned char target = U[index].communication;
-            if(!hasPackets && X[target].mobility > X[index].mobility) {
-                cost += 100; // Punish for sending data away from the ground station
-            }
-        }
-
-        return cost;
+    for(auto value: newState.sensors) {
+        cost += value;
     }
+    cost /= sensors.size();
 
-    // Notes 2:
-    // Negative throughput
-    case THROUGHPUT:
-    {
-        return -(ground->getReceivedPackets()/simTime());
-    }
-    case SANITY:
-    {
-        double distanceSum = 0;
-        for(const LocalState& state : newState) {
-            distanceSum += state.mobility;
-        }
-        return distanceSum / agents.size();
-    }
-    case SANITY_2:
-    {
-        double total = 0;
-        for(int i = 0; i < sensors.size(); i++) {
-            total += newState[0].communication[i];
-        }
-        return total / sensors.size();
-    }
-    }
+    return cost;
 }
 
 void CentralizedQLearning::decayEpsilon() {
@@ -444,35 +354,41 @@ void CentralizedQLearning::exportQTable() {
         file << "      \"mobility\": [";
 
 
-        for(int index = 0; index < globalState.size(); index++) {
-            file << globalState[index].mobility;
-            if(index < globalState.size() - 1) {
+        for(int index = 0; index < globalState.agents.size(); index++) {
+            file << globalState.agents[index].mobility;
+            if(index < globalState.agents.size() - 1) {
                 file << ", ";
             }
         }
         file << "],\n";
         file << "      \"communication\": [";
 
-        for(int index = 0; index < globalState.size(); index++) {
-            file << "[";
-            for(int commIndex = 0; commIndex < globalState[index].communication.size(); commIndex++) {
-                file << globalState[index].communication[commIndex];
-                if(commIndex < globalState[index].communication.size() - 1) {
-                    file << ", ";
-                }
+        for(int index = 0; index < globalState.agents.size(); index++) {
+            file << globalState.agents[index].communication;
+            if(index < globalState.agents.size() - 1) {
+                file << ", ";
             }
-            file << "]";
-            if(index < globalState.size() - 1) {
+        }
+
+        file << "],\n";
+
+        file << "      \"sensors\": [";
+
+        for(int index = 0; index < globalState.sensors.size(); index++) {
+            file << globalState.sensors[index];
+            if(index < globalState.sensors.size() - 1) {
                 file << ", ";
             }
         }
 
         file << "]\n";
+
+
         file << "    },\n";
         file << "    \"jointControl\": [";
 
         for(int index = 0; index < jointControl.size(); index++) {
-            file << "[" << +jointControl[index].mobility << ", " << +jointControl[index].communication << "]";
+            file << +jointControl[index].mobility;
             if(index < jointControl.size() - 1) {
                 file << ", ";
             }
@@ -492,12 +408,12 @@ void CentralizedQLearning::exportQTable() {
     file.close();
 }
 
-std::vector<uint16_t> parseVectorString(std::string str) {
+std::vector<uint32_t> parseVectorString(std::string str) {
     str.erase(std::remove(str.begin(), str.end(), '['), str.end());
     str.erase(std::remove(str.begin(), str.end(), ']'), str.end());
 
     size_t pos = 0;
-    std::vector<uint16_t> vector;
+    std::vector<uint32_t> vector;
     std::string delimiter = ", ";
     while ((pos = str.find(delimiter)) != std::string::npos) {
         std::string token = str.substr(0, pos);
@@ -513,8 +429,8 @@ std::vector<uint16_t> parseVectorString(std::string str) {
     return vector;
 }
 
-std::vector<std::vector<uint16_t>> parseNestedVectorString(std::string str) {
-    std::vector<std::vector<uint16_t>> nestedVector;
+std::vector<std::vector<uint32_t>> parseNestedVectorString(std::string str) {
+    std::vector<std::vector<uint32_t>> nestedVector;
 
     std::regex arrayMatcher("\\[[^[\\]]*\\]");
 
@@ -534,7 +450,7 @@ void CentralizedQLearning::importQTable() {
     file.open(qTablePath);
 
     std::regex tableMatcher(
-        "\\{\\s*\"globalState\":\\s*\\{\\s*\"mobility\":\\s*(\\[.*\\]),\\s*\"communication\":\\s*(\\[.*\\])\\s*\\},\\s*\"jointControl\":\\s*(\\[.*\\]),\\s*\"qValue\":\\s*(.*)\\s*\\},?"
+        "\\{\\s*\"globalState\":\\s*\\{\\s*\"mobility\":\\s*(\\[.*\\]),\\s*\"communication\":\\s*(\\[.*\\]),\\s*\"sensors\":\\s*(\\[.*\\])\\s*\\},\\s*\"jointControl\":\\s*(\\[.*\\]),\\s*\"qValue\":\\s*(.*)\\s*\\},?"
     );
 
     if(!file.good()) {
@@ -553,9 +469,10 @@ void CentralizedQLearning::importQTable() {
 
     for (std::sregex_iterator i = words_begin; i != words_end; ++i) {
         std::smatch match = *i;
-        std::vector<uint16_t> mobilityStates = parseVectorString(match[1].str());
-        std::vector<std::vector<uint16_t>> communicationStates = parseNestedVectorString(match[2].str());
-        std::vector<std::vector<uint16_t>> jointControlVector = parseNestedVectorString(match[3].str());
+        std::vector<uint32_t> mobilityStates = parseVectorString(match[1].str());
+        std::vector<uint32_t> communicationStates = parseVectorString(match[2].str());
+        std::vector<uint32_t> sensorPackets = parseVectorString(match[3].str());
+        std::vector<uint32_t> jointControlVector = parseVectorString(match[4].str());
 
         size_t stateSize = mobilityStates.size();
         if(communicationStates.size() != stateSize || jointControlVector.size() != stateSize) {
@@ -570,19 +487,19 @@ void CentralizedQLearning::importQTable() {
             state.mobility = mobilityStates[index];
             state.communication = communicationStates[index];
 
-            control.mobility = jointControlVector[index][0];
-            control.communication = jointControlVector[index][1];
+            control.mobility = jointControlVector[index];
 
-            globalState.push_back(state);
+            globalState.agents.push_back(state);
             jointControl.push_back(control);
         }
+        globalState.sensors = sensorPackets;
         optimalControlMap[globalState] = jointControl;
     }
 }
 
 
 LocalControl CentralizedQLearning::generateRandomLocalControl() {
-    return {static_cast<uint8_t>(intuniform(0, 1)), static_cast<uint8_t>(intuniform(0, agents.size() - 1))};
+    return {static_cast<uint8_t>(intuniform(0, 1))};
 }
 
 JointControl CentralizedQLearning::generateRandomJointControl() {
@@ -590,9 +507,6 @@ JointControl CentralizedQLearning::generateRandomJointControl() {
     for(int index = 0;index < agents.size(); index++) {
        // Generating a valid random command
        LocalControl command = generateRandomLocalControl();
-       if (costFunction == SANITY_2) {
-           command.communication = 0;
-       }
 
        U.push_back(command);
    }

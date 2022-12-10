@@ -35,17 +35,16 @@ namespace projeto {
 class CentralizedQProtocol : public CommunicationProtocolBase, public CentralizedQLearning::CentralizedQAgent
 {
 public:
-    // Gets the agent's current state
-    const LocalState& getAgentState() override;
+    virtual double getCurrentPosition () override { return currentDistance; };
 
-    std::vector<uint16_t> getCollectedPackets() override { return collectedPackets; };
+    uint32_t getCollectedPackets() override { return collectedPackets; };
 
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
 
     // Informs the centralized Q learning module if the module is ready to receive a new
     // set of commands
-    bool isReady() override { return hasCompletedCommunication && hasCompletedMobility && hasStartedMission; }
+    bool isReady() override { return hasCompletedMobility && hasStartedMission; }
 
 protected:
     // Reference to the learning module
@@ -56,14 +55,13 @@ protected:
 
     // Variable used to inform the learning module if the last
     // control received was completed
-    bool hasCompletedCommunication = true;
     bool hasCompletedMobility = true;
     bool hasStartedMission = false;
 
     // Saving the current state and control
     LocalState currentState = {};
     double currentDistance = 0;
-    std::vector<uint16_t> collectedPackets = {};
+    uint32_t collectedPackets = 0;
 
     // Maximum number of packets
     int packetLimit;
@@ -83,6 +81,7 @@ protected:
     // This is the distance interval received from the centralized learning module. It is used to
     // calculate a discrete mobility state based on the continuous position of the agent
     double distanceInterval;
+
     double communicationStorageInterval;
 
 
@@ -91,11 +90,10 @@ protected:
     simtime_t requestInterval;
     cMessage* requestTimer = new cMessage();
 
-    simtime_t communicationTimeout;
-    cMessage* timeoutTimer = new cMessage();
-
     simtime_t communicationDelay;
-    cMessage* applyCommunicationControl = new cMessage();
+    int requestTargetId = -1;
+    double requestTargetPosition = 0;
+    cMessage* communicationDelayTimer = new cMessage();
 
 protected:
     // OMNeT++ and INET functions
