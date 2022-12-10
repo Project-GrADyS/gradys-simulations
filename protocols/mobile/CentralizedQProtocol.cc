@@ -152,7 +152,7 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     if (lastTelemetry != nullptr) {
         delete lastTelemetry;
     }
-    lastTelemetry = telemetry;
+    lastTelemetry = telemetry->dup();
 }
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
