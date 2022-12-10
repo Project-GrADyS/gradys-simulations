@@ -149,8 +149,10 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
             hasCompletedMobility = true;
         }
     }
-
-    lastTelemetry = *telemetry;
+    if (lastTelemetry != nullptr) {
+        delete lastTelemetry;
+    }
+    lastTelemetry = telemetry;
 }
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
@@ -158,7 +160,7 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 
     // Ignores commands if the UAV hasn't started the tour yet. The last waypoint is -1 when the UAV
     // hasn't reached the first waypoint in the mission yet
-    if(lastTelemetry.getLastWaypointID() == -1) {
+    if(lastTelemetry && lastTelemetry->getLastWaypointID() == -1) {
         return;
     }
 
@@ -167,9 +169,9 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses
-    if(control.mobility == 0 && lastTelemetry.isReversed()) {
+    if(control.mobility == 0 && (lastTelemetry && lastTelemetry->isReversed())) {
         reverse();
-    } else if(control.mobility == 1 && !lastTelemetry.isReversed()) {
+    } else if(control.mobility == 1 && !(lastTelemetry && lastTelemetry->isReversed())) {
         reverse();
     }
 

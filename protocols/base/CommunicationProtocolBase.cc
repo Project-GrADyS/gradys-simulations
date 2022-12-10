@@ -30,7 +30,7 @@ void CommunicationProtocolBase::handleMessage(cMessage *msg) {
             handlePacket(packet);
         }
     }
-    cancelAndDelete(msg);
+    delete msg;
 }
 
 void CommunicationProtocolBase::sendCommand(MobilityCommand *order, int gateIndex) {

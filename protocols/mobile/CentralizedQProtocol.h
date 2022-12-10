@@ -69,7 +69,7 @@ protected:
     LocalControl currentControl = {};
 
     // Saving the last telemetry received
-    Telemetry lastTelemetry;
+    Telemetry* lastTelemetry;
 
     // Information about the waypoint mission the UAVs are following. The first variable is a list
     // of waypoint coordinates and the second variable is a list of numbers representing the fraction
