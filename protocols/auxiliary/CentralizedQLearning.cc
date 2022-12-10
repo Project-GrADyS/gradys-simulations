@@ -163,8 +163,8 @@ void CentralizedQLearning::train() {
         position = std::round(position / distanceInterval);
 
         LocalState state = {
-                .communication = packets,
-                .mobility = static_cast<uint16_t>(position)
+                static_cast<uint16_t>(position),
+                packets
         };
         newState.agents.push_back(state);
     }

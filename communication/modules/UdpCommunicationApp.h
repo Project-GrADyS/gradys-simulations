@@ -17,7 +17,7 @@ class UdpCommunicationApp : public UdpBasicApp
 {
 protected:
     std::string targetName = {};
-    FieldsChunk *payloadTemplate = nullptr;
+    const FieldsChunk* payloadTemplate = nullptr;
 
 
 protected:
