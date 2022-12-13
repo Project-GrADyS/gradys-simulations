@@ -10,7 +10,7 @@ This is a repository for the simulation framework developed for the GrADyS proje
 # Installation
 In order to run the simulations and use the components in this repository you need to have both OMNeT++ and the INET framework installed.
 
-Version 5.6 of OMNeT++ is required, to install it [just follow these instructions](https://doc.omnetpp.org/omnetpp/InstallGuide.pdf). INET version 4.2 is also required, when first opening the OMNeT++ IDE you should be prompted with the option to install INET and all you need to do is accept it but if you need help [check out the installation instructions](https://inet.omnetpp.org/Installation.html).
+Version 5.6.2 of OMNeT++ is required, to install it [just follow these instructions](/InstallGuide.pdf). INET version 4.2 is also required, when first opening the OMNeT++ IDE you should be prompted with the option to install INET and all you need to do is accept it but if you need help [check out the installation instructions](https://inet.omnetpp.org/Installation.html).
 
 After installing both OMNeT++ and INET you should be able to clone the repository to youw active OMNeT++ IDE workspace. To do this select File > Impor... then open the "git" section and select "Projects from git" then "Clone Uri". After that just fill in the URL for this repository and finish the process following the displayed instructions.
 
