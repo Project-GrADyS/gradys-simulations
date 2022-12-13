@@ -206,6 +206,11 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
         // held data
         case REQUEST:
         {
+            // No point in answering requests if you have nothing to send
+            if(collectedPackets == 0) {
+                break;
+            }
+
             // If it's not an agent, fulfill the request
             if (payload->getNodeType() != AGENT) {
                 communicate(payload->getNodeId(), payload->getNodeType(), SHARE);

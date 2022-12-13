@@ -37,6 +37,8 @@ class CentralizedQProtocol : public CommunicationProtocolBase, public Centralize
 public:
     virtual double getCurrentPosition () override { return currentDistance; };
 
+    virtual double getMaximumPosition () override { return totalMissionLength; };
+
     uint32_t getCollectedPackets() override { return collectedPackets; };
 
     // Applies a command to the agent

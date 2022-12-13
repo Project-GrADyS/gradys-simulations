@@ -99,6 +99,9 @@ class DroneMobility : public VehicleMobility
         double homeLongitude;
         Coord homeCoords;
 
+        simtime_t telemetryFrequency;
+        cMessage *telemetryTimer = new cMessage();
+
     protected:
         virtual void initialize(int stage) override;
         virtual void setInitialPosition() override;
@@ -125,6 +128,7 @@ class DroneMobility : public VehicleMobility
         // Checks if current command has finished and performs next command in queue
         virtual void executeCommand();
 
+        virtual ~DroneMobility();
     public:
         simsignal_t reverseSignalID;
     private:

@@ -101,8 +101,10 @@ public:
     public:
         // Gets the agent's current state
         virtual double getCurrentPosition() = 0;
+        virtual double getMaximumPosition() = 0;
 
         virtual uint32_t getCollectedPackets() = 0;
+
 
         // Applies a command to the agent
         virtual void applyCommand(const LocalControl& command) = 0;

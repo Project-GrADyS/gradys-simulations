@@ -273,15 +273,26 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
-    double cost = 0;
-    for (auto state: newState.agents) {
-        cost += state.communication * state.mobility;
+    double maximumDistance = 0;
+    if (agents.size() > 0) {
+        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
     }
 
-    for(auto value: newState.sensors) {
-        cost += value;
+    double agentCost = 0;
+    for (auto state: newState.agents) {
+        agentCost += state.communication * (state.mobility / maximumDistance);
     }
-    cost /= sensors.size();
+    agentCost /= agents.size();
+
+    double sensorCost = 0;
+    int index = 0;
+    for(auto value: newState.sensors) {
+        sensorCost += sensors[index]->hasBeenVisited() ? value : 3;
+        index++;
+    }
+    sensorCost /= sensors.size();
+
+    double cost = (agentCost + sensorCost * 2) / 3;
 
     return cost;
 }

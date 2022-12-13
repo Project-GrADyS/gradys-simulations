@@ -28,6 +28,9 @@ void DroneMobility::initialize(int stage) {
         homeLatitude = par("homeLatitude");
         homeLongitude = par("homeLongitude");
 
+        telemetryFrequency = par("telemetryFrequency");
+        scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
+
         sendTelemetry(true);
     }
 }
@@ -365,7 +368,6 @@ void DroneMobility::move() {
             }
         }
     }
-    sendTelemetry();
 }
 
 bool checkIfOvershoots(double origin, double target, double current) {
@@ -518,39 +520,44 @@ void DroneMobility::handleMessage(cMessage *message) {
             return;
     }
 
-    MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
-    if(command != nullptr) {
-        // Also stops current shutdown comand if it is active and the vehicle
-        // receives another command
-        if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
-            droneStatus.currentCommand = -1;
-            droneStatus.isIdle = false;
-
-        }
-
-        // Saves current command in queue if a shutdown is coming
-        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN && droneStatus.currentCommand != -1) {
-            droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
-        }
-
-        droneStatus.commandQueue.push(command);
-        // Overrides current queue if it is a shutdown command
-        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
-            MobilityCommand *current = droneStatus.commandQueue.front();
-            while(!droneStatus.commandQueue.empty() && current != command)
-            {
-                // Sends command to back of queue
-                droneStatus.commandQueue.pop();
-                droneStatus.commandQueue.push(current);
-
-                current = droneStatus.commandQueue.front();
-            }
-            droneStatus.currentCommand = -1;
-        }
-
-        executeCommand();
+    if(message == telemetryTimer) {
+        sendTelemetry();
+        scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
     } else {
-        VehicleMobility::handleMessage(message);
+        MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
+        if(command != nullptr) {
+            // Also stops current shutdown comand if it is active and the vehicle
+            // receives another command
+            if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
+                droneStatus.currentCommand = -1;
+                droneStatus.isIdle = false;
+
+            }
+
+            // Saves current command in queue if a shutdown is coming
+            if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN && droneStatus.currentCommand != -1) {
+                droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
+            }
+
+            droneStatus.commandQueue.push(command);
+            // Overrides current queue if it is a shutdown command
+            if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
+                MobilityCommand *current = droneStatus.commandQueue.front();
+                while(!droneStatus.commandQueue.empty() && current != command)
+                {
+                    // Sends command to back of queue
+                    droneStatus.commandQueue.pop();
+                    droneStatus.commandQueue.push(current);
+
+                    current = droneStatus.commandQueue.front();
+                }
+                droneStatus.currentCommand = -1;
+            }
+
+            executeCommand();
+        } else {
+            VehicleMobility::handleMessage(message);
+        }
     }
 }
 
@@ -715,6 +722,10 @@ int DroneMobility::instructionIndexFromWaypoint(int waypointIndex) {
        }
     }
     return index;
+}
+
+DroneMobility::~DroneMobility() {
+    cancelAndDelete(telemetryTimer);
 }
 
 }

@@ -78,6 +78,11 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
             // When a sensor receives a REQUEST messages it sends all it's awaiting packets to the sender
             case REQUEST:
             {
+                // No point in sharing packets if you have none
+                if(awaitingPackets == 0) {
+                    break;
+                }
+
                 CentralizedQMessage *response = new CentralizedQMessage();
                 response->setNodeType(PASSIVE);
                 response->setNodeId(sensorId);
