@@ -65,7 +65,7 @@ void UdpCommunicationApp::handleMessageWhenUp(cMessage *msg) {
                     if(payloadTemplate != nullptr) {
                         delete payloadTemplate;
                     }
-                    payloadTemplate = messagePayload;
+                    payloadTemplate = (FieldsChunk*) messagePayload->dup();;
                 }
                 sendPacket();
                 break;
@@ -98,7 +98,11 @@ void UdpCommunicationApp::sendPacket(const FieldsChunk* payload, const char *tar
     }
 
     if(payload == nullptr) {
-        payload = dynamic_cast<FieldsChunk*>(payloadTemplate->dup());
+        if(payloadTemplate != nullptr) {
+            payload = payloadTemplate;
+        } else {
+            return;
+        }
     }
     if(target == nullptr) {
         target = targetName.c_str();

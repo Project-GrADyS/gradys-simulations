@@ -84,6 +84,9 @@ void CentralizedQProtocol::handleMessage(cMessage *msg) {
         } else if (msg == communicationDelayTimer) {
             communicate(requestTargetId, AGENT, SHARE);
             requestTargetId = -1;
+            // Zeroing all package content when an ACK is received
+            collectedPackets = 0;
+            emit(dataLoadSignalID, 0);
             return;
         }
     }
@@ -198,8 +201,6 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             }
 
             emit(dataLoadSignalID, static_cast<long>(collectedPackets));
-
-            communicate(payload->getNodeId(), payload->getNodeType(), ACK);
             break;
         }
         // REQUEST messages are handled by responding to the message with a SHARE message containing the agent's
@@ -214,6 +215,9 @@ void CentralizedQProtocol::handlePacket(Packet *pk) {
             // If it's not an agent, fulfill the request
             if (payload->getNodeType() != AGENT) {
                 communicate(payload->getNodeId(), payload->getNodeType(), SHARE);
+                // Zeroing all package content when an ACK is received
+                collectedPackets = 0;
+                emit(dataLoadSignalID, 0);
             }
             // If it is, only fulfill if it is closer to the GS than you
             else if (payload->getNodeType() == AGENT && currentDistance > payload->getNodePosition()) {

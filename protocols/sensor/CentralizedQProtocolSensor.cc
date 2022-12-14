@@ -96,6 +96,10 @@ void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
                 command->setPayloadTemplate(response);
                 command->setTarget(nullptr);
                 sendCommand(command);
+
+                awaitingPackets = 0;
+                visited = true;
+                emit(dataLoadSignalID, 0);
                 break;
             }
             // When a sensor receives an ACK message it means that the packets that it's shared have reached

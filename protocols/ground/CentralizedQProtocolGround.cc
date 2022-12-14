@@ -92,19 +92,6 @@ void CentralizedQProtocolGround::handlePacket(Packet *pk) {
             {
                 receivedPackets += payload->getPacketLoad();
                 emit(dataLoadSignalID, static_cast<long>(receivedPackets));
-
-                CentralizedQMessage *response = new CentralizedQMessage();
-                response->setNodeType(PASSIVE);
-                response->setMessageType(ACK);
-                response->setNodeId(0);
-                response->setTargetId(payload->getNodeId());
-                response->setTargetNodeType(payload->getNodeType());
-
-                CommunicationCommand *command = new CommunicationCommand();
-                command->setCommandType(SEND_MESSAGE);
-                command->setPayloadTemplate(response);
-                command->setTarget(nullptr);
-                sendCommand(command);
                 break;
             }
             default:
