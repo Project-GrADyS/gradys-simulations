@@ -228,18 +228,13 @@ void DadcaProtocol::handlePacket(Packet *pk) {
             }
             case DadcaMessageType::BEARER:
             {
-                if(!isTimedout() && communicationStatus == FREE) {
-                    EV_INFO << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
-                    currentDataLoad = currentDataLoad + payload->getDataLength();
-                    if(currentDataLoad > packetLimit) {
-                        currentDataLoad = packetLimit;
-                    }
-                    stableDataLoad = currentDataLoad;
-                    emit(dataLoadSignalID, currentDataLoad);
-                    initiateTimeout(timeoutDuration);
-
-                    communicationStatus = COLLECTING;
+                EV_INFO << this->getParentModule()->getId() << " recieved bearer request from  " << pk->getName() << endl;
+                currentDataLoad = currentDataLoad + payload->getDataLength();
+                if(currentDataLoad > packetLimit) {
+                    currentDataLoad = packetLimit;
                 }
+                stableDataLoad = currentDataLoad;
+                emit(dataLoadSignalID, currentDataLoad);
                 break;
             }
         }

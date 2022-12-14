@@ -24,5 +24,5 @@ simple DadcaProtocol extends CommunicationProtocolBase
         @signal[dataLoad](type=long);
         @statistic[dataLoad](record=vector,last); // Declaration of dataLoad signal used to track current data load that the drone is carrying
         double timeoutDuration @unit(s) = default(3s);
-        int packetLimit = default(200); // Limit of packets that this UAV can carry
+        int packetLimit = default(1000); // Limit of packets that this UAV can carry
 }

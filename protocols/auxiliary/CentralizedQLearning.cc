@@ -292,6 +292,8 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     }
     sensorCost /= sensors.size();
 
+    double throughput = ground->getReceivedPackets() / simTime();
+
     double cost = (agentCost + sensorCost * 2) / 3;
 
     return cost;
