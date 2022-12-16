@@ -273,6 +273,7 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
+//    14/12/2022 working version
     double maximumDistance = 0;
     if (agents.size() > 0) {
         maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
@@ -292,11 +293,33 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     }
     sensorCost /= sensors.size();
 
-    double throughput = ground->getReceivedPackets() / simTime();
-
     double cost = (agentCost + sensorCost * 2) / 3;
-
     return cost;
+
+//    14/12/2022 - bad version
+//    double maximumDistance = 0;
+//    if (agents.size() > 0) {
+//        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+//    }
+//
+//    double agentCost = 0;
+//    for (auto state: newState.agents) {
+//        agentCost += state.communication * (state.mobility / maximumDistance);
+//    }
+//    agentCost /= agents.size();
+//
+//    double sensorCost = 0;
+//    int index = 0;
+//    for(auto value: newState.sensors) {
+//        sensorCost += sensors[index]->hasBeenVisited() ? value : 3;
+//        index++;
+//    }
+//    sensorCost /= sensors.size();
+//
+//    double throughput = ground->getReceivedPackets() / simTime();
+//    double cost = (agentCost + sensorCost - throughput) / 3;
+//
+//    return cost;
 }
 
 void CentralizedQLearning::decayEpsilon() {
