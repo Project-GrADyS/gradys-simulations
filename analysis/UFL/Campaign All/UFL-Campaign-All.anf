@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
   <inputs>
-    <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/2.sca"/>
-    <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/2.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/4.sca"/>
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/4.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/8.sca"/>
@@ -13,6 +11,8 @@
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/dadca-4.vec"/>
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/dadca-8.sca"/>
     <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/dadca-8.vec"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/2.sca"/>
+    <inputs name="/gradys-simulations/analysis/UFL/Campaign All/data/2.vec"/>
   </inputs>
   <datasets>
     <datasets name="2 agents">
@@ -51,8 +51,14 @@
         <properties name="Line.Name//gradys-simulations/analysis/UFL/Campaign All/data/UFL-Map-#0.vec UFL-Map-0-20221027-09:39:15-1564 0 mobilityDrones.groundStation.protocol UFL-Map " value="DADCA"/>
       </items>
     </datasets>
+    <datasets name="Cost">
+      <items xsi:type="scave:Add" filterPattern="name(*Avg*)" type="VECTOR"/>
+      <items xsi:type="scave:LineChart" name="Cost Graph" lineNameFormat="">
+        <properties name="Graph.Title" value="Cost Graph"/>
+      </items>
+    </datasets>
   </datasets>
   <chartSheets>
-    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.1/@items.2 //@datasets/@datasets.2/@items.2"/>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.2 //@datasets/@datasets.1/@items.2 //@datasets/@datasets.2/@items.2 //@datasets/@datasets.3/@items.1"/>
   </chartSheets>
 </scave:Analysis>
