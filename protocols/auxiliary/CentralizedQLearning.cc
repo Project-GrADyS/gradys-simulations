@@ -273,53 +273,25 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
-//    14/12/2022 working version
+    // 17/12/2022 - Average packet position
     double maximumDistance = 0;
     if (agents.size() > 0) {
-        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+        maximumDistance = agents[0]->getMaximumPosition();
     }
 
-    double agentCost = 0;
-    for (auto state: newState.agents) {
-        agentCost += state.communication * (state.mobility / maximumDistance);
+    double cost = 0;
+    for(auto agent: agents) {
+        double value = agent->getCollectedPackets() > communicationStorageInterval ? 1 : 0;
+        cost += value * agent->getCurrentPosition() / maximumDistance;
     }
-    agentCost /= agents.size();
 
-    double sensorCost = 0;
-    int index = 0;
-    for(auto value: newState.sensors) {
-        sensorCost += sensors[index]->hasBeenVisited() ? value : 3;
-        index++;
+    for(auto sensor: sensors) {
+        double value = sensor->getAwaitingPackets() > sensorStorageTolerance ? 1 : 0;
+        cost += value;
     }
-    sensorCost /= sensors.size();
 
-    double cost = (agentCost + sensorCost * 2) / 3;
-    return cost;
 
-//    14/12/2022 - bad version
-//    double maximumDistance = 0;
-//    if (agents.size() > 0) {
-//        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
-//    }
-//
-//    double agentCost = 0;
-//    for (auto state: newState.agents) {
-//        agentCost += state.communication * (state.mobility / maximumDistance);
-//    }
-//    agentCost /= agents.size();
-//
-//    double sensorCost = 0;
-//    int index = 0;
-//    for(auto value: newState.sensors) {
-//        sensorCost += sensors[index]->hasBeenVisited() ? value : 3;
-//        index++;
-//    }
-//    sensorCost /= sensors.size();
-//
-//    double throughput = ground->getReceivedPackets() / simTime();
-//    double cost = (agentCost + sensorCost - throughput) / 3;
-//
-//    return cost;
+    return cost / (agents.size() + sensors.size());
 }
 
 void CentralizedQLearning::decayEpsilon() {
