@@ -281,12 +281,12 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
     double cost = 0;
     for(auto agent: agents) {
-        double value = agent->getCollectedPackets() > communicationStorageInterval ? 1 : 0;
+        double value = agent->getCollectedPackets();
         cost += value * agent->getCurrentPosition() / maximumDistance;
     }
 
     for(auto sensor: sensors) {
-        double value = sensor->getAwaitingPackets() > sensorStorageTolerance ? 1 : 0;
+        double value = sensor->getAwaitingPackets();
         cost += value;
     }
 
