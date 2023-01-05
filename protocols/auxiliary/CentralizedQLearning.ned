@@ -67,5 +67,10 @@ simple CentralizedQLearning
      													   // The values stored in each of the indexes of the agent's local state are going to be divided
      													   // by communicationStorageInterval and rounded up.
      	double sensorStorageTolerance = default(35); // Awaiting packets below this value will be considered as no awaiting packets at all
+     	
+     	double agentWeight = default(1);
+        double sensorWeight = default(1);
+    	double throughputWeight = default(1);
+     	
 
 }

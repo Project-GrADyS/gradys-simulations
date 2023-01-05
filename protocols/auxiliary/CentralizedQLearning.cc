@@ -94,6 +94,11 @@ void CentralizedQLearning::initialize(int stage)
 
         communicationStorageInterval = par("communicationStorageInterval");
 
+        agentWeight = par("agentWeight");
+        sensorWeight = par("sensorWeight");
+        throughputWeight = par("throughputWeight");
+
+
         // Epsilon starts with a value of 1 and will slowly decay during training
         epsilon = epsilonStart;
 
@@ -152,6 +157,7 @@ void CentralizedQLearning::trainIfReady() {
 void CentralizedQLearning::train() {
     /****** Collecting current global state ******/
     GlobalState newState = {};
+
     for(CentralizedQAgent* agent : agents) {
         uint32_t packets = agent->getCollectedPackets();
         packets = std::floor(packets / communicationStorageInterval);
@@ -168,6 +174,7 @@ void CentralizedQLearning::train() {
         };
         newState.agents.push_back(state);
     }
+
     for(auto sensor : sensors) {
         auto value = std::floor(static_cast<double>(sensor->getAwaitingPackets()) / sensorStorageTolerance);
         if(value > 3) {
@@ -273,25 +280,35 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
-    // 17/12/2022 - Average packet position
     double maximumDistance = 0;
     if (agents.size() > 0) {
-        maximumDistance = agents[0]->getMaximumPosition();
+        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
     }
 
-    double cost = 0;
-    for(auto agent: agents) {
-        double value = agent->getCollectedPackets();
-        cost += value * agent->getCurrentPosition() / maximumDistance;
+    double agentCost = 0;
+    for (auto state: newState.agents) {
+        agentCost += (state.communication / 3.) * (state.mobility / maximumDistance);
     }
 
-    for(auto sensor: sensors) {
-        double value = sensor->getAwaitingPackets();
-        cost += value;
+    agentCost /= agents.size();
+
+    double sensorCost = 0;
+    int index = 0;
+    for(auto value: newState.sensors) {
+        sensorCost += (sensors[index]->hasBeenVisited() ? value : 3) / 3.;
+        index++;
+    }
+    sensorCost /= sensors.size();
+
+    double throughput =  ground->getReceivedPackets() / simTime();
+
+    if (agentWeight + sensorWeight + throughputWeight == 0) {
+        return 0;
     }
 
+    double cost = (agentCost * agentWeight + sensorCost * sensorWeight + (1 - throughput) * throughputWeight) / (agentWeight + sensorWeight + throughputWeight);
 
-    return cost / (agents.size() + sensors.size());
+    return cost;
 }
 
 void CentralizedQLearning::decayEpsilon() {

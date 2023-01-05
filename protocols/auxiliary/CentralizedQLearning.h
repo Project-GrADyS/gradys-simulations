@@ -200,6 +200,10 @@ protected:
     double communicationStorageInterval;
     double sensorStorageTolerance;
 
+    double agentWeight;
+    double sensorWeight;
+    double throughputWeight;
+
     // Training variables
     // Current state of the traninig process. The traninign process has two states:
     // 1- DECISION: For the current state an optimal (or random) joint command will be calculated and dispatched to the agents
