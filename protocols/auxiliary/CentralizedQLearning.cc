@@ -161,8 +161,8 @@ void CentralizedQLearning::train() {
     for(CentralizedQAgent* agent : agents) {
         uint32_t packets = agent->getCollectedPackets();
         packets = std::floor(packets / communicationStorageInterval);
-        if (packets > 5) {
-            packets = 5;
+        if (packets > 1) {
+            packets = 1;
         }
 
         double position = agent->getCurrentPosition();
@@ -177,8 +177,8 @@ void CentralizedQLearning::train() {
 
     for(auto sensor : sensors) {
         auto value = std::floor(static_cast<double>(sensor->getAwaitingPackets()) / sensorStorageTolerance);
-        if(value > 5) {
-            value = 5;
+        if(value > 1) {
+            value = 1;
         }
         newState.sensors.push_back(value);
     }
@@ -287,7 +287,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
     double agentCost = 0;
     for (auto state: newState.agents) {
-        agentCost += (state.communication / 5.) * (state.mobility / maximumDistance);
+        agentCost += (state.communication) * (state.mobility / maximumDistance);
     }
 
     agentCost /= agents.size();
@@ -295,7 +295,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     double sensorCost = 0;
     int index = 0;
     for(auto value: newState.sensors) {
-        sensorCost += (sensors[index]->hasBeenVisited() ? value : 5) / 5.;
+        sensorCost += (sensors[index]->hasBeenVisited() ? value : 1);
         index++;
     }
     sensorCost /= sensors.size();
