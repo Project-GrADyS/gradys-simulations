@@ -120,6 +120,8 @@ public:
         virtual uint32_t getAwaitingPackets() = 0;
 
         virtual bool hasBeenVisited() = 0;
+
+        virtual double getSensorPosition() = 0;
     };
 
     class CentralizedQGround {

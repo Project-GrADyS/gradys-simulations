@@ -44,6 +44,7 @@ void CentralizedQProtocolSensor::initialize(int stage)
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         sensorId = learning->registerSensor(this);
+        sensorPosition = par("sensorPosition");
         beta = par("beta");
 
         // Scheduling packet generation timer

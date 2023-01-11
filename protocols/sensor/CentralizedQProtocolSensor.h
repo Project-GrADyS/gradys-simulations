@@ -33,6 +33,7 @@ public:
     // Gets the number of awaiting packages the sensor has stored
     virtual uint32_t getAwaitingPackets() override { return awaitingPackets; };
     virtual bool hasBeenVisited() override { return visited; };
+    virtual double getSensorPosition() override { return sensorPosition; };
 
 
 
@@ -42,6 +43,10 @@ protected:
 
     // ID of this sensor
     int sensorId;
+
+    // Position ([0,1]) of the sensor
+    double sensorPosition;
+
     // Number of packets waiting to be picked up
     uint32_t awaitingPackets = 0;
 
