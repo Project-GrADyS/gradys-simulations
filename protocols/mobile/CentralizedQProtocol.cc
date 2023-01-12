@@ -170,7 +170,9 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
         reverse();
     }
 
-    commandTargetDistance = std::floor(currentDistance / distanceInterval) + (control.mobility == 0 ? 1 : -1);
+    // Since we are flooring the distance calculations, if the agent is supposed to move an entire state back
+    // we need to subtract two states, because it will immediatly cross a state boundary once it reverses
+    commandTargetDistance = std::floor(currentDistance / distanceInterval) + (control.mobility == 0 ? 1 : -2);
     commandTargetDistance = std::max<int>(0, commandTargetDistance);
     commandTargetDistance = std::min<int>(std::floor(totalMissionLength / distanceInterval), commandTargetDistance);
 
