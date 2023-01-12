@@ -285,24 +285,28 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
     }
 
-    double cost = 0;
-    double packetCount = 0;
-    unsigned int index = 0;
-    for(auto state: newState.agents) {
-        cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance);
-        packetCount += agents[index]->getCollectedPackets();
+    double agentCost = 0;
+    for (auto state: newState.agents) {
+        agentCost += (state.communication / 3.) * (state.mobility / maximumDistance);
+    }
+
+    agentCost /= agents.size();
+
+    double sensorCost = 0;
+    int index = 0;
+    for(auto value: newState.sensors) {
+        sensorCost += (sensors[index]->hasBeenVisited() ? value : 3) / 3.;
         index++;
     }
+    sensorCost /= sensors.size();
 
-    for(auto sensor: sensors) {
-        cost += sensor->getAwaitingPackets() * sensor->getSensorPosition();
-        packetCount += sensor->getAwaitingPackets();
+    double throughput =  ground->getReceivedPackets() / simTime();
+
+    if (agentWeight + sensorWeight + throughputWeight == 0) {
+        return 0;
     }
 
-    packetCount += ground->getReceivedPackets();
-
-    cost /= packetCount;
-
+    double cost = (agentCost * agentWeight + sensorCost * sensorWeight + (1 - throughput) * throughputWeight) / (agentWeight + sensorWeight + throughputWeight);
 
     return cost;
 }
