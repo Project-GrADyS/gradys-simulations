@@ -27,6 +27,7 @@
 #include "../messages/internal/MobilityCommand_m.h"
 #include "CentralizedQProtocol.h"
 
+#include <algorithm>
 #include <numeric>
 
 namespace projeto {
@@ -59,6 +60,7 @@ void CentralizedQProtocol::initialize(int stage)
         WATCH(currentDistance);
         WATCH(collectedPackets);
 
+        WATCH(commandTargetDistance);
         WATCH(hasCompletedMobility);
 
         WATCH(currentControl.mobility);
@@ -138,19 +140,9 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     }
     currentDistance = distance;
 
-    unsigned int adjustedDistance = std::round(currentDistance / distanceInterval);
-    if(currentControl.mobility == 0) {
-        if(adjustedDistance > currentState.mobility) {
-            hasCompletedMobility = true;
-        } else if(adjustedDistance == std::round(totalMissionLength / distanceInterval)) {
-            hasCompletedMobility = true;
-        }
-    } else {
-        if(adjustedDistance < currentState.mobility) {
-            hasCompletedMobility = true;
-        } else if(adjustedDistance == 0) {
-            hasCompletedMobility = true;
-        }
+    unsigned int adjustedDistance = std::floor(currentDistance / distanceInterval);
+    if (adjustedDistance == commandTargetDistance) {
+        hasCompletedMobility = true;
     }
     if (lastTelemetry != nullptr) {
         delete lastTelemetry;
@@ -177,6 +169,11 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     } else if(control.mobility == 1 && !(lastTelemetry && lastTelemetry->isReversed())) {
         reverse();
     }
+
+    commandTargetDistance = std::floor(currentDistance / distanceInterval) + (control.mobility == 0 ? 1 : -1);
+    commandTargetDistance = std::max<int>(0, commandTargetDistance);
+    commandTargetDistance = std::min<int>(std::floor(totalMissionLength / distanceInterval), commandTargetDistance);
+
 
     // Saves the received control
     currentControl = control;

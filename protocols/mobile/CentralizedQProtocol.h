@@ -57,6 +57,7 @@ protected:
 
     // Variable used to inform the learning module if the last
     // control received was completed
+    int commandTargetDistance = 0;
     bool hasCompletedMobility = true;
     bool hasStartedMission = false;
 
