@@ -292,13 +292,13 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     double packetCount = 0;
     unsigned int index = 0;
     for(auto state: newState.agents) {
-        cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance);
+        cost = std::max(cost, agents[index]->getCollectedPackets() * (state.mobility / maximumDistance));
         packetCount += agents[index]->getCollectedPackets();
         index++;
     }
 
     for(auto sensor: sensors) {
-        cost += sensor->getAwaitingPackets() * sensor->getSensorPosition();
+        cost = std::max(cost, sensor->getAwaitingPackets() * sensor->getSensorPosition());
         packetCount += sensor->getAwaitingPackets();
     }
 
