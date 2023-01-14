@@ -94,6 +94,9 @@ void CentralizedQLearning::initialize(int stage)
 
         communicationStorageInterval = par("communicationStorageInterval");
 
+        maxDiscreteAgentPackets = par("maxDiscreteAgentPackets");
+        maxDiscreteAwaitingPackets = par("maxDiscreteAwaitingPackets");
+
         agentWeight = par("agentWeight");
         sensorWeight = par("sensorWeight");
         throughputWeight = par("throughputWeight");
@@ -161,8 +164,8 @@ void CentralizedQLearning::train() {
     for(CentralizedQAgent* agent : agents) {
         uint32_t packets = agent->getCollectedPackets();
         packets = std::floor(packets / communicationStorageInterval);
-        if (packets > 3) {
-            packets = 3;
+        if (packets > maxDiscreteAgentPackets) {
+            packets = maxDiscreteAgentPackets;
         }
 
         double position = agent->getCurrentPosition();
@@ -177,8 +180,8 @@ void CentralizedQLearning::train() {
 
     for(auto sensor : sensors) {
         auto value = std::floor(static_cast<double>(sensor->getAwaitingPackets()) / sensorStorageTolerance);
-        if(value > 3) {
-            value = 3;
+        if(value > maxDiscreteAwaitingPackets) {
+            value = maxDiscreteAwaitingPackets;
         }
         newState.sensors.push_back(value);
     }
@@ -285,28 +288,24 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
     }
 
-    double agentCost = 0;
-    for (auto state: newState.agents) {
-        agentCost += (state.communication / 3.) * (state.mobility / maximumDistance);
-    }
-
-    agentCost /= agents.size();
-
-    double sensorCost = 0;
-    int index = 0;
-    for(auto value: newState.sensors) {
-        sensorCost += (sensors[index]->hasBeenVisited() ? value : 3) / 3.;
+    double cost = 0;
+    double packetCount = 0;
+    unsigned int index = 0;
+    for(auto state: newState.agents) {
+        cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance);
+        packetCount += agents[index]->getCollectedPackets();
         index++;
     }
-    sensorCost /= sensors.size();
 
-    double throughput =  ground->getReceivedPackets() / simTime();
-
-    if (agentWeight + sensorWeight + throughputWeight == 0) {
-        return 0;
+    for(auto sensor: sensors) {
+        cost += sensor->getAwaitingPackets() * sensor->getSensorPosition();
+        packetCount += sensor->getAwaitingPackets();
     }
 
-    double cost = (agentCost * agentWeight + sensorCost * sensorWeight + (1 - throughput) * throughputWeight) / (agentWeight + sensorWeight + throughputWeight);
+    packetCount += ground->getReceivedPackets();
+
+    cost /= packetCount;
+
 
     return cost;
 }

@@ -201,6 +201,8 @@ protected:
     double distanceInterval;
     double communicationStorageInterval;
     double sensorStorageTolerance;
+    double maxDiscreteAgentPackets;
+    double maxDiscreteAwaitingPackets;
 
     double agentWeight;
     double sensorWeight;
