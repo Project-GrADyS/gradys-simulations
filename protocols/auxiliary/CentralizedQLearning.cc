@@ -288,26 +288,19 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
     }
 
-    double cost = 0;
     double packetCount = 0;
     unsigned int index = 0;
     for(auto state: newState.agents) {
-        cost = std::max(cost, agents[index]->getCollectedPackets() * (state.mobility / maximumDistance));
         packetCount += agents[index]->getCollectedPackets();
         index++;
     }
 
     for(auto sensor: sensors) {
-        cost = std::max(cost, sensor->getAwaitingPackets() * sensor->getSensorPosition());
         packetCount += sensor->getAwaitingPackets();
     }
 
-    packetCount += ground->getReceivedPackets();
 
-    cost /= packetCount;
-
-
-    return cost;
+    return packetCount;
 }
 
 void CentralizedQLearning::decayEpsilon() {
