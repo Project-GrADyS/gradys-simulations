@@ -203,6 +203,7 @@ protected:
     double sensorStorageTolerance;
     double maxDiscreteAgentPackets;
     double maxDiscreteAwaitingPackets;
+    double costFunction;
 
     double agentWeight;
     double sensorWeight;

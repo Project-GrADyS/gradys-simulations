@@ -71,6 +71,8 @@ simple CentralizedQLearning
      	double maxDiscreteAgentPackets = default(3);
      	double maxDiscreteAwaitingPackets = default(3);
      	
+     	double costFunction = default(1);
+     	
      	double agentWeight = default(1);
         double sensorWeight = default(1);
     	double throughputWeight = default(1);

@@ -97,9 +97,12 @@ void CentralizedQLearning::initialize(int stage)
         maxDiscreteAgentPackets = par("maxDiscreteAgentPackets");
         maxDiscreteAwaitingPackets = par("maxDiscreteAwaitingPackets");
 
+        costFunction = par("costFunction");
+
         agentWeight = par("agentWeight");
         sensorWeight = par("sensorWeight");
         throughputWeight = par("throughputWeight");
+
 
 
         // Epsilon starts with a value of 1 and will slowly decay during training
@@ -283,24 +286,105 @@ void CentralizedQLearning::dispatchJointCommand() {
 }
 
 double CentralizedQLearning::computeCost(const GlobalState& newState) {
-    double maximumDistance = 0;
-    if (agents.size() > 0) {
-        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+    if (costFunction == 1) {
+        // Weighed average cost
+        double maximumDistance = 0;
+        if (agents.size() > 0) {
+            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+        }
+
+        double agentCost = 0;
+        for (auto state: newState.agents) {
+            agentCost += (state.communication / maxDiscreteAgentPackets) * (state.mobility / maximumDistance);
+        }
+
+        agentCost /= agents.size();
+
+        double sensorCost = 0;
+        int index = 0;
+        for(auto value: newState.sensors) {
+            sensorCost += (sensors[index]->hasBeenVisited() ? value : maxDiscreteAwaitingPackets) / maxDiscreteAwaitingPackets;
+            index++;
+        }
+        sensorCost /= sensors.size();
+
+        double throughput =  ground->getReceivedPackets() / simTime();
+
+        if (agentWeight + sensorWeight + throughputWeight == 0) {
+            return 0;
+        }
+
+        double cost = (agentCost * agentWeight + sensorCost * sensorWeight + (1 - throughput) * throughputWeight) / (agentWeight + sensorWeight + throughputWeight);
+
+        return cost;
+    } else if (costFunction == 2) {
+        // Average packet position
+        double maximumDistance = 0;
+        if (agents.size() > 0) {
+            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+        }
+
+        double cost = 0;
+        double packetCount = 0;
+        unsigned int index = 0;
+        for(auto state: newState.agents) {
+            cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance);
+            packetCount += agents[index]->getCollectedPackets();
+            index++;
+        }
+
+        for(auto sensor: sensors) {
+            cost += sensor->getAwaitingPackets() * sensor->getSensorPosition();
+            packetCount += sensor->getAwaitingPackets();
+        }
+
+        packetCount += ground->getReceivedPackets();
+
+        cost /= packetCount;
+
+
+        return cost;
+    } else if (costFunction == 3) {
+        // Max packet position
+        double maximumDistance = 0;
+        if (agents.size() > 0) {
+            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+        }
+
+        double cost = 0;
+        double packetCount = 0;
+        unsigned int index = 0;
+        for(auto state: newState.agents) {
+            cost = std::max(cost, agents[index]->getCollectedPackets() * (state.mobility / maximumDistance));
+            packetCount += agents[index]->getCollectedPackets();
+            index++;
+        }
+
+        for(auto sensor: sensors) {
+            cost = std::max(cost, sensor->getAwaitingPackets() * sensor->getSensorPosition());
+            packetCount += sensor->getAwaitingPackets();
+        }
+        packetCount += ground->getReceivedPackets();
+
+        cost /= packetCount;
+
+        return cost;
+    } else if (costFunction == 4) {
+        // Packets in system
+        double packetCount = 0;
+        for(auto state: newState.agents) {
+            packetCount += agents[index]->getCollectedPackets();
+        }
+
+        for(auto sensor: sensors) {
+            packetCount += sensor->getAwaitingPackets();
+        }
+
+        packetCount += ground->getReceivedPackets();
+
+        return packetCount;
     }
-
-    double packetCount = 0;
-    unsigned int index = 0;
-    for(auto state: newState.agents) {
-        packetCount += agents[index]->getCollectedPackets();
-        index++;
-    }
-
-    for(auto sensor: sensors) {
-        packetCount += sensor->getAwaitingPackets();
-    }
-
-
-    return packetCount;
+    return 0;
 }
 
 void CentralizedQLearning::decayEpsilon() {
