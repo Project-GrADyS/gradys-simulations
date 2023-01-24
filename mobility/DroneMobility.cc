@@ -5,6 +5,7 @@
 #include "inet/mobility/base/MovingMobilityBase.h"
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
+#include <fstream>
 
 using namespace inet;
 
