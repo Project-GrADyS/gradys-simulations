@@ -328,13 +328,13 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         double packetCount = 0;
         unsigned int index = 0;
         for(auto state: newState.agents) {
-            cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance);
+            cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance) * agentWeight;
             packetCount += agents[index]->getCollectedPackets();
             index++;
         }
 
         for(auto sensor: sensors) {
-            cost += sensor->getAwaitingPackets() * sensor->getSensorPosition();
+            cost += sensor->getAwaitingPackets() * sensor->getSensorPosition() * sensorWeight;
             packetCount += sensor->getAwaitingPackets();
         }
 
@@ -355,13 +355,13 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         double packetCount = 0;
         unsigned int index = 0;
         for(auto state: newState.agents) {
-            cost = std::max(cost, agents[index]->getCollectedPackets() * (state.mobility / maximumDistance));
+            cost = std::max(cost, agents[index]->getCollectedPackets() * (state.mobility / maximumDistance) * agentWeight);
             packetCount += agents[index]->getCollectedPackets();
             index++;
         }
 
         for(auto sensor: sensors) {
-            cost = std::max(cost, sensor->getAwaitingPackets() * sensor->getSensorPosition());
+            cost = std::max(cost, sensor->getAwaitingPackets() * sensor->getSensorPosition() * sensorWeight);
             packetCount += sensor->getAwaitingPackets();
         }
         packetCount += ground->getReceivedPackets();
@@ -373,11 +373,11 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         double packetCount = 0;
         unsigned int index = 0;
         for(auto state: newState.agents) {
-            packetCount += agents[index]->getCollectedPackets();
+            packetCount += agents[index]->getCollectedPackets() * agentWeight;
         }
 
         for(auto sensor: sensors) {
-            packetCount += sensor->getAwaitingPackets();
+            packetCount += sensor->getAwaitingPackets() * sensorWeight;
         }
 
         packetCount += ground->getReceivedPackets();
