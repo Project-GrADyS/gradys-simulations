@@ -342,7 +342,6 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
         cost /= packetCount;
 
-
         return cost;
     } else if (costFunction == 3) {
         // Max packet position
@@ -370,6 +369,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
         return cost;
     } else if (costFunction == 4) {
+        // Packet count in system
         double packetCount = 0;
         unsigned int index = 0;
         for(auto state: newState.agents) {
@@ -379,8 +379,6 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         for(auto sensor: sensors) {
             packetCount += sensor->getAwaitingPackets() * sensorWeight;
         }
-
-        packetCount += ground->getReceivedPackets();
 
         return packetCount;
     }
