@@ -294,16 +294,18 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         }
 
         double agentCost = 0;
+        int index = 0;
         for (auto state: newState.agents) {
-            agentCost += (state.communication / maxDiscreteAgentPackets) * (state.mobility / maximumDistance);
+            agentCost += (agents[index]->getCollectedPackets()) * (state.mobility / maximumDistance);
+            index++;
         }
 
         agentCost /= agents.size();
 
         double sensorCost = 0;
-        int index = 0;
+        index = 0;
         for(auto value: newState.sensors) {
-            sensorCost += (sensors[index]->hasBeenVisited() ? value : maxDiscreteAwaitingPackets) / maxDiscreteAwaitingPackets;
+            sensorCost += (sensors[index]->hasBeenVisited() ? sensors[index]->getAwaitingPackets() : maxDiscreteAwaitingPackets);
             index++;
         }
         sensorCost /= sensors.size();
@@ -340,7 +342,11 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
         packetCount += ground->getReceivedPackets();
 
-        cost /= packetCount;
+        if (packetCount == 0) {
+            cost = 0;
+        } else {
+            cost /= packetCount;
+        }
 
         return cost;
     } else if (costFunction == 3) {
@@ -365,7 +371,11 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         }
         packetCount += ground->getReceivedPackets();
 
-        cost /= packetCount;
+        if (packetCount == 0) {
+            cost = 0;
+        } else {
+            cost /= packetCount;
+        }
 
         return cost;
     } else if (costFunction == 4) {
