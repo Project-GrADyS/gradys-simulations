@@ -164,30 +164,51 @@ void CentralizedQLearning::train() {
     /****** Collecting current global state ******/
     GlobalState newState = {};
 
+    double maximumDistance = 0;
+    if (agents.size() > 0) {
+        maximumDistance = agents[0]->getMaximumPosition();
+    }
+
+    double agentPositionAverage = 0;
+    double totalPackets = 0;
     for(CentralizedQAgent* agent : agents) {
         uint32_t packets = agent->getCollectedPackets();
-        packets = std::floor(packets / communicationStorageInterval);
-        if (packets > maxDiscreteAgentPackets) {
-            packets = maxDiscreteAgentPackets;
-        }
+        totalPackets += packets;
 
         double position = agent->getCurrentPosition();
-        position = std::floor(position / distanceInterval);
+        position = std::floor(position / maximumDistance);
 
         LocalState state = {
-                static_cast<uint16_t>(position),
-                packets
+                0,
+                0
         };
         newState.agents.push_back(state);
+
+        agentPositionAverage += packets * position;
+    }
+    if (totalPackets == 0) {
+        agentPositionAverage = 0;
+    } else {
+        agentPositionAverage /= totalPackets;
     }
 
+    double sensorPositionAverage = 0;
+    totalPackets = 0;
     for(auto sensor : sensors) {
-        auto value = std::floor(static_cast<double>(sensor->getAwaitingPackets()) / sensorStorageTolerance);
-        if(value > maxDiscreteAwaitingPackets) {
-            value = maxDiscreteAwaitingPackets;
-        }
-        newState.sensors.push_back(value);
+        auto packets = sensor->getAwaitingPackets();
+        totalPackets += packets;
+        sensorPositionAverage = sensor->getSensorPosition() * packets;
+
+        newState.sensors.push_back(0);
     }
+    if (totalPackets == 0) {
+        sensorPositionAverage = 0;
+    } else {
+        sensorPositionAverage /= totalPackets;
+    }
+
+    newState.agents[0].mobility = std::round(agentPositionAverage * maxDiscreteAgentPackages);
+    newState.agents[0].communication = std::round(sensorPositionAverage * maxDiscreteSensorPackages);
 
     /*********************************************/
 
