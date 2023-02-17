@@ -207,8 +207,8 @@ void CentralizedQLearning::train() {
         sensorPositionAverage /= totalPackets;
     }
 
-    newState.agents[0].mobility = std::round(agentPositionAverage * maxDiscreteAgentPackages);
-    newState.agents[0].communication = std::round(sensorPositionAverage * maxDiscreteSensorPackages);
+    newState.agents[0].mobility = std::round(agentPositionAverage * maxDiscreteAgentPackets);
+    newState.agents[0].communication = std::round(sensorPositionAverage * maxDiscreteAwaitingPackets);
 
     /*********************************************/
 
