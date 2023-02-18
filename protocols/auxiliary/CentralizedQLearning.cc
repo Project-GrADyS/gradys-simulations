@@ -197,7 +197,7 @@ void CentralizedQLearning::train() {
     for(auto sensor : sensors) {
         auto packets = sensor->getAwaitingPackets();
         totalPackets += packets;
-        sensorPositionAverage = sensor->getSensorPosition() * packets;
+        sensorPositionAverage += sensor->getSensorPosition() * packets;
 
         newState.sensors.push_back(0);
     }
@@ -300,7 +300,11 @@ void CentralizedQLearning::train() {
 
 void CentralizedQLearning::dispatchJointCommand() {
     int index = 0;
-    for(CentralizedQAgent* agent : agents) {
+    auto sortedAgents = agents;
+    std::sort(sortedAgents.begin(), sortedAgents.end(), [&](CentralizedQAgent* agent1, CentralizedQAgent* agent2) {
+        return agent1->getCurrentPosition() < agent2->getCurrentPosition();
+    });
+    for(CentralizedQAgent* agent : sortedAgents) {
         agent->applyCommand(U[index]);
         index++;
     }
