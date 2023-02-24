@@ -46,6 +46,7 @@ struct LocalState {
     }
 };
 
+
 // This is the system's global state, composed of all the agent's local states
 struct GlobalState {
     std::vector<LocalState> agents;

@@ -111,6 +111,7 @@ void CentralizedQLearning::initialize(int stage)
         WATCH(epsilon);
         WATCH(trainingSteps);
         WATCH(lastCost);
+        WATCH_VECTOR(X.sensors);
     }
     if(stage == 1) {
         initializeQTable();
@@ -169,6 +170,7 @@ void CentralizedQLearning::train() {
         maximumDistance = agents[0]->getMaximumPosition();
     }
 
+    double packetPositionAverage = 0;
     double agentPositionAverage = 0;
     double totalPackets = 0;
     for(CentralizedQAgent* agent : agents) {
@@ -176,7 +178,7 @@ void CentralizedQLearning::train() {
         totalPackets += packets;
 
         double position = agent->getCurrentPosition();
-        position = std::floor(position / maximumDistance);
+        packetPositionAverage += (position / maximumDistance) * packets;
 
         LocalState state = {
                 0,
@@ -184,31 +186,27 @@ void CentralizedQLearning::train() {
         };
         newState.agents.push_back(state);
 
-        agentPositionAverage += packets * position;
-    }
-    if (totalPackets == 0) {
-        agentPositionAverage = 0;
-    } else {
-        agentPositionAverage /= totalPackets;
+        agentPositionAverage += position;
     }
 
-    double sensorPositionAverage = 0;
-    totalPackets = 0;
+    agentPositionAverage /= maximumDistance;
+
     for(auto sensor : sensors) {
         auto packets = sensor->getAwaitingPackets();
         totalPackets += packets;
-        sensorPositionAverage += sensor->getSensorPosition() * packets;
+        packetPositionAverage += sensor->getSensorPosition() * packets;
 
         newState.sensors.push_back(0);
     }
-    if (totalPackets == 0) {
-        sensorPositionAverage = 0;
+
+    if (totalPackets > 0) {
+        packetPositionAverage /= totalPackets;
     } else {
-        sensorPositionAverage /= totalPackets;
+        packetPositionAverage = 0;
     }
 
-    newState.agents[0].mobility = std::round(agentPositionAverage * maxDiscreteAgentPackets);
-    newState.agents[0].communication = std::round(sensorPositionAverage * maxDiscreteAwaitingPackets);
+    newState.sensors[0] = std::round(agentPositionAverage * maxDiscreteAgentPackets);
+    newState.sensors[1] = std::round(packetPositionAverage * maxDiscreteAwaitingPackets);
 
     /*********************************************/
 
