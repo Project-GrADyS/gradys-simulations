@@ -125,6 +125,11 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
         hasStartedMission = true;
     }
 
+    if (lastTelemetry != nullptr) {
+        delete lastTelemetry;
+    }
+    lastTelemetry = telemetry->dup();
+
     // Updating movement component of the global state
     Coord currentWaypoint = tour[telemetry->getLastWaypointID()];
     Coord nextWaypoint = tour[telemetry->getNextWaypointID()];
@@ -140,14 +145,15 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     }
     currentDistance = distance;
 
-    unsigned int adjustedDistance = std::floor(currentDistance / distanceInterval);
-    if (adjustedDistance == commandTargetDistance) {
+    if (commandTargetDistance == -1) {
+        return;
+    }
+
+    uint8_t adjustedDistance = std::floor(currentDistance / distanceInterval);
+    if (adjustedDistance == commandTargetDistance && !hasCompletedMobility) {
         hasCompletedMobility = true;
+        stop();
     }
-    if (lastTelemetry != nullptr) {
-        delete lastTelemetry;
-    }
-    lastTelemetry = telemetry->dup();
 }
 
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
@@ -160,22 +166,19 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     }
 
     // Sets the completed flags to false when receiving a new command
+    if(hasCompletedMobility) {
+        resume();
+    }
     hasCompletedMobility = false;
 
-    // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
-    // already traveling in. In that case, the agent reverses
-    if(control.mobility == 0 && (lastTelemetry && lastTelemetry->isReversed())) {
+    uint8_t currentPosition = std::floor(currentDistance / distanceInterval);
+    commandTargetDistance = control.mobility;
+
+    if(currentPosition > commandTargetDistance && lastTelemetry && !lastTelemetry->isReversed()) {
         reverse();
-    } else if(control.mobility == 1 && !(lastTelemetry && lastTelemetry->isReversed())) {
+    } else if(currentPosition < commandTargetDistance && lastTelemetry && lastTelemetry->isReversed()) {
         reverse();
     }
-
-    // Since we are flooring the distance calculations, if the agent is supposed to move an entire state back
-    // we need to subtract two states, because it will immediatly cross a state boundary once it reverses
-    commandTargetDistance = std::floor(currentDistance / distanceInterval) + (control.mobility == 0 ? 1 : -2);
-    commandTargetDistance = std::max<int>(0, commandTargetDistance);
-    commandTargetDistance = std::min<int>(std::floor(totalMissionLength / distanceInterval), commandTargetDistance);
-
 
     // Saves the received control
     currentControl = control;
@@ -275,4 +278,19 @@ void CentralizedQProtocol::reverse() {
 
     sendCommand(command);
 }
+
+void CentralizedQProtocol::stop() {
+    MobilityCommand *command = new MobilityCommand();
+    command->setCommandType(FORCE_SHUTDOWN);
+
+    sendCommand(command);
+}
+
+void CentralizedQProtocol::resume() {
+    MobilityCommand *command = new MobilityCommand();
+    command->setCommandType(WAKE_UP);
+
+    sendCommand(command);
+}
+
 } //namespace

@@ -281,9 +281,9 @@ void CentralizedQLearning::train() {
 void CentralizedQLearning::dispatchJointCommand() {
     int index = 0;
     auto sortedAgents = agents;
-    std::sort(sortedAgents.begin(), sortedAgents.end(), [&](CentralizedQAgent* agent1, CentralizedQAgent* agent2) {
-        return agent1->getCurrentPosition() < agent2->getCurrentPosition();
-    });
+//    std::sort(sortedAgents.begin(), sortedAgents.end(), [&](CentralizedQAgent* agent1, CentralizedQAgent* agent2) {
+//        return agent1->getCurrentPosition() < agent2->getCurrentPosition();
+//    });
     for(CentralizedQAgent* agent : sortedAgents) {
         agent->applyCommand(U[index]);
         index++;
@@ -364,14 +364,14 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         for(auto agent: agents) {
             auto collectedPackets = agent->getCollectedPackets();
             double position = agent->getCurrentPosition() / maximumDistance;
-            if (collectedPackets > maxDiscreteAgentPackets && position > maxPosition) {
+            if (collectedPackets > communicationStorageInterval && position > maxPosition) {
                 maxPosition = position;
             }
         }
 
         for(auto sensor: sensors) {
             auto awaitingPackets = sensor->getAwaitingPackets();
-            if ((awaitingPackets > maxDiscreteAwaitingPackets || !sensor->hasBeenVisited()) && sensor->getSensorPosition() > maxPosition) {
+            if ((awaitingPackets > sensorStorageTolerance || !sensor->hasBeenVisited()) && sensor->getSensorPosition() > maxPosition) {
                 maxPosition = sensor->getSensorPosition();
             }
         }
@@ -607,7 +607,11 @@ void CentralizedQLearning::importQTable() {
 
 
 LocalControl CentralizedQLearning::generateRandomLocalControl() {
-    return {static_cast<uint8_t>(intuniform(0, 1))};
+    double maximumDistance = 0;
+    if (agents.size() > 0) {
+        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+    }
+    return {static_cast<uint8_t>(intuniform(0, maximumDistance))};
 }
 
 JointControl CentralizedQLearning::generateRandomJointControl() {

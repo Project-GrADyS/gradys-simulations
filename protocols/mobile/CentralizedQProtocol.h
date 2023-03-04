@@ -57,7 +57,7 @@ protected:
 
     // Variable used to inform the learning module if the last
     // control received was completed
-    int commandTargetDistance = 0;
+    int commandTargetDistance = -1;
     bool hasCompletedMobility = true;
     bool hasStartedMission = false;
 
@@ -118,6 +118,8 @@ protected:
 
     // Helper function that reverses the course of the UAVs movement
     virtual void reverse();
+    virtual void stop();
+    virtual void resume();
 public:
     simsignal_t dataLoadSignalID;
 };
