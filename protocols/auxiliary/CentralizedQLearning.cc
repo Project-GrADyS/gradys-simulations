@@ -111,7 +111,6 @@ void CentralizedQLearning::initialize(int stage)
         WATCH(epsilon);
         WATCH(trainingSteps);
         WATCH(lastCost);
-        WATCH_VECTOR(X.sensors);
     }
     if(stage == 1) {
         initializeQTable();
@@ -239,7 +238,7 @@ void CentralizedQLearning::train() {
             double nextStateQValue = (QTable.count(nextKey) == 0) ? 0 : QTable[nextKey];
 
             // Calculating the new QValue and updating the QTable
-            double QValue = (learningRate) * previousQValue + (1-learningRate) * (lastCost + gamma * nextStateQValue);
+            double QValue = (1 - learningRate) * previousQValue + learningRate * (lastCost + gamma * nextStateQValue);
             QTable[key] = QValue;
 
             // Updating the optimal control map
@@ -280,11 +279,7 @@ void CentralizedQLearning::train() {
 
 void CentralizedQLearning::dispatchJointCommand() {
     int index = 0;
-    auto sortedAgents = agents;
-//    std::sort(sortedAgents.begin(), sortedAgents.end(), [&](CentralizedQAgent* agent1, CentralizedQAgent* agent2) {
-//        return agent1->getCurrentPosition() < agent2->getCurrentPosition();
-//    });
-    for(CentralizedQAgent* agent : sortedAgents) {
+    for(CentralizedQAgent* agent : agents) {
         agent->applyCommand(U[index]);
         index++;
     }
@@ -328,14 +323,14 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         // Average packet position
         double maximumDistance = 0;
         if (agents.size() > 0) {
-            maximumDistance = agents[0]->getMaximumPosition();
+            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
         }
 
         double cost = 0;
         double packetCount = 0;
         unsigned int index = 0;
-        for(auto agent: agents) {
-            cost += agents[index]->getCollectedPackets() * (agent->getCurrentPosition() / maximumDistance) * agentWeight;
+        for(auto state: newState.agents) {
+            cost += agents[index]->getCollectedPackets() * (state.mobility / maximumDistance) * agentWeight;
             packetCount += agents[index]->getCollectedPackets();
             index++;
         }
@@ -344,6 +339,8 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
             cost += sensor->getAwaitingPackets() * sensor->getSensorPosition() * sensorWeight;
             packetCount += sensor->getAwaitingPackets();
         }
+
+        packetCount += ground->getReceivedPackets();
 
         if (packetCount == 0) {
             cost = 0;
@@ -356,22 +353,21 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         // Max packet position
         double maximumDistance = 0;
         if (agents.size() > 0) {
-            maximumDistance = agents[0]->getMaximumPosition();
+            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
         }
 
         double maxPosition = 0;
 
         for(auto agent: agents) {
             auto collectedPackets = agent->getCollectedPackets();
-            double position = agent->getCurrentPosition() / maximumDistance;
-            if (collectedPackets > communicationStorageInterval && position > maxPosition) {
-                maxPosition = position;
+            if (collectedPackets > maxDiscreteAgentPackets && agent->getCurrentPosition() > maxPosition) {
+                maxPosition = agent->getCurrentPosition();
             }
         }
 
         for(auto sensor: sensors) {
             auto awaitingPackets = sensor->getAwaitingPackets();
-            if ((awaitingPackets > sensorStorageTolerance || !sensor->hasBeenVisited()) && sensor->getSensorPosition() > maxPosition) {
+            if (awaitingPackets > sensorStorageTolerance && sensor->getSensorPosition() > maxPosition) {
                 maxPosition = sensor->getSensorPosition();
             }
         }
@@ -425,8 +421,11 @@ void CentralizedQLearning::decayEpsilon() {
 }
 
 void CentralizedQLearning::initializeQTable() {
-    QTable = {};
-    importQTable();
+    if(trainingMode) {
+        QTable = {};
+    } else {
+        importQTable();
+    }
 }
 
 void CentralizedQLearning::exportQTable() {
@@ -578,7 +577,6 @@ void CentralizedQLearning::importQTable() {
         std::vector<uint32_t> communicationStates = parseVectorString(match[2].str());
         std::vector<uint32_t> sensorPackets = parseVectorString(match[3].str());
         std::vector<uint32_t> jointControlVector = parseVectorString(match[4].str());
-        double qValue = stod(match[5].str());
 
         size_t stateSize = mobilityStates.size();
         if(communicationStates.size() != stateSize || jointControlVector.size() != stateSize) {
@@ -600,18 +598,12 @@ void CentralizedQLearning::importQTable() {
         }
         globalState.sensors = sensorPackets;
         optimalControlMap[globalState] = jointControl;
-
-        QTable[{globalState, jointControl}] = qValue;
     }
 }
 
 
 LocalControl CentralizedQLearning::generateRandomLocalControl() {
-    double maximumDistance = 0;
-    if (agents.size() > 0) {
-        maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
-    }
-    return {static_cast<uint8_t>(intuniform(0, maximumDistance))};
+    return {static_cast<uint8_t>(intuniform(0, 1))};
 }
 
 JointControl CentralizedQLearning::generateRandomJointControl() {
