@@ -353,15 +353,15 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
         // Max packet position
         double maximumDistance = 0;
         if (agents.size() > 0) {
-            maximumDistance = std::floor(agents[0]->getMaximumPosition() / distanceInterval);
+            maximumDistance = agents[0]->getMaximumPosition();
         }
 
         double maxPosition = 0;
 
         for(auto agent: agents) {
             auto collectedPackets = agent->getCollectedPackets();
-            if (collectedPackets > communicationStorageInterval && agent->getCurrentPosition() > maxPosition) {
-                maxPosition = agent->getCurrentPosition();
+            if (collectedPackets > communicationStorageInterval && (agent->getCurrentPosition() / maximumDistance) > maxPosition) {
+                maxPosition = (agent->getCurrentPosition() / maximumDistance);
             }
         }
 
