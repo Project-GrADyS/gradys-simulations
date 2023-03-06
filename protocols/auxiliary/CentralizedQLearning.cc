@@ -360,7 +360,7 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
 
         for(auto agent: agents) {
             auto collectedPackets = agent->getCollectedPackets();
-            if (collectedPackets > maxDiscreteAgentPackets && agent->getCurrentPosition() > maxPosition) {
+            if (collectedPackets > communicationStorageInterval && agent->getCurrentPosition() > maxPosition) {
                 maxPosition = agent->getCurrentPosition();
             }
         }
