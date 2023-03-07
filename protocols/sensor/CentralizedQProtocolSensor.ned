@@ -25,4 +25,5 @@ simple CentralizedQProtocolSensor extends CommunicationProtocolBase
         @statistic[dataLoad](record=vector,last);
         double beta @unit(s) = default(5s);
         double sensorPosition = default(0.5);
+        int maxAwaitingPackets = default(100);
 }

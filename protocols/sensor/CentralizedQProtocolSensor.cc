@@ -40,7 +40,10 @@ void CentralizedQProtocolSensor::initialize(int stage)
     if(stage == INITSTAGE_LOCAL) {
         // Signal that carries current data load and is emitted every time it is updated
         dataLoadSignalID = registerSignal("dataLoad");
-        emit(dataLoadSignalID, 0);
+
+        maxAwaitingPackets = par("maxAwaitingPackets");
+        awaitingPackets = maxAwaitingPackets;
+        emit(dataLoadSignalID, awaitingPackets);
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         sensorId = learning->registerSensor(this);
@@ -62,6 +65,9 @@ void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
         if(msg == generationTimer) {
             // Generating a new package and storing it with the awaited packages
             awaitingPackets++;
+            if (awaitingPackets > maxAwaitingPackets) {
+                awaitingPackets = maxAwaitingPackets;
+            }
             emit(dataLoadSignalID, static_cast<long>(awaitingPackets));
             scheduleAt(simTime() + beta, generationTimer);
             return;

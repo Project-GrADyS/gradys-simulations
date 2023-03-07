@@ -119,6 +119,8 @@ public:
     public:
         virtual uint32_t getAwaitingPackets() = 0;
 
+        virtual uint32_t getMaxAwaitingPackets() = 0;
+
         virtual bool hasBeenVisited() = 0;
 
         virtual double getSensorPosition() = 0;
