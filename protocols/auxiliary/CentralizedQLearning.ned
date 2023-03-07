@@ -55,6 +55,10 @@ simple CentralizedQLearning
         // If this boolean is set to true the simulation will automatically end when
         // the epsilon horizon is reached
         bool epsilonShortCircuit = default(false);
+        
+        // Determines if this simulation should start from scratch, ignoring any previous QTables, or if it
+        // should reuse and add knowledge to one, if available
+        bool startFromScratch = default(true);
 
         // Parameters for the simulated scenario
         double timeInterval @unit(s) = default(100ms); // For our MAMDP model time has to be discrete. This parameter specifies the interval between 

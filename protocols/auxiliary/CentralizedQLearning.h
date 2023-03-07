@@ -197,6 +197,7 @@ protected:
     double epsilonStart;
     double epsilonEnd;
     bool epsilonShortCircuit;
+    bool startFromScratch;
 
     // Simulation parameters
     double timeInterval;

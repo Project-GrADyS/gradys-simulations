@@ -86,6 +86,7 @@ void CentralizedQLearning::initialize(int stage)
         epsilonStart = par("epsilonStart");
         epsilonEnd = par("epsilonEnd");
         epsilonShortCircuit = par("epsilonShortCircuit");
+        startFromScratch = par("startFromScratch");
 
         sensorStorageTolerance = par("sensorStorageTolerance");
 
@@ -422,9 +423,8 @@ void CentralizedQLearning::decayEpsilon() {
 }
 
 void CentralizedQLearning::initializeQTable() {
-    if(trainingMode) {
-        QTable = {};
-    } else {
+    QTable = {};
+    if (!startFromScratch) {
         importQTable();
     }
 }
@@ -578,6 +578,7 @@ void CentralizedQLearning::importQTable() {
         std::vector<uint32_t> communicationStates = parseVectorString(match[2].str());
         std::vector<uint32_t> sensorPackets = parseVectorString(match[3].str());
         std::vector<uint32_t> jointControlVector = parseVectorString(match[4].str());
+        double qValue = std::atof(match[5].str());
 
         size_t stateSize = mobilityStates.size();
         if(communicationStates.size() != stateSize || jointControlVector.size() != stateSize) {
@@ -599,6 +600,7 @@ void CentralizedQLearning::importQTable() {
         }
         globalState.sensors = sensorPackets;
         optimalControlMap[globalState] = jointControl;
+        QTable[{globalState, jointControl}] = qValue;
     }
 }
 
