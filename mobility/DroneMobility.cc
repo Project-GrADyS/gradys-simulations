@@ -257,7 +257,6 @@ void DroneMobility::move() {
             case MobilityCommandType::FORCE_SHUTDOWN :
             {
                 droneStatus.isIdle = true;
-                climb(0);
                 break;
             }
         }

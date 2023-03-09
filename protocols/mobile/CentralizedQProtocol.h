@@ -118,6 +118,8 @@ protected:
 
     // Helper function that reverses the course of the UAVs movement
     virtual void reverse();
+    virtual void stop();
+    virtual void resume();
 public:
     simsignal_t dataLoadSignalID;
 };

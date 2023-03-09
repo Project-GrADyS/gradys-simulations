@@ -140,8 +140,9 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
     }
     currentDistance = distance;
 
-    unsigned int adjustedDistance = std::floor(currentDistance / distanceInterval);
-    if (adjustedDistance == commandTargetDistance) {
+    uint16_t targetDistance = commandTargetDistance * distanceInterval;
+    if (std::abs(currentDistance - targetDistance) <= 10 && !hasCompletedMobility) {
+        stop();
         hasCompletedMobility = true;
     }
     if (lastTelemetry != nullptr) {
@@ -153,14 +154,17 @@ void CentralizedQProtocol::handleTelemetry(Telemetry *telemetry) {
 void CentralizedQProtocol::applyCommand(const LocalControl& control) {
     Enter_Method_Silent();
 
+
     // Ignores commands if the UAV hasn't started the tour yet. The last waypoint is -1 when the UAV
     // hasn't reached the first waypoint in the mission yet
     if(lastTelemetry && lastTelemetry->getLastWaypointID() == -1) {
         return;
     }
 
+
     // Sets the completed flags to false when receiving a new command
     hasCompletedMobility = false;
+    resume();
 
     // Checks if the mobility component of the control commands the agent to travel in a ridection it is not
     // already traveling in. In that case, the agent reverses
@@ -170,9 +174,10 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
         reverse();
     }
 
-    // Since we are flooring the distance calculations, if the agent is supposed to move an entire state back
-    // we need to subtract two states, because it will immediatly cross a state boundary once it reverses
-    commandTargetDistance = std::floor(currentDistance / distanceInterval) + (control.mobility == 0 ? 1 : -2);
+    // We add a bit of extra distance to our current distance to account for overshooting the target when reversed
+    commandTargetDistance = std::floor((currentDistance + (0.5 * distanceInterval)) / distanceInterval) + (control.mobility == 0 ? 1 : -1);
+
+
     commandTargetDistance = std::max<int>(0, commandTargetDistance);
     commandTargetDistance = std::min<int>(std::floor(totalMissionLength / distanceInterval), commandTargetDistance);
 
@@ -272,6 +277,20 @@ void CentralizedQProtocol::communicate(int targetAgent, NodeType targetType, Mes
 void CentralizedQProtocol::reverse() {
     MobilityCommand *command = new MobilityCommand();
     command->setCommandType(REVERSE);
+
+    sendCommand(command);
+}
+
+void CentralizedQProtocol::stop() {
+    MobilityCommand *command = new MobilityCommand();
+    command->setCommandType(FORCE_SHUTDOWN);
+
+    sendCommand(command);
+}
+
+void CentralizedQProtocol::resume() {
+    MobilityCommand *command = new MobilityCommand();
+    command->setCommandType(WAKE_UP);
 
     sendCommand(command);
 }
