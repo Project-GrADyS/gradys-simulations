@@ -578,7 +578,7 @@ void CentralizedQLearning::importQTable() {
         std::vector<uint32_t> communicationStates = parseVectorString(match[2].str());
         std::vector<uint32_t> sensorPackets = parseVectorString(match[3].str());
         std::vector<uint32_t> jointControlVector = parseVectorString(match[4].str());
-        double qValue = std::atof(match[5].str());
+        double qValue = std::atof(match[5].str().c_str());
 
         size_t stateSize = mobilityStates.size();
         if(communicationStates.size() != stateSize || jointControlVector.size() != stateSize) {

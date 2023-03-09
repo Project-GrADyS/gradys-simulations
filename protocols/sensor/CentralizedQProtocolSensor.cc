@@ -43,7 +43,7 @@ void CentralizedQProtocolSensor::initialize(int stage)
 
         maxAwaitingPackets = par("maxAwaitingPackets");
         awaitingPackets = maxAwaitingPackets;
-        emit(dataLoadSignalID, awaitingPackets);
+        emit(dataLoadSignalID, static_cast<long>(awaitingPackets));
 
         learning = dynamic_cast<CentralizedQLearning*>(getModuleByPath("learner"));
         sensorId = learning->registerSensor(this);
