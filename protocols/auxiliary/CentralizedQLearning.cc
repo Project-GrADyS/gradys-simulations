@@ -377,9 +377,8 @@ double CentralizedQLearning::computeCost(const GlobalState& newState) {
     } else if (costFunction == 4) {
         // Packet count in system
         double packetCount = 0;
-        unsigned int index = 0;
-        for(auto state: newState.agents) {
-            //packetCount += agents[index]->getCollectedPackets() * agentWeight;
+        for(auto agent: agents) {
+            packetCount += agent->getCollectedPackets() / (agent->getMaxCollectedPackets() / 3);
         }
 
         for(auto sensor: sensors) {

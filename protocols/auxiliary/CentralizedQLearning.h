@@ -105,6 +105,8 @@ public:
 
         virtual uint32_t getCollectedPackets() = 0;
 
+        virtual uint32_t getMaxCollectedPackets() = 0;
+
 
         // Applies a command to the agent
         virtual void applyCommand(const LocalControl& command) = 0;

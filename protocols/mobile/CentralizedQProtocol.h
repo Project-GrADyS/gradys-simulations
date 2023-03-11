@@ -41,6 +41,8 @@ public:
 
     uint32_t getCollectedPackets() override { return collectedPackets; };
 
+    uint32_t getMaxCollectedPackets() override { return packetLimit; };
+
     // Applies a command to the agent
     virtual void applyCommand(const LocalControl& command) override;
 
