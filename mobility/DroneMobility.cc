@@ -5,6 +5,7 @@
 #include "inet/mobility/base/MovingMobilityBase.h"
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
+#include <fstream>
 
 using namespace inet;
 
@@ -20,14 +21,19 @@ Define_Module(DroneMobility);
 
 void DroneMobility::initialize(int stage) {
     VehicleMobility::initialize(stage);
-    verticalSpeed = par("verticalSpeed");
-    startTime = par("startTime");
-    droneStatus.currentYawSpeed = par("yawSpeed");
+    if(stage == 0) {
+        verticalSpeed = par("verticalSpeed");
+        startTime = par("startTime");
+        droneStatus.currentYawSpeed = par("yawSpeed");
 
-    homeLatitude = par("homeLatitude");
-    homeLongitude = par("homeLongitude");
+        homeLatitude = par("homeLatitude");
+        homeLongitude = par("homeLongitude");
 
-    sendTelemetry(true);
+        telemetryFrequency = par("telemetryFrequency");
+        scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
+
+        sendTelemetry(true);
+    }
 }
 
 void DroneMobility::setInitialPosition() {
@@ -109,7 +115,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
         else if (readInstruction.command == Command::TAKEOFF) {
             double z = stod(lineVector[10]);
 
-            createWaypoint(0, 0, z, nullptr);
+            createWaypoint(homeLatitude, homeLongitude, z, coordinateSystem);
 
             // Set the waypoint index on the instruction
             readInstruction.waypointIndex = waypoints.size() - 1;
@@ -251,7 +257,6 @@ void DroneMobility::move() {
             case MobilityCommandType::FORCE_SHUTDOWN :
             {
                 droneStatus.isIdle = true;
-                climb(0);
                 break;
             }
         }
@@ -495,13 +500,16 @@ void DroneMobility::nextInstruction() {
 
         if(currentInstructionIndex < 0) {
             currentInstructionIndex = 0;
-            droneStatus.isReversed = false;
             droneStatus.currentActivity = REACHED_EDGE;
         }
     } else {
         currentInstructionIndex++;
-    }
 
+        if(currentInstructionIndex >= instructions.size()) {
+            currentInstructionIndex = instructions.size() - 1;
+            droneStatus.currentActivity = REACHED_EDGE;
+        }
+    }
 
     sendTelemetry();
 }
@@ -512,39 +520,44 @@ void DroneMobility::handleMessage(cMessage *message) {
             return;
     }
 
-    MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
-    if(command != nullptr) {
-        // Also stops current shutdown comand if it is active and the vehicle
-        // receives another command
-        if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
-            droneStatus.currentCommand = -1;
-            droneStatus.isIdle = false;
-
-        }
-
-        // Saves current command in queue if a shutdown is coming
-        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN && droneStatus.currentCommand != -1) {
-            droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
-        }
-
-        droneStatus.commandQueue.push(command);
-        // Overrides current queue if it is a shutdown command
-        if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
-            MobilityCommand *current = droneStatus.commandQueue.front();
-            while(!droneStatus.commandQueue.empty() && current != command)
-            {
-                // Sends command to back of queue
-                droneStatus.commandQueue.pop();
-                droneStatus.commandQueue.push(current);
-
-                current = droneStatus.commandQueue.front();
-            }
-            droneStatus.currentCommand = -1;
-        }
-
-        executeCommand();
+    if(message == telemetryTimer) {
+        sendTelemetry();
+        scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
     } else {
-        VehicleMobility::handleMessage(message);
+        MobilityCommand *command = dynamic_cast<MobilityCommand *>(message);
+        if(command != nullptr) {
+            // Also stops current shutdown comand if it is active and the vehicle
+            // receives another command
+            if(droneStatus.currentCommand == MobilityCommandType::FORCE_SHUTDOWN && command->getCommandType() == MobilityCommandType::WAKE_UP) {
+                droneStatus.currentCommand = -1;
+                droneStatus.isIdle = false;
+
+            }
+
+            // Saves current command in queue if a shutdown is coming
+            if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN && droneStatus.currentCommand != -1) {
+                droneStatus.commandQueue.push(droneStatus.currentCommandInstance.dup());
+            }
+
+            droneStatus.commandQueue.push(command);
+            // Overrides current queue if it is a shutdown command
+            if(command->getCommandType() == MobilityCommandType::FORCE_SHUTDOWN) {
+                MobilityCommand *current = droneStatus.commandQueue.front();
+                while(!droneStatus.commandQueue.empty() && current != command)
+                {
+                    // Sends command to back of queue
+                    droneStatus.commandQueue.pop();
+                    droneStatus.commandQueue.push(current);
+
+                    current = droneStatus.commandQueue.front();
+                }
+                droneStatus.currentCommand = -1;
+            }
+
+            executeCommand();
+        } else {
+            VehicleMobility::handleMessage(message);
+        }
     }
 }
 
@@ -560,12 +573,7 @@ void DroneMobility::executeCommand() {
             case MobilityCommandType::REVERSE:
             {
                 droneStatus.isReversed = !droneStatus.isReversed;
-
-                // Reverses current instructions
-                int temp = currentInstructionIndex;
-                currentInstructionIndex = droneStatus.lastInstructionIndex;
-                droneStatus.lastInstructionIndex = temp;
-
+                nextInstruction();
                 break;
             }
             case MobilityCommandType::GOTO_WAYPOINT:
@@ -672,12 +680,15 @@ void DroneMobility::executeCommand() {
 // If sendTour is true attaches tour to the message
 void DroneMobility::sendTelemetry(bool sendTour) {
     Enter_Method_Silent("sendTelemetry(%d)", 0);
-    Telemetry *message = new Telemetry("Telemetry", 0);
+    Telemetry *message = new Telemetry();
     message->setIsReversed(droneStatus.isReversed);
     message->setNextWaypointID(instructions[currentInstructionIndex].waypointIndex);
     if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
         message->setLastWaypointID(instructions[droneStatus.lastInstructionIndex].waypointIndex);
     }
+    message->setCurrentX(lastPosition.x);
+    message->setCurrentY(lastPosition.y);
+    message->setCurrentZ(lastPosition.z);
     message->setCurrentCommand(droneStatus.currentCommand);
     message->setDroneActivity(droneStatus.currentActivity);
 
@@ -711,6 +722,10 @@ int DroneMobility::instructionIndexFromWaypoint(int waypointIndex) {
        }
     }
     return index;
+}
+
+DroneMobility::~DroneMobility() {
+    cancelAndDelete(telemetryTimer);
 }
 
 }

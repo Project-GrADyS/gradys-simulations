@@ -16,7 +16,7 @@
 #ifndef MOBILITY_FAILURES_SIMPLETIMERENERGY_H_
 #define MOBILITY_FAILURES_SIMPLETIMERENERGY_H_
 
-#include "../../communication/messages/internal/Telemetry_m.h"
+#include "../../protocols/messages/internal/Telemetry_m.h"
 #include <omnetpp.h>
 
 using namespace omnetpp;

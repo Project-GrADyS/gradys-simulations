@@ -37,20 +37,7 @@ OBJS = \
     $O/applications/mamapp/MamDataCollectorApp.o \
     $O/applications/mamapp/MamNodeApp.o \
     $O/applications/mamapp/Md5.o \
-    $O/communication/modules/UdpMobileNodeCommunicationApp.o \
-    $O/communication/modules/UdpSensorCommunicationApp.o \
-    $O/communication/modules/base/UdpBasicAppMobileNode.o \
-    $O/communication/modules/base/UdpBasicAppMobileSensorNode.o \
-    $O/communication/modules/base/UdpSinkMobileNode.o \
-    $O/communication/modules/base/UdpSinkMobileSensorNode.o \
-    $O/communication/protocols/base/CommunicationProtocolBase.o \
-    $O/communication/protocols/ground/SimpleGroundProtocol.o \
-    $O/communication/protocols/mobile/DadcaProtocol.o \
-    $O/communication/protocols/mobile/SimpleDroneProtocol.o \
-    $O/communication/protocols/mobile/ZigzagProtocol.o \
-    $O/communication/protocols/sensor/DadcaProtocolSensor.o \
-    $O/communication/protocols/sensor/SimpleSensorProtocol.o \
-    $O/communication/protocols/sensor/ZigzagProtocolSensor.o \
+    $O/communication/modules/UdpCommunicationApp.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/InterfaceEntryExt.o \
@@ -60,26 +47,41 @@ OBJS = \
     $O/mobility/failures/SimpleTimerEnergy.o \
     $O/mobility/failures/base/FailureGeneratorBase.o \
     $O/pathloss/TwoRayNewModel.o \
+    $O/protocols/auxiliary/CentralizedQLearning.o \
+    $O/protocols/base/CommunicationProtocolBase.o \
+    $O/protocols/ground/CentralizedQProtocolGround.o \
+    $O/protocols/ground/DadcaProtocolGround.o \
+    $O/protocols/ground/SimpleGroundProtocol.o \
+    $O/protocols/mobile/CentralizedQProtocol.o \
+    $O/protocols/mobile/DadcaProtocol.o \
+    $O/protocols/mobile/SimpleDroneProtocol.o \
+    $O/protocols/mobile/ZigzagProtocol.o \
+    $O/protocols/sensor/CentralizedQProtocolSensor.o \
+    $O/protocols/sensor/DadcaProtocolSensor.o \
+    $O/protocols/sensor/SimpleSensorProtocol.o \
+    $O/protocols/sensor/ZigzagProtocolSensor.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
-    $O/communication/messages/internal/CommunicationCommand_m.o \
-    $O/communication/messages/internal/MobilityCommand_m.o \
-    $O/communication/messages/internal/Telemetry_m.o \
-    $O/communication/messages/network/DadcaMessage_m.o \
-    $O/communication/messages/network/SimpleMessage_m.o \
-    $O/communication/messages/network/ZigzagMessage_m.o \
-    $O/linklayer/blemesh/BleMeshMacHeader_m.o
+    $O/linklayer/blemesh/BleMeshMacHeader_m.o \
+    $O/protocols/messages/internal/CommunicationCommand_m.o \
+    $O/protocols/messages/internal/MobilityCommand_m.o \
+    $O/protocols/messages/internal/Telemetry_m.o \
+    $O/protocols/messages/network/CentralizedQMessage_m.o \
+    $O/protocols/messages/network/DadcaMessage_m.o \
+    $O/protocols/messages/network/SimpleMessage_m.o \
+    $O/protocols/messages/network/ZigzagMessage_m.o
 
 # Message files
 MSGFILES = \
     applications/mamapp/BMeshPacket.msg \
-    communication/messages/internal/CommunicationCommand.msg \
-    communication/messages/internal/MobilityCommand.msg \
-    communication/messages/internal/Telemetry.msg \
-    communication/messages/network/DadcaMessage.msg \
-    communication/messages/network/SimpleMessage.msg \
-    communication/messages/network/ZigzagMessage.msg \
-    linklayer/blemesh/BleMeshMacHeader.msg
+    linklayer/blemesh/BleMeshMacHeader.msg \
+    protocols/messages/internal/CommunicationCommand.msg \
+    protocols/messages/internal/MobilityCommand.msg \
+    protocols/messages/internal/Telemetry.msg \
+    protocols/messages/network/CentralizedQMessage.msg \
+    protocols/messages/network/DadcaMessage.msg \
+    protocols/messages/network/SimpleMessage.msg \
+    protocols/messages/network/ZigzagMessage.msg
 
 # SM files
 SMFILES =

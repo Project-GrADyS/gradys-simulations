@@ -17,7 +17,7 @@
 #define __PROJETO_SIMPLECONSUMPTIONENERGY_H_
 
 #include <omnetpp.h>
-#include "../../communication/messages/internal/Telemetry_m.h"
+#include "../../protocols/messages/internal/Telemetry_m.h"
 
 using namespace omnetpp;
 

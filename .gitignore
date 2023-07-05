@@ -77,3 +77,6 @@ netanim-trace.txt
 .pydevproject
 .pydevproject
 .settings/
+
+# Q Tables
+**/qtable*.json

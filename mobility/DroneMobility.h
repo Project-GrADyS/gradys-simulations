@@ -20,8 +20,8 @@
 #include "inet/mobility/single/VehicleMobility.h"
 #include "inet/common/geometry/common/GeographicCoordinateSystem.h"
 
-#include "../communication/messages/internal/MobilityCommand_m.h"
-#include "../communication/messages/internal/Telemetry_m.h"
+#include "../protocols/messages/internal/MobilityCommand_m.h"
+#include "../protocols/messages/internal/Telemetry_m.h"
 
 using namespace inet;
 
@@ -68,22 +68,22 @@ class DroneMobility : public VehicleMobility
             bool isReversed = false;
 
             // Current Waypoint (VehicleMobility structure)
-            int targetIndex;
+            int targetIndex = {};
 
             // Saves the last target index
-            int lastInstructionIndex;
+            int lastInstructionIndex = {};
 
             /* Command status */
             // Current MobilityCommunicationCommand being followed
             int currentCommand=-1;
-            MobilityCommand currentCommandInstance;
+            MobilityCommand currentCommandInstance = {};
             // Target waypoint for commands that use it
             int gotoWaypointTarget=-1;
 
             // Queue of commands that will execute in order they are recieved
             std::queue<MobilityCommand*> commandQueue;
 
-            DroneActivity currentActivity;
+            DroneActivity currentActivity = {};
         };
         DroneStatus droneStatus;
 
@@ -98,6 +98,9 @@ class DroneMobility : public VehicleMobility
         double homeLatitude;
         double homeLongitude;
         Coord homeCoords;
+
+        simtime_t telemetryFrequency;
+        cMessage *telemetryTimer = new cMessage();
 
     protected:
         virtual void initialize(int stage) override;
@@ -125,6 +128,7 @@ class DroneMobility : public VehicleMobility
         // Checks if current command has finished and performs next command in queue
         virtual void executeCommand();
 
+        virtual ~DroneMobility();
     public:
         simsignal_t reverseSignalID;
     private:

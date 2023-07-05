@@ -14,6 +14,8 @@ simple DroneMobility extends VehicleMobility
         double homeLatitude @unit(degree);
         double homeLongitude @unit(degree);
         
+        double telemetryFrequency @unit(s) = default(1s);
+        
 	gates:
 	    inout protocolGate[];
 }
