@@ -8,6 +8,12 @@ This is a repository for the simulation framework developed for the GrADyS proje
 ![Dadca protocol showcase](assets/dadca_showcase.gif)
 
 # Installation
+There are two ways to install and use Gradys-Sim. The first one is to download the provided virtual applience which you can import into any virtual machine software that supports the *.ova* file format. The second one it to install direcly into your machine
+
+### 1. Virtualization
+Just download the virtual applience file (.ova) from [this link](https://drive.google.com/file/d/1IlgWMdPeYZH246wYP_pVjzWEvD9X_tZH/view?usp=sharing) and import it into any virtual machine software that supports the *.ova* file format. There should be a user called "gradys" with password "gradys" already created on imported virtual machine. [Oracle's VirtualBox](https://www.virtualbox.org/) is recommended.
+
+### 2. Local Installation
 In order to run the simulations and use the components in this repository you need to have both OMNeT++ and the INET framework installed.
 
 Version 5.6.2 of OMNeT++ is required, to install it [just follow these instructions](/InstallGuide.pdf). INET version 4.2 is also required, when first opening the OMNeT++ IDE you should be prompted with the option to install INET and all you need to do is accept it but if you need help [check out the installation instructions](https://inet.omnetpp.org/Installation.html).
