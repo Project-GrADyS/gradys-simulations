@@ -19,7 +19,7 @@
 #define __DIPOLEANTENNA_H
 
 #include "inet/common/INETDefs.h"
-#include "inet/physicallayer/base/packetlevel/AntennaBase.h"
+#include "inet/physicallayer/wireless/common/base/packetlevel/AntennaBase.h"
 
 using namespace inet;
 using namespace physicallayer;
@@ -45,7 +45,7 @@ class DipoleAntennaCustom : public AntennaBase
         virtual m getLambda() const { return lambda; }
         virtual double getMinGain() const override { return minGain; }
         virtual double getMaxGain() const override { return maxGain; }
-        virtual double computeGain(const Quaternion direction) const override;
+        virtual double computeGain(const Quaternion& direction) const override;
     };
 
     Ptr<AntennaGain> gain;
@@ -53,7 +53,7 @@ class DipoleAntennaCustom : public AntennaBase
   public:
     DipoleAntennaCustom();
 
-    virtual std::ostream& printToStream(std::ostream& stream, int level) const override;
+    virtual std::ostream& printToStream(std::ostream& stream, int level, int evFlags = 0) const override;
     virtual Ptr<const IAntennaGain> getGain() const override { return gain; }
 };
 }

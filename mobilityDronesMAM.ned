@@ -4,7 +4,7 @@ import inet.common.geometry.common.OsgGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;
 import inet.environment.ground.FlatGround;
 import inet.node.inet.AdhocHost;
-import inet.visualizer.integrated.IntegratedVisualizer;
+import inet.visualizer.common.IntegratedVisualizer;
 import inet.mobility.contract.IMobility;
 import inet.mobility.static.StationaryMobility;
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
@@ -12,9 +12,9 @@ import inet.node.ethernet.Eth100M;
 import inet.node.inet.SensorNode;
 import inet.node.inet.StandardHost;
 import inet.node.inet.WirelessHost;
-import inet.physicallayer.common.packetlevel.RadioMedium;
-import inet.visualizer.integrated.IntegratedMultiVisualizer;
-import inet.visualizer.integrated.IntegratedVisualizer;
+import inet.physicallayer.wireless.common.medium.RadioMedium; 
+import inet.visualizer.common.IntegratedMultiVisualizer;
+import inet.visualizer.common.IntegratedVisualizer;
 
 
 

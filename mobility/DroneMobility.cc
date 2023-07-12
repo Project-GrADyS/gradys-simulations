@@ -39,7 +39,7 @@ void DroneMobility::initialize(int stage) {
 void DroneMobility::setInitialPosition() {
     double x = homeLatitude,y = homeLongitude, z = waypoints[targetPointIndex].timestamp;
 
-    auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this, false);
+    auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this);
     if (coordinateSystem != nullptr) {
         Coord sceneCoordinate = coordinateSystem->computeSceneCoordinate(GeoCoord(deg(x), deg(y), m(0)));
         x = sceneCoordinate.x;
@@ -77,7 +77,7 @@ void DroneMobility::readWaypointsFromFile(const char *fileName) {
         return;
     }
 
-    auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this, false);
+    auto coordinateSystem = getModuleFromPar<IGeographicCoordinateSystem>(par("coordinateSystemModule"), this);
 
     // <INDEX> <CURRENT WP> <COORD FRAME> <COMMAND> <PARAM1> <PARAM2> <PARAM3> <PARAM4> <PARAM5/X/LATITUDE> <PARAM6/Y/LONGITUDE> <PARAM7/Z/ALTITUDE> <AUTOCONTINUE>
     while (inputFile.getline(line, 256)) {

@@ -43,7 +43,7 @@ void DipoleAntennaCustom::initialize(int stage)
     // par retorna referencia para um parametro espeficado com esse nome
 }
 
-std::ostream& DipoleAntennaCustom::printToStream(std::ostream& stream, int level) const
+std::ostream& DipoleAntennaCustom::printToStream(std::ostream& stream, int level, int evFlags) const
 {
     stream << "DipoleAntenna";
     if (level <= PRINT_LEVEL_DETAIL)
@@ -60,7 +60,7 @@ DipoleAntennaCustom::AntennaGain::AntennaGain(const char *wireAxis, m length, m 
     wireAxisDirection = Coord::parse(wireAxis);
 }
 
-double DipoleAntennaCustom::AntennaGain::computeGain(Quaternion direction) const
+double DipoleAntennaCustom::AntennaGain::computeGain(const Quaternion& direction) const
 {
     double angle = std::acos(direction.rotate(Coord::X_AXIS) * wireAxisDirection);
     double a = std::acos(0.0);

@@ -13,7 +13,7 @@ module MobileSensorNode extends AdhocHost
     parameters:
         @class(MobileSensorNode);
 
-  		int internalMobNodeId = -1;
+  		int internalMobNodeId = -1 @mutable;
   		int simulationIndexOfFirstNode = 6;
   		
      submodules:
