@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for gradys-simulations
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -O out -KINET4_5_PROJ=../inet4.5 -DINET_IMPORT -I. -I/opt/OpenSplice/HDE/x86_64.linux/include -I/opt/OpenSplice/HDE/x86_64.linux/include/sys -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake -f --deep -O out -KINET4_5_PROJ=../inet4.5 -DINET_IMPORT -I. -I/opt/OpenSplice/HDE/x86_64.linux/include -I/opt/OpenSplice/HDE/x86_64.linux/include/sys -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -25,7 +25,7 @@ INCLUDE_PATH = -I. -I/opt/OpenSplice/HDE/x86_64.linux/include -I/opt/OpenSplice/
 EXTRA_OBJS =
 
 # Additional libraries (-L, -l options)
-LIBS = $(LDFLAG_LIBPATH)$(INET4_5_PROJ)/src  -lINET$(D)
+LIBS = $(LDFLAG_LIBPATH)$(INET4_5_PROJ)/src  -lpthread -lINET$(D)
 
 # Output directory
 PROJECT_OUTPUT_DIR = out
@@ -45,6 +45,9 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/NetworkInterfaceExt.o \
     $O/mobility/DroneMobility.o \
+    $O/mobility/MAVLinkFileMobility.o \
+    $O/mobility/MAVLinkRandomWaypointMobility.o \
+    $O/mobility/base/MAVLinkMobilityBase.o \
     $O/mobility/failures/RandomFailureGenerator.o \
     $O/mobility/failures/SimpleConsumptionEnergy.o \
     $O/mobility/failures/SimpleTimerEnergy.o \
@@ -63,6 +66,11 @@ OBJS = \
     $O/protocols/sensor/DadcaProtocolSensor.o \
     $O/protocols/sensor/SimpleSensorProtocol.o \
     $O/protocols/sensor/ZigzagProtocolSensor.o \
+    $O/utils/TelemetryConditions.o \
+    $O/utils/VehicleRoutines.o \
+    $O/utils/subprocess/process.o \
+    $O/utils/subprocess/process_unix.o \
+    $O/utils/subprocess/process_win.o \
     $O/visualization/CustomOsgStatisticVisualizer.o \
     $O/applications/mamapp/BMeshPacket_m.o \
     $O/linklayer/blemesh/BleMeshMacHeader_m.o \
