@@ -26,7 +26,7 @@ import inet.physicallayer.wireless.common.contract.packetlevel.IRadio;
 module BleMeshUwbIrInterface extends NetworkInterface like IWirelessInterface
 {
     parameters:
-        @class(InterfaceEntry);
+        @class(NetworkInterface);
         string interfaceTableModule;
         *.interfaceTableModule = default(absPath(interfaceTableModule));
         @display("i=block/ifcard");
@@ -50,4 +50,3 @@ module BleMeshUwbIrInterface extends NetworkInterface like IWirelessInterface
         radioIn --> { @display("m=s"); } --> radio.radioIn;
         radio.upperLayerOut --> mac.lowerLayerIn;
 }
-

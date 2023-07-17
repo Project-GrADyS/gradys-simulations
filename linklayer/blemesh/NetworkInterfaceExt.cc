@@ -13,17 +13,10 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#ifndef LINKLAYER_BLEMESH_INTERFACEENTRYEXT_H_
-#define LINKLAYER_BLEMESH_INTERFACEENTRYEXT_H_
-
-#include "inet/networklayer/common/InterfaceEntry.h"
+#include "NetworkInterfaceExt.h"
 
 namespace projeto {
 
-class InterfaceEntryExt : public inet::InterfaceEntry {
-
-};
+    Define_Module(NetworkInterfaceExt);
 
 } /* namespace projeto */
-
-#endif /* LINKLAYER_BLEMESH_INTERFACEENTRYEXT_H_ */

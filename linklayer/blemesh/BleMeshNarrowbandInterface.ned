@@ -51,4 +51,3 @@ module BleMeshNarrowbandInterface extends NetworkInterface like IWirelessInterfa
         radioIn --> { @display("m=s"); } --> radio.radioIn;
         radio.upperLayerOut --> mac.lowerLayerIn;
 }
-

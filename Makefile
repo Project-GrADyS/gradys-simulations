@@ -43,7 +43,7 @@ OBJS = \
     $O/communication/modules/UdpCommunicationApp.o \
     $O/linklayer/blemesh/BleMeshMac.o \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
-    $O/linklayer/blemesh/InterfaceEntryExt.o \
+    $O/linklayer/blemesh/NetworkInterfaceExt.o \
     $O/mobility/DroneMobility.o \
     $O/mobility/failures/RandomFailureGenerator.o \
     $O/mobility/failures/SimpleConsumptionEnergy.o \

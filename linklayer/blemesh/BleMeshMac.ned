@@ -111,4 +111,3 @@ module BleMeshMac extends MacProtocolBase like IMacProtocol
         }
     connections allowunconnected:
 }
-

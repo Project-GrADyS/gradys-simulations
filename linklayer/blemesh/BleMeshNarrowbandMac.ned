@@ -56,4 +56,3 @@ module BleMeshNarrowbandMac extends BleMeshMac
         // 802.15.4-2006, page 163
         macMaxBE = default(5);
 }
-
