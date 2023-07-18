@@ -13,11 +13,11 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef DRONEMOBILITY_H_
-#define DRONEMOBILITY_H_
+#ifndef DRONEMOBILITYMAV_H_
+#define DRONEMOBILITYMAV_H_
 
 #include <queue>
-#include "inet/mobility/single/VehicleMobility.h"
+#include "mobility/base/MAVLinkMobilityBase.h"
 #include "inet/common/geometry/common/GeographicCoordinateSystem.h"
 
 #include "../protocols/messages/internal/MobilityCommand_m.h"
@@ -28,7 +28,7 @@ using namespace inet;
 namespace projeto {
 
 
-class DroneMobility : public VehicleMobility
+class DroneMobilityMav : public MAVLinkMobilityBase
 {
     protected:
         // Tipos de comandos implementados
@@ -68,12 +68,6 @@ class DroneMobility : public VehicleMobility
             // Saves the last target index
             int lastInstructionIndex = {};
 
-            // Saves the command defined yaw
-            double currentYaw = -1;
-
-            // Saves yaw speed
-            double currentYawSpeed;
-
             /* Command status */
             // Current MobilityCommunicationCommand being followed
             int currentCommand=-1;
@@ -90,35 +84,32 @@ class DroneMobility : public VehicleMobility
 
         std::vector<Instruction> instructions;
 
-        double verticalSpeed;
+        double speed;
+
         double startTime;
 
         int currentInstructionIndex=0;
 
-        // Home location
-        double homeLatitude;
-        double homeLongitude;
         Coord homeCoords;
+
+        double waypointProximity;
+
+        std::vector<Coord> waypoints;
+
+        IGeographicCoordinateSystem *coordinateSystem;
 
         simtime_t telemetryFrequency;
         cMessage *telemetryTimer = new cMessage();
 
     protected:
         virtual void initialize(int stage) override;
-        virtual void setInitialPosition() override;
-        virtual void readWaypointsFromFile(const char *fileName) override;
+        virtual void readWaypointsFromFile(const char *fileName);
 
         // Fun��o de movimento chamada periodicamente em um self-timeout
         virtual void move() override;
 
-        // Fun��o de orienta��o chamada periodicamente em um self-timeout
-        virtual void orient() override;
-
         // Fun��o de voo respons�vel por definir a posi��o plana do drone
         virtual void fly();
-
-        // Fun��o de voo respons�vel por definir a posi��o vertical do drone
-        virtual void climb (double targetHeight);
 
         // Fun��o que pula para pr�xima instru��o
         virtual void nextInstruction();
@@ -129,11 +120,13 @@ class DroneMobility : public VehicleMobility
         // Checks if current command has finished and performs next command in queue
         virtual void executeCommand();
 
-        virtual ~DroneMobility();
+        virtual ~DroneMobilityMav();
     public:
         simsignal_t reverseSignalID;
     private:
         Coord tempSpeed;
+        Coord MAVLinkCurrentCoord;
+        bool hasTakenOff = false;
 
     private:
         virtual void createWaypoint(double x, double y, double z, IGeographicCoordinateSystem *coordinateSystem);
@@ -144,4 +137,4 @@ class DroneMobility : public VehicleMobility
 };
 
 }
-#endif /* DRONEMOBILITY_H_ */
+#endif /* DRONEMOBILITYMAV_H_ */

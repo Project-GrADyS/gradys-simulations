@@ -45,6 +45,7 @@ OBJS = \
     $O/linklayer/blemesh/BleMeshProtocolDissector.o \
     $O/linklayer/blemesh/NetworkInterfaceExt.o \
     $O/mobility/DroneMobility.o \
+    $O/mobility/DroneMobilityMav.o \
     $O/mobility/MAVLinkFileMobility.o \
     $O/mobility/MAVLinkRandomWaypointMobility.o \
     $O/mobility/base/MAVLinkMobilityBase.o \
