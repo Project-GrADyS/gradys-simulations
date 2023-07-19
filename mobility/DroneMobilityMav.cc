@@ -256,6 +256,7 @@ void DroneMobilityMav::move() {
             }
             case MobilityCommandType::FORCE_SHUTDOWN :
             {
+
                 if(!droneStatus.isIdle) {
                     GeoCoord coords = coordinateSystem->computeGeographicCoordinate(lastPosition);
                     queueInstructions(VehicleRoutines::guidedGoto(vehicleType, coords.latitude.get(), coords.longitude.get(), 0, 5, coordinateSystem, targetSystem, targetComponent, 30, 5));
@@ -368,11 +369,6 @@ void DroneMobilityMav::fly() {
     if (lastPosition.sqrdist(coordTarget) < waypointProximity * waypointProximity) {
         droneStatus.isIdle = true;
         return;
-    }
-
-    // Check if we are close enough to the waypoint to resume to the next
-    if (lastPosition.sqrdist(coordTarget) < waypointProximity * waypointProximity) {
-        droneStatus.isIdle = true;
     }
     if (coordTarget != MAVLinkCurrentCoord) {
             MAVLinkCurrentCoord = coordTarget;
