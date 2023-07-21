@@ -1,0 +1,5 @@
+site_name: MAVSIMNET
+site_dir: ../docs
+site_description: A simulation framework for mobile vehicle networks
+repo_url: https://github.com/Thlamz/MAVSIMNET/
+theme: readthedocs
