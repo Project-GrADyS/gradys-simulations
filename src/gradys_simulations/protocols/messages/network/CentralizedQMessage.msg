@@ -15,7 +15,7 @@
 
 import inet.common.packet.chunk.Chunk;
 
-namespace gradys_simulations;
+namespace inet;
 
 
 enum NodeType {
@@ -30,8 +30,8 @@ enum MessageType {
     REQUEST=3;
 }
 
-class CentralizedQMessage extends inet::FieldsChunk {
-    chunkLength = inet::B(15); // Fixed chunk length
+class CentralizedQMessage extends FieldsChunk {
+    chunkLength = B(15); // Fixed chunk length
     NodeType nodeType; // Type of the sender node
     MessageType messageType; // Type of message
     int nodeId; // Id of the sender node

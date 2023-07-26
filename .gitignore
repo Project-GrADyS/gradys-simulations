@@ -37,7 +37,7 @@
 *.app
 
 # Ignore cache files
-cache/**
+**/cache/**
 
 # Ignore binary files
 /gradys_simulations/gradys_simulations

@@ -77,7 +77,7 @@ void CentralizedQProtocolSensor::handleMessage(cMessage* msg) {
 }
 
 void CentralizedQProtocolSensor::handlePacket(Packet *pk) {
-    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack(B(15), 1));
     // Ignores messages not destined for this sensor id (or -1)
     if(payload != nullptr && (payload->getTargetId() == sensorId || payload->getTargetId() == -1)
             && (payload->getTargetNodeType() == PASSIVE || payload->getTargetNodeType() == ALL)) {

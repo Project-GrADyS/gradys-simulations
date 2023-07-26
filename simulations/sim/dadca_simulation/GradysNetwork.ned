@@ -1,4 +1,4 @@
-package sim.new_sim_3_drone_wifi_dadca_simulation;
+package sim.dadca_simulation;
 
 import inet.common.geometry.common.SimpleGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;

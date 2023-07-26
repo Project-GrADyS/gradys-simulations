@@ -24,7 +24,7 @@ import gradys_simulations.MobileSensorNode;
 import gradys_simulations.GroundStation;
 
 
-network Ufl
+network GradysNetwork
 {
     parameters:
 		int numUAVs = default(1);

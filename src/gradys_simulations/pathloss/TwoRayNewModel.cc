@@ -226,7 +226,14 @@ double TwoRayNewModel::terraPlana(const Coord& pos_t, const Coord& pos_r, m lamb
     double r_r = sqrt((d*d)+(h_t+h_r)*(h_t+h_r)); //trajeto do raio refletido
     double dr = r_r - r_d; // diferen�a do refletido para o direto
 
-    double theta = atan(d1/ht);
+    // Adjusted value -> crashed when transmitter on ground division by 0
+    double theta;
+    if (ht == 0) {
+        theta = M_PI/2;
+    } else {
+       theta = atan(d1/ht);
+    }
+
     double phi;
     if(d == 0){
         phi = atan(1);

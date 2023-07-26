@@ -63,7 +63,7 @@ void CentralizedQProtocolGround::handleMessage(cMessage *msg) {
 }
 
 void CentralizedQProtocolGround::handlePacket(Packet *pk) {
-    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack(B(15), 1));
     // Ignoring messages not destined for a passive node
     if(payload != nullptr && (payload->getTargetNodeType() == PASSIVE || payload->getTargetNodeType() == ALL)) {
         switch(payload->getMessageType()) {

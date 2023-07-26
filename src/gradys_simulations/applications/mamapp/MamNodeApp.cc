@@ -33,7 +33,7 @@
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "gradys_simulations/applications/mamapp/Md5.h"
 
-namespace projeto {
+namespace gradys_simulations {
 
 Define_Module(MamNodeApp);
 
@@ -340,7 +340,7 @@ void MamNodeApp::handleMessageWhenUp(cMessage *msg)
         }
 
         if (strcmp(msg->getName(), FOUND_MOBILE_SINK) == 0) {
-            auto bmeshData = dynamicPtrCast<const BMeshPacket>(packet->peekAtBack());
+            auto bmeshData = dynamicPtrCast<const BMeshPacket>(packet->peekAtBack(B(1), 1));
 
             processFoundMobileSink(srcAddr, bmeshData->getHops());
             delete msg;

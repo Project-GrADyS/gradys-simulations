@@ -1,4 +1,4 @@
-package sim.new_sim_2_drone_wifi_zigzag_simulation;
+package sim.zigzag_simulation;
 
 import inet.common.geometry.common.SimpleGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;

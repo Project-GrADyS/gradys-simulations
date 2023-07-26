@@ -26,7 +26,7 @@
 
 using namespace inet;
 
-namespace projeto {
+namespace gradys_simulations {
 
 /**
  * Consumes and prints packets received from the Udp module. See NED for more info.

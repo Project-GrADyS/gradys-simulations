@@ -96,7 +96,7 @@ void DadcaProtocol::handleTelemetry(gradys_simulations::Telemetry *telemetry) {
 }
 
 void DadcaProtocol::handlePacket(Packet *pk) {
-    auto payload = dynamicPtrCast<const DadcaMessage>(pk->peekAtBack());
+    auto payload = dynamicPtrCast<const DadcaMessage>(pk->peekAtBack(B(34), 1));
 
 
     if(payload != nullptr) {
@@ -241,7 +241,7 @@ void DadcaProtocol::handlePacket(Packet *pk) {
         updatePayload();
     }
 
-    auto mamPayload = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack());
+    auto mamPayload = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack(B(1), 1));
     if(mamPayload != nullptr) {
         if(!isTimedout() && communicationStatus == FREE) {
             currentDataLoad++;

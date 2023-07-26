@@ -3,7 +3,7 @@
 	<name>gradys_simulations</name>
 	<comment></comment>
 	<projects>
-		<project>inet4.5.0</project>
+		<project>inet4.5</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

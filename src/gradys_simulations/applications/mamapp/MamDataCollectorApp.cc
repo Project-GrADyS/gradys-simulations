@@ -28,7 +28,7 @@
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 
-namespace projeto {
+namespace gradys_simulations {
 
 Define_Module(MamDataCollectorApp);
 
@@ -297,44 +297,47 @@ void MamDataCollectorApp::processPacket(Packet *pk)
     EV_INFO << "Received packet: " << UdpSocket::getReceivedPacketInfo(pk) << " size = " << sizeBytes << " bytes" << endl;
     emit(packetReceivedSignal, pk);
 
-    auto bmeshData = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack());
+    auto bmeshData = dynamicPtrCast<const BMeshPacket>(pk->peekAtBack(B(1), 1));
 
-    int sequence = bmeshData->getSequence();
-    std::string packetId = bmeshData->getPacketUuid();
+    if (bmeshData != nullptr) {
 
-    if (sequence > 0) {
-        //auto createdAtTag = bmeshData->getTag<CreationTimeTag>();
-        auto creationTime = bmeshData->getCreationTime();
+        int sequence = bmeshData->getSequence();
+        std::string packetId = bmeshData->getPacketUuid();
 
-        ASSERT(sizeBytes == 11);
-        //ASSERT(createdAtTag->getCreationTime() == creationTime); THIS IS NOT HOLDING. So we won't use the tag data for now.
+        if (sequence > 0) {
+            //auto createdAtTag = bmeshData->getTag<CreationTimeTag>();
+            auto creationTime = bmeshData->getCreationTime();
 
-        auto delay = simTime() - creationTime; // compute delay
+            ASSERT(sizeBytes == 11);
+            //ASSERT(createdAtTag->getCreationTime() == creationTime); THIS IS NOT HOLDING. So we won't use the tag data for now.
 
-        emit(dataDelaySignal, delay);
+            auto delay = simTime() - creationTime; // compute delay
 
-        if (uniqueDataSendPacketHashes.find(bmeshData->getPacketUuid()) == uniqueDataSendPacketHashes.end()) {
-            uniqueDataSendPacketHashes.insert(bmeshData->getPacketUuid());
-            uniqueDataBytesReceived += sizeBytes;
+            emit(dataDelaySignal, delay);
 
-            // Sends unique packet to protocol module
-            cGate *protocolGate = gate("protocolGate$o");
-            if(protocolGate->isConnected()) {
-                send(pk->dup(), protocolGate);
+            if (uniqueDataSendPacketHashes.find(bmeshData->getPacketUuid()) == uniqueDataSendPacketHashes.end()) {
+                uniqueDataSendPacketHashes.insert(bmeshData->getPacketUuid());
+                uniqueDataBytesReceived += sizeBytes;
+
+                // Sends unique packet to protocol module
+                cGate *protocolGate = gate("protocolGate$o");
+                if(protocolGate->isConnected()) {
+                    send(pk->dup(), protocolGate);
+                }
+            } else {
+                excessDataPacketsReceived++;
+                excessDataBytesReceived += sizeBytes;
             }
-        } else {
-            excessDataPacketsReceived++;
-            excessDataBytesReceived += sizeBytes;
+
+            uniqueDataSenders.insert(bmeshData->getSrcUuid());
+
+            numUnique = uniqueDataSendPacketHashes.size();
+            numSenders = uniqueDataSenders.size();
+
+            numReceived++;
+
+            //sendAck(bmeshData->getPacketUuid());
         }
-
-        uniqueDataSenders.insert(bmeshData->getSrcUuid());
-
-        numUnique = uniqueDataSendPacketHashes.size();
-        numSenders = uniqueDataSenders.size();
-
-        numReceived++;
-
-        //sendAck(bmeshData->getPacketUuid());
     }
 
     delete pk;

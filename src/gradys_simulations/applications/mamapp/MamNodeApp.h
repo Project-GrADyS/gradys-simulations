@@ -37,7 +37,7 @@
 using namespace std;
 using namespace inet;
 
-namespace projeto {
+namespace gradys_simulations {
 
 /**
  * UDP application. See NED for more info.

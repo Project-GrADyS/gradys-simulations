@@ -187,7 +187,7 @@ void CentralizedQProtocol::applyCommand(const LocalControl& control) {
 }
 
 void CentralizedQProtocol::handlePacket(Packet *pk) {
-    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack());
+    auto payload = dynamicPtrCast<const CentralizedQMessage>(pk->peekAtBack(B(15), 1));
 
     // Ignores packages that are not destined for this agent's id (or id -1 which sends messages to every node) or are not destined
     // to this node's type

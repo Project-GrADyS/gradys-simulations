@@ -1,4 +1,4 @@
-package sim.new_sim_1_drone_wifi_new_map_35_simulation;
+package sim.drone_1_simulation;
 
 import inet.common.geometry.common.SimpleGeographicCoordinateSystem;
 import inet.environment.common.PhysicalEnvironment;

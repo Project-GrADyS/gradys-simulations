@@ -19,7 +19,7 @@ import inet.visualizer.common.IntegratedVisualizer;
 import gradys_simulations.MobileNodeMam;
 import gradys_simulations.GroundStation;
 
-network MAM
+network GradysSimulation
 {
     parameters:
 
