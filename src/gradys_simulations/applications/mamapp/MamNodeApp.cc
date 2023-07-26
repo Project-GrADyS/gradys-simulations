@@ -501,26 +501,28 @@ void MamNodeApp::processDataSend(Packet *packet, L3Address &src) {
     // from the mobile sink have not timed out yet by using a simple cache with TTL for the packet destination + id
     // If it's cached, drop the packet. Still need to figure out the implications of doing this..... TODO
 
-    auto bmeshData = dynamicPtrCast<const BMeshPacket>(packet->popAtBack());
+    auto bmeshData = dynamicPtrCast<const BMeshPacket>(packet->popAtBack(B(1), 1));
     delete packet;
 
-    auto key = bmeshData->getPacketUuid();
-    double msd = simTime().dbl() * 1000;
-    long ms = static_cast<long>(msd);
-    bool inCache = dataSendCache.exists(key, ms);
+    if (bmeshData != nullptr) {
+        auto key = bmeshData->getPacketUuid();
+        double msd = simTime().dbl() * 1000;
+        long ms = static_cast<long>(msd);
+        bool inCache = dataSendCache.exists(key, ms);
 
-    if (!inCache) {
-        dataSendCache.put(key, 1, ms + 1000); // Expire in 1 second
+        if (!inCache) {
+            dataSendCache.put(key, 1, ms + 1000); // Expire in 1 second
 
-        uniqueDataSenders.insert(bmeshData->getSrcUuid());
+            uniqueDataSenders.insert(bmeshData->getSrcUuid());
 
-        if (mamRelay) {
-            sendData(bmeshData, mobileSink); // DATA_SEND
-        }
-        else {
-            L3Address broadcastAddr;
-            broadcastAddr.set(Ipv4Address(0xFFFFFFFF));
-            sendData(bmeshData, broadcastAddr); // DATA_SEND
+            if (mamRelay) {
+                sendData(bmeshData, mobileSink); // DATA_SEND
+            }
+            else {
+                L3Address broadcastAddr;
+                broadcastAddr.set(Ipv4Address(0xFFFFFFFF));
+                sendData(bmeshData, broadcastAddr); // DATA_SEND
+            }
         }
     }
 }
