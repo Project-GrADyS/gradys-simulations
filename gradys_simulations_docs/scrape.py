@@ -31,14 +31,14 @@ import glob
 for f in glob.glob('./docs/Modules/*'):
     os.remove(f)
 
-ned_filenames = [filename for filename in glob.iglob("../src/" + '**/*.ned', recursive=True)]
+ned_filenames = [filename for filename in glob.iglob("../src/gradys_simulations/**/*.ned", recursive=True)]
 for filename in ned_filenames:
     with open(filename, "r") as file:
         module_name = filename.removesuffix('.ned')[filename.rfind('/') + 1:]
         lines = file.readlines()
         module_line = -1
         for index, line in enumerate(lines):
-            if 'simple MAVLink' in line:
+            if 'simple' or 'module' in line:
                 module_line = index
                 break
         
@@ -94,14 +94,14 @@ for filename in ned_filenames:
             doc_file.write(documentation)
 
 
-ned_filenames = [filename for filename in glob.iglob("../src/mavsimnet/utils/*.h", recursive=False)]
+ned_filenames = [filename for filename in glob.iglob("../src/gradys_simulations/**/*.h", recursive=True)]
 for filename in ned_filenames:
     with open(filename, "r") as file:
         module_name = filename.removesuffix('.h')[filename.rfind('/') + 1:]
         lines = file.readlines()
         module_line = -1
         for index, line in enumerate(lines):
-            if f"namespace {module_name}" in line:
+            if f"class {module_name}" in line:
                 module_line = index
                 break
         
@@ -132,5 +132,5 @@ for filename in ned_filenames:
                         f"{module_description}\n\n" \
                         f"## Functions\n\n" \
                         f"{module_functions}\n\n"
-        with open(f"./docs/Utils/{module_name}.md", "w+") as doc_file:
+        with open(f"./docs/Header/{module_name}.md", "w+") as doc_file:
             doc_file.write(documentation)
