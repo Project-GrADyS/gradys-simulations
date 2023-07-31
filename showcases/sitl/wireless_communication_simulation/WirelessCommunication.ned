@@ -22,7 +22,7 @@ import inet.visualizer.common.IntegratedVisualizer;
 import inet.networklayer.configurator.ipv4.Ipv4NetworkConfigurator;
 import inet.physicallayer.wireless.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;  
 
-network WirelessCommunication
+network GradysNetwork
 {
     parameters:
         int numClients = default(1);

@@ -327,7 +327,7 @@ void DroneMobilityMav::move() {
             case Command::TAKEOFF :
             {
                 double targetHeight = coordinateSystem->computeGeographicCoordinate(waypoints[currentInstruction->waypointIndex]).altitude.get();
-                queueInstructions(VehicleRoutines::armTakeoff(systemId, componentId, vehicleType, targetHeight, targetSystem, targetComponent, 30, 5));
+                queueInstructions(VehicleRoutines::armTakeoff(systemId, componentId, vehicleType, targetHeight, targetSystem, targetComponent, 5, 30));
 
                 if(targetHeight - lastPosition.z  < waypointProximity) {
                     DroneMobilityMav::nextInstruction();
