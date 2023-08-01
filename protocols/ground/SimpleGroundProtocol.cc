@@ -56,7 +56,7 @@ void SimpleGroundProtocol::handlePacket(Packet *pk) {
 
                 // Sets the correct target
                 CommunicationCommand *targetCommand = new CommunicationCommand();
-                targetCommand->setCommandType(CommunicationCommandType::SET_TARGET);
+                targetCommand->setCommandType(CommunicationCommandType::SEND_MESSAGE);
                 targetCommand->setTarget(pk->getName());
                 sendCommand(targetCommand);
                 break;

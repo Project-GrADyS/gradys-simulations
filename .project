@@ -3,7 +3,7 @@
 	<name>projeto</name>
 	<comment></comment>
 	<projects>
-		<project>inet4.5</project>
+		<project>inet4.5.0</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

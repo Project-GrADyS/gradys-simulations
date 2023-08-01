@@ -34,7 +34,7 @@ class DroneMobility : public VehicleMobility
         // Tipos de comandos implementados
         enum Command { GOTO=16, STOP=19, JUMP=177, TAKEOFF=22, RETURN_LAUNCH=20, YAW=115, REVERSE=120 };
 
-        // Struct que representa uma instrução lida do arquivo de instruções
+        // Struct que representa uma instruï¿½ï¿½o lida do arquivo de instruï¿½ï¿½es
         struct Instruction {
             Command command;
             double param1;
@@ -60,11 +60,6 @@ class DroneMobility : public VehicleMobility
             simtime_t idleTime;
             bool isIdle = false;
 
-            // Saves the command defined yaw
-            double currentYaw = -1;
-            // Saves yaw speed
-            double currentYawSpeed;
-
             bool isReversed = false;
 
             // Current Waypoint (VehicleMobility structure)
@@ -72,6 +67,12 @@ class DroneMobility : public VehicleMobility
 
             // Saves the last target index
             int lastInstructionIndex = {};
+
+            // Saves the command defined yaw
+            double currentYaw = -1;
+
+            // Saves yaw speed
+            double currentYawSpeed;
 
             /* Command status */
             // Current MobilityCommunicationCommand being followed
@@ -107,22 +108,22 @@ class DroneMobility : public VehicleMobility
         virtual void setInitialPosition() override;
         virtual void readWaypointsFromFile(const char *fileName) override;
 
-        // Função de movimento chamada periodicamente em um self-timeout
+        // Funï¿½ï¿½o de movimento chamada periodicamente em um self-timeout
         virtual void move() override;
 
-        // Função de orientação chamada periodicamente em um self-timeout
+        // Funï¿½ï¿½o de orientaï¿½ï¿½o chamada periodicamente em um self-timeout
         virtual void orient() override;
 
-        // Função de voo responsável por definir a posição plana do drone
+        // Funï¿½ï¿½o de voo responsï¿½vel por definir a posiï¿½ï¿½o plana do drone
         virtual void fly();
 
-        // Função de voo responsável por definir a posição vertical do drone
+        // Funï¿½ï¿½o de voo responsï¿½vel por definir a posiï¿½ï¿½o vertical do drone
         virtual void climb (double targetHeight);
 
-        // Função que pula para próxima instrução
+        // Funï¿½ï¿½o que pula para prï¿½xima instruï¿½ï¿½o
         virtual void nextInstruction();
 
-        // Função que captura ordens recebidas pela gate de input de ordem e trata
+        // Funï¿½ï¿½o que captura ordens recebidas pela gate de input de ordem e trata
         virtual void handleMessage(cMessage *message) override;
 
         // Checks if current command has finished and performs next command in queue
