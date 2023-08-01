@@ -1,0 +1,5 @@
+site_name: gradys-simulations
+site_dir: ../docs
+site_description: Simulations from Project GrADyS on OMNET++ and INET framework 
+repo_url: https://github.com/brunoolivieri/gradys-simulations/
+theme: readthedocs

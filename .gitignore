@@ -37,11 +37,11 @@
 *.app
 
 # Ignore cache files
-cache/**
+**/cache/**
 
 # Ignore binary files
-gradys-simulations
-gradys-simulations_dbg
+/gradys_simulations/gradys_simulations
+/gradys_simulations/gradys_simulations_dbg
 out/**
 *.so
 *.dylib
@@ -81,5 +81,6 @@ netanim-trace.txt
 # Q Tables
 **/qtable*.json
 
-/doc/
 /.metadata/
+/doc/
+/out/
