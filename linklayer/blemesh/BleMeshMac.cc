@@ -42,7 +42,7 @@
 #include "inet/linklayer/common/MacAddressTag_m.h"
 #include "linklayer/blemesh/BleMeshMac.h"
 #include "linklayer/blemesh/BleMeshMacHeader_m.h"
-#include "inet/networklayer/common/InterfaceEntry.h"
+#include "inet/networklayer/common/NetworkInterface.h"
 
 #include "applications/mamapp/BMeshPacket_m.h"
 
@@ -179,21 +179,21 @@ BleMeshMac::~BleMeshMac()
         delete ackMessage;
 }
 
-void BleMeshMac::configureInterfaceEntry()
+void BleMeshMac::configureNetworkInterface()
 {
     MacAddress address = parseMacAddressParameter(par("address"));
 
     // data rate
-    interfaceEntry->setDatarate(bitrate);
+    networkInterface->setDatarate(bitrate);
 
     // generate a link-layer address to be used as interface token for IPv6
-    interfaceEntry->setMacAddress(address);
-    interfaceEntry->setInterfaceToken(address.formInterfaceIdentifier());
+    networkInterface->setMacAddress(address);
+    networkInterface->setInterfaceToken(address.formInterfaceIdentifier());
 
     // capabilities
-    interfaceEntry->setMtu(par("mtu"));
-    interfaceEntry->setMulticast(true);
-    interfaceEntry->setBroadcast(true);
+    networkInterface->setMtu(par("mtu"));
+    networkInterface->setMulticast(true);
+    networkInterface->setBroadcast(true);
 }
 
 /**
@@ -219,10 +219,10 @@ void BleMeshMac::handleUpperPacket(Packet *packet)
     macPkt->setChunkLength(b(headerLength));
     MacAddress dest = packet->getTag<MacAddressReq>()->getDestAddress();
     EV_DETAIL << "CSMA received a message from upper layer, name is " << packet->getName() << ", CInfo removed, mac addr=" << dest << endl;
-    macPkt->setNetworkProtocol(ProtocolGroup::ethertype.getProtocolNumber(packet->getTag<PacketProtocolTag>()->getProtocol()));
+    macPkt->setNetworkProtocol(ProtocolGroup::getEthertypeProtocolGroup()->getProtocolNumber(packet->getTag<PacketProtocolTag>()->getProtocol()));
     macPkt->setDestAddr(dest);
     delete packet->removeControlInfo();
-    macPkt->setSrcAddr(interfaceEntry->getMacAddress());
+    macPkt->setSrcAddr(networkInterface->getMacAddress());
 
     if (useMACAcks) {
         if (SeqNrParent.find(dest) == SeqNrParent.end()) {
@@ -241,7 +241,7 @@ void BleMeshMac::handleUpperPacket(Packet *packet)
     //RadioAccNoise3PhyControlInfo *pco = new RadioAccNoise3PhyControlInfo(bitrate);
     //macPkt->setControlInfo(pco);
     packet->insertAtFront(macPkt);
-    packet->getTag<PacketProtocolTag>()->setProtocol(&blemesh);
+    packet->getTagForUpdate<PacketProtocolTag>()->setProtocol(&blemesh);
     EV_DETAIL << "pkt encapsulated, length: " << macPkt->getChunkLength() << "\n";
     executeMac(EV_SEND_REQUEST, packet);
 }
@@ -250,7 +250,7 @@ void BleMeshMac::updateStatusIdle(t_mac_event event, cMessage *msg)
 {
     switch (event) {
         case EV_SEND_REQUEST:
-            txQueue->pushPacket(static_cast<Packet *>(msg));
+            // txQueue->pushPacket(static_cast<Packet *>(msg), gate(upperLayerInGateId));
             if (!txQueue->isEmpty()) {
                 EV_DETAIL << "(1) FSM State IDLE_1, EV_SEND_REQUEST and [TxBuff avail]: startTimerBackOff -> BACKOFF." << endl;
                 updateMacState(BACKOFF_2);
@@ -381,8 +381,10 @@ void BleMeshMac::updateStatusCCA(t_mac_event event, cMessage *msg)
                 EV_DETAIL << "(3) FSM State CCA_3, EV_TIMER_CCA, [Channel Idle]: -> TRANSMITFRAME_4." << endl;
                 updateMacState(TRANSMITFRAME_4);
                 radio->setRadioMode(IRadio::RADIO_MODE_TRANSMITTER);
-                if (currentTxFrame == nullptr)
-                    popTxQueue();
+                if (currentTxFrame == nullptr) {
+                    currentTxFrame = dequeuePacket();
+                    handleUpperPacket(currentTxFrame);
+                }
                 Packet *mac = currentTxFrame->dup();
                 attachSignal(mac, simTime() + aTurnaroundTime);
                 //sendDown(msg);
@@ -632,7 +634,7 @@ void BleMeshMac::updateStatusTransmitAck(t_mac_event event, cMessage *msg)
 void BleMeshMac::updateStatusNotIdle(cMessage *msg)
 {
     EV_DETAIL << "(20) FSM State NOT IDLE, EV_SEND_REQUEST. Is a TxBuffer available ?" << endl;
-    txQueue->pushPacket(static_cast<Packet *>(msg));
+    txQueue->pushPacket(static_cast<Packet *>(msg), gate(lowerLayerOutGateId));
 }
 
 /**
@@ -665,7 +667,7 @@ void BleMeshMac::executeMac(t_mac_event event, cMessage *msg)
         // TODO: Needs to clear the queue
         // TODO: How do I clear the queue now?
         while (!txQueue->isEmpty()) {
-            delete txQueue->popPacket(gate(lowerLayerOutGateId)); // TODO: 0 or lowerLayerOutGateId?
+            txQueue->removeAllPackets(); // ->popPacket(gate(lowerLayerOutGateId)); // TODO: 0 or lowerLayerOutGateId?
         }
         NB = 0; // backoff counter should be reset (clearing queue)
 
@@ -896,7 +898,7 @@ void BleMeshMac::handleLowerPacket(Packet *packet)
     const MacAddress& src = csmaHeader->getSrcAddr();
     const MacAddress& dest = csmaHeader->getDestAddr();
     long ExpectedNr = 0;
-    MacAddress address = interfaceEntry->getMacAddress();
+    MacAddress address = networkInterface->getMacAddress();
 
     EV_DETAIL << "Received frame name= " << csmaHeader->getName()
               << ", myState=" << macState << " src=" << src
@@ -1001,11 +1003,10 @@ void BleMeshMac::decapsulate(Packet *packet)
 {
     const auto& csmaHeader = packet->popAtFront<BleMeshMacHeader>();
     packet->addTagIfAbsent<MacAddressInd>()->setSrcAddress(csmaHeader->getSrcAddr());
-    packet->addTagIfAbsent<InterfaceInd>()->setInterfaceId(interfaceEntry->getInterfaceId());
-    auto payloadProtocol = ProtocolGroup::ethertype.getProtocol(csmaHeader->getNetworkProtocol());
+    packet->addTagIfAbsent<InterfaceInd>()->setInterfaceId(networkInterface->getInterfaceId());
+    auto payloadProtocol = ProtocolGroup::getEthertypeProtocolGroup()->getProtocol(csmaHeader->getNetworkProtocol());
     packet->addTagIfAbsent<DispatchProtocolReq>()->setProtocol(payloadProtocol);
     packet->addTagIfAbsent<PacketProtocolTag>()->setProtocol(payloadProtocol);
 }
 
 } // namespace inet
-

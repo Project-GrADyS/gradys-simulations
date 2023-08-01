@@ -1,4 +1,4 @@
-#include "inet/physicallayer/contract/packetlevel/IRadioMedium.h"
+#include "inet/physicallayer/wireless/common/contract/packetlevel/IRadioMedium.h"
 #include "TwoRayNewModel.h"
 #include <complex>
 
@@ -16,16 +16,16 @@ namespace { constexpr double squared(double x) { return x * x; } }
  * Literature referenced here:
  * Rappaport, Theodore: Wireless Communications - Principles and Practice, 2nd edition, 2002
  * Jakes, William C.: "Microwave Mobile Communications", 1974
- * Códigos e Slides Matlab Maj Andrezo
+ * Cï¿½digos e Slides Matlab Maj Andrezo
  */
-/** Foram feitas mudanças no calculo do coef de reflexão (Gamma)
+/** Foram feitas mudanï¿½as no calculo do coef de reflexï¿½o (Gamma)
  * epsilon relativo foi setado como 15 (permissividade do chao/permissividade do ar)
  * permissividade do ar = 1
- * permissividade do chão = 15; media
- * inclusão da condutividade do chão no cálculo
- * Codigo editado para a inclusão da condutividade, com o coeficiente de reflexão se tornando complexo
- * valores tirados da simulação do Major Andrezo
- * Inclusa condição de terra plana e terra esférica (antes era apenas terra plana)
+ * permissividade do chï¿½o = 15; media
+ * inclusï¿½o da condutividade do chï¿½o no cï¿½lculo
+ * Codigo editado para a inclusï¿½o da condutividade, com o coeficiente de reflexï¿½o se tornando complexo
+ * valores tirados da simulaï¿½ï¿½o do Major Andrezo
+ * Inclusa condiï¿½ï¿½o de terra plana e terra esfï¿½rica (antes era apenas terra plana)
  */
 
 TwoRayNewModel::TwoRayNewModel() :
@@ -50,7 +50,7 @@ void TwoRayNewModel::initialize(int stage)
     }
 }
 
-std::ostream& TwoRayNewModel::printToStream(std::ostream& os, int level) const
+std::ostream& TwoRayNewModel::printToStream(std::ostream& os, int level, int evFlags = 0) const
 {
     os << "TwoRayNewModel";
     if (level >= PRINT_LEVEL_TRACE)
@@ -70,28 +70,28 @@ double TwoRayNewModel::computePathLoss(const ITransmission* transmission, const 
 
 double TwoRayNewModel::computeTwoRayNewModel(const Coord& pos_t, const Coord& pos_r, m lambda) const
 
-//Função para decidir se o modelo a ser executado será o de terra plana ou terra esférica
+//Funï¿½ï¿½o para decidir se o modelo a ser executado serï¿½ o de terra plana ou terra esfï¿½rica
 
 {
     double d_los = pos_r.distance(pos_t);
     const double Req = 1.33*6371000; //raio equivalente da terra
-    if(pos_t.z>=pos_r.z){    //testa qual dos hosts está a maior altura
+    if(pos_t.z>=pos_r.z){    //testa qual dos hosts estï¿½ a maior altura
         const double d_h =sqrt(2*Req*pos_t.z);  //distancia horizonte radio
-        if(d_los<=d_h){     //condição de terra plana, calculos como vistos aqui
+        if(d_los<=d_h){     //condiï¿½ï¿½o de terra plana, calculos como vistos aqui
             return terraPlana(pos_t, pos_r, lambda);
 
                 }   else{
-           //terra esférica
+           //terra esfï¿½rica
             return terraEsferica(pos_t, pos_r, lambda);
         }
     }   else {
 
         const double d_h = sqrt(2*Req*pos_r.z);
-        if(d_los<=d_h){     //condição de terra plana, calculos como vistos aqui
+        if(d_los<=d_h){     //condiï¿½ï¿½o de terra plana, calculos como vistos aqui
             return terraPlana(pos_t, pos_r, lambda);
 
          }  else{
-          //condição de terra esférica
+          //condiï¿½ï¿½o de terra esfï¿½rica
             return terraEsferica(pos_t, pos_r, lambda);
         }
     }
@@ -111,20 +111,20 @@ m TwoRayNewModel::computeRange(mps propagationSpeed, Hz frequency, double loss) 
 double TwoRayNewModel::terraEsferica(const Coord& pos_t, const Coord& pos_r, m lambda) const
 {
     /*
-     * Parte geométrica, baseada nos códigos em Matlab do Major Andrezo e nas equações de Norton
+     * Parte geomï¿½trica, baseada nos cï¿½digos em Matlab do Major Andrezo e nas equaï¿½ï¿½es de Norton
      *
      */
     double beta = 2*M_PI/(lambda.get()); //constante de fase
     double Req = 1.33*6371000;
 
-    double d = pos_r.distance(pos_t);  //Distancia entre as antenas (não sei se está certo)
-    double h_t = pos_t.z; //altura do transmissor em relação ao solo
-    double h_r = pos_r.z;//altura do receptor em relação ao solo
-    //Calculando distancia para o ponto de reflexão no solo
+    double d = pos_r.distance(pos_t);  //Distancia entre as antenas (nï¿½o sei se estï¿½ certo)
+    double h_t = pos_t.z; //altura do transmissor em relaï¿½ï¿½o ao solo
+    double h_r = pos_r.z;//altura do receptor em relaï¿½ï¿½o ao solo
+    //Calculando distancia para o ponto de reflexï¿½o no solo
 
     double p = 2*sqrt((Req*(h_t+h_r)+(d*d)/4)/3);
     double phi = acos(2*Req*abs(h_t-h_r)*d/(pow(p,3)));
-    double d1 = d/(2+p*cos((phi+M_PI)/3)); //distancia para o ponto de reflexão na superficie para tx
+    double d1 = d/(2+p*cos((phi+M_PI)/3)); //distancia para o ponto de reflexï¿½o na superficie para tx
     double ht = h_t - (pow(d1,2)/2*Req); //altura equivalente de tx
 
     //resolver raiz quadrada
@@ -145,7 +145,7 @@ double TwoRayNewModel::terraEsferica(const Coord& pos_t, const Coord& pos_r, m l
 
     double r_d = sqrt(pow(d,2)+pow(ht-hr,2)); //trajeto do raio direto
     double r_r = sqrt(pow(d,2)+pow(ht+hr,2)); //trajeto do raio refletido
-    double dr  = abs(r_r - r_d);    //diferença entre os raios
+    double dr  = abs(r_r - r_d);    //diferenï¿½a entre os raios
 
     //fator de divergencia
     double D = pow(1+(2*d1*d2)/(Req*(ht+hr)),(-1/2));
@@ -153,7 +153,7 @@ double TwoRayNewModel::terraEsferica(const Coord& pos_t, const Coord& pos_r, m l
     //angulo de incidencia do raio no solo
     double theta = atan(d1/ht);
 
-    //Calculo do coeficiente de reflexão (Gamma) complexo
+    //Calculo do coeficiente de reflexï¿½o (Gamma) complexo
     std::complex<double> Gamma (0.0,0.0);
     double cos_theta = cos(theta);
     double sin_theta = sin(theta);
@@ -206,8 +206,8 @@ double TwoRayNewModel::terraPlana(const Coord& pos_t, const Coord& pos_r, m lamb
     double Req = 1.33*6371000;
 
     double beta = 2*M_PI/(lambda.get()); //constante de fase
-    double h_t = pos_t.z; //altura do transmissor em relação ao solo
-    double h_r = pos_r.z;//altura do receptor em relação ao solo
+    double h_t = pos_t.z; //altura do transmissor em relaï¿½ï¿½o ao solo
+    double h_r = pos_r.z;//altura do receptor em relaï¿½ï¿½o ao solo
     double d_x_t = pos_t.x;
     double d_x_r = pos_r.x;
     double d_y_t = pos_t.y;
@@ -219,12 +219,12 @@ double TwoRayNewModel::terraPlana(const Coord& pos_t, const Coord& pos_r, m lamb
     double hr = h_r;
 
 
-    double d1 = (h_t*d)/(h_t+h_r); //distancia do transmissor ao ponto de reflexão
-    double d2 = (h_r*d)/(h_t+h_r); //distancia do receptor ao potno de reflexão
+    double d1 = (h_t*d)/(h_t+h_r); //distancia do transmissor ao ponto de reflexï¿½o
+    double d2 = (h_r*d)/(h_t+h_r); //distancia do receptor ao potno de reflexï¿½o
 
     double r_d = sqrt((d*d)+(h_t-h_r)*(h_t-h_r)); //trajeto do raio direto
     double r_r = sqrt((d*d)+(h_t+h_r)*(h_t+h_r)); //trajeto do raio refletido
-    double dr = r_r - r_d; // diferença do refletido para o direto
+    double dr = r_r - r_d; // diferenï¿½a do refletido para o direto
 
     double theta = atan(d1/ht);
     double phi;
@@ -234,7 +234,7 @@ double TwoRayNewModel::terraPlana(const Coord& pos_t, const Coord& pos_r, m lamb
     } else{
         phi = beta*(dr);
     }
-    double D = 1; //fator de divergencia unitário para o caso da terra plana
+    double D = 1; //fator de divergencia unitï¿½rio para o caso da terra plana
 
 
     std::complex<double> Gamma (0.0,0.0);
@@ -245,7 +245,7 @@ double TwoRayNewModel::terraPlana(const Coord& pos_t, const Coord& pos_r, m lamb
     std::complex<double> sen_theta_complex (sin_theta, 0.0);
 
 
-    //Calculo do coeficiente de reflexão (Gamma) complexo
+    //Calculo do coeficiente de reflexï¿½o (Gamma) complexo
     const std::complex<double> sqrt_term = sqrt(e_r - sen_theta_complex*sen_theta_complex);
     switch (polarization)
     {

@@ -31,7 +31,8 @@
 #include "inet/linklayer/base/MacProtocolBase.h"
 #include "inet/linklayer/common/MacAddress.h"
 #include "inet/linklayer/contract/IMacProtocol.h"
-#include "inet/physicallayer/contract/packetlevel/IRadio.h"
+#include "inet/physicallayer/wireless/common/contract/packetlevel/IRadio.h"
+
 
 #include "inet/common/Protocol.h"
 
@@ -300,7 +301,7 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
 
   protected:
     /** @brief Generate new interface address*/
-    virtual void configureInterfaceEntry() override;
+    virtual void configureNetworkInterface() override;
     virtual void handleCommand(cMessage *msg) {}
 
     // FSM functions
@@ -346,4 +347,3 @@ class BleMeshMac : public MacProtocolBase, public IMacProtocol
 } // namespace inet
 
 #endif // ifndef __INET_BLEMESHMAC_H
-

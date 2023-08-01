@@ -80,3 +80,6 @@ netanim-trace.txt
 
 # Q Tables
 **/qtable*.json
+
+/doc/
+/.metadata/

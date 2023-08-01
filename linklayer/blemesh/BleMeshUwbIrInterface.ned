@@ -20,13 +20,13 @@ package projeto.linklayer.blemesh;
 import inet.queueing.contract.IPacketQueue;
 import inet.linklayer.acking.AckingMac;
 import inet.linklayer.contract.IWirelessInterface;
-import inet.networklayer.common.InterfaceEntry;
-import inet.physicallayer.contract.packetlevel.IRadio;
+import inet.networklayer.common.NetworkInterface;
+import inet.physicallayer.wireless.common.contract.packetlevel.IRadio;
 
-module BleMeshUwbIrInterface extends InterfaceEntry like IWirelessInterface
+module BleMeshUwbIrInterface extends NetworkInterface like IWirelessInterface
 {
     parameters:
-        @class(InterfaceEntry);
+        @class(NetworkInterface);
         string interfaceTableModule;
         *.interfaceTableModule = default(absPath(interfaceTableModule));
         @display("i=block/ifcard");
@@ -50,4 +50,3 @@ module BleMeshUwbIrInterface extends InterfaceEntry like IWirelessInterface
         radioIn --> { @display("m=s"); } --> radio.radioIn;
         radio.upperLayerOut --> mac.lowerLayerIn;
 }
-

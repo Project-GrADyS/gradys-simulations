@@ -19,10 +19,10 @@
 package projeto.linklayer.blemesh;
 
 import inet.linklayer.contract.IWirelessInterface;
-import inet.networklayer.common.InterfaceEntry;
-import inet.physicallayer.contract.packetlevel.IRadio;
+import inet.networklayer.common.NetworkInterface;
+import inet.physicallayer.wireless.common.contract.packetlevel.IRadio;
 
-module BleMeshNarrowbandInterface extends InterfaceEntry like IWirelessInterface
+module BleMeshNarrowbandInterface extends NetworkInterface like IWirelessInterface
 {
     parameters:
         @class(InterfaceEntryExt);
@@ -51,4 +51,3 @@ module BleMeshNarrowbandInterface extends InterfaceEntry like IWirelessInterface
         radioIn --> { @display("m=s"); } --> radio.radioIn;
         radio.upperLayerOut --> mac.lowerLayerIn;
 }
-

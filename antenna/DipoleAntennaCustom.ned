@@ -17,7 +17,7 @@
 
 package projeto.antenna;
 
-import inet.physicallayer.base.packetlevel.AntennaBase;
+import inet.physicallayer.wireless.common.base.packetlevel.AntennaBase;
 
 //
 // This antenna model describes the well-known dipole antenna or doublet. It

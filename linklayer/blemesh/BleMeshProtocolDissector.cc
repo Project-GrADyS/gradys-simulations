@@ -34,7 +34,7 @@ void BleMeshProtocolDissector::dissect(Packet *packet, const Protocol *protocol,
     callback.startProtocolDataUnit(&BleMeshMac::blemesh);
     callback.visitChunk(header, &BleMeshMac::blemesh);
     if (header->getNetworkProtocol() != -1) {
-        auto payloadProtocol = ProtocolGroup::ethertype.getProtocol(header->getNetworkProtocol());
+        auto payloadProtocol = ProtocolGroup::getEthertypeProtocolGroup()->getProtocol(header->getNetworkProtocol());
         callback.dissectPacket(packet, payloadProtocol);
     }
 //    auto paddingLength = packet->getDataLength();
@@ -46,4 +46,3 @@ void BleMeshProtocolDissector::dissect(Packet *packet, const Protocol *protocol,
 }
 
 } // namespace inet
-
