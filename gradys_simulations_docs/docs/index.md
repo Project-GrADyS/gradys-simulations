@@ -7,7 +7,8 @@ This is a repository for the simulation framework developed for the GrADyS proje
 
 It works by spawning SITL instances that provide a physical simulation of the vehicle's behaviour and connecting them to the mobility classes in your simulation. A user can transparently use these mobility modules without worrying about the details of the communication and messages being exchanged between the network simulator and the SITL instances and a developer can use the strong interface provided in the project's base mobility class to implement his own mobility modules.
 
-![Dadca protocol showcase](../assets/dadca_showcase.gif)
+![Dadca protocol showcase](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/dadca_showcase.gif)
+
 
 ## Installation
 There are two ways to install and use Gradys-Sim. The first one is to download the provided virtual applience which you can import into any virtual machine software that supports the *.ova* file format. The second one it to install direcly into your machine
@@ -86,7 +87,7 @@ Recently some more showcases were added. They were created to test and measure t
 
 To aid us in interpreting this data we implemented data reporting to the modules used in these configs. When the parameter campaigns run they generate several *.vec* and other OMNeT++ statistical files. By using OMNeT++'s built in data analysis tools we can extrant information from these runs. To learn more about how to use these files to generate visualizations using the OMNeT++ IDE, check it's [User Guida](https://doc.omnetpp.org/omnetpp/UserGuide.pdf). Here are some examples:
 
-![Statistics example](../assets/anaylsis_showcase.png)
+![Statistics example](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/anaylsis_showcase.png)
 
 Launch configurations dictate the parameters of your simulation and you can change **omnetpp.ini** to suit your necessities. Here are some of the more important parameters that you can try switching yourself:
 
@@ -167,13 +168,13 @@ That is all you need to know if you plan to use this framework's existing module
 # Project Structure
 ## Diagrams
 **Project Structure Diagram**
-![Project structure diagram](../assets/structure_diagram.png)
+![Project structure diagram](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/structure_diagram.png)
 
 **MAVSIMNET architecture diagram**
-![MAVSIMNET architecture diagram](../assets/architexture-diagram-v3-english.drawio.png)
+![MAVSIMNET architecture diagram](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/architexture-diagram-v3-english.drawio.png)
 
 **Project Message Diagram**
-![Project message diagram](../assets/message_diagram.png)
+![Project message diagram](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/message_diagram.png)
 
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple UAV mobility model and could react to network events. This setup allows support for a wide array of possible UAV coordination protocols.
 
@@ -265,7 +266,7 @@ The only mobility module currently implemented is **DroneMobility.ned** which si
 
  Heres a diagram illustrating the functionality of some of these models:
  
- ![Failure message diagram](../assets/message_diagram_failure.png)
+ ![Failure message diagram](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/message_diagram_failure.png)
 
  ## Communication
  INET provides built in support for the simulation of real communications protocols and the communication module takes advantage of this to simulate communication between nodes. It also has to inform the protocol module of the messages being recieved by sharing the messages themselves and listen to orders from the protocol module through CommunicationCommands. Here are the messages used:
@@ -793,7 +794,7 @@ With all that you should be able to run the simulation and after selecting "Simp
 
 If you did everything right you should be seeing something like this:
 
-![Simple protocol showcase](../assets/simple_showcase.gif)
+![Simple protocol showcase](https://github.com/brunoolivieri/gradys-simulations/blob/main/gradys_simulations_docs/assets/simple_showcase.gif)
 
 ---
 
