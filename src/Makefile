@@ -1,13 +1,13 @@
 #
-# OMNeT++/OMNEST Makefile for gradys-simulations
+# OMNeT++/OMNEST Makefile for gradys_simulations_build
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I/opt/OpenSplice/HDE/x86_64.linux/include -I/opt/OpenSplice/HDE/x86_64.linux/include/sys -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\)
+#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet-4.5.0 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
 TARGET_DIR = .
-TARGET_NAME = gradys-simulations$(D)
+TARGET_NAME = gradys_simulations_build$(D)
 TARGET = $(TARGET_NAME)$(EXE_SUFFIX)
 TARGET_IMPLIB = $(TARGET_NAME)$(IMPLIB_SUFFIX)
 TARGET_IMPDEF = $(TARGET_NAME)$(IMPDEF_SUFFIX)
@@ -19,13 +19,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = \
-    -I/mavlink \
-    -I. \
-    -I/gradys_simulations \
-    -I/opt/OpenSplice/HDE/x86_64.linux/include \
-    -I/opt/OpenSplice/HDE/x86_64.linux/include/sys \
-    -I$(INET4_5_PROJ)/src
+INCLUDE_PATH = -I/mavlink -I. -I/gradys_simulations -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -105,7 +99,7 @@ MSGFILES = \
 SMFILES =
 
 # Other makefile variables (-K)
-INET4_5_PROJ=../../inet4.5
+INET4_5_PROJ=../../inet-4.5.0
 
 #------------------------------------------------------------------------------
 
