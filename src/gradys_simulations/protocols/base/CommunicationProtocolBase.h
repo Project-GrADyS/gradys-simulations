@@ -29,8 +29,8 @@ namespace gradys_simulations {
 
 /*
  *  Base class for the protocol classes
- *  The protocol is responsible for recieving messsages from both the mobility and communication
- *  modules and implementing movmement and communication protocols by responding to those modules.
+ *  The protocol is responsible for receiving messages from both the mobility and communication
+ *  modules and implementing movement and communication protocols by responding to those modules.
  *
  *  The base implementation discards all messages and sends no responses.
  */
