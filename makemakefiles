@@ -1,0 +1,14 @@
+#
+# Usage:
+#    make -f makemakefiles
+# or, for Microsoft Visual C++:
+#    nmake -f makemakefiles MMOPT=-n
+#
+
+MAKEMAKE=opp_makemake $(MMOPT)
+
+INET4_5_PROJ=../inet-4.5.0
+
+all:
+	$(MAKEMAKE) --nolink -f --deep -O out -KINET4_5_PROJ=../inet-4.5.0 -DINET_IMPORT -I. -I/Users/josefkamysek/.pyenv/versions/3.11.4/include -Isrc/pybind11/include -I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11 -I/opt/homebrew/Cellar/pybind11/2.11.1/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lINET$$\(D\) -d src -X.
+	cd src && $(MAKEMAKE) -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet-4.5.0 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I/Users/josefkamysek/.pyenv/versions/3.11.4/include -Ipybind11/include -I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11 -I/opt/homebrew/Cellar/pybind11/2.11.1/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -- -undefined dynamic_lookup $$\("python-config --cflags"\)
