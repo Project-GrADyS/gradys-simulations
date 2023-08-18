@@ -17,21 +17,17 @@ class SimpleProtocolMobile(IProtocol):
         self.provider.schedule_timer({}, self.provider.current_time() + random.random())
 
     def handle_timer(self, timer: dict):
-        ping: SimpleMessage = {
-            'sender': SenderType.DRONE,
-            'content': self.packets
-        }
+        ping: SimpleMessage(sender=SenderType.DRONE, content=self.packets)
         self.provider.send_communication_command(SendMessageCommand(ping))
         self.provider.schedule_timer({}, self.provider.current_time() + 1)
 
     def handle_packet(self, message: SimpleMessage):
-        print("Test", message['sender'])
-        if message['sender'] == SenderType.GROUND_STATION:
+        if message.sender == SenderType.GROUND_STATION:
             self.packets = 0
             self.provider.send_mobility_command(ReverseCommand())
 
-        elif message['sender'] == SenderType.SENSOR:
-            self.packets += message['content']
+        elif message.sender == SenderType.SENSOR:
+            self.packets += message.content
 
     def handle_telemetry(self, telemetry: Telemetry):
         pass

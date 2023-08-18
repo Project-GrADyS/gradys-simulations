@@ -36,7 +36,7 @@ void SimpleDroneProtocol::initialize(int stage) {
 }
 
 void SimpleDroneProtocol::handlePacket(Packet *pk) {
-    // Loads the SimpleMessage from the recieved packet
+    // Loads the SimpleMessage from the received packet
     auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
 
     if(message != nullptr) {

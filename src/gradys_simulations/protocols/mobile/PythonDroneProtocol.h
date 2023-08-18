@@ -21,6 +21,7 @@
 
 #include "../base/CommunicationProtocolBase.h"
 #include "../messages/network/SimpleMessage_m.h"
+#include "../../utils/Singleton.h"
 
 namespace py = pybind11;
 
@@ -29,6 +30,7 @@ namespace gradys_simulations {
 class PythonDroneProtocol: public CommunicationProtocolBase {
     protected:
         simtime_t timeoutDuration;
+        Singleton* pythonInterpreter;
 
         int content = 0;
         std::map<std::string, int> contentSources;

@@ -28,7 +28,7 @@ Define_Module(PythonDroneProtocol);
 
 
 void PythonDroneProtocol::initialize(int stage) {
-    py::scoped_interpreter guard{};
+    pythonInterpreter = Singleton::GetInstance();
 
     py::object InteropEncapsulator = py::module_::import("simulator.encapsulator.InteropEncapsulator").attr("InteropEncapsulator");
 
@@ -37,37 +37,51 @@ void PythonDroneProtocol::initialize(int stage) {
 
     py::list consequences = instance.attr("initialize")(stage);
 
-    std::cout << consequences.size() << std::endl;
+    std::cout << "List size: " << consequences.size() << std::endl;
     for(auto consequence: consequences) {
         py::print(consequence);
     }
+}
 
+py::object getSenderType(int type){
+    py::object SenderType = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SenderType");
+
+    switch(type) {
+          case 0:
+              return SenderType.attr("DRONE");
+              break;
+          case 1:
+              return SenderType.attr("SENSOR");
+              break;
+          default:
+              return SenderType.attr("GROUND_STATION");
+        }
 }
 
 void PythonDroneProtocol::handlePacket(Packet *pk) {
-    py::scoped_interpreter guard {};
     auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
 
-    py::object SenderType = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SenderType");
     py::object SimpleMessage = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
 
-    py::object message_obj = SimpleMessage("sender"_a=static_cast<int>(message->getSenderType()), "content"_a=message->getContent());
+    py::object message_obj = SimpleMessage(getSenderType(static_cast<int>(message->getSenderType())), message->getContent());
 
     py::list consequences = instance.attr("handle_packet")(message_obj);
 
-    std::cout << consequences.size() << std::endl;
+    std::cout << "List size: " << consequences.size() << std::endl;
+
     for(auto consequence: consequences) {
         py::print(consequence);
     }
 }
 
 void PythonDroneProtocol::finish() {
-    py::scoped_interpreter guard {};
     py::list consequences = instance.attr("finish")();
 
-    std::cout << consequences.size() << std::endl;
+    std::cout << "List size: " << consequences.size() << std::endl;
     for(auto consequence: consequences) {
         py::print(consequence);
     }
+
+    pythonInterpreter->TryCloseInstance();
 }
 } /* namespace gradys_simulations */

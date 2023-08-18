@@ -18,11 +18,8 @@ class SimpleProtocolSensor(IProtocol):
         self.provider.schedule_timer({}, self.provider.current_time() + 1)
 
     def handle_packet(self, message: SimpleMessage):
-        if message['sender'] == SenderType.DRONE:
-            response: SimpleMessage = {
-                'sender': SenderType.SENSOR,
-                'content': self.packets
-            }
+        if message.sender == SenderType.DRONE:
+            response: SimpleMessage(sender=SenderType.SENSOR, content=self.packets)
             self.provider.send_communication_command(SendMessageCommand(response))
             self.packets = 0
 
