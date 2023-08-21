@@ -13,25 +13,25 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PythonDroneProtocol.h"
+#include "PythonSensorProtocol.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"
 #include "inet/common/packet/Packet.h"
 #include <pybind11/pybind11.h>
 
-using namespace pybind11::literals;
+namespace py = pybind11;
 
 namespace gradys_simulations {
-Define_Module(PythonDroneProtocol);
+Define_Module(PythonSensorProtocol);
 
-void PythonDroneProtocol::initialize(int stage) {
+void PythonSensorProtocol::initialize(int stage) {
     pythonInterpreter = Singleton::GetInstance();
 
     py::object InteropEncapsulator = py::module_::import("simulator.encapsulator.InteropEncapsulator").attr("InteropEncapsulator");
 
-    py::object SimpleProtocolMobile = py::module_::import("simulator.protocols.simple.SimpleProtocolMobile").attr("SimpleProtocolMobile");
-    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolMobile);
+    py::object SimpleProtocolSensor = py::module_::import("simulator.protocols.simple.SimpleProtocolSensor").attr("SimpleProtocolSensor");
+    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolSensor);
 
     py::list consequences = instance.attr("initialize")(stage);
 
@@ -39,9 +39,23 @@ void PythonDroneProtocol::initialize(int stage) {
     for(auto consequence: consequences) {
         py::print(consequence);
     }
+
+    // Loading payload size parameter
+//    payloadSize = par("payloadSize");
+//
+//    // Sets the correct payload
+//    SimpleMessage *payload = new SimpleMessage();
+//    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
+//    payload->setSenderType(SENSOR);
+//    payload->setContent(payloadSize);
+//
+//    CommunicationCommand *command = new CommunicationCommand();
+//    command->setCommandType(CommunicationCommandType::SET_PAYLOAD);
+//    command->setPayloadTemplate(payload);
+//    sendCommand(command);
 }
 
-py::object PythonDroneProtocol::getSenderType(int type){
+py::object PythonSensorProtocol::getSenderType(int type){
     py::object SenderType = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SenderType");
 
     switch(type) {
@@ -56,7 +70,8 @@ py::object PythonDroneProtocol::getSenderType(int type){
         }
 }
 
-void PythonDroneProtocol::handlePacket(Packet *pk) {
+void PythonSensorProtocol::handlePacket(Packet *pk) {
+    // Loading message from packet
     auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
 
     py::object SimpleMessage = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
@@ -70,16 +85,28 @@ void PythonDroneProtocol::handlePacket(Packet *pk) {
     for(auto consequence: consequences) {
         py::print(consequence);
     }
-}
 
-void PythonDroneProtocol::finish() {
-    py::list consequences = instance.attr("finish")();
-
-    std::cout << "List size: " << consequences.size() << std::endl;
-    for(auto consequence: consequences) {
-        py::print(consequence);
-    }
-
-    pythonInterpreter->TryCloseInstance();
-}
+//    if(message != nullptr) {
+//        switch(message->getSenderType()) {
+//            case DRONE:
+//            {
+//                // Sets the correct target
+//                CommunicationCommand *targetCommand = new CommunicationCommand();
+//                targetCommand->setCommandType(CommunicationCommandType::SET_TARGET);
+//                targetCommand->setTarget(pk->getName());
+//                sendCommand(targetCommand);
+//                break;
+//            }
+//            case SENSOR:
+//            {
+//                break;
+//            }
+//            case GROUND_STATION:
+//            {
+//                break;
+//            }
+//        }
+//    }
 } /* namespace gradys_simulations */
+
+}

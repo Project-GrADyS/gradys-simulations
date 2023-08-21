@@ -13,41 +13,33 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef COMMUNICATION_PROTOCOLS_MOBILE_PYTHONDRONEPROTOCOL_H_
-#define COMMUNICATION_PROTOCOLS_MOBILE_PYTHONDRONEPROTOCOL_H_
+#ifndef COMMUNICATION_PROTOCOLS_GROUND_PYTHONDRONEPROTOCOL_H_
+#define COMMUNICATION_PROTOCOLS_GROUND_PYTHONDRONEPROTOCOL_H_
 
-#include <omnetpp.h>
 #include "pybind11/embed.h"
 
+#include <omnetpp.h>
+
 #include "gradys_simulations/utils/Singleton.h"
-#include "../base/CommunicationProtocolBase.h"
-#include "../messages/network/SimpleMessage_m.h"
+#include "gradys_simulations/protocols/base/CommunicationProtocolBase.h"
+#include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
 
 namespace py = pybind11;
 
 namespace gradys_simulations {
 
-class PythonDroneProtocol: public CommunicationProtocolBase {
+class PythonGroundProtocol: public CommunicationProtocolBase {
     protected:
-        simtime_t timeoutDuration;
-
         int content = 0;
-        std::map<std::string, int> contentSources;
     protected:
-        // Performs the initialization of our module. This is a function that most OMNeT++ modules will override
         virtual void initialize(int stage) override;
-        // Called when the simulation finishes
-        virtual void finish() override;
-        // Gets called when a packet is recieved from the communication module
         virtual void handlePacket(Packet *pk) override;
-
     private:
         py::object getSenderType(int type);
-
         py::object instance;
         Singleton* pythonInterpreter;
 };
 
 } /* namespace gradys_simulations */
 
-#endif /* COMMUNICATION_PROTOCOLS_MOBILE_PYTHONDRONEPROTOCOL_H_ */
+#endif /* COMMUNICATION_PROTOCOLS_GROUND_PYTHONDRONEPROTOCOL_H_ */

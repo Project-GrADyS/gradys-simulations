@@ -13,25 +13,31 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#include "PythonDroneProtocol.h"
+#include "PythonGroundProtocol.h"
+
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"
+#include "inet/common/lifecycle/ModuleOperations.h"
 #include "inet/common/packet/Packet.h"
+#include "inet/networklayer/common/FragmentationTag_m.h"
+#include "inet/networklayer/common/L3AddressResolver.h"
+#include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
+#include "inet/applications/base/ApplicationPacket_m.h"
 #include <pybind11/pybind11.h>
 
-using namespace pybind11::literals;
+namespace py = pybind11;
 
 namespace gradys_simulations {
-Define_Module(PythonDroneProtocol);
+Define_Module(PythonGroundProtocol);
 
-void PythonDroneProtocol::initialize(int stage) {
+void PythonGroundProtocol::initialize(int stage) {
     pythonInterpreter = Singleton::GetInstance();
 
     py::object InteropEncapsulator = py::module_::import("simulator.encapsulator.InteropEncapsulator").attr("InteropEncapsulator");
 
-    py::object SimpleProtocolMobile = py::module_::import("simulator.protocols.simple.SimpleProtocolMobile").attr("SimpleProtocolMobile");
-    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolMobile);
+    py::object SimpleProtocolGround = py::module_::import("simulator.protocols.simple.SimpleProtocolGround").attr("SimpleProtocolGround");
+    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolGround);
 
     py::list consequences = instance.attr("initialize")(stage);
 
@@ -41,7 +47,7 @@ void PythonDroneProtocol::initialize(int stage) {
     }
 }
 
-py::object PythonDroneProtocol::getSenderType(int type){
+py::object PythonGroundProtocol::getSenderType(int type){
     py::object SenderType = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SenderType");
 
     switch(type) {
@@ -56,7 +62,7 @@ py::object PythonDroneProtocol::getSenderType(int type){
         }
 }
 
-void PythonDroneProtocol::handlePacket(Packet *pk) {
+void PythonGroundProtocol::handlePacket(Packet *pk) {
     auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
 
     py::object SimpleMessage = py::module_::import("simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
@@ -70,16 +76,6 @@ void PythonDroneProtocol::handlePacket(Packet *pk) {
     for(auto consequence: consequences) {
         py::print(consequence);
     }
-}
-
-void PythonDroneProtocol::finish() {
-    py::list consequences = instance.attr("finish")();
-
-    std::cout << "List size: " << consequences.size() << std::endl;
-    for(auto consequence: consequences) {
-        py::print(consequence);
-    }
-
-    pythonInterpreter->TryCloseInstance();
-}
 } /* namespace gradys_simulations */
+
+}

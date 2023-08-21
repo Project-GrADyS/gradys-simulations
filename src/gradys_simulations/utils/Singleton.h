@@ -1,6 +1,13 @@
+#pragma once
+
+#ifndef __gradys_simulations_SINGLETON_H_
+#define __gradys_simulations_SINGLETON_H_
+
 #include "pybind11/embed.h"
 
 namespace py = pybind11;
+
+namespace gradys_simulations {
 
 class Singleton
 {
@@ -28,21 +35,5 @@ public:
     static void TryCloseInstance();
 };
 
-Singleton* Singleton::singleton_= nullptr;;
-
-Singleton *Singleton::GetInstance()
-{
-    if(singleton_==nullptr){
-        singleton_ = new Singleton();
-    }
-    singleton_->increase();
-    return singleton_;
 }
-
-void Singleton::TryCloseInstance()
-{
-    singleton_->decrease();
-    if(singleton_->value()==0 && singleton_!=nullptr){
-        py::finalize_interpreter();
-    }
-}
+#endif /* SINGLETON_H_ */
