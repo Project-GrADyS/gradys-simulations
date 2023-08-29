@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for gradys_simulations_build
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet-4.5.0 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I/Users/josefkamysek/.pyenv/versions/3.11.4/include -Ipybind11/include -I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11 -I/opt/homebrew/Cellar/pybind11/2.11.1/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xgradys-sim-prototype/extern/pybind11/tests -- /Users/josefkamysek/.pyenv/versions/3.11.4/lib/libpython3.11.dylib -undefined dynamic_lookup
+#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xpybind11/build -Xpybind11/tests -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 #
 
 # Name of target to be created (-o option)
@@ -19,18 +19,10 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = \
-    -I/mavlink \
-    -I. \
-    -I/gradys_simulations \
-    -I/Users/josefkamysek/.pyenv/versions/3.11.4/include \
-    -Ipybind11/include \
-    -I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11 \
-    -I/opt/homebrew/Cellar/pybind11/2.11.1/include \
-    -I$(INET4_5_PROJ)/src
+INCLUDE_PATH = -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
-EXTRA_OBJS = /Users/josefkamysek/.pyenv/versions/3.11.4/lib/libpython3.11.dylib -undefined dynamic_lookup
+EXTRA_OBJS = /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 
 # Additional libraries (-L, -l options)
 LIBS = $(LDFLAG_LIBPATH)$(INET4_5_PROJ)/src  -lpthread -lINET$(D)
@@ -66,6 +58,7 @@ OBJS = \
     $O/gradys_simulations/protocols/base/CommunicationProtocolBase.o \
     $O/gradys_simulations/protocols/ground/CentralizedQProtocolGround.o \
     $O/gradys_simulations/protocols/ground/DadcaProtocolGround.o \
+    $O/gradys_simulations/protocols/ground/PythonGroundProtocol.o \
     $O/gradys_simulations/protocols/ground/SimpleGroundProtocol.o \
     $O/gradys_simulations/protocols/mobile/CentralizedQProtocol.o \
     $O/gradys_simulations/protocols/mobile/DadcaProtocol.o \
@@ -74,8 +67,10 @@ OBJS = \
     $O/gradys_simulations/protocols/mobile/ZigzagProtocol.o \
     $O/gradys_simulations/protocols/sensor/CentralizedQProtocolSensor.o \
     $O/gradys_simulations/protocols/sensor/DadcaProtocolSensor.o \
+    $O/gradys_simulations/protocols/sensor/PythonSensorProtocol.o \
     $O/gradys_simulations/protocols/sensor/SimpleSensorProtocol.o \
     $O/gradys_simulations/protocols/sensor/ZigzagProtocolSensor.o \
+    $O/gradys_simulations/utils/Singleton.o \
     $O/gradys_simulations/utils/TelemetryConditions.o \
     $O/gradys_simulations/utils/VehicleRoutines.o \
     $O/gradys_simulations/utils/subprocess/process.o \
@@ -108,7 +103,7 @@ MSGFILES = \
 SMFILES =
 
 # Other makefile variables (-K)
-INET4_5_PROJ=../../inet-4.5.0
+INET4_5_PROJ=../../inet4.5
 
 #------------------------------------------------------------------------------
 

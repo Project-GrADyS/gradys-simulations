@@ -27,7 +27,7 @@ class MobilityCommand:
 
 class ReverseCommand(MobilityCommand):
     def __init__(self):
-        self.command = MobilityCommandType.REVERSE
+        self.command = MobilityCommandType.REVERSE.name
 
         self.param_1 = 0
         self.param_2 = 0
@@ -39,7 +39,7 @@ class ReverseCommand(MobilityCommand):
 
 class SetModeCommand(MobilityCommand):
     def __init__(self, mode: MobilityMode):
-        self.command = MobilityCommandType.SET_MODE
+        self.command = MobilityCommandType.SET_MODE.name
         self.param_1 = mode.value
 
         self.param_2 = 0

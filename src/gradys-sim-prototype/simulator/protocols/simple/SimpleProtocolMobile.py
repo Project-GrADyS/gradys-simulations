@@ -17,7 +17,7 @@ class SimpleProtocolMobile(IProtocol):
         self.provider.schedule_timer({}, self.provider.current_time() + random.random())
 
     def handle_timer(self, timer: dict):
-        ping: SimpleMessage(sender=SenderType.DRONE, content=self.packets)
+        ping = SimpleMessage(sender=SenderType.DRONE, content=self.packets)
         self.provider.send_communication_command(SendMessageCommand(ping))
         self.provider.schedule_timer({}, self.provider.current_time() + 1)
 

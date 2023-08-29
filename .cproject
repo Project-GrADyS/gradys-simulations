@@ -27,16 +27,14 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1521280918" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.550499981" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.339815013" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys_simulations/src/pybind11/include}&quot;"/>
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
-									<listOptionValue builtIn="false" value="/opt/homebrew/Cellar/pybind11"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.835708123" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.1809430061" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.310656837" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="../-I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1833710152" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -49,7 +47,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.438754617" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.1551599319" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../-I/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.330936098" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -57,7 +55,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="showcases"/>
-						<entry excluding="gradys-sim-prototype/main.cc|gradys-sim-prototype/main.cpp|gradys-sim-prototype/build|gradys-sim-prototype/extern/pybind11/tests|pybind11/tests" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="pybind11/build|gradys-sim-prototype/main.cc|gradys-sim-prototype/main.cpp|gradys-sim-prototype/build|gradys-sim-prototype/extern/pybind11/tests|pybind11/tests" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -86,16 +84,14 @@
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1993688857" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.1171498122" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.1439149228" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys_simulations/src/pybind11/include}&quot;"/>
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
-									<listOptionValue builtIn="false" value="/opt/homebrew/Cellar/pybind11/2.11.1/include"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1649453557" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.143708466" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1369575251" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.560558607" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -108,7 +104,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.928246373" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.2080755031" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Users/josefkamysek/.pyenv/versions/3.11.4/include/python3.11"/>
+									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2073992240" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -116,7 +112,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="showcases"/>
-						<entry excluding="gradys-sim-prototype/main.cc|gradys-sim-prototype/main.cpp|gradys-sim-prototype/build|gradys-sim-prototype/extern/pybind11/tests|pybind11/tests" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
+						<entry excluding="pybind11/build|gradys-sim-prototype/main.cc|gradys-sim-prototype/main.cpp|gradys-sim-prototype/build|gradys-sim-prototype/extern/pybind11/tests|pybind11/tests" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

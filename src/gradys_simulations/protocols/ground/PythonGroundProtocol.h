@@ -32,10 +32,11 @@ class PythonGroundProtocol: public CommunicationProtocolBase {
     protected:
         int content = 0;
     protected:
+        virtual void handleTimer(cMessage *msg);
+        virtual void handleMessage(cMessage *msg) override;
         virtual void initialize(int stage) override;
         virtual void handlePacket(Packet *pk) override;
     private:
-        py::object getSenderType(int type);
         py::object instance;
         Singleton* pythonInterpreter;
 };

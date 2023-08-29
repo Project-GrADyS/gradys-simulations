@@ -16,7 +16,7 @@ class _ConsequenceType(Enum):
 
 _TimerParams = Tuple[dict, float]
 
-_Consequence = Tuple[_ConsequenceType, Union[CommunicationCommand, MobilityCommand, _TimerParams]]
+_Consequence = Tuple[str, Union[CommunicationCommand, MobilityCommand, _TimerParams]]
 
 
 class _InteropProvider(IProvider):
@@ -28,13 +28,13 @@ class _InteropProvider(IProvider):
         self.timestamp = 0
 
     def send_communication_command(self, command: CommunicationCommand):
-        self.consequences.append((_ConsequenceType.COMMUNICATION, command))
+        self.consequences.append((_ConsequenceType.COMMUNICATION.name, command))
 
     def send_mobility_command(self, command: MobilityCommand):
-        self.consequences.append((_ConsequenceType.MOBILITY, command))
+        self.consequences.append((_ConsequenceType.MOBILITY.name, command))
 
     def schedule_timer(self, timer: dict, timestamp: float):
-        self.consequences.append((_ConsequenceType.TIMER, (timer, timestamp)))
+        self.consequences.append((_ConsequenceType.TIMER.name, (timer, timestamp)))
 
     def current_time(self) -> int:
         return self.timestamp

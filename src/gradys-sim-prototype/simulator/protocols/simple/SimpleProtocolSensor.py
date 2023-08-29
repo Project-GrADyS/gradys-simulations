@@ -19,7 +19,7 @@ class SimpleProtocolSensor(IProtocol):
 
     def handle_packet(self, message: SimpleMessage):
         if message.sender == SenderType.DRONE:
-            response: SimpleMessage(sender=SenderType.SENSOR, content=self.packets)
+            response = SimpleMessage(sender=SenderType.SENSOR, content=self.packets)
             self.provider.send_communication_command(SendMessageCommand(response))
             self.packets = 0
 

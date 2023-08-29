@@ -32,6 +32,9 @@ class PythonSensorProtocol: public CommunicationProtocolBase {
     protected:
         int payloadSize;
     protected:
+        virtual void handleTimer(cMessage *msg);
+
+        virtual void handleMessage(cMessage *msg) override;
         // Initialization function
         virtual void initialize(int stage) override;
 

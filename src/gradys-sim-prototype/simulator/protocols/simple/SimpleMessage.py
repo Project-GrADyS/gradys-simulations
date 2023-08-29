@@ -10,5 +10,5 @@ class SenderType(Enum):
 
 class SimpleMessage:
     def __init__(self, sender: SenderType, content: int):
-        self.sender = sender
+        self.sender = sender.name
         self.content = content

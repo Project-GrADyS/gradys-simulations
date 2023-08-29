@@ -34,6 +34,8 @@ class PythonDroneProtocol: public CommunicationProtocolBase {
         int content = 0;
         std::map<std::string, int> contentSources;
     protected:
+        virtual void handleTimer(cMessage *msg);
+        virtual void handleMessage(cMessage *msg) override;
         // Performs the initialization of our module. This is a function that most OMNeT++ modules will override
         virtual void initialize(int stage) override;
         // Called when the simulation finishes
@@ -42,8 +44,6 @@ class PythonDroneProtocol: public CommunicationProtocolBase {
         virtual void handlePacket(Packet *pk) override;
 
     private:
-        py::object getSenderType(int type);
-
         py::object instance;
         Singleton* pythonInterpreter;
 };
