@@ -21,5 +21,6 @@ simple PythonSensorProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonSensorProtocol);
-        int payloadSize = default(5);
+        //        @signal[dataLoad](type=string);
+//        @figure[lasthopcount](type=text; pos=4,35; text="last hopCount: N/A");
 }

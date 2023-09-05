@@ -13,14 +13,12 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package gradys_simulations.protocols.sensor;
+import inet.common.packet.chunk.Chunk;
 
-import gradys_simulations.protocols.base.CommunicationProtocolBase;
+namespace inet;
 
-simple SimpleSensorProtocol extends CommunicationProtocolBase
+class PythonMessage extends FieldsChunk
 {
-    parameters:
-        @class(SimpleSensorProtocol);
-        @signal[dataLoad](type=long);
-        int payloadSize = default(5);
+//    chunkLength = B(7); // Fixed chunk length
+    string content;
 }

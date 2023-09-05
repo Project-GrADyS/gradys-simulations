@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import Dict, Any
 
 from simulator.messages.CommunicationCommand import CommunicationCommand
 from simulator.messages.MobilityCommand import MobilityCommand
-
 
 class IProvider(ABC):
     @abstractmethod
@@ -18,5 +18,7 @@ class IProvider(ABC):
         pass
 
     @abstractmethod
-    def current_time(self) -> int:
+    def current_time(self) -> float:
         pass
+
+    tracked_variables: Dict[str, Any]

@@ -26,6 +26,11 @@
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include <pybind11/pybind11.h>
 #include "gradys_simulations/utils/ConsequenceType.h"
+#include "gradys_simulations/protocols/ground/PythonGroundProtocol.h"
+#include "omnetpp.h"
+#include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
+
+using namespace pybind11::literals;
 
 namespace py = pybind11;
 
@@ -33,6 +38,7 @@ namespace gradys_simulations {
 Define_Module(PythonGroundProtocol);
 
 void PythonGroundProtocol::handleMessage(cMessage *msg) {
+    std::cout << "Handle message ground protocol" << std::endl;
     if (msg->isSelfMessage()) {
         handleTimer(msg);
     } else {
@@ -41,49 +47,99 @@ void PythonGroundProtocol::handleMessage(cMessage *msg) {
 }
 
 void PythonGroundProtocol::handleTimer(cMessage *msg) {
+    std::cout << "Handle timer ground protocol" << std::endl;
+
     pythonInterpreter = Singleton::GetInstance();
+
+    instance.attr("set_timestamp")(simTime().dbl());
 
     py::dict timer;
     py::list consequences = instance.attr("handle_timer")(timer);
 
     std::cout << "List size: " << consequences.size() << std::endl;
     for (auto consequence : consequences) {
-        py::tuple c = py::cast<py::tuple>(consequence);
-        ConsequenceType ct =
-                gradys_simulations::transformToConsequenceTypePython(
-                        c[0].cast<std::string>());
+        dealWithConsequence(consequence.cast<py::object>());
+    }
+}
 
-        if (ct == ConsequenceType::COMMUNICATION) {
-            py::object comm_command = c[1];
+void PythonGroundProtocol::handleTelemetry(
+        gradys_simulations::Telemetry *telemetry) {
+    std::cout << "Handle telemetry drone protocol" << std::endl;
 
-            CommunicationCommand *command =
-                    gradys_simulations::transformToCommunicationCommandPython(
-                            comm_command);
+    pythonInterpreter = Singleton::GetInstance();
 
-            sendCommand(command);
+    instance.attr("set_timestamp")(simTime().dbl());
 
-        } else if (ct == ConsequenceType::MOBILITY) {
-            py::object mob_command = c[1];
+    py::object TelemetryMessageL = py::module_::import(
+            "simulator.messages.Telemetry").attr("Telemetry");
 
-            MobilityCommand *command =
-                    gradys_simulations::transformToMobilityCommandPython(
-                            mob_command);
+    py::object DroneActivityL = py::module_::import(
+            "simulator.messages.Telemetry").attr("DroneActivity");
 
-            sendCommand(command);
+    py::object droneActivityLL;
+    if (telemetry->getDroneActivity() == DroneActivity::IDLE) {
+        droneActivityLL = DroneActivityL.attr("IDLE");
+    } else if (telemetry->getDroneActivity() == DroneActivity::NAVIGATING) {
+        droneActivityLL = DroneActivityL.attr("NAVIGATING");
+    } else if (telemetry->getDroneActivity() == DroneActivity::REACHED_EDGE) {
+        droneActivityLL = DroneActivityL.attr("REACHED_EDGE");
+    } else if (telemetry->getDroneActivity()
+            == DroneActivity::FOLLOWING_COMMAND) {
+        droneActivityLL = DroneActivityL.attr("FOLLOWING_COMMAND");
+    } else if (telemetry->getDroneActivity() == DroneActivity::RECHARGING) {
+        droneActivityLL = DroneActivityL.attr("IDLE");
+    } else if (telemetry->getDroneActivity() == DroneActivity::SHUTDOWN) {
+        droneActivityLL = DroneActivityL.attr("IDLE");
+    }
 
-        } else if (ct == ConsequenceType::TIMER) {
-            py::object timer_command = c[1];
-            py::print(timer_command);
-            py::tuple infos = py::cast<py::tuple>(timer_command);
+    py::object telemetry_obj = TelemetryMessageL(telemetry->getNextWaypointID(),
+            telemetry->getLastWaypointID(), telemetry->getCurrentLat(),
+            telemetry->getCurrentLon(), telemetry->getCurrentAlt(),
+            telemetry->isReversed(), droneActivityLL);
 
-            cMessage *timer = new cMessage();
-            scheduleAfter(SimTime(py::cast<double>(infos[1])), timer);
-        }
+    py::list consequences = instance.attr("handle_telemetry")(telemetry_obj);
+
+    std::cout << "List size: " << consequences.size() << std::endl;
+    for (auto consequence : consequences) {
+        dealWithConsequence(consequence.cast<py::object>());
     }
 }
 
 void PythonGroundProtocol::initialize(int stage) {
+    std::cout << "Initialize ground protocol" << std::endl;
+
+    CommunicationProtocolBase::initialize(stage);
+
     pythonInterpreter = Singleton::GetInstance();
+
+//    std::string str;
+//    for (auto it = content.cbegin(); it != content.cend(); ++it) {
+//        str.append("Key: ");
+//        str.append(it->first);
+//        str.append("Value: ");
+//        str.append(it->second);
+//        str.append("\n");
+//    }
+
+//    emit(registerSignal("dataLoad"), str.c_str());
+
+//    std::string test = "asdf";
+//    char buf[100];
+//    sprintf(buf, "%s", test.c_str());
+//
+//    if (hasGUI()) {
+//        char label[50];
+//        // Write last hop count to string
+//        sprintf(label, "last hopCount");
+//        // Get pointer to figure
+//        cCanvas *canvas = getParentModule()->getCanvas();
+//        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+//                canvas->getFigure("lasthopcount"));
+//        // Update figure text
+//        textFigure->setText(label);
+//    }
+
+    WATCH_MAP(content);
 
     py::object InteropEncapsulator = py::module_::import(
             "simulator.encapsulator.InteropEncapsulator").attr(
@@ -94,92 +150,135 @@ void PythonGroundProtocol::initialize(int stage) {
             "SimpleProtocolGround");
     instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolGround);
 
+    instance.attr("set_timestamp")(simTime().dbl());
+
     py::list consequences = instance.attr("initialize")(stage);
 
     std::cout << "List size: " << consequences.size() << std::endl;
     for (auto consequence : consequences) {
-        py::tuple c = py::cast<py::tuple>(consequence);
-        ConsequenceType ct =
-                gradys_simulations::transformToConsequenceTypePython(
-                        c[0].cast<std::string>());
-
-        if (ct == ConsequenceType::COMMUNICATION) {
-            py::object comm_command = c[1];
-
-            CommunicationCommand *command =
-                    gradys_simulations::transformToCommunicationCommandPython(
-                            comm_command);
-
-            sendCommand(command);
-
-        } else if (ct == ConsequenceType::MOBILITY) {
-            py::object mob_command = c[1];
-
-            MobilityCommand *command =
-                    gradys_simulations::transformToMobilityCommandPython(
-                            mob_command);
-
-            sendCommand(command);
-
-        } else if (ct == ConsequenceType::TIMER) {
-            py::object timer_command = c[1];
-            py::print(timer_command);
-            py::tuple infos = py::cast<py::tuple>(timer_command);
-
-            cMessage *timer = new cMessage();
-            scheduleAfter(SimTime(py::cast<double>(infos[1])), timer);
-        }
+        dealWithConsequence(consequence.cast<py::object>());
     }
 }
 
+void PythonGroundProtocol::dealWithConsequence(py::object consequence) {
+    std::cout << "Deal with consequence ground protocol" << std::endl;
+
+    py::tuple c = py::cast<py::tuple>(consequence);
+    ConsequenceType ct = gradys_simulations::transformToConsequenceTypePython(
+            c[0].cast<std::string>());
+
+    if (ct == ConsequenceType::COMMUNICATION) {
+        py::object comm_command = c[1];
+
+        communicationCommand =
+                gradys_simulations::transformToCommunicationCommandPython(
+                        comm_command);
+
+        sendCommand(communicationCommand);
+
+    } else if (ct == ConsequenceType::MOBILITY) {
+        py::object mob_command = c[1];
+
+        mobilityCommand = gradys_simulations::transformToMobilityCommandPython(
+                mob_command);
+
+        sendCommand(mobilityCommand);
+
+    } else if (ct == ConsequenceType::TRACK_VARIABLE) {
+        py::tuple track_variable = py::cast<py::tuple>(c[1]);
+
+        py::object key = track_variable[0];
+        py::object value = track_variable[1];
+
+//        std::string str;
+//        for (auto it = content.cbegin(); it != content.cend(); ++it) {
+//            str.append("Key: ");
+//            str.append(it->first);
+//            str.append("Value: ");
+//            str.append(it->second);
+//            str.append("\n");
+//        }
+
+//        emit(registerSignal("dataLoad"), "asdf");
+
+//        std::string test = "asdf";
+//        char buf[100];
+//        sprintf(buf, "%s", test.c_str());
+//
+//        if (hasGUI()) {
+//            char label[50];
+//            // Write last hop count to string
+//            sprintf(label, "last hopCount");
+//            // Get pointer to figure
+//            cCanvas *canvas = getParentModule()->getCanvas();
+//            cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+//                    canvas->getFigure("lasthopcount"));
+//            // Update figure text
+//            textFigure->setText(label);
+//        }
+
+        content[key.cast<std::string>()] = value.cast<std::string>();
+
+    } else if (ct == ConsequenceType::TIMER) {
+        py::object timer_command = c[1];
+        py::print(timer_command);
+        py::tuple infos = py::cast<py::tuple>(timer_command);
+
+        cMessage *timer = new cMessage();
+        scheduleAt(SimTime(py::cast<double>(infos[1])), timer);
+    }
+
+}
+
 void PythonGroundProtocol::handlePacket(Packet *pk) {
+    std::cout << "Handle packet ground protocol" << std::endl;
+
     auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
 
-    py::object SimpleMessageT = py::module_::import(
+    py::object SimpleMessageL = py::module_::import(
             "simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
 
-    py::object message_obj = SimpleMessageT(
-            gradys_simulations::getSenderType(
-                    static_cast<int>(message->getSenderType())),
-            message->getContent());
+    py::object message_obj = SimpleMessageL(
+            "sender"_a = gradys_simulations::getSenderType(
+                    static_cast<int>(message->getSenderType())), "content"_a =
+                    message->getContent());
+
+    instance.attr("set_timestamp")(simTime().dbl());
 
     py::list consequences = instance.attr("handle_packet")(message_obj);
 
     std::cout << "List size: " << consequences.size() << std::endl;
     for (auto consequence : consequences) {
-        py::tuple c = py::cast<py::tuple>(consequence);
-        ConsequenceType ct =
-                gradys_simulations::transformToConsequenceTypePython(
-                        c[0].cast<std::string>());
-
-        if (ct == ConsequenceType::COMMUNICATION) {
-            py::object comm_command = c[1];
-
-            CommunicationCommand *command =
-                    gradys_simulations::transformToCommunicationCommandPython(
-                            comm_command);
-
-            sendCommand(command);
-
-        } else if (ct == ConsequenceType::MOBILITY) {
-            py::object mob_command = c[1];
-
-            MobilityCommand *command =
-                    gradys_simulations::transformToMobilityCommandPython(
-                            mob_command);
-
-            sendCommand(command);
-
-        } else if (ct == ConsequenceType::TIMER) {
-            py::object timer_command = c[1];
-            py::print(timer_command);
-            py::tuple infos = py::cast<py::tuple>(timer_command);
-
-            cMessage *timer = new cMessage();
-            scheduleAfter(SimTime(py::cast<double>(infos[1])), timer);
-        }
+        dealWithConsequence(consequence.cast<py::object>());
     }
-    std::cout << "Test: " << consequences.size() << std::endl;
-} /* namespace gradys_simulations */
+}
 
+void PythonGroundProtocol::finish() {
+    std::cout << "Finish ground protocol" << std::endl;
+
+    CommunicationProtocolBase::finish();
+
+    instance.attr("set_timestamp")(simTime().dbl());
+
+    py::list consequences = instance.attr("finish")();
+
+    std::cout << "List size: " << consequences.size() << std::endl;
+    for (auto consequence : consequences) {
+        dealWithConsequence(consequence.cast<py::object>());
+    }
+
+    if (communicationCommand != nullptr
+            && communicationCommand->isSelfMessage()) {
+        cancelAndDelete(communicationCommand);
+    }
+    if (mobilityCommand != nullptr && mobilityCommand->isSelfMessage()) {
+        cancelAndDelete(mobilityCommand);
+    }
+    if (timer != nullptr && timer->isSelfMessage()) {
+        cancelAndDelete(timer);
+    }
+
+    pythonInterpreter->TryCloseInstance();
+}
+/* namespace gradys_simulations */
 }

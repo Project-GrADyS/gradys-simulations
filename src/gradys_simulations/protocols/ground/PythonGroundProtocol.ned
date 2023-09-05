@@ -21,5 +21,6 @@ simple PythonGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonGroundProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+//        @signal[dataLoad](type=string);
+//        @figure[lasthopcount](type=text; pos=2,35; text="last hopCount: N/A");
 }

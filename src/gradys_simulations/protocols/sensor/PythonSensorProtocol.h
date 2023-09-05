@@ -29,22 +29,30 @@ namespace py = pybind11;
 namespace gradys_simulations {
 
 class PythonSensorProtocol: public CommunicationProtocolBase {
-    protected:
-        int payloadSize;
-    protected:
-        virtual void handleTimer(cMessage *msg);
+protected:
+    virtual void handleTimer(cMessage *msg);
 
-        virtual void handleMessage(cMessage *msg) override;
-        // Initialization function
-        virtual void initialize(int stage) override;
+    virtual void handleMessage(cMessage *msg) override;
 
-        // Handles packet recieved from the drone
-        virtual void handlePacket(Packet *pk) override;
-    private:
-        py::object getSenderType(int type);
+    virtual void handleTelemetry(gradys_simulations::Telemetry *telemetry) override;
 
-        py::object instance;
-        Singleton* pythonInterpreter;
+    virtual void initialize(int stage) override;
+
+    virtual void handlePacket(Packet *pk) override;
+
+    virtual void finish() override;
+
+private:
+    virtual void dealWithConsequence(py::object consequence);
+
+    CommunicationCommand *communicationCommand;
+    MobilityCommand *mobilityCommand;
+    cMessage *timer;
+
+    std::map<std::string, std::string> content;
+
+    py::object instance;
+    Singleton *pythonInterpreter;
 };
 
 } /* namespace gradys_simulations */

@@ -84,6 +84,7 @@ OBJS = \
     $O/gradys_simulations/protocols/messages/internal/Telemetry_m.o \
     $O/gradys_simulations/protocols/messages/network/CentralizedQMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/DadcaMessage_m.o \
+    $O/gradys_simulations/protocols/messages/network/PythonMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/SimpleMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/ZigzagMessage_m.o
 
@@ -96,6 +97,7 @@ MSGFILES = \
     gradys_simulations/protocols/messages/internal/Telemetry.msg \
     gradys_simulations/protocols/messages/network/CentralizedQMessage.msg \
     gradys_simulations/protocols/messages/network/DadcaMessage.msg \
+    gradys_simulations/protocols/messages/network/PythonMessage.msg \
     gradys_simulations/protocols/messages/network/SimpleMessage.msg \
     gradys_simulations/protocols/messages/network/ZigzagMessage.msg
 

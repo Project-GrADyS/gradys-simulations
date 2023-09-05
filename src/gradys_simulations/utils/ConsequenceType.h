@@ -18,7 +18,7 @@ namespace py = pybind11;
 namespace gradys_simulations {
 
 enum class ConsequenceType {
-    COMMUNICATION = 1, MOBILITY = 2, TIMER = 3
+    COMMUNICATION = 1, MOBILITY = 2, TIMER = 3, TRACK_VARIABLE = 4
 };
 
 static constexpr unsigned int str2int(const char *str, int h = 0) {
@@ -30,8 +30,10 @@ static ConsequenceType transformToConsequenceTypePython(std::string type) {
         return ConsequenceType::COMMUNICATION;
     } else if (type == "MOBILITY") {
         return ConsequenceType::MOBILITY;
-    } else {
+    } else if (type == "TIMER") {
         return ConsequenceType::TIMER;
+    } else {
+        return ConsequenceType::TRACK_VARIABLE;
     }
 }
 
@@ -47,10 +49,10 @@ static CommunicationCommandType transformToCommunicationCommandTypePython(
 static CommunicationCommand* transformToCommunicationCommandPython(
         py::object comm_command) {
 
-    std::string message_sender =
-            comm_command.attr("message").attr("sender").cast<std::string>();
-    int message_content =
-            comm_command.attr("message").attr("content").cast<int>();
+    py::dict message = comm_command.attr("message");
+
+    std::string message_sender = message["sender"].cast<std::string>();
+    int message_content = message["content"].cast<int>();
 
     SimpleMessage *payload = new SimpleMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
@@ -59,7 +61,7 @@ static CommunicationCommand* transformToCommunicationCommandPython(
         payload->setSenderType(SenderType::DRONE);
     } else if (message_sender == "SENSOR") {
         payload->setSenderType(SenderType::SENSOR);
-    } else {
+    } else if (message_sender == "GROUND_STATION") {
         payload->setSenderType(SenderType::GROUND_STATION);
     }
 
@@ -75,11 +77,11 @@ static CommunicationCommand* transformToCommunicationCommandPython(
     return command;
 }
 
-static py::object getSenderType(int type) {
+static py::object getSenderType(int sender_type) {
     py::object SenderType = py::module_::import(
             "simulator.protocols.simple.SimpleMessage").attr("SenderType");
 
-    switch (type) {
+    switch (sender_type) {
     case 0:
         return SenderType.attr("DRONE");
         break;

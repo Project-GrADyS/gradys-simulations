@@ -1,3 +1,4 @@
+import random
 from simulator.protocols.IProtocol import IProtocol
 from simulator.provider.IProvider import IProvider
 from simulator.messages.CommunicationCommand import SendMessageCommand
@@ -9,19 +10,27 @@ class SimpleProtocolSensor(IProtocol):
     packets: int
     provider: IProvider
 
-    def initialize(self, stage: int):
-        self.packets = 0
-        self.provider.schedule_timer({}, self.provider.current_time() + 1)
+    def initialize(self, stage: int):   
+        self.packets = 5
+        self.provider.tracked_variables["packets"] = self.packets
+        self.provider.schedule_timer({}, self.provider.current_time() + random.random())
 
     def handle_timer(self, timer: dict):
         self.packets += 1
-        self.provider.schedule_timer({}, self.provider.current_time() + 1)
+        self.provider.tracked_variables["packets"] = self.packets
+        self.provider.schedule_timer({}, self.provider.current_time() + 2)
 
     def handle_packet(self, message: SimpleMessage):
-        if message.sender == SenderType.DRONE:
-            response = SimpleMessage(sender=SenderType.SENSOR, content=self.packets)
+        print(f"SimpleProtocolSensor packets: {self.packets}, {message['sender']}")
+        if message['sender'] == SenderType.DRONE:
+            print(f"SimpleProtocolSensor packets2: {self.packets}")
+            response: SimpleMessage = {
+                'sender': SenderType.SENSOR.name,
+                'content': self.packets
+            }
             self.provider.send_communication_command(SendMessageCommand(response))
             self.packets = 0
+            self.provider.tracked_variables["packets"] = self.packets
 
     def handle_telemetry(self, telemetry: Telemetry):
         pass

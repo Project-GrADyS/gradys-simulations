@@ -28,24 +28,33 @@ namespace py = pybind11;
 namespace gradys_simulations {
 
 class PythonDroneProtocol: public CommunicationProtocolBase {
-    protected:
-        simtime_t timeoutDuration;
+protected:
+    simtime_t timeoutDuration;
 
-        int content = 0;
-        std::map<std::string, int> contentSources;
-    protected:
-        virtual void handleTimer(cMessage *msg);
-        virtual void handleMessage(cMessage *msg) override;
-        // Performs the initialization of our module. This is a function that most OMNeT++ modules will override
-        virtual void initialize(int stage) override;
-        // Called when the simulation finishes
-        virtual void finish() override;
-        // Gets called when a packet is recieved from the communication module
-        virtual void handlePacket(Packet *pk) override;
+protected:
+    virtual void handleTimer(cMessage *msg);
 
-    private:
-        py::object instance;
-        Singleton* pythonInterpreter;
+    virtual void handleMessage(cMessage *msg) override;
+
+    virtual void handleTelemetry(gradys_simulations::Telemetry *telemetry) override;
+
+    virtual void initialize(int stage) override;
+
+    virtual void handlePacket(Packet *pk) override;
+
+    virtual void finish() override;
+
+private:
+    virtual void dealWithConsequence(py::object consequence);
+
+    CommunicationCommand *communicationCommand;
+    MobilityCommand *mobilityCommand;
+    cMessage *timer;
+
+    std::map<std::string, std::string> content;
+
+    py::object instance;
+    Singleton *pythonInterpreter;
 };
 
 } /* namespace gradys_simulations */

@@ -7,8 +7,6 @@ class SenderType(Enum):
     SENSOR = 1
     GROUND_STATION = 2
 
-
-class SimpleMessage:
-    def __init__(self, sender: SenderType, content: int):
-        self.sender = sender.name
-        self.content = content
+class SimpleMessage(TypedDict):
+    sender: SenderType
+    content: int
