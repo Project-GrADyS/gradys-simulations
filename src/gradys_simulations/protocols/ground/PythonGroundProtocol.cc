@@ -29,6 +29,7 @@
 #include "gradys_simulations/protocols/ground/PythonGroundProtocol.h"
 #include "omnetpp.h"
 #include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
+#include <nlohmann/json.hpp>
 
 using namespace pybind11::literals;
 
@@ -112,32 +113,20 @@ void PythonGroundProtocol::initialize(int stage) {
 
     pythonInterpreter = Singleton::GetInstance();
 
-//    std::string str;
-//    for (auto it = content.cbegin(); it != content.cend(); ++it) {
-//        str.append("Key: ");
-//        str.append(it->first);
-//        str.append("Value: ");
-//        str.append(it->second);
-//        str.append("\n");
-//    }
+    if (hasGUI()) {
+        cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                canvas->getFigure("simulationInformationGroundStation"));
 
-//    emit(registerSignal("dataLoad"), str.c_str());
+        nlohmann::json jsonObjectOutgoing;
 
-//    std::string test = "asdf";
-//    char buf[100];
-//    sprintf(buf, "%s", test.c_str());
-//
-//    if (hasGUI()) {
-//        char label[50];
-//        // Write last hop count to string
-//        sprintf(label, "last hopCount");
-//        // Get pointer to figure
-//        cCanvas *canvas = getParentModule()->getCanvas();
-//        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
-//                canvas->getFigure("lasthopcount"));
-//        // Update figure text
-//        textFigure->setText(label);
-//    }
+        char label[1000];
+        // Write last hop count to string
+        sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+        // Update figure text
+        textFigure->setText(label);
+    }
 
     WATCH_MAP(content);
 
@@ -190,32 +179,24 @@ void PythonGroundProtocol::dealWithConsequence(py::object consequence) {
         py::object key = track_variable[0];
         py::object value = track_variable[1];
 
-//        std::string str;
-//        for (auto it = content.cbegin(); it != content.cend(); ++it) {
-//            str.append("Key: ");
-//            str.append(it->first);
-//            str.append("Value: ");
-//            str.append(it->second);
-//            str.append("\n");
-//        }
+        if (hasGUI()) {
+            cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+            cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                    canvas->getFigure("simulationInformationGroundStation"));
 
-//        emit(registerSignal("dataLoad"), "asdf");
+            nlohmann::json jsonObjectOutgoing = nlohmann::json::parse(
+                    textFigure->getText());
+            for (const auto &pair : content) {
+                jsonObjectOutgoing[concatenate(pair.first, 0)] = pair.second;
+            }
 
-//        std::string test = "asdf";
-//        char buf[100];
-//        sprintf(buf, "%s", test.c_str());
-//
-//        if (hasGUI()) {
-//            char label[50];
-//            // Write last hop count to string
-//            sprintf(label, "last hopCount");
-//            // Get pointer to figure
-//            cCanvas *canvas = getParentModule()->getCanvas();
-//            cTextFigure *textFigure = check_and_cast<cTextFigure*>(
-//                    canvas->getFigure("lasthopcount"));
-//            // Update figure text
-//            textFigure->setText(label);
-//        }
+            char label[1000];
+            // Write last hop count to string
+            sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+            // Update figure text
+            textFigure->setText(label);
+        }
 
         content[key.cast<std::string>()] = value.cast<std::string>();
 

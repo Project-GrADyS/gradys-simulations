@@ -20,8 +20,8 @@
 #include "pybind11/embed.h"
 
 #include "gradys_simulations/utils/Singleton.h"
-#include "../base/CommunicationProtocolBase.h"
-#include "../messages/network/SimpleMessage_m.h"
+#include "gradys_simulations/protocols/base/CommunicationProtocolBase.h"
+#include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
 
 namespace py = pybind11;
 

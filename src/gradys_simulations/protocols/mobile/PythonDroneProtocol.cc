@@ -21,6 +21,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
 #include "gradys_simulations/utils/ConsequenceType.h"
+#include <nlohmann/json.hpp>
+
 using namespace pybind11::literals;
 
 namespace py = pybind11;
@@ -103,32 +105,21 @@ void PythonDroneProtocol::initialize(int stage) {
 
     pythonInterpreter = Singleton::GetInstance();
 
-//    emit(registerSignal("dataLoad"), "");
+    if (hasGUI()) {
+        // Get pointer to figure
+        cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                canvas->getFigure("simulationInformationDrones"));
 
-//    std::string str;
-//    for (auto it = content.cbegin(); it != content.cend(); ++it) {
-//        str.append("Key: ");
-//        str.append(it->first);
-//        str.append("Value: ");
-//        str.append(it->second);
-//        str.append("\n");
-//    }
-//
-//    std::string test = "asdf";
-//    char buf[100];
-//    sprintf(buf, "%s", test.c_str());
-//
-//    if (hasGUI()) {
-//        char label[50];
-//        // Write last hop count to string
-//        sprintf(label, "last hopCount");
-//        // Get pointer to figure
-//        cCanvas *canvas = getParentModule()->getCanvas();
-//        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
-//                canvas->getFigure("lasthopcount"));
-//        // Update figure text
-//        textFigure->setText(label);
-//    }
+        nlohmann::json jsonObjectOutgoing;
+
+        char label[1000];
+        // Write last hop count to string
+        sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+        // Update figure text
+        textFigure->setText(label);
+    }
 
     WATCH_MAP(content);
 
@@ -182,33 +173,26 @@ void PythonDroneProtocol::dealWithConsequence(py::object consequence) {
         py::object key = track_variable[0];
         py::object value = track_variable[1];
 
-//        std::string str;
-//        for (auto it = content.cbegin(); it != content.cend(); ++it) {
-//            str.append("Key: ");
-//            str.append(it->first);
-//            str.append("Value: ");
-//            str.append(it->second);
-//            str.append("\n");
-//        }
-//
-//        std::string test = "asdf";
-//        char buf[100];
-//        sprintf(buf, "%s", test.c_str());
+        if (hasGUI()) {
+            // Get pointer to figure
+            cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+            cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                    canvas->getFigure("simulationInformationDrones"));
 
-//        int hopcount = 1;
-//
-//        if (hasGUI()) {
-//                char label[50];
-//                // Write last hop count to string
-//                sprintf(label, "last hopCount = %d", hopcount);
-//                // Get pointer to figure
-//                cCanvas *canvas = getParentModule()->getCanvas();
-//                cTextFigure *textFigure = check_and_cast<cTextFigure*>(canvas->getFigure("lasthopcount"));
-//                // Update figure text
-//                textFigure->setText(label);
-//        }
+            nlohmann::json jsonObjectOutgoing = nlohmann::json::parse(
+                    textFigure->getText());
+            for (const auto &pair : content) {
+                jsonObjectOutgoing[concatenate(pair.first,
+                        getParentModule()->getIndex())] = pair.second;
+            }
 
-//        emit(registerSignal("dataLoad"), "asdf");
+            char label[1000];
+            // Write last hop count to string
+            sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+            // Update figure text
+            textFigure->setText(label);
+        }
 
         content[key.cast<std::string>()] = value.cast<std::string>();
 

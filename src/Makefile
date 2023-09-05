@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for gradys_simulations_build
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xpybind11/build -Xpybind11/tests -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
+#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/nlohmann -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xpybind11/build -Xpybind11/tests -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 #
 
 # Name of target to be created (-o option)
@@ -19,7 +19,13 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -I$(INET4_5_PROJ)/src
+INCLUDE_PATH = \
+    -I/nlohmann \
+    -I/mavlink \
+    -I. \
+    -I/gradys_simulations \
+    -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 \
+    -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
 EXTRA_OBJS = /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0

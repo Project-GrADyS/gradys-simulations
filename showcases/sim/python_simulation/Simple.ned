@@ -12,7 +12,7 @@ import inet.node.ethernet.Eth100M;
 import inet.node.inet.SensorNode;
 import inet.node.inet.StandardHost;
 import inet.node.inet.WirelessHost;
-import inet.physicallayer.wireless.apsk.packetlevel.ApskScalarRadioMedium; 
+import inet.physicallayer.wireless.apsk.packetlevel.ApskScalarRadioMedium;
 import inet.physicallayer.wireless.ieee802154.bitlevel.Ieee802154UwbIrRadioMedium;
 import inet.physicallayer.wireless.ieee802154.packetlevel.Ieee802154NarrowbandScalarRadioMedium;
 import inet.physicallayer.wireless.ieee80211.packetlevel.Ieee80211ScalarRadioMedium;
@@ -27,8 +27,15 @@ import gradys_simulations.GroundStation;
 network GradysNetwork
 {
     parameters:
-		int numUAVs = default(1);
-		int numSensors = default(1);
+        int numUAVs = default(1);
+        int numSensors = default(1);
+
+        @figure[simulationInformationDronesDescription](type=text; pos=2,0; text="Simulation Information Drones");
+        @figure[simulationInformationDrones](type=text; pos=2,15; );
+        @figure[simulationInformationSensorsDescription](type=text; pos=2,30; text="Simulation Information Sensors");
+        @figure[simulationInformationSensors](type=text; pos=2,45; );
+        @figure[simulationInformationGroundStationDescription](type=text; pos=2,60; text="Simulation Information GroundStation");
+        @figure[simulationInformationGroundStation](type=text; pos=2,75; );
 
     types:
 
@@ -41,24 +48,19 @@ network GradysNetwork
             parameters:
                 @display("p=100,150");
         }
-        
-        environment: PhysicalEnvironment {
-        }
-        
+
+        environment: PhysicalEnvironment;
         configurator: Ipv4NetworkConfigurator {
             @display("p=0,200");
         }
         radioMedium: <default("Ieee802154NarrowbandScalarRadioMedium")> like IRadioMedium {
             @display("p=200,0");
         }
-        quads[numUAVs]: MobileNode {
-			
-        } 
-        
+        quads[numUAVs]: MobileNode;
         sensors[numSensors]: MobileSensorNode {
             @display("i=misc/sensor");
         }
-       
+
         groundStation: GroundStation {
             @display("i=misc/sensor3");
         }

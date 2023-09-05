@@ -123,6 +123,26 @@ static MobilityCommand* transformToMobilityCommandPython(
     return command;
 }
 
+static std::string concatenate(const std::string &str, int num) {
+    std::string numStr = std::to_string(num);
+
+    return str + "|" + numStr;
+}
+
+static void retrieve(const std::string &concatenated, std::string &str, int &num) {
+    size_t delimiterPos = concatenated.find("|");
+
+    if (delimiterPos != std::string::npos) {
+        str = concatenated.substr(0, delimiterPos);
+        std::string numStr = concatenated.substr(delimiterPos + 1);
+
+        std::istringstream(numStr) >> num;
+    } else {
+        str = "";
+        num = -1;
+    }
+}
+
 //enum class CommunicationCommandTypePython {
 //    SEND = 1, BROADCAST = 2
 //};

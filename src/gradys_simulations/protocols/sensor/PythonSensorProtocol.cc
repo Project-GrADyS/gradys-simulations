@@ -21,6 +21,8 @@
 #include <pybind11/pybind11.h>
 #include "gradys_simulations/utils/ConsequenceType.h"
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
+#include <nlohmann/json.hpp>
+
 using namespace pybind11::literals;
 
 namespace py = pybind11;
@@ -54,7 +56,8 @@ void PythonSensorProtocol::handleTimer(cMessage *msg) {
     }
 }
 
-void PythonSensorProtocol::handleTelemetry(gradys_simulations::Telemetry *telemetry) {
+void PythonSensorProtocol::handleTelemetry(
+        gradys_simulations::Telemetry *telemetry) {
     std::cout << "Handle telemetry drone protocol" << std::endl;
 
     pythonInterpreter = Singleton::GetInstance();
@@ -74,7 +77,8 @@ void PythonSensorProtocol::handleTelemetry(gradys_simulations::Telemetry *teleme
         droneActivityLL = DroneActivityL.attr("NAVIGATING");
     } else if (telemetry->getDroneActivity() == DroneActivity::REACHED_EDGE) {
         droneActivityLL = DroneActivityL.attr("REACHED_EDGE");
-    } else if (telemetry->getDroneActivity() == DroneActivity::FOLLOWING_COMMAND) {
+    } else if (telemetry->getDroneActivity()
+            == DroneActivity::FOLLOWING_COMMAND) {
         droneActivityLL = DroneActivityL.attr("FOLLOWING_COMMAND");
     } else if (telemetry->getDroneActivity() == DroneActivity::RECHARGING) {
         droneActivityLL = DroneActivityL.attr("IDLE");
@@ -102,17 +106,20 @@ void PythonSensorProtocol::initialize(int stage) {
 
     pythonInterpreter = Singleton::GetInstance();
 
-//    std::string str;
-//    for(auto it = content.cbegin(); it != content.cend(); ++it)
-//    {
-//        str.append("Key: ");
-//        str.append(it->first);
-//        str.append("Value: ");
-//        str.append(it->second);
-//        str.append("\n");
-//    }
-//
-//    emit(registerSignal("dataLoad"), str.c_str());
+    if (hasGUI()) {
+        cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+        cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                canvas->getFigure("simulationInformationSensors"));
+
+        nlohmann::json jsonObjectOutgoing;
+
+        char label[1000];
+        // Write last hop count to string
+        sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+        // Update figure text
+        textFigure->setText(label);
+    }
 
     WATCH_MAP(content);
 
@@ -165,17 +172,25 @@ void PythonSensorProtocol::dealWithConsequence(py::object consequence) {
         py::object key = track_variable[0];
         py::object value = track_variable[1];
 
-        std::string str;
-        for(auto it = content.cbegin(); it != content.cend(); ++it)
-        {
-            str.append("Key: ");
-            str.append(it->first);
-            str.append("Value: ");
-            str.append(it->second);
-            str.append("\n");
-        }
+        if (hasGUI()) {
+            cCanvas *canvas = getParentModule()->getParentModule()->getCanvas();
+            cTextFigure *textFigure = check_and_cast<cTextFigure*>(
+                    canvas->getFigure("simulationInformationSensors"));
 
-//        emit(registerSignal("dataLoad"), str.c_str());
+            nlohmann::json jsonObjectOutgoing = nlohmann::json::parse(
+                    textFigure->getText());
+            for (const auto &pair : content) {
+                jsonObjectOutgoing[concatenate(pair.first,
+                        getParentModule()->getIndex())] = pair.second;
+            }
+
+            char label[1000];
+            // Write last hop count to string
+            sprintf(label, "%s", jsonObjectOutgoing.dump().c_str());
+
+            // Update figure text
+            textFigure->setText(label);
+        }
 
         content[key.cast<std::string>()] = value.cast<std::string>();
 

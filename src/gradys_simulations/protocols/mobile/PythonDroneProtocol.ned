@@ -21,9 +21,5 @@ simple PythonDroneProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonDroneProtocol);
-        //        @signal[dataLoad](type=string);
-        @figure[description](type=text; pos=0,0; font=,,bold; 
-	        	text="Random routing example - displaying last hop count");
         double timeoutDuration @unit(s) = default(3s);
-//        @figure[lasthopcount](type=text; pos=3,35; text="last hopCount: N/A");
 }

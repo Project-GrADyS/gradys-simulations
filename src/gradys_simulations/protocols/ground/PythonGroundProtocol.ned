@@ -21,6 +21,4 @@ simple PythonGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonGroundProtocol);
-//        @signal[dataLoad](type=string);
-//        @figure[lasthopcount](type=text; pos=2,35; text="last hopCount: N/A");
 }
