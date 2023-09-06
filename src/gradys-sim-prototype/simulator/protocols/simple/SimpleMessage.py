@@ -10,3 +10,4 @@ class SenderType(Enum):
 class SimpleMessage(TypedDict):
     sender: SenderType
     content: int
+    map: str

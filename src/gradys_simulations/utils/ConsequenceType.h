@@ -10,6 +10,9 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
+#include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
+#include "pybind11_json/pybind11_json.hpp"
+#include "nlohmann/json.hpp"
 
 using namespace pybind11::literals;
 
@@ -50,22 +53,12 @@ static CommunicationCommand* transformToCommunicationCommandPython(
         py::object comm_command) {
 
     py::dict message = comm_command.attr("message");
+    nlohmann::json jsonMessage = message;
 
-    std::string message_sender = message["sender"].cast<std::string>();
-    int message_content = message["content"].cast<int>();
-
-    SimpleMessage *payload = new SimpleMessage();
+    PythonMessage *payload = new PythonMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    if (message_sender == "DRONE") {
-        payload->setSenderType(SenderType::DRONE);
-    } else if (message_sender == "SENSOR") {
-        payload->setSenderType(SenderType::SENSOR);
-    } else if (message_sender == "GROUND_STATION") {
-        payload->setSenderType(SenderType::GROUND_STATION);
-    }
-
-    payload->setContent(message_content);
+    payload->setMap(jsonMessage);
 
     // Sends command to the communication module to start using this message
     CommunicationCommand *command = new CommunicationCommand();
@@ -75,22 +68,6 @@ static CommunicationCommand* transformToCommunicationCommandPython(
     command->setPayloadTemplate(payload);
 
     return command;
-}
-
-static py::object getSenderType(int sender_type) {
-    py::object SenderType = py::module_::import(
-            "simulator.protocols.simple.SimpleMessage").attr("SenderType");
-
-    switch (sender_type) {
-    case 0:
-        return SenderType.attr("DRONE");
-        break;
-    case 1:
-        return SenderType.attr("SENSOR");
-        break;
-    default:
-        return SenderType.attr("GROUND_STATION");
-    }
 }
 
 static MobilityCommandType transformToMobilityCommandTypePython(
@@ -129,7 +106,8 @@ static std::string concatenate(const std::string &str, int num) {
     return str + "|" + numStr;
 }
 
-static void retrieve(const std::string &concatenated, std::string &str, int &num) {
+static void retrieve(const std::string &concatenated, std::string &str,
+        int &num) {
     size_t delimiterPos = concatenated.find("|");
 
     if (delimiterPos != std::string::npos) {

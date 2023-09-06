@@ -28,7 +28,7 @@
 #include "gradys_simulations/utils/ConsequenceType.h"
 #include "gradys_simulations/protocols/ground/PythonGroundProtocol.h"
 #include "omnetpp.h"
-#include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
+#include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include <nlohmann/json.hpp>
 
 using namespace pybind11::literals;
@@ -214,15 +214,14 @@ void PythonGroundProtocol::dealWithConsequence(py::object consequence) {
 void PythonGroundProtocol::handlePacket(Packet *pk) {
     std::cout << "Handle packet ground protocol" << std::endl;
 
-    auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
+    auto message = pk->peekAtBack<PythonMessage>(B(7), 1);
 
     py::object SimpleMessageL = py::module_::import(
             "simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
 
-    py::object message_obj = SimpleMessageL(
-            "sender"_a = gradys_simulations::getSenderType(
-                    static_cast<int>(message->getSenderType())), "content"_a =
-                    message->getContent());
+    py::dict messageDict = message->getMap();
+
+    py::object message_obj = SimpleMessageL(messageDict);
 
     instance.attr("set_timestamp")(simTime().dbl());
 

@@ -22,6 +22,9 @@
 #include "gradys_simulations/utils/ConsequenceType.h"
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include <nlohmann/json.hpp>
+#include "pybind11_json/pybind11_json.hpp"
+#include "nlohmann/json.hpp"
+
 
 using namespace pybind11::literals;
 
@@ -207,17 +210,14 @@ void PythonSensorProtocol::dealWithConsequence(py::object consequence) {
 void PythonSensorProtocol::handlePacket(Packet *pk) {
     std::cout << "Handle packet sensor protocol" << std::endl;
 
-    auto message = pk->peekAtBack<SimpleMessage>(B(7), 1);
+    auto message = pk->peekAtBack<PythonMessage>(B(7), 1);
 
     py::object SimpleMessageL = py::module_::import(
             "simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
 
-    std::cout << message->getSenderType() << std::endl;
+    py::dict messageDict = message->getMap();
 
-    py::object message_obj = SimpleMessageL(
-            "sender"_a = gradys_simulations::getSenderType(
-                    static_cast<int>(message->getSenderType())), "content"_a =
-                    message->getContent());
+    py::object message_obj = SimpleMessageL(messageDict);
 
     instance.attr("set_timestamp")(simTime().dbl());
 
