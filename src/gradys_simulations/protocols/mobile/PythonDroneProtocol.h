@@ -17,43 +17,16 @@
 #define COMMUNICATION_PROTOCOLS_MOBILE_PYTHONDRONEPROTOCOL_H_
 
 #include <omnetpp.h>
-#include "pybind11/embed.h"
 
+#include "gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h"
 #include "gradys_simulations/utils/Singleton.h"
-#include "gradys_simulations/protocols/base/CommunicationProtocolBase.h"
-
-namespace py = pybind11;
 
 namespace gradys_simulations {
 
-class PythonDroneProtocol: public CommunicationProtocolBase {
-protected:
-    simtime_t timeoutDuration;
+class PythonDroneProtocol: public CommunicationProtocolPythonBase {
 
 protected:
-    virtual void handleTimer(cMessage *msg);
-
-    virtual void handleMessage(cMessage *msg) override;
-
-    virtual void handleTelemetry(gradys_simulations::Telemetry *telemetry) override;
-
     virtual void initialize(int stage) override;
-
-    virtual void handlePacket(Packet *pk) override;
-
-    virtual void finish() override;
-
-private:
-    virtual void dealWithConsequence(py::object consequence);
-
-    CommunicationCommand *communicationCommand;
-    MobilityCommand *mobilityCommand;
-    cMessage *timer;
-
-    std::map<std::string, std::string> content;
-
-    py::object instance;
-    Singleton *pythonInterpreter;
 };
 
 } /* namespace gradys_simulations */

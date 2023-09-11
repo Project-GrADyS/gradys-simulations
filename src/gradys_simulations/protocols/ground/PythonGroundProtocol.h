@@ -16,44 +16,17 @@
 #ifndef COMMUNICATION_PROTOCOLS_GROUND_PYTHONDRONEPROTOCOL_H_
 #define COMMUNICATION_PROTOCOLS_GROUND_PYTHONDRONEPROTOCOL_H_
 
-#include "pybind11/embed.h"
-
 #include <omnetpp.h>
 
+#include "gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h"
 #include "gradys_simulations/utils/Singleton.h"
-#include "gradys_simulations/protocols/base/CommunicationProtocolBase.h"
-#include "gradys_simulations/protocols/messages/network/SimpleMessage_m.h"
-
-namespace py = pybind11;
 
 namespace gradys_simulations {
 
-class PythonGroundProtocol: public CommunicationProtocolBase {
+class PythonGroundProtocol: public CommunicationProtocolPythonBase {
 
 protected:
-    virtual void handleTimer(cMessage *msg);
-
-    virtual void handleMessage(cMessage *msg) override;
-
-    virtual void handleTelemetry(gradys_simulations::Telemetry *telemetry) override;
-
     virtual void initialize(int stage) override;
-
-    virtual void handlePacket(Packet *pk) override;
-
-    virtual void finish() override;
-
-private:
-    virtual void dealWithConsequence(py::object consequence);
-
-    CommunicationCommand *communicationCommand;
-    MobilityCommand *mobilityCommand;
-    cMessage *timer;
-
-    std::map<std::string, std::string> content;
-
-    py::object instance;
-    Singleton *pythonInterpreter;
 };
 
 } /* namespace gradys_simulations */

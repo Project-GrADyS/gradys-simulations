@@ -63,6 +63,7 @@ OBJS = \
     $O/gradys_simulations/pathloss/TwoRayNewModel.o \
     $O/gradys_simulations/protocols/auxiliary/CentralizedQLearning.o \
     $O/gradys_simulations/protocols/base/CommunicationProtocolBase.o \
+    $O/gradys_simulations/protocols/base/CommunicationProtocolPythonBase.o \
     $O/gradys_simulations/protocols/ground/CentralizedQProtocolGround.o \
     $O/gradys_simulations/protocols/ground/DadcaProtocolGround.o \
     $O/gradys_simulations/protocols/ground/PythonGroundProtocol.o \

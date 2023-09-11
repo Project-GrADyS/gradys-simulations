@@ -24,10 +24,6 @@ enum class ConsequenceType {
     COMMUNICATION = 1, MOBILITY = 2, TIMER = 3, TRACK_VARIABLE = 4
 };
 
-static constexpr unsigned int str2int(const char *str, int h = 0) {
-    return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
-}
-
 static ConsequenceType transformToConsequenceTypePython(std::string type) {
     if (type == "COMMUNICATION") {
         return ConsequenceType::COMMUNICATION;

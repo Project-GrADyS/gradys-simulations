@@ -13,22 +13,13 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef COMMUNICATION_PROTOCOLS_SENSOR_PYTHONDRONEPROTOCOL_H_
-#define COMMUNICATION_PROTOCOLS_SENSOR_PYTHONDRONEPROTOCOL_H_
+package gradys_simulations.protocols.base;
 
-#include <omnetpp.h>
-
-#include "gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h"
-#include "gradys_simulations/utils/Singleton.h"
-
-namespace gradys_simulations {
-
-class PythonSensorProtocol: public CommunicationProtocolPythonBase {
-
-protected:
-    virtual void initialize(int stage) override;
-};
-
-} /* namespace gradys_simulations */
-
-#endif /* COMMUNICATION_PROTOCOLS_SENSOR_PYTHONDRONEPROTOCOL_H_ */
+//
+// TODO auto-generated module
+//
+simple CommunicationProtocolPythonBase extends CommunicationProtocolBase
+{
+    parameters:
+        @class(CommunicationProtocolPythonBase);
+}
