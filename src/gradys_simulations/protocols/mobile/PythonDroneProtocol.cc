@@ -20,8 +20,8 @@
 #include "inet/common/packet/Packet.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
-#include "gradys_simulations/utils/ConsequenceType.h"
 #include <nlohmann/json.hpp>
+#include "../../utils/PythonUtils.h"
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 
 using namespace pybind11::literals;

@@ -25,11 +25,11 @@
 #include "inet/transportlayer/contract/udp/UdpControlInfo_m.h"
 #include "inet/applications/base/ApplicationPacket_m.h"
 #include <pybind11/pybind11.h>
-#include "gradys_simulations/utils/ConsequenceType.h"
 #include "gradys_simulations/protocols/ground/PythonGroundProtocol.h"
 #include "omnetpp.h"
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include <nlohmann/json.hpp>
+#include "../../utils/PythonUtils.h"
 
 using namespace pybind11::literals;
 
