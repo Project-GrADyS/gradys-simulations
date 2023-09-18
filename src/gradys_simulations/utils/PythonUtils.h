@@ -36,13 +36,12 @@ static CommunicationCommandType transformToCommunicationCommandTypePython(
 static CommunicationCommand* transformToCommunicationCommandPython(
         py::object comm_command) {
 
-    py::dict message = comm_command.attr("message");
-    nlohmann::json jsonMessage = message;
+    nlohmann::json jsonMessage = nlohmann::json::parse(comm_command.attr("message").cast<std::string>());
 
     PythonMessage *payload = new PythonMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
 
-    payload->setMap(jsonMessage);
+    payload->setInformation(jsonMessage.dump());
 
     // Sends command to the communication module to start using this message
     CommunicationCommand *command = new CommunicationCommand();

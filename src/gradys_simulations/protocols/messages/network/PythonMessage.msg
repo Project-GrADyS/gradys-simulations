@@ -18,11 +18,11 @@ import inet.common.packet.chunk.Chunk;
 import gradys_simulations.protocols.messages.network.SimpleMessage;
 
 cplusplus{{
-       #include <nlohmann/json.hpp>
-       typedef nlohmann::json JSON;
+       #include<string>
+       typedef std::string STRING;
 }};
 
-class JSON {
+class STRING {
     @existingClass;
 }
 
@@ -31,5 +31,5 @@ namespace inet;
 class PythonMessage extends FieldsChunk
 {
     chunkLength = B(7); // Fixed chunk length
-    JSON map;
+    STRING information;
 }

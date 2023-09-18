@@ -22,4 +22,7 @@ simple PythonDroneProtocol extends CommunicationProtocolBase
     parameters:
         @class(PythonDroneProtocol);
         double timeoutDuration @unit(s) = default(3s);
+        
+		string protocol = default("simple");
+        string protocolMobile = default("SimpleProtocolMobile");
 }

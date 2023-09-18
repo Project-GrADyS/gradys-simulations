@@ -34,14 +34,16 @@ Define_Module(PythonDroneProtocol);
 void PythonDroneProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "Drones");
 
+    protocol = par("protocol").stringValue();
+    protocolType = par("protocolMobile").stringValue();
+
     py::object InteropEncapsulator = py::module_::import(
             "simulator.encapsulator.InteropEncapsulator").attr(
             "InteropEncapsulator");
 
-    py::object SimpleProtocolMobile = py::module_::import(
-            "simulator.protocols.simple.SimpleProtocolMobile").attr(
-            "SimpleProtocolMobile");
-    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolMobile);
+    std::string importPath = "simulator.protocols." + protocol + "." + protocolType;
+       py::object protocolMobileClass = py::module_::import(importPath.c_str()).attr(protocolType.c_str());
+    instance = InteropEncapsulator.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 

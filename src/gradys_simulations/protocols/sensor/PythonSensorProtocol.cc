@@ -13,7 +13,6 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-
 #include <nlohmann/json.hpp>
 #include <pybind11/pybind11.h>
 
@@ -28,14 +27,16 @@ Define_Module(PythonSensorProtocol);
 void PythonSensorProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "Sensors");
 
+    protocol = par("protocol").stringValue();
+    protocolType = par("protocolSensor").stringValue();
+
     pybind11::object InteropEncapsulator = pybind11::module_::import(
             "simulator.encapsulator.InteropEncapsulator").attr(
             "InteropEncapsulator");
 
-    pybind11::object SimpleProtocolSensor = pybind11::module_::import(
-            "simulator.protocols.simple.SimpleProtocolSensor").attr(
-            "SimpleProtocolSensor");
-    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolSensor);
+    std::string importPath = "simulator.protocols." + protocol + "." + protocolType;
+           py::object protocolMobileClass = py::module_::import(importPath.c_str()).attr(protocolType.c_str());
+    instance = InteropEncapsulator.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 

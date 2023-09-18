@@ -71,14 +71,9 @@ void CommunicationProtocolPythonBase::handlePacket(Packet *pk) {
 
     auto message = pk->peekAtBack<PythonMessage>(B(7), 1);
 
-    py::object SimpleMessageL = py::module_::import(
-            "simulator.protocols.simple.SimpleMessage").attr("SimpleMessage");
-
-    py::object message_obj = SimpleMessageL(message->getMap());
-
     instance.attr("set_timestamp")(simTime().dbl());
 
-    py::list consequences = instance.attr("handle_packet")(message_obj);
+    py::list consequences = instance.attr("handle_packet")(message->getInformation());
 
     for (auto consequence : consequences) {
         dealWithConsequence(consequence.cast<py::object>());
@@ -202,9 +197,11 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
 
     switch (ct) {
     case ConsequenceType::COMMUNICATION: {
+        py::object test = c[1].cast<py::object>();
+
         CommunicationCommand *communicationCommand =
                 gradys_simulations::transformToCommunicationCommandPython(
-                        c[1].cast<py::object>());
+                        test);
 
         sendCommand(communicationCommand);
         break;

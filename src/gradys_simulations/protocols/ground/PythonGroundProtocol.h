@@ -26,6 +26,9 @@ namespace gradys_simulations {
 class PythonGroundProtocol: public CommunicationProtocolPythonBase {
 
 protected:
+    std::string protocol;
+    std::string protocolType;
+
     virtual void initialize(int stage) override;
 };
 

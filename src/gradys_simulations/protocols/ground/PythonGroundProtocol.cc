@@ -27,14 +27,16 @@ Define_Module(PythonGroundProtocol);
 void PythonGroundProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "GroundStation");
 
+    protocol = par("protocol").stringValue();
+    protocolType = par("protocolGround").stringValue();
+
     pybind11::object InteropEncapsulator = pybind11::module_::import(
             "simulator.encapsulator.InteropEncapsulator").attr(
             "InteropEncapsulator");
 
-    pybind11::object SimpleProtocolGround = pybind11::module_::import(
-            "simulator.protocols.simple.SimpleProtocolGround").attr(
-            "SimpleProtocolGround");
-    instance = InteropEncapsulator.attr("encapsulate")(SimpleProtocolGround);
+    std::string importPath = "simulator.protocols." + protocol + "." + protocolType;
+    py::object protocolMobileClass = py::module_::import(importPath.c_str()).attr(protocolType.c_str());
+    instance = InteropEncapsulator.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 

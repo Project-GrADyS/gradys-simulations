@@ -21,4 +21,7 @@ simple PythonSensorProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonSensorProtocol);
+
+		string protocol = default("simple");
+        string protocolSensor = default("SimpleProtocolSensor");
 }

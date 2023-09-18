@@ -21,4 +21,7 @@ simple PythonGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(PythonGroundProtocol);
+        
+		string protocol = default("simple");
+        string protocolGround = default("SimpleProtocolGround");
 }
