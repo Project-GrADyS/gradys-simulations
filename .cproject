@@ -30,6 +30,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys_simulations/src/pybind11/include}&quot;"/>
 									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys-simulations/src/pybind11_json/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys-simulations/src/json/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.835708123" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -89,6 +90,7 @@
 									<listOptionValue builtIn="false" value="/home/lac/.pyenv/versions/3.11.4/include/python3.11"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys-simulations/src/pybind11_json/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys-simulations/src/json/include/nlohmann}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/gradys-simulations/src/json/include}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1649453557" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>

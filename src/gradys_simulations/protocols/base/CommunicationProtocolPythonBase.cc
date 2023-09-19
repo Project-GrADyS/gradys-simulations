@@ -73,7 +73,8 @@ void CommunicationProtocolPythonBase::handlePacket(Packet *pk) {
 
     instance.attr("set_timestamp")(simTime().dbl());
 
-    py::list consequences = instance.attr("handle_packet")(message->getInformation());
+    py::list consequences = instance.attr("handle_packet")(
+            message->getInformation());
 
     for (auto consequence : consequences) {
         dealWithConsequence(consequence.cast<py::object>());
@@ -87,8 +88,13 @@ void CommunicationProtocolPythonBase::handleTimer(cMessage *msg) {
 
     instance.attr("set_timestamp")(simTime().dbl());
 
-    py::dict timer;
-    py::list consequences = instance.attr("handle_timer")(timer);
+    PythonMessage *message = dynamic_cast<PythonMessage*>(msg);
+    py::list consequences;
+    if (message != nullptr) {
+        consequences = instance.attr("handle_timer")(message->getInformation());
+    } else {
+        consequences = instance.attr("handle_timer")("");
+    }
 
     for (auto consequence : consequences) {
         dealWithConsequence(consequence.cast<py::object>());
@@ -104,35 +110,35 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     instance.attr("set_timestamp")(simTime().dbl());
 
     py::object TelemetryMessageL = py::module_::import(
-            "simulator.messages.Telemetry").attr("Telemetry");
+            "simulator.messages.telemetry").attr("Telemetry");
 
     py::object DroneActivityL = py::module_::import(
-            "simulator.messages.Telemetry").attr("DroneActivity");
+            "simulator.messages.telemetry").attr("DroneActivity");
 
-    py::object droneActivityLL;
+    py::object droneActivity;
     switch (telemetry->getDroneActivity()) {
     case DroneActivity::IDLE: {
-        droneActivityLL = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityL.attr("IDLE");
         break;
     }
     case DroneActivity::NAVIGATING: {
-        droneActivityLL = DroneActivityL.attr("NAVIGATING");
+        droneActivity = DroneActivityL.attr("NAVIGATING");
         break;
     }
     case DroneActivity::REACHED_EDGE: {
-        droneActivityLL = DroneActivityL.attr("REACHED_EDGE");
+        droneActivity = DroneActivityL.attr("REACHED_EDGE");
         break;
     }
     case DroneActivity::FOLLOWING_COMMAND: {
-        droneActivityLL = DroneActivityL.attr("FOLLOWING_COMMAND");
+        droneActivity = DroneActivityL.attr("FOLLOWING_COMMAND");
         break;
     }
     case DroneActivity::RECHARGING: {
-        droneActivityLL = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityL.attr("IDLE");
         break;
     }
     case DroneActivity::SHUTDOWN: {
-        droneActivityLL = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityL.attr("IDLE");
         break;
     }
     default:
@@ -142,7 +148,7 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     py::object telemetry_obj = TelemetryMessageL(telemetry->getNextWaypointID(),
             telemetry->getLastWaypointID(), telemetry->getCurrentLat(),
             telemetry->getCurrentLon(), telemetry->getCurrentAlt(),
-            telemetry->isReversed(), droneActivityLL);
+            telemetry->isReversed(), droneActivity);
 
     py::list consequences = instance.attr("handle_telemetry")(telemetry_obj);
 
@@ -177,65 +183,42 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
 
     py::tuple c = py::cast<py::tuple>(consequence);
 
-    ConsequenceType ct;
-    switch (str2int(c[0].cast<std::string>().c_str())) {
-    case str2int("COMMUNICATION"):
-        ct = ConsequenceType::COMMUNICATION;
-        break;
-    case str2int("MOBILITY"):
-        ct = ConsequenceType::MOBILITY;
-        break;
-    case str2int("TIMER"):
-        ct = ConsequenceType::TIMER;
-        break;
-    case str2int("TRACK_VARIABLE"):
-        ct = ConsequenceType::TRACK_VARIABLE;
-        break;
-    default:
-        std::cout << "Something is wrong for " << classType << std::endl;
-    }
+    py::object ConsequenceTypeL = py::module_::import(
+            "simulator.provider.interop").attr("ConsequenceType");
 
-    switch (ct) {
-    case ConsequenceType::COMMUNICATION: {
-        py::object test = c[1].cast<py::object>();
-
+    py::object ctl = ConsequenceTypeL(c[0].cast<int>());
+    if (ctl.is(ConsequenceTypeL.attr("COMMUNICATION"))) {
         CommunicationCommand *communicationCommand =
                 gradys_simulations::transformToCommunicationCommandPython(
-                        test);
-
+                        c[1].cast<py::object>());
         sendCommand(communicationCommand);
-        break;
-    }
-    case ConsequenceType::MOBILITY: {
+
+    } else if (ctl.is(ConsequenceTypeL.attr("MOBILITY"))) {
         MobilityCommand *mobilityCommand =
                 gradys_simulations::transformToMobilityCommandPython(
                         c[1].cast<py::object>());
-
         sendCommand(mobilityCommand);
-        break;
-    }
-    case ConsequenceType::TRACK_VARIABLE: {
+
+    } else if (ctl.is(ConsequenceTypeL.attr("TIMER"))) {
+        py::tuple infos = py::cast<py::tuple>(c[1].cast<py::object>());
+        scheduleAt(SimTime(py::cast<double>(infos[1])), new cMessage());
+
+    } else if (ctl.is(ConsequenceTypeL.attr("TRACK_VARIABLE"))) {
         py::tuple track_variable = py::cast<py::tuple>(c[1]);
 
-        content[track_variable[0].cast<std::string>()] = track_variable[1].cast<
-                std::string>();
+        nlohmann::json test = track_variable[1].cast<py::object>();
+
+//        nlohmann::json jsonObject = nlohmann::json::parse(textFigure->getText());
+
+        content[track_variable[0].cast<std::string>()] = test.dump();
 
         if (hasGUI()) {
             updateGUI();
         }
 
-        break;
-    }
-    case ConsequenceType::TIMER: {
-        py::tuple infos = py::cast<py::tuple>(c[1].cast<py::object>());
-
-        scheduleAt(SimTime(py::cast<double>(infos[1])), new cMessage());
-        break;
-    }
-    default:
+    } else {
         std::cout << "Something is wrong for " << classType << std::endl;
     }
-
 }
 
 void CommunicationProtocolPythonBase::updateGUI() {

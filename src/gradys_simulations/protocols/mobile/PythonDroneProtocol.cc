@@ -26,8 +26,6 @@
 
 using namespace pybind11::literals;
 
-namespace py = pybind11;
-
 namespace gradys_simulations {
 Define_Module(PythonDroneProtocol);
 
@@ -35,21 +33,24 @@ void PythonDroneProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "Drones");
 
     protocol = par("protocol").stringValue();
+    protocolFileName = par("protocolFileName").stringValue();
     protocolType = par("protocolMobile").stringValue();
 
-    py::object InteropEncapsulator = py::module_::import(
-            "simulator.encapsulator.InteropEncapsulator").attr(
-            "InteropEncapsulator");
+    pybind11::object InteropEncapsulator = pybind11::module_::import(
+            "simulator.encapsulator.interop").attr("InteropEncapsulator");
+    instance = InteropEncapsulator();
 
-    std::string importPath = "simulator.protocols." + protocol + "." + protocolType;
-       py::object protocolMobileClass = py::module_::import(importPath.c_str()).attr(protocolType.c_str());
-    instance = InteropEncapsulator.attr("encapsulate")(protocolMobileClass);
+    std::string importPath = "simulator.protocols." + protocol + "."
+            + protocolFileName;
+    pybind11::object protocolMobileClass = pybind11::module_::import(
+            importPath.c_str()).attr(protocolType.c_str());
+    instance.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 
-    py::list consequences = instance.attr("initialize")(stage);
+    pybind11::list consequences = instance.attr("initialize")(stage);
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<pybind11::object>());
     }
 }
 

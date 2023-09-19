@@ -24,19 +24,11 @@ enum class ConsequenceType {
     COMMUNICATION = 1, MOBILITY = 2, TIMER = 3, TRACK_VARIABLE = 4
 };
 
-static CommunicationCommandType transformToCommunicationCommandTypePython(
-        std::string type) {
-    if (type == "SEND") {
-        return CommunicationCommandType::SEND_MESSAGE;
-    } else {
-        return CommunicationCommandType::SET_TARGET;
-    }
-}
-
 static CommunicationCommand* transformToCommunicationCommandPython(
         py::object comm_command) {
 
-    nlohmann::json jsonMessage = nlohmann::json::parse(comm_command.attr("message").cast<std::string>());
+    nlohmann::json jsonMessage = nlohmann::json::parse(
+            comm_command.attr("message").cast<std::string>());
 
     PythonMessage *payload = new PythonMessage();
     payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
@@ -45,34 +37,56 @@ static CommunicationCommand* transformToCommunicationCommandPython(
 
     // Sends command to the communication module to start using this message
     CommunicationCommand *command = new CommunicationCommand();
-    command->setCommandType(
-            transformToCommunicationCommandTypePython(
-                    comm_command.attr("command").cast<std::string>()));
+
+    py::object CommunicationCommandTypeL = py::module_::import(
+            "simulator.messages.communication").attr(
+            "CommunicationCommandType");
+
+    py::object ctl = CommunicationCommandTypeL(
+            comm_command.attr("command").cast<int>());
+
+    if (ctl.is(CommunicationCommandTypeL.attr("SEND"))) {
+        command->setCommandType(CommunicationCommandType::SEND_MESSAGE);
+
+    } else if (ctl.is(CommunicationCommandTypeL.attr("BROADCAST"))) {
+        command->setCommandType(CommunicationCommandType::SET_TARGET);
+
+    } else {
+        std::cout
+                << "Something is wrong for transformToCommunicationCommandPython"
+                << std::endl;
+    }
+
     command->setPayloadTemplate(payload);
 
     return command;
-}
-
-static MobilityCommandType transformToMobilityCommandTypePython(
-        std::string type) {
-    if (type == "SET_MODE") {
-        return MobilityCommandType::IDLE_TIME;
-    } else if (type == "GOTO_COORDS") {
-        return MobilityCommandType::GOTO_COORDS;
-    } else if (type == "GOTO_WAYPOINT") {
-        return MobilityCommandType::GOTO_WAYPOINT;
-    } else {
-        return MobilityCommandType::REVERSE;
-    }
 }
 
 static MobilityCommand* transformToMobilityCommandPython(
         py::object mob_command) {
     MobilityCommand *command = new MobilityCommand();
 
-    command->setCommandType(
-            transformToMobilityCommandTypePython(
-                    mob_command.attr("command").cast<std::string>()));
+    py::object MobilityCommandTypeL = py::module_::import(
+            "simulator.messages.mobility").attr("MobilityCommandType");
+
+    py::object ctl = MobilityCommandTypeL(
+            mob_command.attr("command").cast<int>());
+    if (ctl.is(MobilityCommandTypeL.attr("SET_MODE"))) {
+        command->setCommandType(MobilityCommandType::IDLE_TIME);
+
+    } else if (ctl.is(MobilityCommandTypeL.attr("GOTO_COORDS"))) {
+        command->setCommandType(MobilityCommandType::GOTO_COORDS);
+
+    } else if (ctl.is(MobilityCommandTypeL.attr("GOTO_WAYPOINT"))) {
+        command->setCommandType(MobilityCommandType::GOTO_WAYPOINT);
+
+    } else if (ctl.is(MobilityCommandTypeL.attr("REVERSE"))) {
+        command->setCommandType(MobilityCommandType::REVERSE);
+
+    } else {
+        std::cout << "Something is wrong for transformToMobilityCommandPython"
+                << std::endl;
+    }
 
     command->setParam1(mob_command.attr("param_1").cast<int>());
     command->setParam2(mob_command.attr("param_2").cast<int>());

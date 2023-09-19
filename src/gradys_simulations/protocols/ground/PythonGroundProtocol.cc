@@ -28,21 +28,24 @@ void PythonGroundProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "GroundStation");
 
     protocol = par("protocol").stringValue();
+    protocolFileName = par("protocolFileName").stringValue();
     protocolType = par("protocolGround").stringValue();
 
     pybind11::object InteropEncapsulator = pybind11::module_::import(
-            "simulator.encapsulator.InteropEncapsulator").attr(
-            "InteropEncapsulator");
+            "simulator.encapsulator.interop").attr("InteropEncapsulator");
+    instance = InteropEncapsulator();
 
-    std::string importPath = "simulator.protocols." + protocol + "." + protocolType;
-    py::object protocolMobileClass = py::module_::import(importPath.c_str()).attr(protocolType.c_str());
-    instance = InteropEncapsulator.attr("encapsulate")(protocolMobileClass);
+    std::string importPath = "simulator.protocols." + protocol + "."
+            + protocolFileName;
+    pybind11::object protocolMobileClass =
+            pybind11::module_::import(importPath.c_str()).attr(protocolType.c_str());
+    instance.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 
     pybind11::list consequences = instance.attr("initialize")(stage);
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<pybind11::object>());
     }
 }
 

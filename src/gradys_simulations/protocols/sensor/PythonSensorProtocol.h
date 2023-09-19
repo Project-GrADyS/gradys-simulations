@@ -27,6 +27,7 @@ class PythonSensorProtocol: public CommunicationProtocolPythonBase {
 
 protected:
     std::string protocol;
+    std::string protocolFileName;
     std::string protocolType;
 
     virtual void initialize(int stage) override;
