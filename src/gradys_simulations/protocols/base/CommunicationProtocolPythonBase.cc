@@ -29,7 +29,7 @@
 #include "omnetpp.h"
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include <nlohmann/json.hpp>
-#include "../../utils/PythonUtils.h"
+#include "gradys_simulations/utils/PythonUtils.h"
 
 using namespace pybind11::literals;
 
@@ -61,6 +61,7 @@ void CommunicationProtocolPythonBase::handleMessage(cMessage *msg) {
 
     if (msg->isSelfMessage()) {
         handleTimer(msg);
+        delete msg;
     } else {
         CommunicationProtocolBase::handleMessage(msg);
     }
@@ -79,6 +80,8 @@ void CommunicationProtocolPythonBase::handlePacket(Packet *pk) {
     for (auto consequence : consequences) {
         dealWithConsequence(consequence.cast<py::object>());
     }
+
+//    delete message;
 }
 
 void CommunicationProtocolPythonBase::handleTimer(cMessage *msg) {
@@ -112,37 +115,38 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     py::object TelemetryMessageL = py::module_::import(
             "simulator.messages.telemetry").attr("Telemetry");
 
-    py::object DroneActivityL = py::module_::import(
+    py::object DroneActivityPython = py::module_::import(
             "simulator.messages.telemetry").attr("DroneActivity");
 
     py::object droneActivity;
     switch (telemetry->getDroneActivity()) {
     case DroneActivity::IDLE: {
-        droneActivity = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityPython.attr("IDLE");
         break;
     }
     case DroneActivity::NAVIGATING: {
-        droneActivity = DroneActivityL.attr("NAVIGATING");
+        droneActivity = DroneActivityPython.attr("NAVIGATING");
         break;
     }
     case DroneActivity::REACHED_EDGE: {
-        droneActivity = DroneActivityL.attr("REACHED_EDGE");
+        droneActivity = DroneActivityPython.attr("REACHED_EDGE");
         break;
     }
     case DroneActivity::FOLLOWING_COMMAND: {
-        droneActivity = DroneActivityL.attr("FOLLOWING_COMMAND");
+        droneActivity = DroneActivityPython.attr("FOLLOWING_COMMAND");
         break;
     }
     case DroneActivity::RECHARGING: {
-        droneActivity = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityPython.attr("IDLE");
         break;
     }
     case DroneActivity::SHUTDOWN: {
-        droneActivity = DroneActivityL.attr("IDLE");
+        droneActivity = DroneActivityPython.attr("IDLE");
         break;
     }
     default:
         std::cout << "Something is wrong for " << classType << std::endl;
+        exit(1);
     }
 
     py::object telemetry_obj = TelemetryMessageL(telemetry->getNextWaypointID(),
@@ -171,44 +175,39 @@ void CommunicationProtocolPythonBase::finish() {
     }
 
     pythonInterpreter->TryCloseInstance();
-}
 
-constexpr unsigned int str2int(const char *str, int h = 0) {
-    return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 }
 
 void CommunicationProtocolPythonBase::dealWithConsequence(
         py::object consequence) {
     std::cout << "Deal with consequences for " << classType << std::endl;
 
-    py::tuple c = py::cast<py::tuple>(consequence);
+    py::tuple consequenceTuple = py::cast<py::tuple>(consequence);
 
-    py::object ConsequenceTypeL = py::module_::import(
+    py::object ConsequenceTypePython = py::module_::import(
             "simulator.provider.interop").attr("ConsequenceType");
 
-    py::object ctl = ConsequenceTypeL(c[0].cast<int>());
-    if (ctl.is(ConsequenceTypeL.attr("COMMUNICATION"))) {
+    py::object ctl = ConsequenceTypePython(consequenceTuple[0].cast<int>());
+    if (ctl.is(ConsequenceTypePython.attr("COMMUNICATION"))) {
         CommunicationCommand *communicationCommand =
                 gradys_simulations::transformToCommunicationCommandPython(
-                        c[1].cast<py::object>());
+                        consequenceTuple[1].cast<py::object>());
         sendCommand(communicationCommand);
 
-    } else if (ctl.is(ConsequenceTypeL.attr("MOBILITY"))) {
+    } else if (ctl.is(ConsequenceTypePython.attr("MOBILITY"))) {
         MobilityCommand *mobilityCommand =
                 gradys_simulations::transformToMobilityCommandPython(
-                        c[1].cast<py::object>());
+                        consequenceTuple[1].cast<py::object>());
         sendCommand(mobilityCommand);
 
-    } else if (ctl.is(ConsequenceTypeL.attr("TIMER"))) {
-        py::tuple infos = py::cast<py::tuple>(c[1].cast<py::object>());
+    } else if (ctl.is(ConsequenceTypePython.attr("TIMER"))) {
+        py::tuple infos = py::cast<py::tuple>(consequenceTuple[1].cast<py::object>());
         scheduleAt(SimTime(py::cast<double>(infos[1])), new cMessage());
 
-    } else if (ctl.is(ConsequenceTypeL.attr("TRACK_VARIABLE"))) {
-        py::tuple track_variable = py::cast<py::tuple>(c[1]);
+    } else if (ctl.is(ConsequenceTypePython.attr("TRACK_VARIABLE"))) {
+        py::tuple track_variable = py::cast<py::tuple>(consequenceTuple[1]);
 
         nlohmann::json test = track_variable[1].cast<py::object>();
-
-//        nlohmann::json jsonObject = nlohmann::json::parse(textFigure->getText());
 
         content[track_variable[0].cast<std::string>()] = test.dump();
 
@@ -217,7 +216,8 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
         }
 
     } else {
-        std::cout << "Something is wrong for " << classType << std::endl;
+        std::cout << "Something is wrong in " << classType << std::endl;
+        exit(1);
     }
 }
 

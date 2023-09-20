@@ -1,10 +1,3 @@
-/*
- * VehicleTypes.h
- *
- *  Created on: 12 de mar de 2022
- *      Author: thlam
- */
-
 #ifndef gradys_simulations_PYTHON_UTILS_H_
 #define gradys_simulations_PYTHON_UTILS_H_
 
@@ -20,42 +13,39 @@ namespace py = pybind11;
 
 namespace gradys_simulations {
 
-enum class ConsequenceType {
-    COMMUNICATION = 1, MOBILITY = 2, TIMER = 3, TRACK_VARIABLE = 4
-};
-
 static CommunicationCommand* transformToCommunicationCommandPython(
         py::object comm_command) {
 
     nlohmann::json jsonMessage = nlohmann::json::parse(
             comm_command.attr("message").cast<std::string>());
 
-    PythonMessage *payload = new PythonMessage();
-    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
-
-    payload->setInformation(jsonMessage.dump());
-
-    // Sends command to the communication module to start using this message
+    // Create communication command
     CommunicationCommand *command = new CommunicationCommand();
 
-    py::object CommunicationCommandTypeL = py::module_::import(
+    py::object CommunicationCommandTypePython = py::module_::import(
             "simulator.messages.communication").attr(
             "CommunicationCommandType");
 
-    py::object ctl = CommunicationCommandTypeL(
+    py::object ctl = CommunicationCommandTypePython(
             comm_command.attr("command").cast<int>());
 
-    if (ctl.is(CommunicationCommandTypeL.attr("SEND"))) {
+    if (ctl.is(CommunicationCommandTypePython.attr("SEND"))) {
         command->setCommandType(CommunicationCommandType::SEND_MESSAGE);
 
-    } else if (ctl.is(CommunicationCommandTypeL.attr("BROADCAST"))) {
+    } else if (ctl.is(CommunicationCommandTypePython.attr("BROADCAST"))) {
         command->setCommandType(CommunicationCommandType::SET_TARGET);
 
     } else {
         std::cout
-                << "Something is wrong for transformToCommunicationCommandPython"
+                << "Something is wrong in transformToCommunicationCommandPython"
                 << std::endl;
+        exit(1);
     }
+
+    // Create payload
+    PythonMessage *payload = new PythonMessage();
+    payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
+    payload->setInformation(jsonMessage.dump());
 
     command->setPayloadTemplate(payload);
 
@@ -64,28 +54,31 @@ static CommunicationCommand* transformToCommunicationCommandPython(
 
 static MobilityCommand* transformToMobilityCommandPython(
         py::object mob_command) {
+
+    // Create mobility command
     MobilityCommand *command = new MobilityCommand();
 
-    py::object MobilityCommandTypeL = py::module_::import(
+    py::object MobilityCommandTypePython = py::module_::import(
             "simulator.messages.mobility").attr("MobilityCommandType");
 
-    py::object ctl = MobilityCommandTypeL(
+    py::object ctl = MobilityCommandTypePython(
             mob_command.attr("command").cast<int>());
-    if (ctl.is(MobilityCommandTypeL.attr("SET_MODE"))) {
+    if (ctl.is(MobilityCommandTypePython.attr("SET_MODE"))) {
         command->setCommandType(MobilityCommandType::IDLE_TIME);
 
-    } else if (ctl.is(MobilityCommandTypeL.attr("GOTO_COORDS"))) {
+    } else if (ctl.is(MobilityCommandTypePython.attr("GOTO_COORDS"))) {
         command->setCommandType(MobilityCommandType::GOTO_COORDS);
 
-    } else if (ctl.is(MobilityCommandTypeL.attr("GOTO_WAYPOINT"))) {
+    } else if (ctl.is(MobilityCommandTypePython.attr("GOTO_WAYPOINT"))) {
         command->setCommandType(MobilityCommandType::GOTO_WAYPOINT);
 
-    } else if (ctl.is(MobilityCommandTypeL.attr("REVERSE"))) {
+    } else if (ctl.is(MobilityCommandTypePython.attr("REVERSE"))) {
         command->setCommandType(MobilityCommandType::REVERSE);
 
     } else {
-        std::cout << "Something is wrong for transformToMobilityCommandPython"
+        std::cout << "Something is wrong in transformToMobilityCommandPython"
                 << std::endl;
+        exit(1);
     }
 
     command->setParam1(mob_command.attr("param_1").cast<int>());
