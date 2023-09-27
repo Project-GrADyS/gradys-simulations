@@ -1,0 +1,14 @@
+17:25:12 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/userpp/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/userpp/workspace/inet4.5/src'
+
+17:25:13 Build Finished. 0 errors, 0 warnings. (took 991ms)
+

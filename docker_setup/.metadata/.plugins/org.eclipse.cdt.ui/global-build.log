@@ -1,0 +1,326 @@
+17:16:51 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/userpp/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/userpp/workspace/inet4.5/src'
+17:16:52 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/userpp/workspace/gradys-simulations/src'
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/json -I/mavlink -I/pybind11 -I/pybind11_json -I. -I/gradys_simulations -I/home/userpp/.pyenv/versions/3.11-dev/lib/libpython3.11.so.1.0 -Ijson/include -Ipybind11/include -I/home/userpp/.pyenv/versions/3.11-dev/include/python3.11 -Ipybind11_json/include -I../../inet4.5/src -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/userpp/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib
+Building...
+gradys_simulations/MobileNode.cc
+gradys_simulations/MobileSensorNode.cc
+gradys_simulations/antenna/DipoleAntennaCustom.cc
+gradys_simulations/antenna/DipoleAntennaCustom.cc:51:9: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+        stream << ", maxGain = " << gain->getMaxGain();
+        ^
+gradys_simulations/antenna/DipoleAntennaCustom.cc:49:5: note: previous statement is here
+    if (level <= PRINT_LEVEL_DETAIL)
+    ^
+gradys_simulations/antenna/DipoleAntennaCustom.cc:58:27: warning: field 'minGain' will be initialized after field 'length' [-Wreorder-ctor]
+        maxGain(maxGain), minGain(minGain), length(length), lambda(lambda)
+                          ^
+2 warnings generated.
+gradys_simulations/applications/mamapp/MamDataCollectorApp.cc
+gradys_simulations/applications/mamapp/MamDataCollectorApp.cc:179:9: warning: unused variable 'dscp' [-Wunused-variable]
+    int dscp = findPar("dscp");
+        ^
+1 warning generated.
+gradys_simulations/applications/mamapp/MamNodeApp.cc
+gradys_simulations/applications/mamapp/MamNodeApp.cc:163:9: warning: unused variable 'dscp' [-Wunused-variable]
+    int dscp = findPar("dscp");
+        ^
+1 warning generated.
+gradys_simulations/communication/modules/UdpCommunicationApp.cc
+gradys_simulations/linklayer/blemesh/BleMeshMac.cc
+In file included from gradys_simulations/linklayer/blemesh/BleMeshMac.cc:43:
+./gradys_simulations/linklayer/blemesh/BleMeshMac.h:106:18: warning: 'gradys_simulations::BleMeshMac::finish' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void finish() override;
+                 ^
+/home/userpp/omnetpp-6.0.1/include/omnetpp/clistener.h:148:18: note: hidden overloaded virtual function 'omnetpp::cIListener::finish' declared here: different number of parameters (2 vs 0)
+    virtual void finish(cComponent *component, simsignal_t signalID) {}
+                 ^
+In file included from gradys_simulations/linklayer/blemesh/BleMeshMac.cc:43:
+./gradys_simulations/linklayer/blemesh/BleMeshMac.h:118:18: warning: 'gradys_simulations::BleMeshMac::receiveSignal' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, intval_t value, cObject *details) override;
+                 ^
+../../inet4.5/src/inet/linklayer/base/MacProtocolBase.h:77:18: note: hidden overloaded virtual function 'inet::MacProtocolBase::receiveSignal' declared here: type mismatch at 3rd parameter ('omnetpp::cObject *' vs 'omnetpp::intval_t' (aka 'long'))
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, cObject *obj, cObject *details) override;
+                 ^
+2 warnings generated.
+gradys_simulations/linklayer/blemesh/BleMeshProtocolDissector.cc
+In file included from gradys_simulations/linklayer/blemesh/BleMeshProtocolDissector.cc:23:
+./gradys_simulations/linklayer/blemesh/BleMeshMac.h:106:18: warning: 'gradys_simulations::BleMeshMac::finish' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void finish() override;
+                 ^
+/home/userpp/omnetpp-6.0.1/include/omnetpp/clistener.h:148:18: note: hidden overloaded virtual function 'omnetpp::cIListener::finish' declared here: different number of parameters (2 vs 0)
+    virtual void finish(cComponent *component, simsignal_t signalID) {}
+                 ^
+In file included from gradys_simulations/linklayer/blemesh/BleMeshProtocolDissector.cc:23:
+./gradys_simulations/linklayer/blemesh/BleMeshMac.h:118:18: warning: 'gradys_simulations::BleMeshMac::receiveSignal' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, intval_t value, cObject *details) override;
+                 ^
+../../inet4.5/src/inet/linklayer/base/MacProtocolBase.h:77:18: note: hidden overloaded virtual function 'inet::MacProtocolBase::receiveSignal' declared here: type mismatch at 3rd parameter ('omnetpp::cObject *' vs 'omnetpp::intval_t' (aka 'long'))
+    virtual void receiveSignal(cComponent *source, simsignal_t signalID, cObject *obj, cObject *details) override;
+                 ^
+2 warnings generated.
+gradys_simulations/linklayer/blemesh/NetworkInterfaceExt.cc
+gradys_simulations/mobility/DroneMobility.cc
+gradys_simulations/mobility/DroneMobility.cc:216:24: warning: using integer absolute value function 'abs' when argument is of floating point type [-Wabsolute-value]
+                    if(abs(lastPosition.z - homeCoords.z) > waypointProximity) {
+                       ^
+gradys_simulations/mobility/DroneMobility.cc:216:24: note: use function 'std::abs' instead
+                    if(abs(lastPosition.z - homeCoords.z) > waypointProximity) {
+                       ^~~
+                       std::abs
+1 warning generated.
+gradys_simulations/mobility/DroneMobilityMav.cc
+gradys_simulations/mobility/MAVLinkFileMobility.cc
+gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc
+gradys_simulations/mobility/base/MAVLinkMobilityBase.cc
+gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:473:22: warning: unused variable 'c' [-Wunused-variable]
+    static const int c = sizeof(sockaddr_in);
+                     ^
+1 warning generated.
+gradys_simulations/pathloss/TwoRayNewModel.cc
+gradys_simulations/pathloss/TwoRayNewModel.cc:32:21: warning: field 'polarization' will be initialized after field 'sigma' [-Wreorder-ctor]
+    epsilon_r(1.0), polarization('h'), sigma(1.0), delta_h(1.0)
+                    ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:126:29: warning: using integer absolute value function 'abs' when argument is of floating point type [-Wabsolute-value]
+    double phi = acos(2*Req*abs(h_t-h_r)*d/(pow(p,3)));
+                            ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:126:29: note: use function 'std::abs' instead
+    double phi = acos(2*Req*abs(h_t-h_r)*d/(pow(p,3)));
+                            ^~~
+                            std::abs
+gradys_simulations/pathloss/TwoRayNewModel.cc:148:18: warning: using integer absolute value function 'abs' when argument is of floating point type [-Wabsolute-value]
+    double dr  = abs(r_r - r_d);    //diferen�a entre os raios
+                 ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:148:18: note: use function 'std::abs' instead
+    double dr  = abs(r_r - r_d);    //diferen�a entre os raios
+                 ^~~
+                 std::abs
+gradys_simulations/pathloss/TwoRayNewModel.cc:148:12: warning: unused variable 'dr' [-Wunused-variable]
+    double dr  = abs(r_r - r_d);    //diferen�a entre os raios
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:138:13: warning: variable 'raiz' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    else if(raiz2 >2){
+            ^~~~~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:143:17: note: uninitialized use occurs here
+    double hr = raiz; //altura equivalente de rx
+                ^~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:138:10: note: remove the 'if' if its condition is always true
+    else if(raiz2 >2){
+         ^~~~~~~~~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:134:16: note: initialize the variable 'raiz' to silence this warning
+    double raiz;
+               ^
+                = 0.0
+gradys_simulations/pathloss/TwoRayNewModel.cc:212:12: warning: unused variable 'd_x_r' [-Wunused-variable]
+    double d_x_r = pos_r.x;
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:213:12: warning: unused variable 'd_y_t' [-Wunused-variable]
+    double d_y_t = pos_t.y;
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:219:12: warning: unused variable 'hr' [-Wunused-variable]
+    double hr = h_r;
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:214:12: warning: unused variable 'd_y_r' [-Wunused-variable]
+    double d_y_r = pos_r.y;
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:206:12: warning: unused variable 'Req' [-Wunused-variable]
+    double Req = 1.33*6371000;
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:223:12: warning: unused variable 'd2' [-Wunused-variable]
+    double d2 = (h_r*d)/(h_t+h_r); //distancia do receptor ao potno de reflex�o
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:244:12: warning: unused variable 'D' [-Wunused-variable]
+    double D = 1; //fator de divergencia unit�rio para o caso da terra plana
+           ^
+gradys_simulations/pathloss/TwoRayNewModel.cc:211:12: warning: unused variable 'd_x_t' [-Wunused-variable]
+    double d_x_t = pos_t.x;
+           ^
+13 warnings generated.
+gradys_simulations/protocols/base/CommunicationProtocolBase.cc
+gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc
+In file included from gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc:16:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: warning: 'gradys_simulations::CommunicationProtocolPythonBase::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage, std::string figure);
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolBase.h:41:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolBase::initialize' declared here: different number of parameters (1 vs 2)
+    virtual void initialize(int stage) {};
+                 ^
+In file included from gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc:28:
+./gradys_simulations/protocols/ground/PythonGroundProtocol.h:33:18: warning: 'gradys_simulations::PythonGroundProtocol::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage) override;
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolPythonBase::initialize' declared here: different number of parameters (2 vs 1)
+    virtual void initialize(int stage, std::string figure);
+                 ^
+2 warnings generated.
+gradys_simulations/protocols/ground/CentralizedQProtocolGround.cc
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc:41:13: warning: unused variable 'duration' [-Wunused-variable]
+        int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
+            ^
+1 warning generated.
+gradys_simulations/protocols/ground/PythonGroundProtocol.cc
+In file included from gradys_simulations/protocols/ground/PythonGroundProtocol.cc:20:
+In file included from ./gradys_simulations/protocols/ground/PythonGroundProtocol.h:21:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: warning: 'gradys_simulations::CommunicationProtocolPythonBase::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage, std::string figure);
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolBase.h:41:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolBase::initialize' declared here: different number of parameters (1 vs 2)
+    virtual void initialize(int stage) {};
+                 ^
+In file included from gradys_simulations/protocols/ground/PythonGroundProtocol.cc:20:
+./gradys_simulations/protocols/ground/PythonGroundProtocol.h:33:18: warning: 'gradys_simulations::PythonGroundProtocol::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage) override;
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolPythonBase::initialize' declared here: different number of parameters (2 vs 1)
+    virtual void initialize(int stage, std::string figure);
+                 ^
+2 warnings generated.
+gradys_simulations/protocols/ground/SimpleGroundProtocol.cc
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc
+gradys_simulations/protocols/mobile/DadcaProtocol.cc
+gradys_simulations/protocols/mobile/DadcaProtocol.cc:41:13: warning: unused variable 'duration' [-Wunused-variable]
+        int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
+            ^
+1 warning generated.
+gradys_simulations/protocols/mobile/PythonDroneProtocol.cc
+In file included from gradys_simulations/protocols/mobile/PythonDroneProtocol.cc:16:
+In file included from gradys_simulations/protocols/mobile/PythonDroneProtocol.h:21:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: warning: 'gradys_simulations::CommunicationProtocolPythonBase::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage, std::string figure);
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolBase.h:41:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolBase::initialize' declared here: different number of parameters (1 vs 2)
+    virtual void initialize(int stage) {};
+                 ^
+In file included from gradys_simulations/protocols/mobile/PythonDroneProtocol.cc:16:
+gradys_simulations/protocols/mobile/PythonDroneProtocol.h:33:18: warning: 'gradys_simulations::PythonDroneProtocol::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage) override;
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolPythonBase::initialize' declared here: different number of parameters (2 vs 1)
+    virtual void initialize(int stage, std::string figure);
+                 ^
+2 warnings generated.
+gradys_simulations/protocols/mobile/SimpleDroneProtocol.cc
+gradys_simulations/protocols/mobile/ZigzagProtocol.cc
+gradys_simulations/protocols/sensor/CentralizedQProtocolSensor.cc
+gradys_simulations/protocols/sensor/DadcaProtocolSensor.cc
+gradys_simulations/protocols/sensor/PythonSensorProtocol.cc
+In file included from gradys_simulations/protocols/sensor/PythonSensorProtocol.cc:20:
+In file included from ./gradys_simulations/protocols/sensor/PythonSensorProtocol.h:21:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: warning: 'gradys_simulations::CommunicationProtocolPythonBase::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage, std::string figure);
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolBase.h:41:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolBase::initialize' declared here: different number of parameters (1 vs 2)
+    virtual void initialize(int stage) {};
+                 ^
+In file included from gradys_simulations/protocols/sensor/PythonSensorProtocol.cc:20:
+./gradys_simulations/protocols/sensor/PythonSensorProtocol.h:33:18: warning: 'gradys_simulations::PythonSensorProtocol::initialize' hides overloaded virtual function [-Woverloaded-virtual]
+    virtual void initialize(int stage) override;
+                 ^
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:40:18: note: hidden overloaded virtual function 'gradys_simulations::CommunicationProtocolPythonBase::initialize' declared here: different number of parameters (2 vs 1)
+    virtual void initialize(int stage, std::string figure);
+                 ^
+2 warnings generated.
+gradys_simulations/protocols/sensor/SimpleSensorProtocol.cc
+gradys_simulations/protocols/sensor/ZigzagProtocolSensor.cc
+gradys_simulations/utils/TelemetryConditions.cc
+gradys_simulations/utils/TelemetryConditions.cc:212:24: warning: enumeration values 'COPTER' and 'ROVER' not handled in switch [-Wswitch]
+                switch(type) {
+                       ^
+1 warning generated.
+gradys_simulations/utils/VehicleRoutines.cc
+gradys_simulations/utils/VehicleRoutines.cc:223:13: warning: enumeration value 'TAKEOFF' not handled in switch [-Wswitch]
+    switch (mode) {
+            ^
+1 warning generated.
+gradys_simulations/applications/mamapp/BMeshPacket_m.cc
+gradys_simulations/linklayer/blemesh/BleMeshMacHeader_m.cc
+gradys_simulations/protocols/messages/internal/CommunicationCommand_m.cc
+gradys_simulations/protocols/messages/network/CentralizedQMessage_m.cc
+gradys_simulations/protocols/messages/network/DadcaMessage_m.cc
+gradys_simulations/protocols/messages/network/PythonMessage_m.cc
+gradys_simulations/protocols/messages/network/SimpleMessage_m.cc
+gradys_simulations/protocols/messages/network/ZigzagMessage_m.cc
+Creating executable: ../out/clang-debug/src/gradys_simulations_build_dbg
+make[1]: Leaving directory '/home/userpp/workspace/gradys-simulations/src'
+17:18:26 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/userpp/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/userpp/workspace/inet4.5/src'
+17:18:27 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/userpp/workspace/gradys-simulations/src'
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/json -I/mavlink -I/pybind11 -I/pybind11_json -I. -I/gradys_simulations -I/home/userpp/.pyenv/versions/3.11-dev/lib/libpython3.11.so.1.0 -Ijson/include -Ipybind11/include -I/home/userpp/.pyenv/versions/3.11-dev/include/python3.11 -Ipybind11_json/include -I../../inet4.5/src -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/userpp/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/userpp/workspace/gradys-simulations/src'
+17:22:08 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/userpp/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/userpp/workspace/inet4.5/src'
+17:22:10 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/userpp/workspace/gradys-simulations/src'
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/json -I/mavlink -I/pybind11 -I/pybind11_json -I. -I/gradys_simulations -I/home/userpp/.pyenv/versions/3.11-dev/lib/libpython3.11.so.1.0 -Ijson/include -Ipybind11/include -I/home/userpp/.pyenv/versions/3.11-dev/include/python3.11 -Ipybind11_json/include -I../../inet4.5/src -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/userpp/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/userpp/workspace/gradys-simulations/src'
+17:25:12 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/userpp/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/userpp/workspace/inet4.5/src'
+17:25:14 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/userpp/workspace/gradys-simulations/src'
+*** COMPILING with:
+clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/json -I/mavlink -I/pybind11 -I/pybind11_json -I. -I/gradys_simulations -I/home/userpp/.pyenv/versions/3.11-dev/lib/libpython3.11.so.1.0 -Ijson/include -Ipybind11/include -I/home/userpp/.pyenv/versions/3.11-dev/include/python3.11 -Ipybind11_json/include -I../../inet4.5/src -I/home/userpp/omnetpp-6.0.1/include
+*** LINKING with:
+clang++ -shared -fPIC -o ../out/clang-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/userpp/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/userpp/workspace/gradys-simulations/src'
