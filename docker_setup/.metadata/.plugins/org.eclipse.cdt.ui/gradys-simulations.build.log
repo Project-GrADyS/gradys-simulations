@@ -1,14 +1,9 @@
-17:25:14 **** Incremental Build of configuration debug for project gradys-simulations ****
-make MODE=debug all 
-cd src && make all
-make[1]: Entering directory '/home/userpp/workspace/gradys-simulations/src'
-*** COMPILING with:
-clang++ -c  -O0 -Wall -glldb -fstandalone-debug   -MMD -MP -MF .d  -fPIC  -Wno-deprecated-register -Wno-unused-function -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/json -I/mavlink -I/pybind11 -I/pybind11_json -I. -I/gradys_simulations -I/home/userpp/.pyenv/versions/3.11-dev/lib/libpython3.11.so.1.0 -Ijson/include -Ipybind11/include -I/home/userpp/.pyenv/versions/3.11-dev/include/python3.11 -Ipybind11_json/include -I../../inet4.5/src -I/home/userpp/omnetpp-6.0.1/include
-*** LINKING with:
-clang++ -shared -fPIC -o ../out/clang-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/userpp/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -fuse-ld=lld -Wl,-rpath,/home/userpp/omnetpp-6.0.1/lib -Wl,-rpath,/home/userpp/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/userpp/omnetpp-6.0.1/lib
-Building...
-make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/userpp/workspace/gradys-simulations/src'
+10:51:10 **** Clean-only build of configuration debug for project gradys-simulations ****
+make MODE=debug clean 
+Cleaning
+make[1]: Entering directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
+Cleaning gradys_simulations_build_dbg
+make[1]: Leaving directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
 
-17:25:14 Build Finished. 0 errors, 0 warnings. (took 279ms)
+10:51:10 Build Finished. 0 errors, 0 warnings. (took 321ms)
 

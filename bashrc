@@ -5,5 +5,5 @@ PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h (omnetpp-dev):\
 
 export PYTHONPATH=$PYTHONPATH:.
 export LD_LIBRARY_PATH=$OMNETPP_ROOT/lib
-export LD_LIBRARY_PATH=/home/userpp/.pyenv/versions/3.11-dev/lib
+export LD_LIBRARY_PATH=/home/userpp/.pyenv/versions/3.11.4/lib
 

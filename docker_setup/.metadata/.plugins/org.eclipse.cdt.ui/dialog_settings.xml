@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item key="org.eclipse.cdt.utils.ui.controls.FileListControl" value="/home/userpp/.pyenv/versions/3.11-dev/include"/>
-	<section name="OptionalMessageDialog.hide.">
-		<item key="askReindex.detail" value="0"/>
+	<item key="org.eclipse.cdt.utils.ui.controls.FileListControl" value="/pybind11_json"/>
+	<section name="completion_proposal_size">
 	</section>
 	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+	<section name="org.eclipse.cdt.ui.OPEN_ACTION_SELECTION_DIALOG_SECTION">
+		<item key="DIALOG_X_ORIGIN" value="738"/>
+		<item key="DIALOG_Y_ORIGIN" value="223"/>
+		<item key="DIALOG_WIDTH" value="1005"/>
+		<item key="DIALOG_HEIGHT" value="470"/>
+		<item key="DIALOG_FONT_NAME" value="1|Ubuntu|11.0|0|GTK|1|"/>
+	</section>
+	<section name="PDOMSearchPage">
+		<item key="caseSensitive" value="false"/>
+		<item key="searchFlags" value="227191"/>
+		<list key="previousPatterns">
+			<item value="ConsequenceType"/>
+			<item value="handleTime"/>
+			<item value="sendCommand"/>
+			<item value="CommunicationCommand"/>
+			<item value="timer"/>
+			<item value="sim"/>
+			<item value="simtimer"/>
+			<item value="CommunicationCommandType"/>
+		</list>
+	</section>
+	<section name="RenameInformationPopup">
+	</section>
+	<section name="CRenameRefactoringInputPage">
+	</section>
+	<section name="CResourceRenameRefactoringInputPage">
+		<item key="updateReferences" value="true"/>
 	</section>
 </section>

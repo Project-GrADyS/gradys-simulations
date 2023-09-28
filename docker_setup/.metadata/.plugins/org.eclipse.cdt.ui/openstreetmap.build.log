@@ -1,0 +1,8 @@
+10:17:58 **** Build of configuration release for project openstreetmap ****
+make MODE=release all 
+Car.cc
+OpenStreetMap.cc
+Creating executable: out/clang-release//openstreetmap
+
+10:18:01 Build Finished. 0 errors, 0 warnings. (took 2s.922ms)
+

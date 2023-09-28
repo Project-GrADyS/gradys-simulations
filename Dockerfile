@@ -17,7 +17,7 @@ RUN apt-get update && apt-get dist-upgrade -y \
 RUN locale-gen en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
-ENV USERNAME userpp
+ENV USERNAME lac
 ENV UID 1000
 ENV GID 1000
 ENV HOME /home/${USERNAME}
@@ -51,7 +51,7 @@ RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.bashrc
 RUN echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.bashrc
 RUN echo 'eval "$(pyenv init -)"' >>  $HOME/.bashrc
 
-RUN bash -i -c "source ~/.bashrc && pyenv install 3.11-dev && pyenv global 3.11-dev"
+RUN bash -i -c "source ~/.bashrc && pyenv install 3.11.4 && pyenv global 3.11.4"
 
 RUN pip install numpy pandas matplotlib scipy seaborn posix_ipc
 

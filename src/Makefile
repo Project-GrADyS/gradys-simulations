@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for gradys_simulations_build
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/json -I/mavlink -I. -I/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ipybind11_json/include -Ijson/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xjson/docs -Xjson/tests -Xjson/tools -Xpybind11/tests -Xpybind11_json/test -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
+#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xgradys-sim-prototype/build -Xjson/docs -Xjson/tests -Xjson/tools -Xpybind11/tests -Xpybind11_json/test -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 #
 
 # Name of target to be created (-o option)
@@ -20,13 +20,17 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
-    -I/json \
     -I/mavlink \
-    -I. \
+    -I/json \
+    -I/pybind11 \
+    -I/pybind11_json \
     -I/gradys_simulations \
+    -I. \
+    -Igradys_simulations \
     -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 \
-    -Ipybind11_json/include \
     -Ijson/include \
+    -Ipybind11_json/include \
+    -Ipybind11/include \
     -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
