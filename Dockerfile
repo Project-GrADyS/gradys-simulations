@@ -112,7 +112,7 @@ RUN export PATH=$OMNETPP_ROOT/bin:$PATH; cd $INET_ROOT && . ./setenv && make mak
 FROM inet as configuration
 
 # Build and install gradys simulations as well as python package
-RUN cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && pip install .
+RUN cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && sudo -H pip install .
 
 # Copy omnet project settings
 RUN mkdir -p $OMNETPP_ROOT/ide/configuration/.settings/
