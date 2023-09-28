@@ -22,6 +22,6 @@
     <intAttribute key="org.omnetpp.launch.NUM_CONCURRENT_PROCESSES" value="1"/>
     <stringAttribute key="org.omnetpp.launch.OPP_DEBUGMODE_DEBUG_ON_ERRORS" value="true"/>
     <stringAttribute key="org.omnetpp.launch.SHARED_LIBS" value="${opp_shared_libs:/gradys-simulations/showcases/sim/python_simulation}"/>
-    <intAttribute key="org.omnetpp.launch.SWITCH_CONFIG_BEFORE_BUILD" value="0"/>
+    <intAttribute key="org.omnetpp.launch.SWITCH_CONFIG_BEFORE_BUILD" value="2"/>
     <stringAttribute key="org.omnetpp.launch.WORKING_DIRECTORY" value="/gradys-simulations/showcases/sim/python_simulation"/>
 </launchConfiguration>

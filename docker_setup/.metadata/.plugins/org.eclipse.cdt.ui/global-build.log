@@ -1,225 +1,12 @@
-12:05:51 **** Build of configuration debug for project inet4.5 ****
+17:04:59 **** Incremental Build of configuration debug for project inet4.5 ****
 make MODE=debug -j8 all 
-make[1]: Entering directory '/home/lac/Documents/Gradys/workspace/inet4.5/src'
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
 *** CCACHE not detected - using precompiled headers
 *** COMPILING with:
-g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/Documents/Gradys/omnetpp-6.0.1/include
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
 *** LINKING with:
-g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -fopenmp
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
 Building...
-Creating precompiled header for gcc...
-MSGC: inet/applications/base/ApplicationPacket.msg
-MSGC: inet/applications/dhcp/DhcpMessage.msg
-MSGC: inet/applications/ethernet/EtherApp.msg
-MSGC: inet/applications/netperfmeter/NetPerfMeter.msg
-MSGC: inet/applications/pingapp/PingApp.msg
-MSGC: inet/applications/rtpapp/RtpApplication.msg
-MSGC: inet/applications/tcpapp/GenericAppMsg.msg
-MSGC: inet/applications/voip/SimpleVoipPacket.msg
-MSGC: inet/clock/common/ClockEvent.msg
-MSGC: inet/clock/contract/ClockTime.msg
-MSGC: inet/clock/contract/IClock.msg
-MSGC: inet/common/DirectionTag.msg
-MSGC: inet/common/FlowTag.msg
-MSGC: inet/common/IdentityTag.msg
-MSGC: inet/common/INETDefs.msg
-MSGC: inet/common/PacketEventTag.msg
-MSGC: inet/common/Protocol.msg
-MSGC: inet/common/ProtocolTag.msg
-MSGC: inet/common/SequenceNumberTag.msg
-MSGC: inet/common/Simsignals.msg
-MSGC: inet/common/TagBase.msg
-MSGC: inet/common/TimeTag.msg
-MSGC: inet/common/TlvOptions.msg
-MSGC: inet/common/Units.msg
-MSGC: inet/common/geometry/Geometry.msg
-MSGC: inet/common/packet/ChunkBuffer.msg
-MSGC: inet/common/packet/ChunkQueue.msg
-MSGC: inet/common/packet/Message.msg
-MSGC: inet/common/packet/Packet.msg
-MSGC: inet/common/packet/chunk/Chunk.msg
-MSGC: inet/common/scenario/ScenarioTimer.msg
-MSGC: inet/common/socket/SocketCommand.msg
-MSGC: inet/common/socket/SocketTag.msg
-MSGC: inet/environment/common/Material.msg
-MSGC: inet/environment/common/PhysicalObject.msg
-MSGC: inet/linklayer/acking/AckingMacHeader.msg
-MSGC: inet/linklayer/bmac/BMacHeader.msg
-MSGC: inet/linklayer/common/DropEligibleTag.msg
-MSGC: inet/linklayer/common/EtherType.msg
-MSGC: inet/linklayer/common/FcsMode.msg
-MSGC: inet/linklayer/common/Ieee802Ctrl.msg
-MSGC: inet/linklayer/common/Ieee802SapTag.msg
-MSGC: inet/linklayer/common/InterfaceTag.msg
-MSGC: inet/linklayer/common/MacAddress.msg
-MSGC: inet/linklayer/common/MacAddressTag.msg
-MSGC: inet/linklayer/common/PcpTag.msg
-MSGC: inet/linklayer/common/UserPriorityTag.msg
-MSGC: inet/linklayer/common/VlanTag.msg
-MSGC: inet/linklayer/csmaca/CsmaCaMacHeader.msg
-MSGC: inet/linklayer/ethernet/common/EthernetCommand.msg
-MSGC: inet/linklayer/ethernet/common/EthernetControlFrame.msg
-MSGC: inet/linklayer/ethernet/common/EthernetMacHeader.msg
-MSGC: inet/linklayer/ieee802/Ieee802EpdHeader.msg
-MSGC: inet/linklayer/ieee80211/llc/LlcProtocolTag.msg
-MSGC: inet/linklayer/ieee80211/mac/Ieee80211Frame.msg
-MSGC: inet/linklayer/ieee80211/mac/Ieee80211SubtypeTag.msg
-MSGC: inet/linklayer/ieee80211/mac/framesequence/FrameSequence.msg
-MSGC: inet/linklayer/ieee80211/mac/queue/InProgressFrames.msg
-MSGC: inet/linklayer/ieee80211/mgmt/Ieee80211MgmtFrame.msg
-MSGC: inet/linklayer/ieee80211/mgmt/Ieee80211Primitives.msg
-MSGC: inet/linklayer/ieee802154/Ieee802154MacHeader.msg
-MSGC: inet/linklayer/ieee8021ae/Ieee8021aeTagHeader.msg
-MSGC: inet/linklayer/ieee8021as/GptpPacket.msg
-MSGC: inet/linklayer/ieee8021d/common/Ieee8021dBpdu.msg
-MSGC: inet/linklayer/ieee8021q/Ieee8021qCommand.msg
-MSGC: inet/linklayer/ieee8021q/Ieee8021qTagHeader.msg
-MSGC: inet/linklayer/ieee8021r/Ieee8021rTagHeader.msg
-MSGC: inet/linklayer/ieee8022/Ieee8022LlcHeader.msg
-MSGC: inet/linklayer/ieee8022/Ieee8022LlcSocketCommand.msg
-MSGC: inet/linklayer/ieee8022/Ieee8022SnapHeader.msg
-MSGC: inet/linklayer/lmac/LMacHeader.msg
-MSGC: inet/linklayer/ppp/PppFrame.msg
-MSGC: inet/linklayer/shortcut/ShortcutMacHeader.msg
-MSGC: inet/linklayer/tun/TunControlInfo.msg
-MSGC: inet/linklayer/xmac/XMacHeader.msg
-MSGC: inet/networklayer/arp/ipv4/ArpPacket.msg
-MSGC: inet/networklayer/common/DscpTag.msg
-MSGC: inet/networklayer/common/EchoPacket.msg
-MSGC: inet/networklayer/common/EcnTag.msg
-MSGC: inet/networklayer/common/FragmentationTag.msg
-MSGC: inet/networklayer/common/HopLimitTag.msg
-MSGC: inet/networklayer/common/IpProtocolId.msg
-MSGC: inet/networklayer/common/L3Address.msg
-MSGC: inet/networklayer/common/L3AddressTag.msg
-MSGC: inet/networklayer/common/MulticastTag.msg
-MSGC: inet/networklayer/common/NetworkInterface.msg
-MSGC: inet/networklayer/common/NextHopAddressTag.msg
-MSGC: inet/networklayer/common/TosTag.msg
-MSGC: inet/networklayer/contract/L3SocketCommand.msg
-MSGC: inet/networklayer/contract/NetworkHeaderBase.msg
-MSGC: inet/networklayer/contract/clns/ClnsAddress.msg
-MSGC: inet/networklayer/contract/ipv4/Ipv4Address.msg
-MSGC: inet/networklayer/contract/ipv4/Ipv4SocketCommand.msg
-MSGC: inet/networklayer/contract/ipv6/Ipv6Address.msg
-MSGC: inet/networklayer/contract/ipv6/Ipv6SocketCommand.msg
-MSGC: inet/networklayer/diffserv/Dscp.msg
-MSGC: inet/networklayer/flooding/FloodingHeader.msg
-MSGC: inet/networklayer/icmpv6/Icmpv6Header.msg
-MSGC: inet/networklayer/icmpv6/Ipv6NdMessage.msg
-MSGC: inet/networklayer/ipv4/IcmpHeader.msg
-MSGC: inet/networklayer/ipv4/IgmpMessage.msg
-MSGC: inet/networklayer/ipv4/Ipv4Header.msg
-MSGC: inet/networklayer/ipv4/Ipv4NatEntry.msg
-MSGC: inet/networklayer/ipv4/Ipv4OptionsTag.msg
-MSGC: inet/networklayer/ipv4/Ipv4Route.msg
-MSGC: inet/networklayer/ipv6/Ipv6ExtensionHeaders.msg
-MSGC: inet/networklayer/ipv6/Ipv6ExtHeaderTag.msg
-MSGC: inet/networklayer/ipv6/Ipv6Header.msg
-MSGC: inet/networklayer/ldp/LdpPacket.msg
-MSGC: inet/networklayer/mpls/MplsPacket.msg
-MSGC: inet/networklayer/nexthop/NextHopForwardingHeader.msg
-MSGC: inet/networklayer/probabilistic/ProbabilisticBroadcastHeader.msg
-MSGC: inet/networklayer/rsvpte/IntServ.msg
-MSGC: inet/networklayer/rsvpte/RsvpHelloMsg.msg
-MSGC: inet/networklayer/rsvpte/RsvpPacket.msg
-MSGC: inet/networklayer/rsvpte/RsvpPathMsg.msg
-MSGC: inet/networklayer/rsvpte/RsvpResvMsg.msg
-MSGC: inet/networklayer/rsvpte/SignallingMsg.msg
-MSGC: inet/networklayer/ted/LinkStatePacket.msg
-MSGC: inet/networklayer/ted/Ted.msg
-MSGC: inet/networklayer/wiseroute/WiseRouteHeader.msg
-MSGC: inet/networklayer/xmipv6/MobilityHeader.msg
-MSGC: inet/physicallayer/common/Signal.msg
-MSGC: inet/physicallayer/wired/ethernet/EthernetPhyConstants.msg
-MSGC: inet/physicallayer/wired/ethernet/EthernetPhyHeader.msg
-MSGC: inet/physicallayer/wired/ethernet/EthernetSignal.msg
-MSGC: inet/physicallayer/wireless/apsk/packetlevel/ApskPhyHeader.msg
-MSGC: inet/physicallayer/wireless/common/analogmodel/packetlevel/ScalarReception.msg
-MSGC: inet/physicallayer/wireless/common/analogmodel/packetlevel/ScalarTransmission.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/FlatReceptionBase.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/FlatTransmissionBase.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/NarrowbandReceptionBase.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/NarrowbandTransmissionBase.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/ReceptionBase.msg
-MSGC: inet/physicallayer/wireless/common/base/packetlevel/TransmissionBase.msg
-MSGC: inet/physicallayer/wireless/common/contract/packetlevel/IModulation.msg
-MSGC: inet/physicallayer/wireless/common/contract/packetlevel/RadioControlInfo.msg
-MSGC: inet/physicallayer/wireless/common/contract/packetlevel/SignalTag.msg
-MSGC: inet/physicallayer/wireless/common/radio/packetlevel/BandListening.msg
-MSGC: inet/physicallayer/wireless/common/signal/Arrival.msg
-MSGC: inet/physicallayer/wireless/common/signal/WirelessSignal.msg
-MSGC: inet/physicallayer/wireless/ieee80211/mode/Ieee80211Channel.msg
-MSGC: inet/physicallayer/wireless/ieee80211/mode/IIeee80211Mode.msg
-MSGC: inet/physicallayer/wireless/ieee80211/packetlevel/Ieee80211ControlInfo.msg
-MSGC: inet/physicallayer/wireless/ieee80211/packetlevel/Ieee80211DimensionalTransmission.msg
-MSGC: inet/physicallayer/wireless/ieee80211/packetlevel/Ieee80211PhyHeader.msg
-MSGC: inet/physicallayer/wireless/ieee80211/packetlevel/Ieee80211ScalarTransmission.msg
-MSGC: inet/physicallayer/wireless/ieee80211/packetlevel/Ieee80211Tag.msg
-MSGC: inet/physicallayer/wireless/shortcut/ShortcutPhyHeader.msg
-MSGC: inet/physicallayer/wireless/unitdisk/UnitDiskPhyHeader.msg
-MSGC: inet/physicallayer/wireless/unitdisk/UnitDiskTransmission.msg
-MSGC: inet/protocolelement/acknowledgement/AcknowledgeHeader.msg
-MSGC: inet/protocolelement/aggregation/header/SubpacketLengthHeader.msg
-MSGC: inet/protocolelement/checksum/header/CrcHeader.msg
-MSGC: inet/protocolelement/checksum/header/FcsHeader.msg
-MSGC: inet/protocolelement/cutthrough/CutthroughTag.msg
-MSGC: inet/protocolelement/dispatching/ProtocolHeader.msg
-MSGC: inet/protocolelement/forwarding/HopLimitHeader.msg
-MSGC: inet/protocolelement/fragmentation/header/FragmentNumberHeader.msg
-MSGC: inet/protocolelement/fragmentation/tag/FragmentTag.msg
-MSGC: inet/protocolelement/ordering/SequenceNumberHeader.msg
-MSGC: inet/protocolelement/redundancy/StreamTag.msg
-MSGC: inet/protocolelement/selectivity/DestinationL3AddressHeader.msg
-MSGC: inet/protocolelement/selectivity/DestinationMacAddressHeader.msg
-MSGC: inet/protocolelement/selectivity/DestinationPortHeader.msg
-MSGC: inet/protocolelement/shaper/EligibilityTimeTag.msg
-MSGC: inet/queueing/common/LabelsTag.msg
-MSGC: inet/queueing/common/ProgressTag.msg
-MSGC: inet/queueing/common/RateTag.msg
-MSGC: inet/queueing/gate/CreditGateTag.msg
-MSGC: inet/routing/aodv/AodvControlPackets.msg
-MSGC: inet/routing/bgpv4/BgpCommon.msg
-MSGC: inet/routing/bgpv4/bgpmessage/BgpHeader.msg
-MSGC: inet/routing/dsdv/DsdvHello.msg
-MSGC: inet/routing/dymo/Dymo.msg
-MSGC: inet/routing/eigrp/EigrpTimer.msg
-MSGC: inet/routing/eigrp/messages/EigrpMessage.msg
-MSGC: inet/routing/gpsr/Gpsr.msg
-MSGC: inet/routing/ospf_common/OspfPacketBase.msg
-MSGC: inet/routing/ospfv2/Ospfv2Packet.msg
-MSGC: inet/routing/ospfv3/Ospfv3Packet.msg
-MSGC: inet/routing/pim/PimPacket.msg
-MSGC: inet/routing/rip/RipPacket.msg
-MSGC: inet/transportlayer/common/CrcMode.msg
-MSGC: inet/transportlayer/common/L4PortTag.msg
-MSGC: inet/transportlayer/common/TransportPseudoHeader.msg
-MSGC: inet/transportlayer/contract/TransportHeaderBase.msg
-MSGC: inet/transportlayer/contract/sctp/SctpCommand.msg
-MSGC: inet/transportlayer/contract/tcp/TcpCommand.msg
-MSGC: inet/transportlayer/contract/udp/UdpControlInfo.msg
-MSGC: inet/transportlayer/rtp/Reports.msg
-MSGC: inet/transportlayer/rtp/RtcpPacket.msg
-MSGC: inet/transportlayer/rtp/RtpInnerPacket.msg
-MSGC: inet/transportlayer/rtp/RtpInterfacePacket.msg
-MSGC: inet/transportlayer/rtp/RtpPacket.msg
-MSGC: inet/transportlayer/rtp/RtpParticipantInfo.msg
-MSGC: inet/transportlayer/rtp/RtpSenderControlMessage.msg
-MSGC: inet/transportlayer/rtp/RtpSenderStatusMessage.msg
-MSGC: inet/transportlayer/rtp/profiles/avprofile/RtpMpegPacket.msg
-MSGC: inet/transportlayer/sctp/SctpHeader.msg
-MSGC: inet/transportlayer/tcp/TcpConnection.msg
-MSGC: inet/transportlayer/tcp/TcpConnectionState.msg
-MSGC: inet/transportlayer/tcp/flavours/DcTcpFamilyState.msg
-MSGC: inet/transportlayer/tcp/flavours/DumbTcpState.msg
-MSGC: inet/transportlayer/tcp/flavours/TcpBaseAlgState.msg
-MSGC: inet/transportlayer/tcp/flavours/TcpSegmentTransmitInfoList.msg
-MSGC: inet/transportlayer/tcp/flavours/TcpTahoeRenoFamilyState.msg
-MSGC: inet/transportlayer/tcp/flavours/TcpVegasState.msg
-MSGC: inet/transportlayer/tcp/flavours/TcpWestwoodState.msg
-MSGC: inet/transportlayer/tcp_common/TcpHeader.msg
-MSGC: inet/transportlayer/udp/UdpHeader.msg
-MSGC: inet/visualizer/base/PacketDrop.msg
 inet/applications/base/ApplicationBase.cc
 inet/applications/base/ApplicationPacketSerializer.cc
 inet/applications/clock/SimpleClockSynchronizer.cc
@@ -292,22 +79,18 @@ inet/clock/oscillator/ConstantDriftOscillator.cc
 inet/clock/oscillator/IdealOscillator.cc
 inet/clock/oscillator/RandomDriftOscillator.cc
 inet/common/BitVector.cc
-inet/common/Compat.cc
 inet/common/FingerprintCalculator.cc
-inet/common/Compat.cc: In member function ‘uint64_t& inet::SharedDataManager::getSharedCounter(inet::sharedcounterhandle_t, uint64_t)’:
-inet/common/Compat.cc:73:31: warning: comparison of integer expressions of different signedness: ‘std::vector<long unsigned int>::size_type’ {aka ‘long unsigned int’} and ‘inet::sharedcounterhandle_t’ {aka ‘int’} [-Wsign-compare]
-   73 |     if (sharedCounters.size() <= handle)
-      |         ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
 inet/common/FlowTag.cc
 inet/common/IInterfaceRegistrationListener.cc
 inet/common/INETDefs.cc
 inet/common/INETUtils.cc
 inet/common/InitStageRegistry.cc
+inet/common/InitStages.cc
+inet/common/Int128.cc
 inet/common/InitStageRegistry.cc: In member function ‘void inet::InitStageRegistry::assignInitStageNumbers()’:
 inet/common/InitStageRegistry.cc:76:26: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::InitStageRegistry::Stage*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    76 |     while (numInitStages < stages.size()) {
       |            ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-inet/common/InitStages.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/InitStageRegistry.h:14,
                  from inet/common/InitStageRegistry.cc:8:
@@ -316,7 +99,6 @@ inet/common/InitStageRegistry.cc:103:91:   required from here
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/common/Int128.cc
 inet/common/IntervalTree.cc
 inet/common/IProtocolRegistrationListener.cc
 inet/common/LayeredProtocolBase.cc
@@ -359,7 +141,6 @@ inet/common/ProtocolGroup.cc:188:117:   required from here
 inet/common/ProtocolGroup.cc:194:119:   required from here
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
 inet/common/ResidenceTimeMeasurer.cc
-inet/common/ResultFilters.cc
 inet/common/ProtocolUtils.cc: In function ‘bool inet::hasEncapsulationProtocolReq(inet::Packet*, const inet::Protocol*)’:
 inet/common/ProtocolUtils.cc:48:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
    48 |         for (int i = 0; i < encapsulationProtocolReq->getProtocolArraySize(); i++)
@@ -368,6 +149,7 @@ inet/common/ProtocolUtils.cc: In function ‘void inet::removeEncapsulationProto
 inet/common/ProtocolUtils.cc:58:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
    58 |         for (int i = 0; i < encapsulationProtocolReq->getProtocolArraySize(); i++) {
       |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inet/common/ResultFilters.cc
 inet/common/ResultRecorders.cc
 inet/common/ShortBitVector.cc
 inet/common/Simsignals.cc
@@ -379,12 +161,12 @@ inet/common/ResultFilters.cc: In lambda function:
 inet/common/ResultFilters.cc:482:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
   482 |         for (int i = 0; i < flowTag->getNamesArraySize(); i++) {
       |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inet/common/StringFormat.cc
+inet/common/SubmoduleLayout.cc
 inet/common/ResultFilters.cc: In member function ‘virtual void inet::utils::filters::PacketRateFilter::receiveSignal(omnetpp::cResultFilter*, omnetpp::simtime_t_cref, omnetpp::cObject*, omnetpp::cObject*)’:
 inet/common/ResultFilters.cc:714:14: warning: unused variable ‘packet’ [-Wunused-variable]
   714 |     if (auto packet = dynamic_cast<cPacket *>(object)) {
       |              ^~~~~~
-inet/common/StringFormat.cc
-inet/common/SubmoduleLayout.cc
 inet/common/TagBase.cc
 inet/common/TlvOptions.cc
 inet/common/Topology.cc
@@ -420,6 +202,8 @@ inet/common/geometry/base/ShapeBase.cc
 inet/common/geometry/common/CanvasProjection.cc
 inet/common/geometry/common/Coord.cc
 inet/common/geometry/common/EulerAngles.cc
+inet/common/geometry/common/GeographicCoordinateSystem.cc
+inet/common/geometry/common/Quaternion.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/INETMath.h:18,
                  from ./inet/common/geometry/common/Coord.h:11,
@@ -431,8 +215,6 @@ inet/common/geometry/common/CanvasProjection.cc:45:153:   required from here
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/common/geometry/common/GeographicCoordinateSystem.cc
-inet/common/geometry/common/Quaternion.cc
 inet/common/geometry/common/RotationMatrix.cc
 inet/common/geometry/container/BvhTree.cc
 inet/common/geometry/container/QuadTree.cc
@@ -518,10 +300,10 @@ In file included from ./inet/common/INETDefs.h:28,
                  from inet/common/packet/printer/ProtocolPrinterRegistry.cc:8:
 ./inet/common/Compat.h: In instantiation of ‘T& inet::SharedDataManager::getSharedVariable(int, Args&& ...) [with T = inet::ProtocolPrinterRegistry; Args = {}]’:
 inet/common/packet/printer/ProtocolPrinterRegistry.cc:44:97:   required from here
-inet/common/packet/recorder/PcapRecorder.cc
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+inet/common/packet/recorder/PcapRecorder.cc
 inet/common/packet/recorder/PcapWriter.cc
 inet/common/packet/serializer/BitCountChunkSerializer.cc
 inet/common/packet/serializer/BitsChunkSerializer.cc
@@ -557,7 +339,6 @@ inet/common/streetmap/OpenStreetMap.cc
 inet/environment/common/Material.cc
 inet/environment/common/MaterialRegistry.cc
 inet/environment/common/PhysicalEnvironment.cc
-inet/environment/common/PhysicalObject.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/INETMath.h:18,
                  from ./inet/common/Units.h:30,
@@ -571,6 +352,7 @@ inet/environment/common/MaterialRegistry.cc:52:90:   required from here
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+inet/environment/common/PhysicalObject.cc
 inet/environment/ground/FlatGround.cc
 inet/environment/ground/OsgEarthGround.cc
 inet/environment/objectcache/BvhObjectCache.cc
@@ -603,6 +385,7 @@ In file included from inet/linklayer/configurator/FailureProtectionConfigurator.
 ./inet/linklayer/configurator/FailureProtectionConfigurator.h:53:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::FailureProtectionConfigurator::Path>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    53 |             for (int i = 0; i < tree.paths.size(); i++) {
       |                             ~~^~~~~~~~~~~~~~~~~~~
+inet/linklayer/configurator/L2NetworkConfigurator.cc
 inet/linklayer/configurator/FailureProtectionConfigurator.cc: In member function ‘virtual void inet::FailureProtectionConfigurator::computeStream(omnetpp::cValueMap*)’:
 inet/linklayer/configurator/FailureProtectionConfigurator.cc:73:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<const inet::NetworkConfiguratorBase::Node*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    73 |     for (int i = 0; i < destinationNodes.size(); i++) {
@@ -615,17 +398,16 @@ inet/linklayer/configurator/FailureProtectionConfigurator.cc: In member function
 inet/linklayer/configurator/FailureProtectionConfigurator.cc:246:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::FailureProtectionConfigurator::Tree>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   246 |             for (int i = 0; i < trees.size(); i++)
       |                             ~~^~~~~~~~~~~~~~
-inet/linklayer/configurator/L2NetworkConfigurator.cc
-inet/linklayer/configurator/L2NodeConfigurator.cc
 inet/linklayer/configurator/FailureProtectionConfigurator.cc: In member function ‘virtual bool inet::FailureProtectionConfigurator::checkLinkFailureProtection(omnetpp::cValueArray*, const inet::NetworkConfiguratorBase::Node*, const std::vector<const inet::NetworkConfiguratorBase::Node*>&, const std::vector<inet::FailureProtectionConfigurator::Tree>&) const’:
 inet/linklayer/configurator/FailureProtectionConfigurator.cc:287:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::FailureProtectionConfigurator::Tree>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   287 |             for (int i = 0; i < trees.size(); i++)
       |                             ~~^~~~~~~~~~~~~~
 inet/linklayer/configurator/FailureProtectionConfigurator.cc: In member function ‘virtual void inet::FailureProtectionConfigurator::collectAllTrees(const std::vector<const inet::NetworkConfiguratorBase::Node*>&, const std::vector<const inet::NetworkConfiguratorBase::Node*>&, int, std::vector<inet::FailureProtectionConfigurator::Path>&, std::vector<inet::FailureProtectionConfigurator::Tree>&) const’:
 inet/linklayer/configurator/FailureProtectionConfigurator.cc:385:33: warning: comparison of integer expressions of different signedness: ‘std::vector<const inet::NetworkConfiguratorBase::Node*>::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
-inet/linklayer/configurator/MacForwardingTableConfigurator.cc
   385 |     if (destinationNodes.size() == destinationNodeIndex)
       |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+inet/linklayer/configurator/L2NodeConfigurator.cc
+inet/linklayer/configurator/MacForwardingTableConfigurator.cc
 inet/linklayer/configurator/StreamRedundancyConfigurator.cc
 inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.cc
 inet/linklayer/configurator/gatescheduling/common/AlwaysOpenGateScheduleConfigurator.cc
@@ -636,7 +418,6 @@ inet/linklayer/configurator/StreamRedundancyConfigurator.cc:136:27: warning: com
 inet/linklayer/configurator/StreamRedundancyConfigurator.cc:140:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::vector<std::__cxx11::basic_string<char> > >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   140 |         for (int i = 0; i < streamNode.receivers.size(); i++) {
       |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc
 inet/linklayer/configurator/StreamRedundancyConfigurator.cc:143:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   143 |             for (int j = 0; j < receiverNodes.size(); j++) {
       |                             ~~^~~~~~~~~~~~~~~~~~~~~~
@@ -647,17 +428,6 @@ inet/linklayer/configurator/StreamRedundancyConfigurator.cc:166:27: warning: com
 inet/linklayer/configurator/StreamRedundancyConfigurator.cc:182:35: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::__cxx11::basic_string<char> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   182 |                 for (int k = 0; k < receiverNetworkNodeNames.size(); k++) {
       |                                 ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from ./inet/common/INETDefs.h:28,
-                 from ./inet/common/Topology.h:14,
-                 from ./inet/networklayer/configurator/base/NetworkConfiguratorBase.h:11,
-                 from ./inet/linklayer/configurator/MacForwardingTableConfigurator.h:11,
-                 from inet/linklayer/configurator/MacForwardingTableConfigurator.cc:8:
-./inet/common/Compat.h: In instantiation of ‘T& inet::SharedDataManager::getSharedVariable(int, Args&& ...) [with T = std::map<inet::L3Address, inet::GlobalArp::ArpCacheEntry*>; Args = {}]’:
-./inet/common/Compat.h:163:73:   required from ‘T& inet::SharedDataManager::getSharedVariable(const char*, Args&& ...) [with T = std::map<inet::L3Address, inet::GlobalArp::ArpCacheEntry*>; Args = {}]’
-./inet/networklayer/arp/ipv4/GlobalArp.h:43:32:   required from here
-./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
-  169 |     if (sharedVariables.size() <= handle)
-      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
 inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.cc: In member function ‘virtual void inet::GateScheduleConfiguratorBase::addFlows(inet::GateScheduleConfiguratorBase::Input&) const’:
 inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.cc:203:55: warning: comparison of integer expressions of different signedness: ‘int’ and ‘const size_type’ {aka ‘const long unsigned int’} [-Wsign-compare]
   203 |                                 auto nodeName = index != std::string::npos ? name.substr(0, index) : name;
@@ -672,10 +442,37 @@ inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.cc:
 inet/linklayer/configurator/gatescheduling/base/GateScheduleConfiguratorBase.cc:265:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Output::Schedule*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   265 |     if (gateIndex >= schedules.size())
       |         ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+In file included from ./inet/common/INETDefs.h:28,
+                 from ./inet/common/Topology.h:14,
+                 from ./inet/networklayer/configurator/base/NetworkConfiguratorBase.h:11,
+                 from ./inet/linklayer/configurator/MacForwardingTableConfigurator.h:11,
+                 from inet/linklayer/configurator/MacForwardingTableConfigurator.cc:8:
+./inet/common/Compat.h: In instantiation of ‘T& inet::SharedDataManager::getSharedVariable(int, Args&& ...) [with T = std::map<inet::L3Address, inet::GlobalArp::ArpCacheEntry*>; Args = {}]’:
+./inet/common/Compat.h:163:73:   required from ‘T& inet::SharedDataManager::getSharedVariable(const char*, Args&& ...) [with T = std::map<inet::L3Address, inet::GlobalArp::ArpCacheEntry*>; Args = {}]’
+./inet/networklayer/arp/ipv4/GlobalArp.h:43:32:   required from here
+./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
+  169 |     if (sharedVariables.size() <= handle)
+      |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc
+inet/linklayer/csmaca/CsmaCaMac.cc
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc: In member function ‘virtual omnetpp::cValueMap* inet::TSNschedGateScheduleConfigurator::convertInputToJson(const inet::GateScheduleConfiguratorBase::Input&) const’:
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:70:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::Switch*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+   70 |     for (int i = 0; i < input.switches.size(); i++) {
+      |                     ~~^~~~~~~~~~~~~~~~~~~~~~~
 inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc: In member function ‘virtual omnetpp::simtime_t inet::EagerGateScheduleConfigurator::computeStartOffsetForPathFragments(inet::GateScheduleConfiguratorBase::Input::Flow&, std::string, omnetpp::simtime_t, std::map<inet::NetworkInterface*, std::vector<inet::EagerGateScheduleConfigurator::Slot> >&) const’:
 inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc:119:35: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::NetworkNode*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   119 |                 for (int i = 0; i < pathFragment->networkNodes.size() - 1; i++) {
       |                                 ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:84:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::Port*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+   84 |         for (int j = 0; j < switch_->ports.size(); j++) {
+      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:127:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::PathFragment*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  127 |         for (int j = 0; j < flow->pathFragments.size(); j++) {
+      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:129:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::NetworkNode*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  129 |             for (int k = 0; k < pathFragment->networkNodes.size() - 1; k++) {
+      |                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc:136:39: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::EagerGateScheduleConfigurator::Slot>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   136 |                     for (int i = 0; i < interfaceSchedule.size(); i++) {
       |                                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -686,22 +483,7 @@ inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.
 inet/linklayer/configurator/gatescheduling/common/EagerGateScheduleConfigurator.cc:207:39: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::EagerGateScheduleConfigurator::Slot>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   207 |                     for (int i = 0; i < interfaceSchedule.size(); i++) {
       |                                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc
-inet/linklayer/csmaca/CsmaCaMac.cc
 inet/linklayer/csmaca/CsmaCaMacHeaderSerializer.cc
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc: In member function ‘virtual omnetpp::cValueMap* inet::TSNschedGateScheduleConfigurator::convertInputToJson(const inet::GateScheduleConfiguratorBase::Input&) const’:
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:70:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::Switch*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-   70 |     for (int i = 0; i < input.switches.size(); i++) {
-      |                     ~~^~~~~~~~~~~~~~~~~~~~~~~
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:84:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::Port*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-   84 |         for (int j = 0; j < switch_->ports.size(); j++) {
-      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:127:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::PathFragment*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  127 |         for (int j = 0; j < flow->pathFragments.size(); j++) {
-      |                         ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-inet/linklayer/configurator/gatescheduling/common/TSNschedGateScheduleConfigurator.cc:129:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::GateScheduleConfiguratorBase::Input::NetworkNode*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  129 |             for (int k = 0; k < pathFragment->networkNodes.size() - 1; k++) {
-      |                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 inet/linklayer/csmaca/CsmaCaMacProtocolDissector.cc
 inet/linklayer/csmaca/CsmaCaMacProtocolPrinter.cc
 inet/linklayer/ethernet/base/EthernetMacBase.cc
@@ -718,17 +500,17 @@ inet/linklayer/ethernet/common/MacForwardingTable.cc
 inet/linklayer/ethernet/common/MacRelayUnit.cc
 inet/linklayer/ethernet/common/PacketDirectionReverser.cc
 inet/linklayer/ethernet/common/RelayInterfaceLearner.cc
-inet/linklayer/ethernet/common/RelayInterfaceSelector.cc
 inet/linklayer/ethernet/common/MacForwardingTable.cc: In function ‘std::ostream& inet::operator<<(std::ostream&, const std::vector<int>&)’:
 inet/linklayer/ethernet/common/MacForwardingTable.cc:27:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    27 |     for (int i = 0; i < ids.size(); i++) {
       |                     ~~^~~~~~~~~~~~
+inet/linklayer/ethernet/common/RelayInterfaceSelector.cc
 inet/linklayer/ethernet/modular/EthernetAddressChecker.cc
+inet/linklayer/ethernet/modular/EthernetAddressInserter.cc
 inet/linklayer/ethernet/common/PacketDirectionReverser.cc: In member function ‘virtual void inet::PacketDirectionReverser::processPacket(inet::Packet*)’:
 inet/linklayer/ethernet/common/PacketDirectionReverser.cc:102:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<const inet::Protocol*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   102 |         for (int i = 0; i < protocols.size(); i++)
       |                         ~~^~~~~~~~~~~~~~~~~~
-inet/linklayer/ethernet/modular/EthernetAddressInserter.cc
 inet/linklayer/ethernet/modular/EthernetClassifier.cc
 inet/linklayer/ethernet/modular/EthernetComparator.cc
 inet/linklayer/ethernet/modular/EthernetCutthroughBarrier.cc
@@ -866,7 +648,6 @@ inet/linklayer/ieee8021ae/Ieee8021aeTagEpdHeaderInserter.cc
 inet/linklayer/ieee8021ae/Ieee8021aeTagHeaderSerializer.cc
 inet/linklayer/ieee8021as/Gptp.cc
 inet/linklayer/ieee8021as/GptpPacketClassifierFunction.cc
-inet/linklayer/ieee8021as/GptpPacketSerializer.cc
 inet/linklayer/ieee8021as/Gptp.cc: In member function ‘void inet::Gptp::processPdelayResp(inet::Packet*, const inet::GptpPdelayResp*)’:
 inet/linklayer/ieee8021as/Gptp.cc:443:57: warning: comparison of integer expressions of different signedness: ‘const uint64_t’ {aka ‘const long unsigned int’} and ‘int64_t’ {aka ‘long int’} [-Wsign-compare]
   443 |     if (gptp->getRequestingPortIdentity().clockIdentity != clockIdentity || gptp->getRequestingPortIdentity().portNumber != slavePortId) {
@@ -875,6 +656,7 @@ inet/linklayer/ieee8021as/Gptp.cc: In member function ‘void inet::Gptp::proces
 inet/linklayer/ieee8021as/Gptp.cc:465:57: warning: comparison of integer expressions of different signedness: ‘const uint64_t’ {aka ‘const long unsigned int’} and ‘int64_t’ {aka ‘long int’} [-Wsign-compare]
   465 |     if (gptp->getRequestingPortIdentity().clockIdentity != clockIdentity || gptp->getRequestingPortIdentity().portNumber != slavePortId) {
       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+inet/linklayer/ieee8021as/GptpPacketSerializer.cc
 inet/linklayer/ieee8021as/GptpProtocolDissector.cc
 inet/linklayer/ieee8021d/common/Ieee8021dBpduSerializer.cc
 inet/linklayer/ieee8021d/common/StpBase.cc
@@ -956,6 +738,8 @@ inet/mobility/single/AttachedMobility.cc
 inet/mobility/single/BonnMotionFileCache.cc
 inet/mobility/single/BonnMotionMobility.cc
 inet/mobility/single/ChiangMobility.cc
+inet/mobility/single/CircleMobility.cc
+inet/mobility/single/FacingMobility.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/ModuleAccess.h:11,
                  from ./inet/mobility/base/MobilityBase.h:9,
@@ -969,8 +753,6 @@ In file included from ./inet/common/INETDefs.h:28,
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/mobility/single/CircleMobility.cc
-inet/mobility/single/FacingMobility.cc
 inet/mobility/single/GaussMarkovMobility.cc
 inet/mobility/single/LinearMobility.cc
 inet/mobility/single/MassMobility.cc
@@ -992,6 +774,9 @@ inet/networklayer/arp/ipv4/ArpProtocolDissector.cc
 inet/networklayer/arp/ipv4/ArpProtocolPrinter.cc
 inet/networklayer/arp/ipv4/GlobalArp.cc
 inet/networklayer/base/NetworkProtocolBase.cc
+inet/networklayer/common/EchoPacketSerializer.cc
+inet/networklayer/common/EchoProtocol.cc
+inet/networklayer/common/EchoProtocolDissector.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/ModuleAccess.h:11,
                  from ./inet/common/ModuleRefByPar.h:11,
@@ -1003,9 +788,6 @@ In file included from ./inet/common/INETDefs.h:28,
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/networklayer/common/EchoPacketSerializer.cc
-inet/networklayer/common/EchoProtocol.cc
-inet/networklayer/common/EchoProtocolDissector.cc
 inet/networklayer/common/EchoProtocolPrinter.cc
 inet/networklayer/common/InterfaceMatcher.cc
 inet/networklayer/common/InterfaceTable.cc
@@ -1353,12 +1135,12 @@ inet/physicallayer/wireless/ieee80211/packetlevel/errormodel/Ieee80211ErrorModel
 inet/physicallayer/wireless/ieee80211/packetlevel/errormodel/Ieee80211NistErrorModel.cc
 inet/physicallayer/wireless/ieee80211/packetlevel/errormodel/Ieee80211YansErrorModel.cc
 inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrMode.cc
-inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrReceiver.cc
-inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrTransmitter.cc
 inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrMode.cc: In member function ‘int inet::physicallayer::Ieee802154UwbIrMode::s(int) const’:
 inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrMode.cc:106:11: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<short int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   106 |     if (n >= s_values.size())
       |         ~~^~~~~~~~~~~~~~~~~~
+inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrReceiver.cc
+inet/physicallayer/wireless/ieee802154/bitlevel/Ieee802154UwbIrTransmitter.cc
 inet/physicallayer/wireless/ieee802154/packetlevel/Ieee802154NarrowbandDimensionalReceiver.cc
 inet/physicallayer/wireless/ieee802154/packetlevel/Ieee802154NarrowbandDimensionalTransmitter.cc
 inet/physicallayer/wireless/ieee802154/packetlevel/Ieee802154NarrowbandScalarReceiver.cc
@@ -1521,12 +1303,12 @@ inet/queueing/base/PacketTaggerBase.cc
 inet/queueing/base/PassivePacketSinkBase.cc
 inet/queueing/base/PassivePacketSourceBase.cc
 inet/queueing/base/TokenGeneratorBase.cc
-inet/queueing/buffer/PacketBuffer.cc
-inet/queueing/classifier/ContentBasedClassifier.cc
 inet/queueing/base/PacketTaggerBase.cc: In member function ‘virtual void inet::queueing::PacketTaggerBase::markPacket(inet::Packet*)’:
 inet/queueing/base/PacketTaggerBase.cc:96:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<const inet::Protocol*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    96 |     for (int i = 0; i < encapsulationProtocols.size(); i++) {
       |                     ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+inet/queueing/buffer/PacketBuffer.cc
+inet/queueing/classifier/ContentBasedClassifier.cc
 inet/queueing/classifier/DynamicClassifier.cc
 inet/queueing/classifier/LabelClassifier.cc
 inet/queueing/classifier/MarkovClassifier.cc
@@ -1589,40 +1371,33 @@ inet/queueing/gate/GateControlList.cc:91:39: warning: comparison of integer expr
    91 |     for (int indexGate = 0; indexGate < numGates; ++indexGate) {
       |                             ~~~~~~~~~~^~~~~~~~~~
 inet/queueing/marker/ContentBasedLabeler.cc
-inet/queueing/marker/ContentBasedTagger.cc
 inet/queueing/gate/PeriodicGate.cc: In member function ‘virtual void inet::queueing::PeriodicGate::readDurationsPar()’:
 inet/queueing/gate/PeriodicGate.cc:74:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
    74 |     for (int i = 0; i < size; i++) {
       |                     ~~^~~~~~
+inet/queueing/marker/ContentBasedTagger.cc
 inet/queueing/marker/EcnMarker.cc
 inet/queueing/marker/PacketLabeler.cc
 inet/queueing/marker/PacketTagger.cc
 inet/queueing/meter/ExponentialRateMeter.cc
 inet/queueing/meter/MultiTokenBucketMeter.cc
 inet/queueing/meter/SlidingWindowRateMeter.cc
-inet/queueing/meter/TokenBucketMeter.cc
-inet/queueing/queue/CompoundPacketQueueBase.cc
 In file included from ./inet/queueing/meter/MultiTokenBucketMeter.h:11,
                  from inet/queueing/meter/MultiTokenBucketMeter.cc:8:
 ./inet/queueing/base/MultiTokenBucketMixin.h: In function ‘std::ostream& inet::queueing::operator<<(std::ostream&, const std::vector<inet::queueing::TokenBucket>&)’:
 ./inet/queueing/base/MultiTokenBucketMixin.h:22:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::queueing::TokenBucket>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    22 |     for (int i = 0; i < vector.size(); i++) {
       |                     ~~^~~~~~~~~~~~~~~
+inet/queueing/meter/TokenBucketMeter.cc
 inet/queueing/meter/MultiTokenBucketMeter.cc: In member function ‘virtual void inet::queueing::MultiTokenBucketMeter::meterPacket(inet::Packet*)’:
 inet/queueing/meter/MultiTokenBucketMeter.cc:36:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::queueing::TokenBucket>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    36 |     for (int i = 0; i < tokenBuckets.size(); i++) {
       |                     ~~^~~~~~~~~~~~~~~~~~~~~
+inet/queueing/queue/CompoundPacketQueueBase.cc
 In file included from ./inet/queueing/meter/MultiTokenBucketMeter.h:13,
                  from inet/queueing/meter/MultiTokenBucketMeter.cc:8:
 ./inet/queueing/base/TokenBucketMeterMixin.h: In instantiation of ‘void inet::queueing::TokenBucketMeterMixin<T>::labelPacket(inet::Packet*, const char*) [with T = inet::queueing::MultiTokenBucketMixin<inet::queueing::PacketMeterBase>]’:
 inet/queueing/meter/MultiTokenBucketMeter.cc:17:16:   required from here
-./inet/queueing/base/TokenBucketMeterMixin.h:45:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
-   45 |             for (int i = 0; i < labelsTag->getLabelsArraySize(); i++) {
-      |                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from ./inet/queueing/meter/TokenBucketMeter.h:12,
-                 from inet/queueing/meter/TokenBucketMeter.cc:8:
-./inet/queueing/base/TokenBucketMeterMixin.h: In instantiation of ‘void inet::queueing::TokenBucketMeterMixin<T>::labelPacket(inet::Packet*, const char*) [with T = inet::queueing::TokenBucketMixin<inet::queueing::PacketMeterBase>]’:
-inet/queueing/meter/TokenBucketMeter.cc:17:16:   required from here
 ./inet/queueing/base/TokenBucketMeterMixin.h:45:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
    45 |             for (int i = 0; i < labelsTag->getLabelsArraySize(); i++) {
       |                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1633,6 +1408,13 @@ In file included from ./inet/queueing/meter/MultiTokenBucketMeter.h:11,
 ./inet/queueing/base/MultiTokenBucketMixin.h:85:35: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::queueing::TokenBucket>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    85 |                 for (int i = 0; i < tokenBuckets.size(); i++) {
       |                                 ~~^~~~~~~~~~~~~~~~~~~~~
+In file included from ./inet/queueing/meter/TokenBucketMeter.h:12,
+                 from inet/queueing/meter/TokenBucketMeter.cc:8:
+./inet/queueing/base/TokenBucketMeterMixin.h: In instantiation of ‘void inet::queueing::TokenBucketMeterMixin<T>::labelPacket(inet::Packet*, const char*) [with T = inet::queueing::TokenBucketMixin<inet::queueing::PacketMeterBase>]’:
+inet/queueing/meter/TokenBucketMeter.cc:17:16:   required from here
+./inet/queueing/base/TokenBucketMeterMixin.h:45:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘size_t’ {aka ‘long unsigned int’} [-Wsign-compare]
+   45 |             for (int i = 0; i < labelsTag->getLabelsArraySize(); i++) {
+      |                             ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 inet/queueing/queue/InProgressQueue.cc
 inet/queueing/queue/PacketQueue.cc
 inet/queueing/scheduler/ContentBasedScheduler.cc
@@ -1692,7 +1474,6 @@ inet/routing/gpsr/Gpsr.cc
 inet/routing/gpsr/PositionTable.cc
 inet/routing/ospf_common/OspfPacketSerializer.cc
 inet/routing/ospf_common/OspfProtocolDissector.cc
-inet/routing/ospfv2/Ospfv2.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/ModuleAccess.h:11,
                  from ./inet/common/ModuleRefByPar.h:11,
@@ -1704,6 +1485,7 @@ In file included from ./inet/common/INETDefs.h:28,
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+inet/routing/ospfv2/Ospfv2.cc
 inet/routing/ospfv2/Ospfv2ConfigReader.cc
 inet/routing/ospfv2/Ospfv2Crc.cc
 inet/routing/ospfv2/Ospfv2PacketSerializer.cc
@@ -1813,6 +1595,7 @@ inet/transportlayer/sctp/SctpAssociationBase.cc
 inet/transportlayer/sctp/SctpAssociationEventProc.cc
 inet/transportlayer/sctp/SctpAssociationRcvMessage.cc
 inet/transportlayer/sctp/SctpAssociationSendAll.cc
+inet/transportlayer/sctp/SctpAssociationStreamReset.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/ModuleAccess.h:11,
                  from ./inet/common/ModuleRefByPar.h:11,
@@ -1823,7 +1606,6 @@ In file included from ./inet/common/INETDefs.h:28,
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/transportlayer/sctp/SctpAssociationStreamReset.cc
 inet/transportlayer/sctp/SctpAssociationUtil.cc
 inet/transportlayer/sctp/SctpCcFunctions.cc
 inet/transportlayer/sctp/SctpChecksum.cc
@@ -1911,6 +1693,7 @@ inet/visualizer/canvas/base/LinkCanvasVisualizerBase.cc
 inet/visualizer/canvas/base/PathCanvasVisualizerBase.cc
 inet/visualizer/canvas/base/TreeCanvasVisualizerBase.cc
 inet/visualizer/canvas/common/GateScheduleCanvasVisualizer.cc
+inet/visualizer/canvas/common/InfoCanvasVisualizer.cc
 inet/visualizer/canvas/base/TreeCanvasVisualizerBase.cc: In member function ‘virtual void inet::visualizer::TreeCanvasVisualizerBase::refreshDisplay() const’:
 inet/visualizer/canvas/base/TreeCanvasVisualizerBase.cc:87:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::visualizer::LineManager::ModulePath>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    87 |         for (int i = 0; i < treeCanvasVisualization->paths.size(); i++) {
@@ -1919,8 +1702,6 @@ inet/visualizer/canvas/base/TreeCanvasVisualizerBase.cc: In member function ‘v
 inet/visualizer/canvas/base/TreeCanvasVisualizerBase.cc:141:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<std::vector<int> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
   141 |     for (int i = 0; i < tree.size(); i++) {
       |                     ~~^~~~~~~~~~~~~
-inet/visualizer/canvas/common/InfoCanvasVisualizer.cc
-inet/visualizer/canvas/common/PacketDropCanvasVisualizer.cc
 inet/visualizer/canvas/common/GateScheduleCanvasVisualizer.cc: In member function ‘virtual void inet::visualizer::GateScheduleCanvasVisualizer::refreshGateVisualization(const inet::visualizer::GateScheduleVisualizerBase::GateVisualization*) const’:
 inet/visualizer/canvas/common/GateScheduleCanvasVisualizer.cc:83:23: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::ClockTime>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    83 |     for (int i = 0; i < durations.size(); i++)
@@ -1928,10 +1709,13 @@ inet/visualizer/canvas/common/GateScheduleCanvasVisualizer.cc:83:23: warning: co
 inet/visualizer/canvas/common/GateScheduleCanvasVisualizer.cc:97:36: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
    97 |         for (int i = indexStart; i <= indexEnd; i++) {
       |                                  ~~^~~~~~~~~~~
+inet/visualizer/canvas/common/PacketDropCanvasVisualizer.cc
 inet/visualizer/canvas/common/QueueCanvasVisualizer.cc
 inet/visualizer/canvas/common/StatisticCanvasVisualizer.cc
 inet/visualizer/canvas/configurator/FailureProtectionConfigurationCanvasVisualizer.cc
 inet/visualizer/canvas/configurator/StreamRedundancyConfigurationCanvasVisualizer.cc
+inet/visualizer/canvas/environment/PhysicalEnvironmentCanvasVisualizer.cc
+inet/visualizer/canvas/flow/PacketFlowCanvasVisualizer.cc
 In file included from inet/visualizer/canvas/configurator/FailureProtectionConfigurationCanvasVisualizer.cc:11:
 ./inet/linklayer/configurator/FailureProtectionConfigurator.h: In function ‘std::ostream& inet::operator<<(std::ostream&, const inet::FailureProtectionConfigurator::Path&)’:
 ./inet/linklayer/configurator/FailureProtectionConfigurator.h:29:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<const inet::NetworkConfiguratorBase::Interface*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
@@ -1941,8 +1725,6 @@ In file included from inet/visualizer/canvas/configurator/FailureProtectionConfi
 ./inet/linklayer/configurator/FailureProtectionConfigurator.h:53:31: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::FailureProtectionConfigurator::Path>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
    53 |             for (int i = 0; i < tree.paths.size(); i++) {
       |                             ~~^~~~~~~~~~~~~~~~~~~
-inet/visualizer/canvas/environment/PhysicalEnvironmentCanvasVisualizer.cc
-inet/visualizer/canvas/flow/PacketFlowCanvasVisualizer.cc
 inet/visualizer/canvas/linklayer/DataLinkCanvasVisualizer.cc
 inet/visualizer/canvas/linklayer/Ieee80211CanvasVisualizer.cc
 inet/visualizer/canvas/linklayer/InterfaceTableCanvasVisualizer.cc
@@ -1999,6 +1781,7 @@ inet/visualizer/util/ColorSet.cc
 inet/visualizer/util/GateFilter.cc
 inet/visualizer/util/InterfaceFilter.cc
 inet/visualizer/util/LineManager.cc
+inet/visualizer/util/ModuleFilter.cc
 In file included from ./inet/common/INETDefs.h:28,
                  from ./inet/common/INETMath.h:18,
                  from ./inet/common/geometry/common/Coord.h:11,
@@ -2009,7 +1792,6 @@ inet/visualizer/util/LineManager.cc:20:150:   required from here
 ./inet/common/Compat.h:169:32: warning: comparison of integer expressions of different signedness: ‘std::vector<std::pair<omnetpp::any_ptr, std::function<void()> > >::size_type’ {aka ‘long unsigned int’} and ‘int’ [-Wsign-compare]
   169 |     if (sharedVariables.size() <= handle)
       |         ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
-inet/visualizer/util/ModuleFilter.cc
 inet/visualizer/util/NetworkNodeFilter.cc
 inet/visualizer/util/Placement.cc
 inet/visualizer/util/PortFilter.cc
@@ -2189,7 +1971,6 @@ inet/routing/bgpv4/BgpCommon_m.cc
 inet/routing/bgpv4/bgpmessage/BgpHeader_m.cc
 inet/routing/dsdv/DsdvHello_m.cc
 inet/routing/dymo/Dymo_m.cc
-inet/routing/eigrp/EigrpTimer_m.cc
 inet/routing/eigrp/messages/EigrpMessage_m.cc
 inet/routing/gpsr/Gpsr_m.cc
 inet/routing/ospf_common/OspfPacketBase_m.cc
@@ -2227,26 +2008,16 @@ inet/transportlayer/tcp_common/TcpHeader_m.cc
 inet/transportlayer/udp/UdpHeader_m.cc
 inet/visualizer/base/PacketDrop_m.cc
 Creating shared library: ../out/gcc-debug/src/libINET_dbg.so
-make[1]: Leaving directory '/home/lac/Documents/Gradys/workspace/inet4.5/src'
-12:12:24 **** Build of configuration debug for project gradys-simulations ****
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+17:12:13 **** Incremental Build of configuration debug for project gradys-simulations ****
 make MODE=debug all 
 cd src && make all
-make[1]: Entering directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
 *** COMPILING with:
-g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/Documents/Gradys/omnetpp-6.0.1/include
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
 *** LINKING with:
-g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/Documents/Gradys/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/Documents/Gradys/omnetpp-6.0.1/lib
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
 Building...
-MSGC: gradys_simulations/applications/mamapp/BMeshPacket.msg
-MSGC: gradys_simulations/linklayer/blemesh/BleMeshMacHeader.msg
-MSGC: gradys_simulations/protocols/messages/internal/CommunicationCommand.msg
-MSGC: gradys_simulations/protocols/messages/internal/MobilityCommand.msg
-MSGC: gradys_simulations/protocols/messages/internal/Telemetry.msg
-MSGC: gradys_simulations/protocols/messages/network/CentralizedQMessage.msg
-MSGC: gradys_simulations/protocols/messages/network/DadcaMessage.msg
-MSGC: gradys_simulations/protocols/messages/network/PythonMessage.msg
-MSGC: gradys_simulations/protocols/messages/network/SimpleMessage.msg
-MSGC: gradys_simulations/protocols/messages/network/ZigzagMessage.msg
 gradys_simulations/MobileNode.cc
 gradys_simulations/MobileSensorNode.cc
 gradys_simulations/antenna/DipoleAntennaCustom.cc
@@ -2278,7 +2049,6 @@ gradys_simulations/applications/mamapp/MamNodeApp.cc: In member function ‘virt
 gradys_simulations/applications/mamapp/MamNodeApp.cc:163:9: warning: unused variable ‘dscp’ [-Wunused-variable]
   163 |     int dscp = findPar("dscp");
       |         ^~~~
-gradys_simulations/applications/mamapp/Md5.cc
 gradys_simulations/communication/modules/UdpCommunicationApp.cc
 gradys_simulations/linklayer/blemesh/BleMeshMac.cc
 gradys_simulations/linklayer/blemesh/BleMeshProtocolDissector.cc
@@ -2784,10 +2554,6 @@ gradys_simulations/mobility/base/MAVLinkMobilityBase.cc: In member function ‘v
 gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:473:22: warning: unused variable ‘c’ [-Wunused-variable]
   473 |     static const int c = sizeof(sockaddr_in);
       |                      ^
-gradys_simulations/mobility/failures/RandomFailureGenerator.cc
-gradys_simulations/mobility/failures/SimpleConsumptionEnergy.cc
-gradys_simulations/mobility/failures/SimpleTimerEnergy.cc
-gradys_simulations/mobility/failures/base/FailureGeneratorBase.cc
 gradys_simulations/pathloss/TwoRayNewModel.cc
 In file included from gradys_simulations/pathloss/TwoRayNewModel.cc:2:
 gradys_simulations/pathloss/TwoRayNewModel.h: In constructor ‘gradys_simulations::TwoRayNewModel::TwoRayNewModel()’:
@@ -2829,43 +2595,6 @@ gradys_simulations/pathloss/TwoRayNewModel.cc:223:12: warning: unused variable �
 gradys_simulations/pathloss/TwoRayNewModel.cc:244:12: warning: unused variable ‘D’ [-Wunused-variable]
   244 |     double D = 1; //fator de divergencia unit�rio para o caso da terra plana
       |            ^
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual double gradys_simulations::CentralizedQLearning::computeCost(const GlobalState&)’:
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:308:18: warning: unused variable ‘value’ [-Wunused-variable]
-  308 |         for(auto value: newState.sensors) {
-      |                  ^~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual void gradys_simulations::CentralizedQLearning::exportQTable()’:
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:461:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  461 |         for(int index = 0; index < globalState.agents.size(); index++) {
-      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:463:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  463 |             if(index < globalState.agents.size() - 1) {
-      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:470:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  470 |         for(int index = 0; index < globalState.agents.size(); index++) {
-      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:472:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  472 |             if(index < globalState.agents.size() - 1) {
-      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:481:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  481 |         for(int index = 0; index < globalState.sensors.size(); index++) {
-      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:483:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  483 |             if(index < globalState.sensors.size() - 1) {
-      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:494:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalControl>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  494 |         for(int index = 0; index < jointControl.size(); index++) {
-      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:496:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalControl>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  496 |             if(index < jointControl.size() - 1) {
-      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:504:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::unordered_map<std::pair<GlobalState, std::vector<LocalControl> >, double, gradys_simulations::QTableKeyHash>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  504 |         if (tableIndex < QTable.size() - 1) {
-      |             ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual JointControl gradys_simulations::CentralizedQLearning::generateRandomJointControl()’:
-gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:613:29: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::CentralizedQLearning::CentralizedQAgent*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
-  613 |     for(int index = 0;index < agents.size(); index++) {
-      |                       ~~~~~~^~~~~~~~~~~~~~~
 gradys_simulations/protocols/base/CommunicationProtocolBase.cc
 gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc
 In file included from ./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:26,
@@ -2967,11 +2696,6 @@ In file included from ./gradys_simulations/protocols/sensor/PythonSensorProtocol
       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 gradys_simulations/protocols/sensor/SimpleSensorProtocol.cc
 gradys_simulations/protocols/sensor/ZigzagProtocolSensor.cc
-gradys_simulations/utils/Singleton.cc
-In file included from gradys_simulations/utils/Singleton.cc:1:
-gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
-   13 | class Singleton {
-      |       ^~~~~~~~~
 gradys_simulations/utils/TelemetryConditions.cc
 In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
                  from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
@@ -3207,41 +2931,57 @@ gradys_simulations/utils/VehicleRoutines.cc: In function ‘std::vector<std::sha
 gradys_simulations/utils/VehicleRoutines.cc:223:12: warning: enumeration value ‘TAKEOFF’ not handled in switch [-Wswitch]
   223 |     switch (mode) {
       |            ^
-gradys_simulations/utils/subprocess/process.cc
-gradys_simulations/utils/subprocess/process_unix.cc
-gradys_simulations/utils/subprocess/process_win.cc
-gradys_simulations/visualization/CustomOsgStatisticVisualizer.cc
 gradys_simulations/applications/mamapp/BMeshPacket_m.cc
 gradys_simulations/linklayer/blemesh/BleMeshMacHeader_m.cc
 gradys_simulations/protocols/messages/internal/CommunicationCommand_m.cc
-gradys_simulations/protocols/messages/internal/MobilityCommand_m.cc
-gradys_simulations/protocols/messages/internal/Telemetry_m.cc
 gradys_simulations/protocols/messages/network/CentralizedQMessage_m.cc
 gradys_simulations/protocols/messages/network/DadcaMessage_m.cc
 gradys_simulations/protocols/messages/network/PythonMessage_m.cc
 gradys_simulations/protocols/messages/network/SimpleMessage_m.cc
 gradys_simulations/protocols/messages/network/ZigzagMessage_m.cc
 Creating executable: ../out/gcc-debug/src/gradys_simulations_build_dbg
-make[1]: Leaving directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
-13:14:08 **** Incremental Build of configuration debug for project inet4.5 ****
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'
+17:14:47 **** Incremental Build of configuration debug for project inet4.5 ****
 make MODE=debug -j8 all 
-make[1]: Entering directory '/home/lac/Documents/Gradys/workspace/inet4.5/src'
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
 *** CCACHE not detected - using precompiled headers
 *** COMPILING with:
-g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/Documents/Gradys/omnetpp-6.0.1/include
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
 *** LINKING with:
-g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -fopenmp
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
 Building...
 make[1]: Nothing to be done for 'all-pch'.
-make[1]: Leaving directory '/home/lac/Documents/Gradys/workspace/inet4.5/src'
-13:14:09 **** Incremental Build of configuration debug for project gradys-simulations ****
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+17:14:49 **** Incremental Build of configuration debug for project gradys-simulations ****
 make MODE=debug all 
 cd src && make all
-make[1]: Entering directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
 *** COMPILING with:
-g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/Documents/Gradys/omnetpp-6.0.1/include
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
 *** LINKING with:
-g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/Documents/Gradys/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/Documents/Gradys/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/Documents/Gradys/omnetpp-6.0.1/lib
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
 Building...
 make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/lac/Documents/Gradys/workspace/gradys-simulations/src'
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'
+17:17:40 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+17:17:42 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'
