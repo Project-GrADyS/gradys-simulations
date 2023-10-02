@@ -1,5 +1,4 @@
 FROM ubuntu:20.04 as base
-MAINTAINER Marcos Modenesi <marcosmodenesi@gmail.com>
 
 # install basic packages
 RUN apt-get update && apt-get dist-upgrade -y \
@@ -42,9 +41,9 @@ ADD bashrc $HOME/.bashrc
 RUN echo '. ~/.bashrc' >> ~/.bash_profile
 
 WORKDIR $HOME
+RUN sudo chown -R $USERNAME:$USERNAME $HOME/
 
-USER $ROOT
-
+# Install python
 RUN git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
 
 RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.bashrc
@@ -52,7 +51,6 @@ RUN echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>
 RUN echo 'eval "$(pyenv init -)"' >>  $HOME/.bashrc
 
 RUN bash -i -c "source ~/.bashrc && pyenv install 3.11.4 && pyenv global 3.11.4"
-
 RUN pip install numpy pandas matplotlib scipy seaborn posix_ipc
 
 USER $USERNAME
@@ -62,8 +60,9 @@ VOLUME "${HOME}/workspace"
 
 ENV GRADYS_SIMULATIONS_ROOT $HOME/workspace/gradys-simulations
 
-# Copy gradys simulation content
-ADD . $GRADYS_SIMULATIONS_ROOT
+# Build and install gradys simulations as well as python package
+COPY --chown=$USERNAME . $GRADYS_SIMULATIONS_ROOT
+RUN bash -i -c "source ~/.bashrc && cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && pip install ."
 
 # =================================================================================================
 # End base stage
@@ -111,22 +110,6 @@ RUN export PATH=$OMNETPP_ROOT/bin:$PATH; cd $INET_ROOT && . ./setenv && make mak
 
 FROM inet as configuration
 
-# Build and install gradys simulations as well as python package
-RUN cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && sudo -H pip install .
-
 # Copy omnet project settings
-RUN mkdir -p $OMNETPP_ROOT/ide/configuration/.settings/
-RUN cp $GRADYS_SIMULATIONS_ROOT/docker_setup/org.eclipse.core.net.prefs $OMNETPP_ROOT/ide/configuration/.settings/
-RUN cp $GRADYS_SIMULATIONS_ROOT/docker_setup/org.eclipse.ui.ide.prefs $OMNETPP_ROOT/ide/configuration/.settings/
-
-RUN cp -a $GRADYS_SIMULATIONS_ROOT/docker_setup/.metadata/. $HOME/workspace/.metadata
-
-USER $ROOT
-
-RUN chown -R $USERNAME:$USERNAME $HOME
-
-# =================================================================================================
-# End configuration stage
-# =================================================================================================
-
-CMD ["LIBGL_ALWAYS_SOFTWARE=1 omnetpp"]
+COPY --chown=$USERNAME /docker_setup/.metadata $HOME/workspace/.metadata
+COPY --chown=$USERNAME /docker_setup/configuration $OMNETPP_ROOT/ide/configuration

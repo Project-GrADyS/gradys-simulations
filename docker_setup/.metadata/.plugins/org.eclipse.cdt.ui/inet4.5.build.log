@@ -1,4 +1,4 @@
-17:17:40 **** Incremental Build of configuration debug for project inet4.5 ****
+12:26:50 **** Incremental Build of configuration debug for project inet4.5 ****
 make MODE=debug -j8 all 
 make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
 *** CCACHE not detected - using precompiled headers
@@ -10,5 +10,5 @@ Building...
 make[1]: Nothing to be done for 'all-pch'.
 make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
 
-17:17:42 Build Finished. 0 errors, 0 warnings. (took 1s.173ms)
+12:26:52 Build Finished. 0 errors, 0 warnings. (took 1s.40ms)
 

@@ -1,6 +1,0 @@
-10:36:30 **** Incremental Build of configuration release for project osg-earth ****
-make MODE=release all 
-make: Nothing to be done for 'all'.
-
-10:36:30 Build Finished. 0 errors, 0 warnings. (took 216ms)
-

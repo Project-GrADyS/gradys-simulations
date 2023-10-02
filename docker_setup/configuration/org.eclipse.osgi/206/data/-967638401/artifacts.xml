@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<repository name='/home/lac/omnetpp-6.0.1/ide/.eclipseextension' type='org.eclipse.equinox.p2.artifact.repository.simpleRepository' version='1.0.0'>
+  <properties size='3'>
+    <property name='p2.timestamp' value='1695989416101'/>
+    <property name='org.eclipse.update.site.policy' value='USER-EXCLUDE'/>
+    <property name='org.eclipse.update.site.list' value=''/>
+  </properties>
+  <mappings size='3'>
+    <rule filter='(&amp; (classifier=osgi.bundle))' output='${repoUrl}/plugins/${id}_${version}.jar'/>
+    <rule filter='(&amp; (classifier=binary))' output='${repoUrl}/binary/${id}_${version}'/>
+    <rule filter='(&amp; (classifier=org.eclipse.update.feature))' output='${repoUrl}/features/${id}_${version}.jar'/>
+  </mappings>
+  <artifacts size='2'>
+    <artifact classifier='osgi.bundle' id='org.eclipse.e4.ui.workbench.renderers.swt.cocoa' version='0.12.600.v20200416-0656'>
+      <properties size='2'>
+        <property name='artifact.size' value='30333'/>
+        <property name='download.size' value='30333'/>
+      </properties>
+      <repositoryProperties size='2'>
+        <property name='artifact.reference' value='file:/home/lac/omnetpp-6.0.1/ide/plugins/org.eclipse.e4.ui.workbench.renderers.swt.cocoa_0.12.600.v20200416-0656.jar'/>
+        <property name='file.name' value='/home/lac/omnetpp-6.0.1/ide/plugins/org.eclipse.e4.ui.workbench.renderers.swt.cocoa_0.12.600.v20200416-0656.jar'/>
+      </repositoryProperties>
+    </artifact>
+    <artifact classifier='osgi.bundle' id='org.eclipse.ui.cocoa' version='1.2.400.v20191217-1850'>
+      <properties size='2'>
+        <property name='artifact.size' value='9772'/>
+        <property name='download.size' value='9772'/>
+      </properties>
+      <repositoryProperties size='2'>
+        <property name='artifact.reference' value='file:/home/lac/omnetpp-6.0.1/ide/plugins/org.eclipse.ui.cocoa_1.2.400.v20191217-1850.jar'/>
+        <property name='file.name' value='/home/lac/omnetpp-6.0.1/ide/plugins/org.eclipse.ui.cocoa_1.2.400.v20191217-1850.jar'/>
+      </repositoryProperties>
+    </artifact>
+  </artifacts>
+</repository>
