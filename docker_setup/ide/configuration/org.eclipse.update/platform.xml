@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config date="1695989414415" transient="false" version="3.0">
+<site enabled="true" policy="USER-EXCLUDE" updateable="true" url="platform:/base/">
+<feature id="org.eclipse.cdt" url="features/org.eclipse.cdt_10.6.2.202205170638/" version="10.6.2.202205170638">
+</feature>
+<feature id="org.eclipse.gmf.runtime.thirdparty" url="features/org.eclipse.gmf.runtime.thirdparty_1.13.1.202106221344/" version="1.13.1.202106221344">
+</feature>
+<feature id="org.eclipse.help" plugin-identifier="org.eclipse.help.base" url="features/org.eclipse.help_2.3.800.v20211124-1800/" version="2.3.800.v20211124-1800">
+</feature>
+<feature id="org.eclipse.tm.terminal.connector.ssh.feature" plugin-identifier="org.eclipse.tm.terminal.connector.ssh" url="features/org.eclipse.tm.terminal.connector.ssh.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.lsp4j.sdk" url="features/org.eclipse.lsp4j.sdk_0.12.0.v20210402-1310/" version="0.12.0.v20210402-1310">
+</feature>
+<feature id="org.eclipse.cdt.gnu.build" plugin-identifier="org.eclipse.cdt.build.gcc.ui" url="features/org.eclipse.cdt.gnu.build_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.equinox.p2.core.feature" url="features/org.eclipse.equinox.p2.core.feature_1.6.1200.v20211104-1616/" version="1.6.1200.v20211104-1616">
+</feature>
+<feature id="org.eclipse.wst.xml_ui.feature" plugin-identifier="org.eclipse.wst.xml.ui" url="features/org.eclipse.wst.xml_ui.feature_3.24.0.v202111190506/" version="3.24.0.v202111190506">
+</feature>
+<feature id="org.eclipse.gmf" url="features/org.eclipse.gmf_1.13.1.202106221344/" version="1.13.1.202106221344">
+</feature>
+<feature id="org.eclipse.wst.xml_core.feature" url="features/org.eclipse.wst.xml_core.feature_3.24.0.v202110010323/" version="3.24.0.v202110010323">
+</feature>
+<feature id="org.eclipse.egit" url="features/org.eclipse.egit_6.0.0.202111291000-r/" version="6.0.0.202111291000-r">
+</feature>
+<feature id="org.eclipse.wst.common_core.feature" url="features/org.eclipse.wst.common_core.feature_3.23.0.v202108200212/" version="3.23.0.v202108200212">
+</feature>
+<feature id="org.eclipse.tm.terminal.connector.local.feature" url="features/org.eclipse.tm.terminal.connector.local.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.ecf.core.ssl.feature" url="features/org.eclipse.ecf.core.ssl.feature_1.1.501.v20210409-2301/" version="1.1.501.v20210409-2301">
+</feature>
+<feature id="org.eclipse.tm.terminal.connector.telnet.feature" url="features/org.eclipse.tm.terminal.connector.telnet.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.ssl.feature" url="features/org.eclipse.ecf.filetransfer.ssl.feature_1.1.401.v20210409-2301/" version="1.1.401.v20210409-2301">
+</feature>
+<feature id="org.eclipse.gef" url="features/org.eclipse.gef_3.11.0.201606061308/" version="3.11.0.201606061308">
+</feature>
+<feature id="org.eclipse.cdt.platform" plugin-identifier="org.eclipse.cdt.platform.branding" url="features/org.eclipse.cdt.platform_10.6.2.202205170638/" version="10.6.2.202205170638">
+</feature>
+<feature id="org.omnetpp.ide" url="features/org.omnetpp.ide_6.0.1.220831-e4f07d04b8/" version="6.0.1.220831-e4f07d04b8">
+</feature>
+<feature id="org.eclipse.userstorage" url="features/org.eclipse.userstorage_1.2.0.v20210517-0327/" version="1.2.0.v20210517-0327">
+</feature>
+<feature id="org.eclipse.draw2d" url="features/org.eclipse.draw2d_3.10.100.201606061308/" version="3.10.100.201606061308">
+</feature>
+<feature id="org.eclipse.emf.edit" url="features/org.eclipse.emf.edit_2.17.0.v20210924-1718/" version="2.17.0.v20210924-1718">
+</feature>
+<feature id="org.eclipse.emf.transaction" url="features/org.eclipse.emf.transaction_1.12.0.201805140824/" version="1.12.0.201805140824">
+</feature>
+<feature id="org.eclipse.tm.terminal.view.feature" plugin-identifier="org.eclipse.tm.terminal.view.ui" url="features/org.eclipse.tm.terminal.view.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.jgit.http.apache" url="features/org.eclipse.jgit.http.apache_6.0.0.202111291000-r/" version="6.0.0.202111291000-r">
+</feature>
+<feature id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped" url="features/org.eclipse.justj.openjdk.hotspot.jre.full.stripped_17.0.4.v20220805-1047/" version="17.0.4.v20220805-1047">
+</feature>
+<feature id="org.eclipse.rcp" url="features/org.eclipse.rcp_4.22.0.v20211124-1800/" version="4.22.0.v20211124-1800">
+</feature>
+<feature id="org.eclipse.equinox.p2.rcp.feature" url="features/org.eclipse.equinox.p2.rcp.feature_1.4.1400.v20211104-1616/" version="1.4.1400.v20211104-1616">
+</feature>
+<feature id="org.eclipse.equinox.p2.discovery.feature" url="features/org.eclipse.equinox.p2.discovery.feature_1.2.1000.v20210813-0655/" version="1.2.1000.v20210813-0655">
+</feature>
+<feature id="org.omnetpp.ide.omnetpp" plugin-identifier="org.omnetpp.main" url="features/org.omnetpp.ide.omnetpp_6.0.1.220831-e4f07d04b8/" version="6.0.1.220831-e4f07d04b8">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.feature" url="features/org.eclipse.ecf.filetransfer.feature_3.14.1800.v20210618-0642/" version="3.14.1800.v20210618-0642">
+</feature>
+<feature id="org.eclipse.emf.workspace" url="features/org.eclipse.emf.workspace_1.12.0.201805140824/" version="1.12.0.201805140824">
+</feature>
+<feature id="org.python.pydev.feature" plugin-identifier="org.python.pydev" url="features/org.python.pydev.feature_9.3.0.202203051235/" version="9.3.0.202203051235">
+</feature>
+<feature id="org.eclipse.epp.mpc" plugin-identifier="org.eclipse.epp.mpc.ui" url="features/org.eclipse.epp.mpc_1.9.2.v20210826-0851/" version="1.9.2.v20210826-0851">
+</feature>
+<feature id="org.eclipse.wst.xml_userdoc.feature" url="features/org.eclipse.wst.xml_userdoc.feature_3.18.0.v202004271556/" version="3.18.0.v202004271556">
+</feature>
+<feature id="net.mihai-nita.ansicon" plugin-identifier="net.mihai-nita.ansicon.plugin" url="features/net.mihai-nita.ansicon_1.4.7.202207301915/" version="1.4.7.202207301915">
+</feature>
+<feature id="org.eclipse.jgit.gpg.bc" url="features/org.eclipse.jgit.gpg.bc_6.0.0.202111291000-r/" version="6.0.0.202111291000-r">
+</feature>
+<feature id="org.eclipse.cdt.gdb" url="features/org.eclipse.cdt.gdb_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.wst.common_ui.feature" url="features/org.eclipse.wst.common_ui.feature_3.23.0.v202107101917/" version="3.23.0.v202107101917">
+</feature>
+<feature id="org.eclipse.linuxtools.valgrind" url="features/org.eclipse.linuxtools.valgrind_8.5.0.202111301754/" version="8.5.0.202111301754">
+</feature>
+<feature id="org.eclipse.cdt.gnu.dsf" plugin-identifier="org.eclipse.cdt.dsf.gdb.ui" url="features/org.eclipse.cdt.gnu.dsf_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.jgit.ssh.apache" url="features/org.eclipse.jgit.ssh.apache_6.0.0.202111291000-r/" version="6.0.0.202111291000-r">
+</feature>
+<feature id="org.eclipse.emf.common" url="features/org.eclipse.emf.common_2.24.0.v20210924-1718/" version="2.24.0.v20210924-1718">
+</feature>
+<feature id="org.eclipse.linuxtools.profiling" url="features/org.eclipse.linuxtools.profiling_8.5.0.202111301754/" version="8.5.0.202111301754">
+</feature>
+<feature id="org.omnetpp.ide.source" url="features/org.omnetpp.ide.source_6.0.1.220831-e4f07d04b8/" version="6.0.1.220831-e4f07d04b8">
+</feature>
+<feature id="org.eclipse.tm.terminal.control.feature" plugin-identifier="org.eclipse.tm.terminal.control" url="features/org.eclipse.tm.terminal.control.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.emf.ecore" url="features/org.eclipse.emf.ecore_2.26.0.v20210924-1718/" version="2.26.0.v20210924-1718">
+</feature>
+<feature id="org.eclipse.equinox.p2.user.ui" url="features/org.eclipse.equinox.p2.user.ui_2.4.1400.v20211104-1616/" version="2.4.1400.v20211104-1616">
+</feature>
+<feature id="org.eclipse.tips.feature" url="features/org.eclipse.tips.feature_0.2.1600.v20211106-0839/" version="0.2.1600.v20211106-0839">
+</feature>
+<feature id="org.eclipse.equinox.p2.extras.feature" url="features/org.eclipse.equinox.p2.extras.feature_1.4.1400.v20211104-1616/" version="1.4.1400.v20211104-1616">
+</feature>
+<feature id="org.eclipse.tm.terminal.feature" plugin-identifier="org.eclipse.tm.terminal.view.core" url="features/org.eclipse.tm.terminal.feature_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.gmf.runtime.notation" url="features/org.eclipse.gmf.runtime.notation_1.13.0.202004160913/" version="1.13.0.202004160913">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.httpclient45.feature" url="features/org.eclipse.ecf.filetransfer.httpclient45.feature_1.1.0.v20211008-2034/" version="1.1.0.v20211008-2034">
+</feature>
+<feature id="org.eclipse.ecf.core.feature" url="features/org.eclipse.ecf.core.feature_1.6.1.v20211005-1944/" version="1.6.1.v20211005-1944">
+</feature>
+<feature id="org.eclipse.jgit" url="features/org.eclipse.jgit_6.0.0.202111291000-r/" version="6.0.0.202111291000-r">
+</feature>
+<feature id="org.eclipse.platform" url="features/org.eclipse.platform_4.22.0.v20211124-1800/" version="4.22.0.v20211124-1800">
+</feature>
+<feature id="org.eclipse.cdt.gnu.debug" plugin-identifier="org.eclipse.cdt.launch" url="features/org.eclipse.cdt.gnu.debug_10.6.2.202205081303/" version="10.6.2.202205081303">
+</feature>
+<feature id="org.eclipse.cdt.native" plugin-identifier="org.eclipse.cdt.core.native" url="features/org.eclipse.cdt.native_10.6.2.202205170638/" version="10.6.2.202205170638">
+</feature>
+<feature id="org.eclipse.emf.ecore.edit" url="features/org.eclipse.emf.ecore.edit_2.15.0.v20210924-1718/" version="2.15.0.v20210924-1718">
+</feature>
+<feature id="org.eclipse.emf.validation" url="features/org.eclipse.emf.validation_1.12.2.202008210805/" version="1.12.2.202008210805">
+</feature>
+<feature id="org.eclipse.e4.rcp" url="features/org.eclipse.e4.rcp_4.22.0.v20211123-0851/" version="4.22.0.v20211123-0851">
+</feature>
+</site>
+</config>

@@ -1,5 +1,7 @@
 FROM ubuntu:20.04 as base
 
+SHELL ["/bin/bash", "-l", "-c"]
+
 # install basic packages
 RUN apt-get update && apt-get dist-upgrade -y \
     && DEBIAN_FRONTEND=noninteractive apt-get -y install \
@@ -50,10 +52,10 @@ RUN echo 'export PYENV_ROOT="$HOME/.pyenv"' >>  $HOME/.bashrc
 RUN echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >>  $HOME/.bashrc
 RUN echo 'eval "$(pyenv init -)"' >>  $HOME/.bashrc
 
-RUN bash -i -c "source ~/.bashrc && pyenv install 3.11.4 && pyenv global 3.11.4"
+RUN source ~/.bashrc && pyenv install 3.11.4 && pyenv global 3.11.4
 RUN pip install numpy pandas matplotlib scipy seaborn posix_ipc
 
-USER $USERNAME
+# USER $USERNAME
 
 WORKDIR $HOME/workspace
 VOLUME "${HOME}/workspace"
@@ -62,7 +64,7 @@ ENV GRADYS_SIMULATIONS_ROOT $HOME/workspace/gradys-simulations
 
 # Build and install gradys simulations as well as python package
 COPY --chown=$USERNAME . $GRADYS_SIMULATIONS_ROOT
-RUN bash -i -c "source ~/.bashrc && cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && pip install ."
+RUN source ~/.bashrc && cd $GRADYS_SIMULATIONS_ROOT/src/gradys-sim-prototype && pip install .
 
 # =================================================================================================
 # End base stage
@@ -79,10 +81,11 @@ RUN wget -P $HOME --progress=dot:giga \
     && tar xzf $HOME/omnetpp-${OMNETPP_VERSION}-linux-x86_64.tgz --directory $HOME \
     && rm $HOME/omnetpp-${OMNETPP_VERSION}-linux-x86_64.tgz
 
-RUN cp -f $GRADYS_SIMULATIONS_ROOT/docker_setup/configure.user $OMNETPP_ROOT/configure.user
+COPY --chown=$USERNAME /docker_setup/configure.user $OMNETPP_ROOT/configure.user
+COPY --chown=$USERNAME /docker_setup/configuration $OMNETPP_ROOT/configuration
 
 # configure and compile
-RUN export PATH=$OMNETPP_ROOT/bin:$PATH; cd $OMNETPP_ROOT && . ./setenv && ./configure && make -j4
+RUN cd $OMNETPP_ROOT && . ./setenv && ./configure && make -j8
 
 # =================================================================================================
 # End omnetpp stage
@@ -93,7 +96,7 @@ FROM omnetpp as inet
 ARG INET_VERSION
 ENV INET_ROOT $HOME/workspace/inet${INET_VERSION}
 
-USER $USERNAME
+# USER $USERNAME
 
 # get source code
 RUN wget -P $HOME --progress=dot:giga \
@@ -101,15 +104,19 @@ RUN wget -P $HOME --progress=dot:giga \
     && tar xzf $HOME/inet-${INET_VERSION}.0-src.tgz --directory $HOME/workspace \
     && rm $HOME/inet-${INET_VERSION}.0-src.tgz
 
+COPY --chown=$USERNAME /docker_setup/.metadata $HOME/workspace/.metadata
+COPY --chown=$USERNAME /docker_setup/.oppfeatures $HOME/workspace/inet4.5/.oppfeatures
+COPY --chown=$USERNAME /docker_setup/.oppfeaturestate $HOME/workspace/inet4.5/.oppfeaturestate
+COPY --chown=$USERNAME /docker_setup/.cproject $HOME/workspace/inet4.5/.cproject
+
 # configure and compile
-RUN export PATH=$OMNETPP_ROOT/bin:$PATH; cd $INET_ROOT && . ./setenv && make makefiles && make -j4
+RUN cd $INET_ROOT && . ./setenv && make makefiles && make -j8 
+
 
 # =================================================================================================
 # End inet stage
 # =================================================================================================
-
 FROM inet as configuration
 
 # Copy omnet project settings
-COPY --chown=$USERNAME /docker_setup/.metadata $HOME/workspace/.metadata
-COPY --chown=$USERNAME /docker_setup/configuration $OMNETPP_ROOT/ide/configuration
+RUN cd $HOME/workspace/gradys-simulations && make -j8

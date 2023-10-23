@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (c) 2014, 2021 Contributors to the Eclipse Foundation
+
+   This program and the accompanying materials
+   are made available under the terms of the Eclipse Public License 2.0
+   which accompanies this distribution, and is available at
+   https://www.eclipse.org/legal/epl-2.0/
+
+   SPDX-License-Identifier: EPL-2.0
+-->
+<feature
+      id="org.eclipse.cdt.native"
+      label="%featureName"
+      version="10.6.2.202205170638"
+      provider-name="%providerName"
+      plugin="org.eclipse.cdt.core.native">
+
+   <description>
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <plugin
+         id="org.eclipse.cdt.core.native"
+         download-size="64"
+         install-size="114"
+         version="6.2.100.202202231938"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.linux"
+         os="linux"
+         download-size="13"
+         install-size="18"
+         version="6.0.0.202008310002"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.linux.ppc64le"
+         os="linux"
+         arch="ppc64le"
+         download-size="25"
+         install-size="158"
+         version="6.0.502.202205170638"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.linux.x86_64"
+         os="linux"
+         arch="x86_64"
+         download-size="23"
+         install-size="51"
+         version="6.0.502.202205170638"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.linux.aarch64"
+         os="linux"
+         arch="aarch64"
+         download-size="23"
+         install-size="57"
+         version="6.0.502.202205170638"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.macosx"
+         os="macosx"
+         download-size="57"
+         install-size="224"
+         version="6.0.502.202205170638"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.win32"
+         os="win32"
+         download-size="14"
+         install-size="22"
+         version="6.0.200.202102030214"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.cdt.core.win32.x86_64"
+         os="win32"
+         arch="x86_64"
+         download-size="642"
+         install-size="2108"
+         version="6.0.502.202205170638"
+         fragment="true"/>
+
+   <plugin
+         id="org.eclipse.cdt.native.serial"
+         download-size="168"
+         install-size="625"
+         version="1.2.502.202205170638"
+         unpack="false"/>
+
+</feature>

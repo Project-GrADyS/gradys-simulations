@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.gmf"
+      label="%featureName"
+      version="1.13.1.202106221344"
+      provider-name="%providerName"
+      image="modeling32.png">
+
+   <description url="http://www.eclipse.org/gmf">
+      %description
+   </description>
+
+   <copyright url="http://www.eclipse.org/legal/epl-2.0/">
+Copyright (c) 2005, 2015 IBM Corporation and others.
+This program and the accompanying materials are made
+available under the terms of the Eclipse Public License 2.0
+which is available at https://www.eclipse.org/legal/epl-2.0/
+
+SPDX-License-Identifier: EPL-2.0
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update label="%updateSiteName" url="http://download.eclipse.org/modeling/gmp/gmf-runtime/updates/releases/"/>
+   </url>
+
+   <includes
+         id="org.eclipse.gmf.runtime.thirdparty"
+         version="1.13.1.202106221344"/>
+
+   <requires>
+      <import feature="org.eclipse.gmf.runtime.notation" version="1.8.0"/>
+      <import feature="org.eclipse.gef" version="3.9.2"/>
+      <import feature="org.eclipse.emf.common" version="2.10.0"/>
+      <import feature="org.eclipse.emf.ecore" version="2.10.0"/>
+      <import feature="org.eclipse.emf.ecore.edit" version="2.8.0"/>
+      <import feature="org.eclipse.emf.edit" version="2.10.0"/>
+      <import feature="org.eclipse.emf.transaction" version="1.8.0"/>
+      <import feature="org.eclipse.emf.validation" version="1.8.0"/>
+      <import feature="org.eclipse.emf.workspace" version="1.8.0"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.core"
+         download-size="117"
+         install-size="226"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui"
+         download-size="257"
+         install-size="509"
+         version="1.8.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.action"
+         download-size="101"
+         install-size="173"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.action.ide"
+         download-size="39"
+         install-size="66"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.services"
+         download-size="100"
+         install-size="208"
+         version="1.9.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.services.action"
+         download-size="120"
+         install-size="293"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.services.dnd"
+         download-size="92"
+         install-size="190"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.services.dnd.ide"
+         download-size="24"
+         install-size="38"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.services.properties"
+         download-size="76"
+         install-size="146"
+         version="1.9.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.core"
+         download-size="133"
+         install-size="284"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui"
+         download-size="1190"
+         install-size="2485"
+         version="1.9.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.actions"
+         download-size="218"
+         install-size="391"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.dnd"
+         download-size="19"
+         install-size="29"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.geoshapes"
+         download-size="99"
+         install-size="179"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.properties"
+         download-size="215"
+         install-size="430"
+         version="1.8.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.providers"
+         download-size="137"
+         install-size="318"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.providers.ide"
+         download-size="23"
+         install-size="38"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.render"
+         download-size="118"
+         install-size="238"
+         version="1.7.2.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.resources.editor"
+         download-size="123"
+         install-size="251"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide"
+         download-size="69"
+         install-size="146"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.draw2d.ui"
+         download-size="318"
+         install-size="619"
+         version="1.9.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.draw2d.ui.render"
+         download-size="49"
+         install-size="87"
+         version="1.7.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.draw2d.ui.render.awt"
+         download-size="196"
+         install-size="396"
+         version="1.8.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.clipboard.core"
+         download-size="110"
+         install-size="223"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.commands.core"
+         download-size="28"
+         install-size="48"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.core"
+         download-size="114"
+         install-size="229"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.type.core"
+         download-size="190"
+         install-size="438"
+         version="1.9.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.type.ui"
+         download-size="18"
+         install-size="25"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.ui"
+         download-size="93"
+         install-size="177"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.emf.ui.properties"
+         download-size="62"
+         install-size="118"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.gef.ui"
+         download-size="101"
+         install-size="181"
+         version="1.7.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.notation.providers"
+         download-size="29"
+         install-size="53"
+         version="1.7.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf"
+         download-size="13"
+         install-size="17"
+         version="1.13.1.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.printing"
+         download-size="14"
+         install-size="19"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.common.ui.printing.win32"
+         download-size="752"
+         install-size="3091"
+         version="1.7.0.202106221344"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.printing"
+         download-size="90"
+         install-size="172"
+         version="1.7.0.202106221344"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.gmf.runtime.diagram.ui.printing.render"
+         download-size="92"
+         install-size="196"
+         version="1.8.0.202106221344"
+         unpack="false"/>
+
+</feature>

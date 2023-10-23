@@ -1,0 +1,18 @@
+
+(opp_ide:92): dbind-WARNING **: 15:12:47.662: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-CQwGfGaYlr: Connection refused
+Gtk-Message: 15:12:47.715: Failed to load module "canberra-gtk-module"
+Gtk-Message: 15:12:47.717: Failed to load module "canberra-gtk-module"
+
+(java:112): dbind-WARNING **: 15:12:48.126: Couldn't connect to accessibility bus: Failed to connect to socket /tmp/dbus-CQwGfGaYlr: Connection refused
+Gtk-Message: 15:12:48.147: Failed to load module "canberra-gtk-module"
+Gtk-Message: 15:12:48.149: Failed to load module "canberra-gtk-module"
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+SWT SessionManagerDBus: Failed to connect to org.gnome.SessionManager: Failed to execute child process “dbus-launch” (No such file or directory)
+SWT SessionManagerDBus: Failed to connect to org.xfce.SessionManager: Failed to execute child process “dbus-launch” (No such file or directory)
+Warning: NLS missing message: ExternalToolsPreferencePage_External_tool_project_builders_migration_2 in: org.eclipse.ui.externaltools.internal.ui.ExternalToolsUIMessages
+Warning: NLS missing message: ExternalToolsPreferencePage_Prompt_before_migrating_3 in: org.eclipse.ui.externaltools.internal.ui.ExternalToolsUIMessages
+Warning: NLS missing message: ExternalToolsPreferencePage_1 in: org.eclipse.ui.externaltools.internal.ui.ExternalToolsUIMessages
+
+(OMNeT++ IDE:112): Gtk-CRITICAL **: 15:13:38.377: gtk_box_gadget_distribute: assertion 'size >= 0' failed in GtkScrollbar
