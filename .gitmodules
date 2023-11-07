@@ -8,7 +8,3 @@
 	path = src/json
 	url = git@github.com:nlohmann/json.git
 	branch = master
-[submodule "src/gradys-sim-prototype"]
-	path = src/gradys-sim-prototype
-	url = git@github.com:Thlamz/gradys-sim-prototype.git
-	branch = simple_protocol_adjustments
