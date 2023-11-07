@@ -32,14 +32,40 @@ void PythonGroundProtocol::initialize(int stage) {
     protocolType = par("protocolGround").stringValue();
 
     pybind11::object InteropEncapsulator = pybind11::module_::import(
-            "simulator.encapsulator.interop").attr("InteropEncapsulator");
+            "gradysim.encapsulator.interop").attr("InteropEncapsulator");
     instance = InteropEncapsulator();
 
-    std::string importPath = "simulator.protocols." + protocol + "."
-            + protocolFileName;
-    pybind11::object protocolMobileClass =
-            pybind11::module_::import(importPath.c_str()).attr(protocolType.c_str());
-    instance.attr("encapsulate")(protocolMobileClass);
+//    std::string importPath = "gradysim.showcases." + protocol + "."
+//            + protocolFileName;
+
+//    std::string importPath = "/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/" + protocol + "/"
+//            + protocolFileName;
+
+//    pybind11::object protocolMobileClass = py::eval("import importlib.util"
+//                                                    "import sys"
+//                                                    "sys.path.append('/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple')"
+//                                                    "spec = importlib.util.spec_from_file_location('gradysim.showcases.simple.SimpleProtocolGround', '/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple/protocol_ground.py')"
+//                                                    "foo = importlib.util.module_from_spec(spec)"
+//                                                    "sys.modules['gradysim.showcases.simple.SimpleProtocolGround'] = foo"
+//                                                    "spec.loader.exec_module(foo)"
+//                                                    "return foo.SimpleProtocolGround()", instance).cast<pybind11::object>();
+
+//    pybind11::object protocolMobileClass =
+//            pybind11::module_::import(importPath.c_str()).attr(protocolType.c_str());
+
+//    pybind11::object protocolMobileClass = py::eval("my_variable + 10", scope).cast<pybind11::object>();
+
+//    instance.attr("encapsulate")(protocolMobileClass);
+
+    py::object scope = py::module_::import("__main__").attr("__dict__");
+
+    pybind11::exec("sys.path.append('/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple')", scope);
+
+    pybind11::exec("from protocol_ground import SimpleProtocolGround", scope);
+
+    pybind11::object protocolGroundClass = pybind11::eval("SimpleProtocolGround", scope).cast<pybind11::object>();
+
+    instance.attr("encapsulate")(protocolGroundClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
 

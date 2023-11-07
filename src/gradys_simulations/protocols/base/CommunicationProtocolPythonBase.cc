@@ -113,46 +113,50 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     instance.attr("set_timestamp")(simTime().dbl());
 
     py::object TelemetryMessageL = py::module_::import(
-            "simulator.messages.telemetry").attr("Telemetry");
+            "gradysim.protocol.messages.telemetry").attr("Telemetry");
 
-    py::object DroneActivityPython = py::module_::import(
-            "simulator.messages.telemetry").attr("DroneActivity");
+//    py::object DroneActivityPython = py::module_::import(
+//            "gradysim.messages.telemetry").attr("DroneActivity");
+//
+//    py::object droneActivity;
+//    switch (telemetry->getDroneActivity()) {
+//    case DroneActivity::IDLE: {
+//        droneActivity = DroneActivityPython.attr("IDLE");
+//        break;
+//    }
+//    case DroneActivity::NAVIGATING: {
+//        droneActivity = DroneActivityPython.attr("NAVIGATING");
+//        break;
+//    }
+//    case DroneActivity::REACHED_EDGE: {
+//        droneActivity = DroneActivityPython.attr("REACHED_EDGE");
+//        break;
+//    }
+//    case DroneActivity::FOLLOWING_COMMAND: {
+//        droneActivity = DroneActivityPython.attr("FOLLOWING_COMMAND");
+//        break;
+//    }
+//    case DroneActivity::RECHARGING: {
+//        droneActivity = DroneActivityPython.attr("IDLE");
+//        break;
+//    }
+//    case DroneActivity::SHUTDOWN: {
+//        droneActivity = DroneActivityPython.attr("IDLE");
+//        break;
+//    }
+//    default:
+//        std::cout << "Something is wrong for " << classType << std::endl;
+//        exit(1);
+//    }
 
-    py::object droneActivity;
-    switch (telemetry->getDroneActivity()) {
-    case DroneActivity::IDLE: {
-        droneActivity = DroneActivityPython.attr("IDLE");
-        break;
-    }
-    case DroneActivity::NAVIGATING: {
-        droneActivity = DroneActivityPython.attr("NAVIGATING");
-        break;
-    }
-    case DroneActivity::REACHED_EDGE: {
-        droneActivity = DroneActivityPython.attr("REACHED_EDGE");
-        break;
-    }
-    case DroneActivity::FOLLOWING_COMMAND: {
-        droneActivity = DroneActivityPython.attr("FOLLOWING_COMMAND");
-        break;
-    }
-    case DroneActivity::RECHARGING: {
-        droneActivity = DroneActivityPython.attr("IDLE");
-        break;
-    }
-    case DroneActivity::SHUTDOWN: {
-        droneActivity = DroneActivityPython.attr("IDLE");
-        break;
-    }
-    default:
-        std::cout << "Something is wrong for " << classType << std::endl;
-        exit(1);
-    }
+    pybind11::tuple tup = pybind11::make_tuple(telemetry->getCurrentX(), telemetry->getCurrentY(), telemetry->getCurrentZ());
+    py::object telemetry_obj = TelemetryMessageL("current_position"_a=tup);
 
-    py::object telemetry_obj = TelemetryMessageL(telemetry->getNextWaypointID(),
-            telemetry->getLastWaypointID(), telemetry->getCurrentLat(),
-            telemetry->getCurrentLon(), telemetry->getCurrentAlt(),
-            telemetry->isReversed(), droneActivity);
+
+//            telemetry->getNextWaypointID(),
+//            telemetry->getLastWaypointID(), telemetry->getCurrentLat(),
+//            telemetry->getCurrentLon(), telemetry->getCurrentAlt(),
+//            telemetry->isReversed(), droneActivity);
 
     py::list consequences = instance.attr("handle_telemetry")(telemetry_obj);
 
@@ -185,7 +189,7 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
     py::tuple consequenceTuple = py::cast<py::tuple>(consequence);
 
     py::object ConsequenceTypePython = py::module_::import(
-            "simulator.provider.interop").attr("ConsequenceType");
+            "gradysim.encapsulator.interop").attr("ConsequenceType");
 
     py::object ctl = ConsequenceTypePython(consequenceTuple[0].cast<int>());
     if (ctl.is(ConsequenceTypePython.attr("COMMUNICATION"))) {
@@ -195,10 +199,10 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
         sendCommand(communicationCommand);
 
     } else if (ctl.is(ConsequenceTypePython.attr("MOBILITY"))) {
-        MobilityCommand *mobilityCommand =
-                gradys_simulations::transformToMobilityCommandPython(
-                        consequenceTuple[1].cast<py::object>());
-        sendCommand(mobilityCommand);
+//        MobilityCommand *mobilityCommand =
+//                gradys_simulations::transformToMobilityCommandPython(
+//                        consequenceTuple[1].cast<py::object>());
+//        sendCommand(mobilityCommand);
 
     } else if (ctl.is(ConsequenceTypePython.attr("TIMER"))) {
         py::tuple infos = py::cast<py::tuple>(consequenceTuple[1].cast<py::object>());

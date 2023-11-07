@@ -23,7 +23,7 @@ static CommunicationCommand* transformToCommunicationCommandPython(
     CommunicationCommand *command = new CommunicationCommand();
 
     py::object CommunicationCommandTypePython = py::module_::import(
-            "simulator.messages.communication").attr(
+            "gradysim.protocol.messages.communication").attr(
             "CommunicationCommandType");
 
     py::object ctl = CommunicationCommandTypePython(
@@ -59,7 +59,7 @@ static MobilityCommand* transformToMobilityCommandPython(
     MobilityCommand *command = new MobilityCommand();
 
     py::object MobilityCommandTypePython = py::module_::import(
-            "simulator.messages.mobility").attr("MobilityCommandType");
+            "gradysim.protocol.messages.mobility").attr("MobilityCommandType");
 
     py::object ctl = MobilityCommandTypePython(
             mob_command.attr("command").cast<int>());
