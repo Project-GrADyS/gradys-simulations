@@ -22,6 +22,7 @@ simple PythonGroundProtocol extends CommunicationProtocolBase
     parameters:
         @class(PythonGroundProtocol);
         
+        string customProtocolLocation = default("/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases");
 		string protocol = default("simple");
 		string protocolFileName = default("protocol_ground");
         string protocolGround = default("SimpleProtocolGround");

@@ -32,6 +32,7 @@ Define_Module(PythonDroneProtocol);
 void PythonDroneProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "Drones");
 
+    customProtocolLocation = par("customProtocolLocation").stringValue();
     protocol = par("protocol").stringValue();
     protocolFileName = par("protocolFileName").stringValue();
     protocolType = par("protocolMobile").stringValue();
@@ -40,61 +41,21 @@ void PythonDroneProtocol::initialize(int stage) {
             "gradysim.encapsulator.interop").attr("InteropEncapsulator");
     instance = InteropEncapsulator();
 
-//    std::string importPath = "simulator.protocols." + protocol + "."
-//            + protocolFileName;
-
-//    std::string importPath = "/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/" + protocol + "/"
-//            + protocolFileName;
-//
-//    pybind11::object protocolMobileClass = pybind11::module_::import(
-//            importPath.c_str()).attr(protocolType.c_str());
-
-//    pybind11::object compile = py::module::import("builtins").attr("compile");
-//
-//    const char *function =
-//            R"(def test():
-//    import importlib.util
-//    import sys
-//    sys.path.append('/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple')
-//
-//)";
-    //    spec = importlib.util.spec_from_file_location('gradysim.showcases.simple.SimpleProtocolMobile', '/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple/protocol_mobile.py')
-    //    foo = importlib.util.module_from_spec(spec)
-    //    sys.modules['gradysim.showcases.simple.SimpleProtocolMobile'] = foo
-    //    spec.loader.exec_module(foo)
-    //    return foo.SimpleProtocolMobile()
-
-//    std::string s = function;
-//    pybind11::object compiled_function = compile(s, "", "exec");
-
-//    pybind11::object ModuleType = pybind11::module_::import("types").attr("ModuleType");
-//    pybind11::object ModuleTypeInstantated = ModuleType("testmodule");
-
-    //    pybind11::exec(compiled_function, ModuleTypeInstantated.attr("__dict__"));
-
-
-//    py::object scope = py::module_::import("__main__").attr("__dict__");
-//
-//    pybind11::exec("sys.path.append('/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple')", scope);
-//
-//    pybind11::exec("from protocol_mobile import SimpleProtocolMobile", scope);
-//
-//    pybind11::object test = pybind11::eval("SimpleProtocolMobile", scope).cast<pybind11::object>();
-//
-//    instance.attr("encapsulate")(test);
-
     py::object scope = py::module_::import("__main__").attr("__dict__");
 
-    pybind11::exec("sys.path.append('/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases/simple')", scope);
+    std::string sysPath = "sys.path.append('" + customProtocolLocation + "/"
+            + protocol + "')";
+    pybind11::exec(sysPath, scope);
 
-    pybind11::exec("from protocol_mobile import SimpleProtocolMobile", scope);
+    std::string import = "from " + protocolFileName + " import " + protocolType;
+    pybind11::exec(import, scope);
 
-    pybind11::object protocolMobileClass = pybind11::eval("SimpleProtocolMobile", scope).cast<pybind11::object>();
+    pybind11::object protocolMobileClass =
+            pybind11::eval(protocolType, scope).cast<pybind11::object>();
 
     instance.attr("encapsulate")(protocolMobileClass);
 
     instance.attr("set_timestamp")(simTime().dbl());
-
 
     pybind11::list consequences = instance.attr("initialize")(stage);
     for (auto consequence : consequences) {

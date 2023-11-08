@@ -22,6 +22,7 @@ simple PythonSensorProtocol extends CommunicationProtocolBase
     parameters:
         @class(PythonSensorProtocol);
 
+		string customProtocolLocation = default("/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases");
 		string protocol = default("simple");
 		string protocolFileName = default("protocol_sensor");
         string protocolSensor = default("SimpleProtocolSensor");

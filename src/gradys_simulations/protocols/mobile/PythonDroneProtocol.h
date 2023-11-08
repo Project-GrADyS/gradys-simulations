@@ -26,6 +26,7 @@ namespace gradys_simulations {
 class PythonDroneProtocol: public CommunicationProtocolPythonBase {
 
 protected:
+    std::string customProtocolLocation;
     std::string protocol;
     std::string protocolFileName;
     std::string protocolType;

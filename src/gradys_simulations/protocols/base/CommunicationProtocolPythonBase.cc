@@ -115,48 +115,8 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     py::object TelemetryMessageL = py::module_::import(
             "gradysim.protocol.messages.telemetry").attr("Telemetry");
 
-//    py::object DroneActivityPython = py::module_::import(
-//            "gradysim.messages.telemetry").attr("DroneActivity");
-//
-//    py::object droneActivity;
-//    switch (telemetry->getDroneActivity()) {
-//    case DroneActivity::IDLE: {
-//        droneActivity = DroneActivityPython.attr("IDLE");
-//        break;
-//    }
-//    case DroneActivity::NAVIGATING: {
-//        droneActivity = DroneActivityPython.attr("NAVIGATING");
-//        break;
-//    }
-//    case DroneActivity::REACHED_EDGE: {
-//        droneActivity = DroneActivityPython.attr("REACHED_EDGE");
-//        break;
-//    }
-//    case DroneActivity::FOLLOWING_COMMAND: {
-//        droneActivity = DroneActivityPython.attr("FOLLOWING_COMMAND");
-//        break;
-//    }
-//    case DroneActivity::RECHARGING: {
-//        droneActivity = DroneActivityPython.attr("IDLE");
-//        break;
-//    }
-//    case DroneActivity::SHUTDOWN: {
-//        droneActivity = DroneActivityPython.attr("IDLE");
-//        break;
-//    }
-//    default:
-//        std::cout << "Something is wrong for " << classType << std::endl;
-//        exit(1);
-//    }
-
     pybind11::tuple tup = pybind11::make_tuple(telemetry->getCurrentX(), telemetry->getCurrentY(), telemetry->getCurrentZ());
     py::object telemetry_obj = TelemetryMessageL("current_position"_a=tup);
-
-
-//            telemetry->getNextWaypointID(),
-//            telemetry->getLastWaypointID(), telemetry->getCurrentLat(),
-//            telemetry->getCurrentLon(), telemetry->getCurrentAlt(),
-//            telemetry->isReversed(), droneActivity);
 
     py::list consequences = instance.attr("handle_telemetry")(telemetry_obj);
 
