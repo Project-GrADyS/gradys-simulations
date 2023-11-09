@@ -60,6 +60,7 @@ OBJS = \
     $O/gradys_simulations/mobility/DroneMobilityMav.o \
     $O/gradys_simulations/mobility/MAVLinkFileMobility.o \
     $O/gradys_simulations/mobility/MAVLinkRandomWaypointMobility.o \
+    $O/gradys_simulations/mobility/PythonDroneMobility.o \
     $O/gradys_simulations/mobility/base/MAVLinkMobilityBase.o \
     $O/gradys_simulations/mobility/failures/RandomFailureGenerator.o \
     $O/gradys_simulations/mobility/failures/SimpleConsumptionEnergy.o \
@@ -94,6 +95,7 @@ OBJS = \
     $O/gradys_simulations/linklayer/blemesh/BleMeshMacHeader_m.o \
     $O/gradys_simulations/protocols/messages/internal/CommunicationCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/MobilityCommand_m.o \
+    $O/gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/Telemetry_m.o \
     $O/gradys_simulations/protocols/messages/network/CentralizedQMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/DadcaMessage_m.o \
@@ -107,6 +109,7 @@ MSGFILES = \
     gradys_simulations/linklayer/blemesh/BleMeshMacHeader.msg \
     gradys_simulations/protocols/messages/internal/CommunicationCommand.msg \
     gradys_simulations/protocols/messages/internal/MobilityCommand.msg \
+    gradys_simulations/protocols/messages/internal/PythonMobilityCommand.msg \
     gradys_simulations/protocols/messages/internal/Telemetry.msg \
     gradys_simulations/protocols/messages/network/CentralizedQMessage.msg \
     gradys_simulations/protocols/messages/network/DadcaMessage.msg \
