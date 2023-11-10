@@ -17,10 +17,9 @@ namespace gradys_simulations;
 
 // Commands that the mobility module should be capable of carrying out
 enum PythonMobilityCommandType {
-   SET_START = 1;
-   GOTO_COORDS = 2;
-   GOTO_GEO_COORDS = 3;
-   SET_SPEED = 4;
+   GOTO_COORD = 1;
+   GOTO_GEO_COORD = 2;
+   SET_SPEED = 3;
 }
 
 // Message declaration containing the command Id and its parameters 

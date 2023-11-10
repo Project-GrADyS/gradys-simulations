@@ -19,6 +19,7 @@
 #include <omnetpp.h>
 #include "inet/common/packet/Packet.h"
 #include "gradys_simulations/protocols/messages/internal/MobilityCommand_m.h"
+#include "gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.h"
 #include "gradys_simulations/protocols/messages/internal/CommunicationCommand_m.h"
 #include "gradys_simulations/protocols/messages/internal/Telemetry_m.h"
 
@@ -53,6 +54,8 @@ class CommunicationProtocolBase : public cSimpleModule
 
     // Sends command to mobility gate. A gate index of -1 broadcasts message to all gates.
     virtual void sendCommand(MobilityCommand *order, int gateIndex = -1);
+    // Sends command to mobility gate. A gate index of -1 broadcasts message to all gates.
+    virtual void sendCommand(PythonMobilityCommand *order, int gateIndex = -1);
     // Sends command to communication gate. A gate index of -1 broadcasts message to all gates.
     virtual void sendCommand(CommunicationCommand *order, int gateIndex = -1);
 

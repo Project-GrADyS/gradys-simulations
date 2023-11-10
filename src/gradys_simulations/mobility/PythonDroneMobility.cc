@@ -6,6 +6,7 @@
 #include "inet/common/geometry/common/Quaternion.h"
 #include "inet/mobility/single/VehicleMobility.h"
 #include <fstream>
+#include "gradys_simulations/protocols/messages/internal/Telemetry_m.h"
 #include "gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.h"
 
 using namespace inet;
@@ -20,30 +21,27 @@ void PythonDroneMobility::initialize(int stage) {
     MovingMobilityBase::initialize(stage);
     EV_TRACE << "initializing PythonDroneMobility stage " << stage << endl;
     if (stage == INITSTAGE_LOCAL) {
+        startTime = par("startTime");
         speed = par("speed");
         heading = 0;
+
+        homeX = par("homeX");
+        homeY = par("homeY");
+        homeZ = par("homeZ");
+
         ground = findModuleFromPar<IGround>(par("groundModule"), this);
-        startTime = par("startTime");
+
         telemetryFrequency = par("telemetryFrequency");
         scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
+
+        sendTelemetry();
     }
 }
 
 void PythonDroneMobility::setInitialPosition() {
-    auto coordinateSystem = findModuleFromPar<IGeographicCoordinateSystem>(
-            par("coordinateSystemModule"), this);
-    if (coordinateSystem == nullptr) {
-        lastPosition.x = instruction->param1;
-        lastPosition.y = instruction->param2;
-        lastPosition.z = instruction->param3;
-    } else {
-        Coord sceneCoordinate = coordinateSystem->computeSceneCoordinate(
-                GeoCoord(deg(instruction->param1), deg(instruction->param2),
-                        m(instruction->param3)));
-        lastPosition.x = sceneCoordinate.x;
-        lastPosition.y = sceneCoordinate.y;
-        lastPosition.z = sceneCoordinate.z;
-    }
+    lastPosition.x = homeX;
+    lastPosition.y = homeY;
+    lastPosition.z = homeZ;
 
     lastVelocity.x = speed * cos(M_PI * heading / 180);
     lastVelocity.y = speed * sin(M_PI * heading / 180);
@@ -54,106 +52,125 @@ void PythonDroneMobility::setInitialPosition() {
         lastVelocity = ground->computeGroundProjection(
                 lastPosition + lastVelocity) - lastPosition;
     }
+
 }
 
 void PythonDroneMobility::move() {
     if (simTime() < startTime) {
         return;
     }
+    if (instruction != nullptr) {
+        switch (instruction->command) {
+        case PythonCommand::GOTO_COORDS: {
+            fly();
+            break;
+        }
+        case PythonCommand::GOTO_GEO_COORDS: {
+            Coord targetPos;
+            auto coordinateSystem = findModuleFromPar<
+                    IGeographicCoordinateSystem>(par("coordinateSystemModule"),
+                    this);
+            if (coordinateSystem != nullptr) {
+                Coord sceneCoordinate =
+                        coordinateSystem->computeSceneCoordinate(
+                                GeoCoord(deg(instruction->param1),
+                                        deg(instruction->param2),
+                                        m(instruction->param3)));
+                instruction->param1 = sceneCoordinate.x;
+                instruction->param2 = sceneCoordinate.y;
+                instruction->param3 = sceneCoordinate.z;
+            }
+            break;
+        }
+        case PythonCommand::SET_SPEED: {
+            speed = instruction->param1;
+            fly();
+            break;
+        }
+        default:
+            std::cout << "Something is wrong!" << std::endl;
+            exit(1);
+        }
+    }
+}
 
-    switch (instruction->command) {
-    case PythonCommand::SET_START: {
-        setInitialPosition();
-    }
-    case PythonCommand::GOTO_COORDS:
-    case PythonCommand::GOTO_GEO_COORDS: {
-        fly();
-    }
-    case PythonCommand::SET_SPEED: {
-
-    }
+bool checkIfOvershoot(double origin, double target, double current) {
+    double delta = target - origin;
+    if (delta > 0) {
+        return current > target;
+    } else {
+        return current < target;
     }
 }
 
 void PythonDroneMobility::fly() {
     Coord targetPos;
-    auto coordinateSystem = findModuleFromPar<IGeographicCoordinateSystem>(
-            par("coordinateSystemModule"), this);
-    if (coordinateSystem == nullptr) {
-        targetPos.x = instruction->param1;
-        targetPos.y = instruction->param2;
-        targetPos.z = instruction->param3;
-    } else {
-        Coord sceneCoordinate = coordinateSystem->computeSceneCoordinate(
-                GeoCoord(deg(instruction->param1), deg(instruction->param2),
-                        m(instruction->param3)));
-        targetPos.x = sceneCoordinate.x;
-        targetPos.y = sceneCoordinate.y;
-        targetPos.z = sceneCoordinate.z;
-    }
+    targetPos.x = instruction->param1;
+    targetPos.y = instruction->param2;
+    targetPos.z = instruction->param3;
 
-    if(lastPosition.x != targetPos.x || lastPosition.y != targetPos.y) {
+    Coord previousPosition = lastPosition;
 
+    if (lastPosition.x != targetPos.x || lastPosition.y != targetPos.y) {
+        /** 2D move **/
         double dx = targetPos.x - lastPosition.x;
         double dy = targetPos.y - lastPosition.y;
-        double targetDirection = atan2(dy, dx) / M_PI * 180;
-        double diff = targetDirection - heading;
-        while (diff < -180)
-            diff += 360;
-        while (diff > 180)
-            diff -= 360;
-        angularSpeed = diff * 5;
+
+        heading = atan2(dy, dx) / M_PI * 180;
         double timeStep = (simTime() - lastUpdate).dbl();
-        heading += angularSpeed * timeStep;
 
         Coord tempSpeed = Coord(cos(M_PI * heading / 180),
                 sin(M_PI * heading / 180)) * speed;
         Coord tempPosition = lastPosition + tempSpeed * timeStep;
 
-        if (ground)
-            tempPosition = ground->computeGroundProjection(tempPosition);
-
         lastVelocity = tempPosition - lastPosition;
         lastPosition = tempPosition;
+
+        // Checks if we have overshot the waypoint on the x axis
+        if (checkIfOvershoot(previousPosition.x, targetPos.x, lastPosition.x)) {
+            lastPosition.setX(targetPos.x);
+            lastVelocity = lastPosition - previousPosition;
+        }
+        // Checks if we have overshot the waypoint on the y axis
+        if (checkIfOvershoot(previousPosition.y, targetPos.y, lastPosition.y)) {
+            lastPosition.setY(targetPos.y);
+            lastVelocity = lastPosition - previousPosition;
+        }
+    }
+
+    if (lastPosition.z != targetPos.z) {
+        PythonDroneMobility::climb(targetPos.z);
+    }
+}
+
+void PythonDroneMobility::climb(double targetZ) {
+    if (lastPosition.z != targetZ) {
+        double timeStep = (simTime() - lastUpdate).dbl();
+        double climbDelta = speed * timeStep;
+
+        // Checks if the climb delta overshoots the target height
+        bool climbOvershoots;
+
+        if (lastPosition.z > targetZ) {
+            // If the target position is below the current position, descend
+            climbDelta = climbDelta * -1;
+            climbOvershoots = (lastPosition.z + climbDelta) < targetZ;
+        } else {
+            climbOvershoots = (lastPosition.z + climbDelta) > targetZ;
+        }
+
+        climbDelta = climbOvershoots ? targetZ - lastPosition.z : climbDelta;
+
+        lastPosition.z += climbDelta;
+        lastVelocity.z = climbDelta;
     }
 }
 
 void PythonDroneMobility::orient() {
-    if (ground) {
-        Coord groundNormal = ground->computeGroundNormal(lastPosition);
-
-        // this will make the wheels follow the ground
-        Quaternion quat = Quaternion::rotationFromTo(Coord(0, 0, 1),
-                groundNormal);
-
-        Coord groundTangent = groundNormal % lastVelocity;
-        groundTangent.normalize();
-        Coord direction = groundTangent % groundNormal;
-        direction.normalize(); // this is lastSpeed, normalized and adjusted to be perpendicular to groundNormal
-
-        // our model looks in this direction if we only rotate the Z axis to match the ground normal
-        Coord groundX = quat.rotate(Coord(1, 0, 0));
-
-        double dp = groundX * direction;
-
-        double angle;
-
-        if (((groundX % direction) * groundNormal) > 0)
-            angle = std::acos(dp);
-        else
-            // correcting for the case where the angle should be over 90 degrees (or under -90):
-            angle = 2 * M_PI - std::acos(dp);
-
-        // and finally rotating around the now-ground-orthogonal local Z
-        quat *= Quaternion(Coord(0, 0, 1), angle);
-
-        lastOrientation = quat;
-    } else
-        MovingMobilityBase::orient();
+    MovingMobilityBase::orient();
 }
 
 void PythonDroneMobility::handleMessage(cMessage *message) {
-
     if (message == telemetryTimer) {
         sendTelemetry();
         scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
@@ -162,19 +179,13 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
                 dynamic_cast<PythonMobilityCommand*>(message);
         if (command != nullptr) {
             switch (command->getCommandType()) {
-            case PythonMobilityCommandType::SET_START: {
-                instruction = new PythonInstruction(PythonCommand::SET_START,
-                        command->getParam1(), command->getParam2(),
-                        command->getParam3(), -1, -1, -1);
-                break;
-            }
-            case PythonMobilityCommandType::GOTO_COORDS: {
+            case PythonMobilityCommandType::GOTO_COORD: {
                 instruction = new PythonInstruction(PythonCommand::GOTO_COORDS,
                         command->getParam1(), command->getParam2(),
                         command->getParam3(), -1, -1, -1);
                 break;
             }
-            case PythonMobilityCommandType::GOTO_GEO_COORDS: {
+            case PythonMobilityCommandType::GOTO_GEO_COORD: {
                 instruction = new PythonInstruction(
                         PythonCommand::GOTO_GEO_COORDS, command->getParam1(),
                         command->getParam2(), command->getParam3(), -1, -1, -1);
@@ -183,9 +194,8 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
             case PythonMobilityCommandType::SET_SPEED: {
                 instruction = new PythonInstruction(
                         PythonCommand::GOTO_GEO_COORDS, command->getParam1(),
-                        -1, -1, -1, -1, -1);
-                break;
-            }
+                        -1, -1, -1, -1, -1);*.quads[*].mobility.homeY = 0
+
             }
             delete command;
 
@@ -197,6 +207,24 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
                         "Mobility modules can only receive self messages");
         }
     }
+}
+
+void PythonDroneMobility::sendTelemetry() {
+    Enter_Method_Silent("sendTelemetry(%d)", 0);
+
+    Telemetry *message = new Telemetry();
+
+    message->setCurrentX(lastPosition.x);
+    message->setCurrentY(lastPosition.y);
+    message->setCurrentZ(lastPosition.z);
+
+    for (int i = 0; i < gateSize("protocolGate"); i++) {
+        if (gate("protocolGate$o", i)->isConnected()) {
+            send(message->dup(), gate("protocolGate$o", i));
+        }
+    }
+
+    delete message;
 }
 
 }

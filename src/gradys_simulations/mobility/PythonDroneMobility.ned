@@ -1,10 +1,8 @@
 package gradys_simulations.mobility;
 
-package inet.mobility.single;
-
 import inet.mobility.base.MovingMobilityBase;
 
-simple VehicleMobility extends MovingMobilityBase
+simple PythonDroneMobility extends MovingMobilityBase
 {
     parameters:
         @class(PythonDroneMobility);
@@ -14,6 +12,14 @@ simple VehicleMobility extends MovingMobilityBase
         double initialY @unit(m) = default(uniform(constraintAreaMinY, constraintAreaMaxY));
         double initialZ @unit(m) = default(nanToZero(uniform(constraintAreaMinZ, constraintAreaMaxZ)));
         bool initFromDisplayString = default(true); // enables one time initialization from the subject module's display string
+    
+        double homeX = default(0);
+        double homeY = default(0);
+  		double homeZ = default(0);
+    
+    	double startTime @unit(s) = default(0s);
+        double telemetryFrequency @unit(s) = default(1s);
+        
     gates:
         inout protocolGate[];
 

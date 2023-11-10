@@ -14,7 +14,7 @@
 // 
 
 #include "gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h"
-
+#include "gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/TagBase_m.h"
 #include "inet/common/TimeTag_m.h"
@@ -30,6 +30,7 @@
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include <nlohmann/json.hpp>
 #include "gradys_simulations/utils/PythonUtils.h"
+
 
 using namespace pybind11::literals;
 
@@ -159,10 +160,10 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
         sendCommand(communicationCommand);
 
     } else if (ctl.is(ConsequenceTypePython.attr("MOBILITY"))) {
-//        MobilityCommand *mobilityCommand =
-//                gradys_simulations::transformToMobilityCommandPython(
-//                        consequenceTuple[1].cast<py::object>());
-//        sendCommand(mobilityCommand);
+        PythonMobilityCommand *mobilityCommand =
+                gradys_simulations::transformToMobilityCommandPython(
+                        consequenceTuple[1].cast<py::object>());
+        sendCommand(mobilityCommand);
 
     } else if (ctl.is(ConsequenceTypePython.attr("TIMER"))) {
         py::tuple infos = py::cast<py::tuple>(consequenceTuple[1].cast<py::object>());

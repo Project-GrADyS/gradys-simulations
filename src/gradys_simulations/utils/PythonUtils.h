@@ -6,6 +6,7 @@
 #include "gradys_simulations/protocols/messages/network/PythonMessage_m.h"
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
+#include "gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.h"
 
 using namespace pybind11::literals;
 
@@ -52,28 +53,25 @@ static CommunicationCommand* transformToCommunicationCommandPython(
     return command;
 }
 
-static MobilityCommand* transformToMobilityCommandPython(
+static PythonMobilityCommand* transformToMobilityCommandPython(
         py::object mob_command) {
 
     // Create mobility command
-    MobilityCommand *command = new MobilityCommand();
+    PythonMobilityCommand *command = new PythonMobilityCommand();
 
     py::object MobilityCommandTypePython = py::module_::import(
             "gradysim.protocol.messages.mobility").attr("MobilityCommandType");
 
     py::object ctl = MobilityCommandTypePython(
             mob_command.attr("command").cast<int>());
-    if (ctl.is(MobilityCommandTypePython.attr("SET_MODE"))) {
-        command->setCommandType(MobilityCommandType::IDLE_TIME);
+    if (ctl.is(MobilityCommandTypePython.attr("GOTO_COORDS"))) {
+        command->setCommandType(PythonMobilityCommandType::GOTO_COORD);
 
-    } else if (ctl.is(MobilityCommandTypePython.attr("GOTO_COORDS"))) {
-        command->setCommandType(MobilityCommandType::GOTO_COORDS);
+    } else if (ctl.is(MobilityCommandTypePython.attr("GOTO_GEO_COORDS"))) {
+        command->setCommandType(PythonMobilityCommandType::GOTO_GEO_COORD);
 
-    } else if (ctl.is(MobilityCommandTypePython.attr("GOTO_WAYPOINT"))) {
-        command->setCommandType(MobilityCommandType::GOTO_WAYPOINT);
-
-    } else if (ctl.is(MobilityCommandTypePython.attr("REVERSE"))) {
-        command->setCommandType(MobilityCommandType::REVERSE);
+    } else if (ctl.is(MobilityCommandTypePython.attr("SET_SPEED"))) {
+        command->setCommandType(PythonMobilityCommandType::SET_SPEED);
 
     } else {
         std::cout << "Something is wrong in transformToMobilityCommandPython"
@@ -86,6 +84,7 @@ static MobilityCommand* transformToMobilityCommandPython(
     command->setParam3(mob_command.attr("param_3").cast<int>());
     command->setParam4(mob_command.attr("param_4").cast<int>());
     command->setParam5(mob_command.attr("param_5").cast<int>());
+    command->setParam6(mob_command.attr("param_5").cast<int>());
 
     return command;
 }

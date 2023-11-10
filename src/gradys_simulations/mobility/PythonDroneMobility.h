@@ -26,7 +26,7 @@ namespace gradys_simulations {
 class PythonDroneMobility: public MovingMobilityBase {
 protected:
     enum PythonCommand {
-        SET_START = 1, GOTO_COORDS = 2, GOTO_GEO_COORDS = 3, SET_SPEED = 4,
+        GOTO_COORDS = 1, GOTO_GEO_COORDS = 2, SET_SPEED = 3,
     };
 
     struct PythonInstruction {
@@ -47,7 +47,7 @@ protected:
     };
 
 protected:
-    PythonInstruction *instruction;
+    PythonInstruction *instruction = nullptr;
 
     // The ground module given by the "groundModule" parameter, pointer stored for easier access.
     physicalenvironment::IGround *ground = nullptr;
@@ -55,6 +55,10 @@ protected:
     double speed;
     double heading;
     double angularSpeed;
+
+    double homeX;
+    double homeY;
+    double homeZ;
 
     double startTime;
     simtime_t telemetryFrequency;
@@ -65,10 +69,12 @@ protected:
     virtual void setInitialPosition() override;
     virtual void move() override;
     virtual void orient() override;
-    virtual void fly() override;
+    virtual void fly();
+    virtual void climb (double targetHeight);
 
 protected:
     virtual void handleMessage(cMessage *message) override;
+    virtual void sendTelemetry();
 };
 
 }
