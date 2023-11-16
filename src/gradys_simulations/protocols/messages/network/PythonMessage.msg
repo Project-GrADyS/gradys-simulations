@@ -15,8 +15,6 @@
 
 import inet.common.packet.chunk.Chunk;
 
-import gradys_simulations.protocols.messages.network.SimpleMessage;
-
 cplusplus{{
        #include<string>
        typedef std::string STRING;

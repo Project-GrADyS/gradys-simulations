@@ -28,7 +28,7 @@ static CommunicationCommand* transformToCommunicationCommandPython(
             "CommunicationCommandType");
 
     py::object ctl = CommunicationCommandTypePython(
-            comm_command.attr("command").cast<int>());
+            comm_command.attr("command_type").cast<int>());
 
     if (ctl.is(CommunicationCommandTypePython.attr("SEND"))) {
         command->setCommandType(CommunicationCommandType::SEND_MESSAGE);
@@ -63,7 +63,7 @@ static PythonMobilityCommand* transformToMobilityCommandPython(
             "gradysim.protocol.messages.mobility").attr("MobilityCommandType");
 
     py::object ctl = MobilityCommandTypePython(
-            mob_command.attr("command").cast<int>());
+            mob_command.attr("command_type").cast<int>());
     if (ctl.is(MobilityCommandTypePython.attr("GOTO_COORDS"))) {
         command->setCommandType(PythonMobilityCommandType::GOTO_COORD);
 

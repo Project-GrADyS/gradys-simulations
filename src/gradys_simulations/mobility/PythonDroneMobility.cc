@@ -194,8 +194,9 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
             case PythonMobilityCommandType::SET_SPEED: {
                 instruction = new PythonInstruction(
                         PythonCommand::GOTO_GEO_COORDS, command->getParam1(),
-                        -1, -1, -1, -1, -1);*.quads[*].mobility.homeY = 0
-
+                        -1, -1, -1, -1, -1);
+                break;
+            }
             }
             delete command;
 

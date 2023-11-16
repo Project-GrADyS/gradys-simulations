@@ -23,8 +23,8 @@ simple PythonDroneProtocol extends CommunicationProtocolBase
         @class(PythonDroneProtocol);
         double timeoutDuration @unit(s) = default(3s);
         
-        string customProtocolLocation = default("/home/lac/Documents/Gradys/workspace/gradys-sim-prototype/showcases");
-		string protocol = default("simple");
-		string protocolFileName = default("protocol_mobile");
-        string protocolMobile = default("SimpleProtocolMobile");
+        string customProtocolLocation;
+		string protocol;
+		string protocolFileName;
+        string protocolMobile;
 }
