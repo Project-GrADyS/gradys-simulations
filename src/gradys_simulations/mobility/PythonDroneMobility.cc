@@ -59,39 +59,8 @@ void PythonDroneMobility::move() {
     if (simTime() < startTime) {
         return;
     }
-    if (instruction != nullptr) {
-        switch (instruction->command) {
-        case PythonCommand::GOTO_COORDS: {
-            fly();
-            break;
-        }
-        case PythonCommand::GOTO_GEO_COORDS: {
-            Coord targetPos;
-            auto coordinateSystem = findModuleFromPar<
-                    IGeographicCoordinateSystem>(par("coordinateSystemModule"),
-                    this);
-            if (coordinateSystem != nullptr) {
-                Coord sceneCoordinate =
-                        coordinateSystem->computeSceneCoordinate(
-                                GeoCoord(deg(instruction->param1),
-                                        deg(instruction->param2),
-                                        m(instruction->param3)));
-                instruction->param1 = sceneCoordinate.x;
-                instruction->param2 = sceneCoordinate.y;
-                instruction->param3 = sceneCoordinate.z;
-            }
-            break;
-        }
-        case PythonCommand::SET_SPEED: {
-            speed = instruction->param1;
-            fly();
-            break;
-        }
-        default:
-            std::cout << "Something is wrong!" << std::endl;
-            exit(1);
-        }
-    }
+
+    fly();
 }
 
 bool checkIfOvershoot(double origin, double target, double current) {
@@ -104,11 +73,6 @@ bool checkIfOvershoot(double origin, double target, double current) {
 }
 
 void PythonDroneMobility::fly() {
-    Coord targetPos;
-    targetPos.x = instruction->param1;
-    targetPos.y = instruction->param2;
-    targetPos.z = instruction->param3;
-
     Coord previousPosition = lastPosition;
 
     if (lastPosition.x != targetPos.x || lastPosition.y != targetPos.y) {
@@ -175,26 +139,38 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
         sendTelemetry();
         scheduleAt(simTime() + telemetryFrequency, telemetryTimer);
     } else {
+
         PythonMobilityCommand *command =
                 dynamic_cast<PythonMobilityCommand*>(message);
         if (command != nullptr) {
             switch (command->getCommandType()) {
             case PythonMobilityCommandType::GOTO_COORD: {
-                instruction = new PythonInstruction(PythonCommand::GOTO_COORDS,
-                        command->getParam1(), command->getParam2(),
-                        command->getParam3(), -1, -1, -1);
+                targetPos.x = command->getParam1();
+                targetPos.y = command->getParam2();
+                targetPos.z = command->getParam3();
+
                 break;
             }
             case PythonMobilityCommandType::GOTO_GEO_COORD: {
-                instruction = new PythonInstruction(
-                        PythonCommand::GOTO_GEO_COORDS, command->getParam1(),
-                        command->getParam2(), command->getParam3(), -1, -1, -1);
+                auto coordinateSystem = findModuleFromPar<
+                        IGeographicCoordinateSystem>(par("coordinateSystemModule"),
+                        this);
+                if (coordinateSystem != nullptr) {
+                    Coord sceneCoordinate =
+                            coordinateSystem->computeSceneCoordinate(
+                                    GeoCoord(deg(command->getParam1()),
+                                            deg(command->getParam2()),
+                                            m(command->getParam3())));
+                    targetPos.x = sceneCoordinate.x;
+                    targetPos.y = sceneCoordinate.y;
+                    targetPos.z = sceneCoordinate.z;
+                }
+
                 break;
             }
             case PythonMobilityCommandType::SET_SPEED: {
-                instruction = new PythonInstruction(
-                        PythonCommand::GOTO_GEO_COORDS, command->getParam1(),
-                        -1, -1, -1, -1, -1);
+                speed = command->getParam1();
+
                 break;
             }
             }

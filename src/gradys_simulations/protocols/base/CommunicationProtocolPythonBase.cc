@@ -42,18 +42,20 @@ Define_Module(CommunicationProtocolPythonBase);
 
 void CommunicationProtocolPythonBase::initialize(int stage,
         std::string classType) {
-    std::cout << "Initialize " << std::endl;
-
     CommunicationProtocolBase::initialize(stage);
 
-    pythonInterpreter = Singleton::GetInstance();
+    if(stage == INITSTAGE_LOCAL) {
+        std::cout << "Initialize " << std::endl;
 
-    WATCH_MAP(content);
+        pythonInterpreter = Singleton::GetInstance();
 
-    if (hasGUI()) {
-        this->classType = classType;
+        WATCH_MAP(content);
 
-        updateGUI();
+        if (hasGUI()) {
+            this->classType = classType;
+
+            updateGUI();
+        }
     }
 }
 

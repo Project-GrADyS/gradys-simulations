@@ -27,34 +27,45 @@ Define_Module(PythonSensorProtocol);
 void PythonSensorProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "Sensors");
 
-    customProtocolLocation = par("customProtocolLocation").stringValue();
-    protocol = par("protocol").stringValue();
-    protocolFileName = par("protocolFileName").stringValue();
-    protocolType = par("protocolSensor").stringValue();
+    if (stage == INITSTAGE_LOCAL) {
+        customProtocolLocation = par("customProtocolLocation").stringValue();
+        protocol = par("protocol").stringValue();
+        protocolFileName = par("protocolFileName").stringValue();
+        protocolType = par("protocolSensor").stringValue();
 
-    pybind11::object InteropEncapsulator = pybind11::module_::import(
-            "simulator.encapsulator.interop").attr("InteropEncapsulator");
-    instance = InteropEncapsulator();
+        pybind11::object InteropEncapsulator = pybind11::module_::import(
+                "gradysim.encapsulator.interop").attr("InteropEncapsulator");
+        instance = InteropEncapsulator();
 
-    py::object scope = py::module_::import("__main__").attr("__dict__");
+        py::object scope = py::module_::import("__main__").attr("__dict__");
 
-    std::string sysPath = "sys.path.append('" + customProtocolLocation + "/"
-            + protocol + "')";
-    pybind11::exec(sysPath, scope);
+        std::string sysPath = "sys.path.append('" + customProtocolLocation + "/"
+                + protocol + "')";
+        pybind11::exec(sysPath, scope);
 
-    std::string import = "from " + protocolFileName + " import " + protocolType;
-    pybind11::exec(import, scope);
+        std::string import = "from " + protocolFileName + " import "
+                + protocolType;
+        pybind11::exec(import, scope);
 
-    pybind11::object protocolSensorClass =
-            pybind11::eval(protocolType, scope).cast<pybind11::object>();
+        pybind11::object protocolSensorClass = pybind11::eval(protocolType,
+                scope).cast<pybind11::object>();
 
-    instance.attr("encapsulate")(protocolSensorClass);
+        instance.attr("encapsulate")(protocolSensorClass);
 
-    instance.attr("set_timestamp")(simTime().dbl());
+        instance.attr("set_timestamp")(simTime().dbl());
 
-    pybind11::list consequences = instance.attr("initialize")(stage);
-    for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<pybind11::object>());
+//        py::object TelemetryMessageL = py::module_::import(
+//                "gradysim.protocol.messages.telemetry").attr("Telemetry");
+//
+//        pybind11::tuple tup = pybind11::make_tuple(0,0,0);
+//        py::object telemetry_obj = TelemetryMessageL("current_position"_a=tup);
+//
+//        instance.attr("handle_telemetry")(telemetry_obj);
+
+        pybind11::list consequences = instance.attr("initialize")();
+        for (auto consequence : consequences) {
+            dealWithConsequence(consequence.cast<pybind11::object>());
+        }
     }
 }
 

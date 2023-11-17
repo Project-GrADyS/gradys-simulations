@@ -27,34 +27,36 @@ Define_Module(PythonGroundProtocol);
 void PythonGroundProtocol::initialize(int stage) {
     CommunicationProtocolPythonBase::initialize(stage, "GroundStation");
 
-    customProtocolLocation = par("customProtocolLocation").stringValue();
-    protocol = par("protocol").stringValue();
-    protocolFileName = par("protocolFileName").stringValue();
-    protocolType = par("protocolGround").stringValue();
+    if(stage == INITSTAGE_LOCAL) {
+        customProtocolLocation = par("customProtocolLocation").stringValue();
+        protocol = par("protocol").stringValue();
+        protocolFileName = par("protocolFileName").stringValue();
+        protocolType = par("protocolGround").stringValue();
 
-    pybind11::object InteropEncapsulator = pybind11::module_::import(
-            "gradysim.encapsulator.interop").attr("InteropEncapsulator");
-    instance = InteropEncapsulator();
+        pybind11::object InteropEncapsulator = pybind11::module_::import(
+                "gradysim.encapsulator.interop").attr("InteropEncapsulator");
+        instance = InteropEncapsulator();
 
-    py::object scope = py::module_::import("__main__").attr("__dict__");
+        py::object scope = py::module_::import("__main__").attr("__dict__");
 
-    std::string sysPath = "sys.path.append('" + customProtocolLocation + "/"
-            + protocol + "')";
-    pybind11::exec(sysPath, scope);
+        std::string sysPath = "sys.path.append('" + customProtocolLocation + "/"
+                + protocol + "')";
+        pybind11::exec(sysPath, scope);
 
-    std::string import = "from " + protocolFileName + " import " + protocolType;
-    pybind11::exec(import, scope);
+        std::string import = "from " + protocolFileName + " import " + protocolType;
+        pybind11::exec(import, scope);
 
-    pybind11::object protocolGroundClass =
-            pybind11::eval(protocolType, scope).cast<pybind11::object>();
+        pybind11::object protocolGroundClass =
+                pybind11::eval(protocolType, scope).cast<pybind11::object>();
 
-    instance.attr("encapsulate")(protocolGroundClass);
+        instance.attr("encapsulate")(protocolGroundClass);
 
-    instance.attr("set_timestamp")(simTime().dbl());
+        instance.attr("set_timestamp")(simTime().dbl());
 
-    pybind11::list consequences = instance.attr("initialize")(stage);
-    for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<pybind11::object>());
+        pybind11::list consequences = instance.attr("initialize")();
+        for (auto consequence : consequences) {
+            dealWithConsequence(consequence.cast<pybind11::object>());
+        }
     }
 }
 

@@ -60,6 +60,8 @@ protected:
     double homeY;
     double homeZ;
 
+    Coord targetPos;
+
     double startTime;
     simtime_t telemetryFrequency;
     cMessage *telemetryTimer = new cMessage();
