@@ -53,9 +53,11 @@ void PythonGroundProtocol::initialize(int stage) {
 
         instance.attr("set_timestamp")(simTime().dbl());
 
+        instance.attr("set_id")(this->getParentModule()->getId());
+
         pybind11::list consequences = instance.attr("initialize")();
         for (auto consequence : consequences) {
-            dealWithConsequence(consequence.cast<pybind11::object>());
+            dealWithConsequence(consequence.cast<pybind11::object>(), nullptr);
         }
     }
 }

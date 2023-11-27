@@ -81,7 +81,7 @@ void CommunicationProtocolPythonBase::handlePacket(Packet *pk) {
             message->getInformation());
 
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<py::object>(), pk->getName());
     }
 
 //    delete message;
@@ -103,7 +103,7 @@ void CommunicationProtocolPythonBase::handleTimer(cMessage *msg) {
     }
 
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<py::object>(), nullptr);
     }
 }
 
@@ -124,7 +124,7 @@ void CommunicationProtocolPythonBase::handleTelemetry(
     py::list consequences = instance.attr("handle_telemetry")(telemetry_obj);
 
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<py::object>(), nullptr);
     }
 }
 
@@ -138,7 +138,7 @@ void CommunicationProtocolPythonBase::finish() {
     py::list consequences = instance.attr("finish")();
 
     for (auto consequence : consequences) {
-        dealWithConsequence(consequence.cast<py::object>());
+        dealWithConsequence(consequence.cast<py::object>(), nullptr);
     }
 
     pythonInterpreter->TryCloseInstance();
@@ -146,7 +146,7 @@ void CommunicationProtocolPythonBase::finish() {
 }
 
 void CommunicationProtocolPythonBase::dealWithConsequence(
-        py::object consequence) {
+        py::object consequence, const char * target) {
     std::cout << "Deal with consequences for " << classType << std::endl;
 
     py::tuple consequenceTuple = py::cast<py::tuple>(consequence);
@@ -155,10 +155,11 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
             "gradysim.encapsulator.interop").attr("ConsequenceType");
 
     py::object ctl = ConsequenceTypePython(consequenceTuple[0].cast<int>());
+    std::cout << "ConsequenceType " << consequenceTuple[0].cast<int>() << std::endl;
     if (ctl.is(ConsequenceTypePython.attr("COMMUNICATION"))) {
         CommunicationCommand *communicationCommand =
                 gradys_simulations::transformToCommunicationCommandPython(
-                        consequenceTuple[1].cast<py::object>());
+                        consequenceTuple[1].cast<py::object>(), target);
         sendCommand(communicationCommand);
 
     } else if (ctl.is(ConsequenceTypePython.attr("MOBILITY"))) {

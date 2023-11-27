@@ -58,18 +58,12 @@ void PythonDroneProtocol::initialize(int stage) {
 
         instance.attr("set_timestamp")(simTime().dbl());
 
+        instance.attr("set_id")(this->getParentModule()->getId());
+
         pybind11::list consequences = instance.attr("initialize")();
         for (auto consequence : consequences) {
-            dealWithConsequence(consequence.cast<pybind11::object>());
+            dealWithConsequence(consequence.cast<pybind11::object>(), nullptr);
         }
-
-//        py::object TelemetryMessageL = py::module_::import(
-//                "gradysim.protocol.messages.telemetry").attr("Telemetry");
-//
-//        pybind11::tuple tup = pybind11::make_tuple(0,0,0);
-//        py::object telemetry_obj = TelemetryMessageL("current_position"_a=tup);
-//
-//        instance.attr("handle_telemetry")(telemetry_obj);
 
     }
 }

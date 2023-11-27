@@ -15,7 +15,7 @@ namespace py = pybind11;
 namespace gradys_simulations {
 
 static CommunicationCommand* transformToCommunicationCommandPython(
-        py::object comm_command) {
+        py::object comm_command, const char * target) {
 
     nlohmann::json jsonMessage = nlohmann::json::parse(
             comm_command.attr("message").cast<std::string>());
@@ -32,10 +32,14 @@ static CommunicationCommand* transformToCommunicationCommandPython(
 
     if (ctl.is(CommunicationCommandTypePython.attr("SEND"))) {
         command->setCommandType(CommunicationCommandType::SEND_MESSAGE);
-
+//        int target = jsonMessage["destination"];
+//        const char* targetName = getSimulation()->getModule(target)->getName();
+        command->setTarget(target);
+//        targetCommand->setTarget(pk->getName())
     } else if (ctl.is(CommunicationCommandTypePython.attr("BROADCAST"))) {
-        command->setCommandType(CommunicationCommandType::SET_TARGET);
-
+        command->setCommandType(CommunicationCommandType::SEND_MESSAGE);
+        // Broadcast
+        command->setTarget(nullptr);
     } else {
         std::cout
                 << "Something is wrong in transformToCommunicationCommandPython"

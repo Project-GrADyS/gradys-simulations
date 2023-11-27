@@ -51,7 +51,8 @@ protected:
 
     py::object instance;
 
-    virtual void dealWithConsequence(py::object consequence);
+    virtual void dealWithConsequence(
+            py::object consequence, const char * target);
 
 private:
     std::string classType;
