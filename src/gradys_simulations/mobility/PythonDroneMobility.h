@@ -56,9 +56,8 @@ protected:
     double heading;
     double angularSpeed;
 
-    double homeX;
-    double homeY;
-    double homeZ;
+    double initialLongitude;
+    double initialLatitude;
 
     Coord targetPos;
 

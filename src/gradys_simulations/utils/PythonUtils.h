@@ -83,12 +83,12 @@ static PythonMobilityCommand* transformToMobilityCommandPython(
         exit(1);
     }
 
-    command->setParam1(mob_command.attr("param_1").cast<int>());
-    command->setParam2(mob_command.attr("param_2").cast<int>());
-    command->setParam3(mob_command.attr("param_3").cast<int>());
-    command->setParam4(mob_command.attr("param_4").cast<int>());
-    command->setParam5(mob_command.attr("param_5").cast<int>());
-    command->setParam6(mob_command.attr("param_5").cast<int>());
+    command->setParam1(mob_command.attr("param_1").cast<double>());
+    command->setParam2(mob_command.attr("param_2").cast<double>());
+    command->setParam3(mob_command.attr("param_3").cast<double>());
+    command->setParam4(mob_command.attr("param_4").cast<double>());
+    command->setParam5(mob_command.attr("param_5").cast<double>());
+    command->setParam6(mob_command.attr("param_5").cast<double>());
 
     return command;
 }

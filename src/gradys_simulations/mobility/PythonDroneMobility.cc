@@ -25,9 +25,8 @@ void PythonDroneMobility::initialize(int stage) {
         speed = par("speed");
         heading = 0;
 
-        homeX = par("homeX");
-        homeY = par("homeY");
-        homeZ = par("homeZ");
+        initialLongitude = par("initialLongitude");
+        initialLatitude = par("initialLatitude");
 
         ground = findModuleFromPar<IGround>(par("groundModule"), this);
 
@@ -39,9 +38,19 @@ void PythonDroneMobility::initialize(int stage) {
 }
 
 void PythonDroneMobility::setInitialPosition() {
-    lastPosition.x = homeX;
-    lastPosition.y = homeY;
-    lastPosition.z = homeZ;
+    auto coordinateSystem = findModuleFromPar<
+            IGeographicCoordinateSystem>(par("coordinateSystemModule"),
+            this);
+    if (coordinateSystem != nullptr) {
+        Coord sceneCoordinate =
+                coordinateSystem->computeSceneCoordinate(
+                        GeoCoord(deg(initialLatitude),
+                                deg(initialLongitude),
+                                m(0)));
+        lastPosition.x = sceneCoordinate.x;
+        lastPosition.y = sceneCoordinate.y;
+        lastPosition.z = sceneCoordinate.z;
+    }
 
     lastVelocity.x = speed * cos(M_PI * heading / 180);
     lastVelocity.y = speed * sin(M_PI * heading / 180);

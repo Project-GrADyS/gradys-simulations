@@ -13,10 +13,9 @@ simple PythonDroneMobility extends MovingMobilityBase
         double initialZ @unit(m) = default(nanToZero(uniform(constraintAreaMinZ, constraintAreaMaxZ)));
         bool initFromDisplayString = default(true); // enables one time initialization from the subject module's display string
     
-        double homeX = default(0);
-        double homeY = default(0);
-  		double homeZ = default(0);
-    
+        double initialLongitude @unit(deg) = default(0deg);
+        double initialLatitude @unit(deg) = default(0deg);
+
     	double startTime @unit(s) = default(0s);
         double telemetryFrequency @unit(s) = default(1s);
         

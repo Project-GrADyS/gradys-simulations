@@ -155,7 +155,7 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
             "gradysim.encapsulator.interop").attr("ConsequenceType");
 
     py::object ctl = ConsequenceTypePython(consequenceTuple[0].cast<int>());
-    std::cout << "ConsequenceType " << consequenceTuple[0].cast<int>() << std::endl;
+
     if (ctl.is(ConsequenceTypePython.attr("COMMUNICATION"))) {
         CommunicationCommand *communicationCommand =
                 gradys_simulations::transformToCommunicationCommandPython(
