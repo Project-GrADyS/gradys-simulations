@@ -97,6 +97,7 @@ OBJS = \
     $O/gradys_simulations/protocols/messages/internal/MobilityCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/Telemetry_m.o \
+    $O/gradys_simulations/protocols/messages/internal/TimerCommand_m.o \
     $O/gradys_simulations/protocols/messages/network/CentralizedQMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/DadcaMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/PythonMessage_m.o \
@@ -111,6 +112,7 @@ MSGFILES = \
     gradys_simulations/protocols/messages/internal/MobilityCommand.msg \
     gradys_simulations/protocols/messages/internal/PythonMobilityCommand.msg \
     gradys_simulations/protocols/messages/internal/Telemetry.msg \
+    gradys_simulations/protocols/messages/internal/TimerCommand.msg \
     gradys_simulations/protocols/messages/network/CentralizedQMessage.msg \
     gradys_simulations/protocols/messages/network/DadcaMessage.msg \
     gradys_simulations/protocols/messages/network/PythonMessage.msg \

@@ -94,10 +94,11 @@ void CommunicationProtocolPythonBase::handleTimer(cMessage *msg) {
 
     instance.attr("set_timestamp")(simTime().dbl());
 
-    PythonMessage *message = dynamic_cast<PythonMessage*>(msg);
+    TimerCommand *message = dynamic_cast<TimerCommand*>(msg);
     py::list consequences;
     if (message != nullptr) {
-        consequences = instance.attr("handle_timer")(message->getInformation());
+        const PythonMessage* pm = dynamic_cast<const PythonMessage*>(message->getPayloadTemplate());
+        consequences = instance.attr("handle_timer")(pm->getInformation());
     } else {
         consequences = instance.attr("handle_timer")("");
     }
@@ -170,7 +171,15 @@ void CommunicationProtocolPythonBase::dealWithConsequence(
 
     } else if (ctl.is(ConsequenceTypePython.attr("TIMER"))) {
         py::tuple infos = py::cast<py::tuple>(consequenceTuple[1].cast<py::object>());
-        scheduleAt(SimTime(py::cast<double>(infos[1])), new cMessage());
+
+        PythonMessage *payload = new PythonMessage();
+        payload->addTag<CreationTimeTag>()->setCreationTime(simTime());
+        payload->setInformation(infos[0].cast<std::string>());
+
+        TimerCommand *command = new TimerCommand();
+        command->setPayloadTemplate(payload);
+
+        scheduleAt(SimTime(py::cast<double>(infos[1])), command);
 
     } else if (ctl.is(ConsequenceTypePython.attr("TRACK_VARIABLE"))) {
         py::tuple track_variable = py::cast<py::tuple>(consequenceTuple[1]);

@@ -28,6 +28,10 @@ void PythonDroneMobility::initialize(int stage) {
         initialLongitude = par("initialLongitude");
         initialLatitude = par("initialLatitude");
 
+        initialX = par("initialX");
+        initialY = par("initialY");
+        initialZ = par("initialZ");
+
         ground = findModuleFromPar<IGround>(par("groundModule"), this);
 
         telemetryFrequency = par("telemetryFrequency");
@@ -38,18 +42,18 @@ void PythonDroneMobility::initialize(int stage) {
 }
 
 void PythonDroneMobility::setInitialPosition() {
-    auto coordinateSystem = findModuleFromPar<
-            IGeographicCoordinateSystem>(par("coordinateSystemModule"),
-            this);
+    auto coordinateSystem = findModuleFromPar<IGeographicCoordinateSystem>(
+            par("coordinateSystemModule"), this);
     if (coordinateSystem != nullptr) {
-        Coord sceneCoordinate =
-                coordinateSystem->computeSceneCoordinate(
-                        GeoCoord(deg(initialLatitude),
-                                deg(initialLongitude),
-                                m(0)));
+        Coord sceneCoordinate = coordinateSystem->computeSceneCoordinate(
+                GeoCoord(deg(initialLatitude), deg(initialLongitude), m(0)));
         lastPosition.x = sceneCoordinate.x;
         lastPosition.y = sceneCoordinate.y;
         lastPosition.z = sceneCoordinate.z;
+    } else {
+        lastPosition.x = initialX;
+        lastPosition.y = initialY;
+        lastPosition.z = initialZ;
     }
 
     lastVelocity.x = speed * cos(M_PI * heading / 180);
@@ -154,6 +158,7 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
         if (command != nullptr) {
             switch (command->getCommandType()) {
             case PythonMobilityCommandType::GOTO_COORD: {
+
                 targetPos.x = command->getParam1();
                 targetPos.y = command->getParam2();
                 targetPos.z = command->getParam3();
@@ -162,14 +167,15 @@ void PythonDroneMobility::handleMessage(cMessage *message) {
             }
             case PythonMobilityCommandType::GOTO_GEO_COORD: {
                 auto coordinateSystem = findModuleFromPar<
-                        IGeographicCoordinateSystem>(par("coordinateSystemModule"),
-                        this);
+                        IGeographicCoordinateSystem>(
+                        par("coordinateSystemModule"), this);
                 if (coordinateSystem != nullptr) {
                     Coord sceneCoordinate =
                             coordinateSystem->computeSceneCoordinate(
                                     GeoCoord(deg(command->getParam1()),
                                             deg(command->getParam2()),
                                             m(command->getParam3())));
+
                     targetPos.x = sceneCoordinate.x;
                     targetPos.y = sceneCoordinate.y;
                     targetPos.z = sceneCoordinate.z;

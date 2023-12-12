@@ -56,6 +56,10 @@ protected:
     double heading;
     double angularSpeed;
 
+    double initialX;
+    double initialY;
+    double initialZ;
+
     double initialLongitude;
     double initialLatitude;
 
