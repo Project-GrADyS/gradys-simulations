@@ -1,8 +1,8 @@
 #
-# OMNeT++/OMNEST Makefile for gradys_simulations
+# OMNeT++/OMNEST Makefile for gradys-simulations
 #
 # This file was generated with the command:
-#  opp_makemake --nolink -f --deep -O out -KINET4_5_PROJ=../inet-4.5.0 -DINET_IMPORT -I. -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lINET$$\(D\) -d src -X.
+#  opp_makemake --nolink -f --deep -O out -KINET4_5_PROJ=../inet4.5 -DINET_IMPORT -I. -Isrc/gradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Isrc/json/include -Isrc/pybind11_json/include -Isrc/pybind11/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lINET$$\(D\) -d src -X.
 #
 
 # Output directory
@@ -11,7 +11,7 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Other makefile variables (-K)
-INET4_5_PROJ=../inet-4.5.0
+INET4_5_PROJ=../inet4.5
 
 #------------------------------------------------------------------------------
 

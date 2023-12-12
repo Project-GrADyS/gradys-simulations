@@ -21,5 +21,6 @@ simple SimpleSensorProtocol extends CommunicationProtocolBase
 {
     parameters:
         @class(SimpleSensorProtocol);
+        @signal[dataLoad](type=long);
         int payloadSize = default(5);
 }

@@ -35,6 +35,8 @@
 *.exe
 *.out
 *.app
+gradys_simulations_build
+gradys_simulations_build_dbg
 
 # Ignore cache files
 **/cache/**

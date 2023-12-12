@@ -20,6 +20,6 @@ import gradys_simulations.protocols.base.CommunicationProtocolBase;
 simple SimpleGroundProtocol extends CommunicationProtocolBase
 {
     parameters:
-        @class(SimpleGroundProtocol);
-        @signal[dataLoad](type=long); // Declaration of dataLoad signal used to track current data load that the drone is carrying
+		@class(SimpleGroundProtocol);
+        @signal[dataLoad](type=long);
 }

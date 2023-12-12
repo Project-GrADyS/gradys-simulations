@@ -1,0 +1,1040 @@
+12:23:44 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+12:23:45 **** Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
+Building...
+gradys_simulations/MobileNode.cc
+gradys_simulations/MobileSensorNode.cc
+gradys_simulations/antenna/DipoleAntennaCustom.cc
+gradys_simulations/antenna/DipoleAntennaCustom.cc: In member function ‘virtual std::ostream& gradys_simulations::DipoleAntennaCustom::printToStream(std::ostream&, int, int) const’:
+gradys_simulations/antenna/DipoleAntennaCustom.cc:49:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   49 |     if (level <= PRINT_LEVEL_DETAIL)
+      |     ^~
+gradys_simulations/antenna/DipoleAntennaCustom.cc:51:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   51 |         stream << ", maxGain = " << gain->getMaxGain();
+      |         ^~~~~~
+In file included from gradys_simulations/antenna/DipoleAntennaCustom.cc:18:
+gradys_simulations/antenna/DipoleAntennaCustom.h: In constructor ‘gradys_simulations::DipoleAntennaCustom::AntennaGain::AntennaGain(const char*, inet::units::values::m, inet::units::values::m, double, double)’:
+gradys_simulations/antenna/DipoleAntennaCustom.h:40:16: warning: ‘gradys_simulations::DipoleAntennaCustom::AntennaGain::minGain’ will be initialized after [-Wreorder]
+   40 |         double minGain;
+      |                ^~~~~~~
+gradys_simulations/antenna/DipoleAntennaCustom.h:37:11: warning:   ‘inet::units::values::m gradys_simulations::DipoleAntennaCustom::AntennaGain::length’ [-Wreorder]
+   37 |         m length;
+      |           ^~~~~~
+gradys_simulations/antenna/DipoleAntennaCustom.cc:57:1: warning:   when initialized here [-Wreorder]
+   57 | DipoleAntennaCustom::AntennaGain::AntennaGain(const char *wireAxis, m length, m lambda, double maxGain, double minGain) :
+      | ^~~~~~~~~~~~~~~~~~~
+gradys_simulations/applications/mamapp/MamDataCollectorApp.cc
+gradys_simulations/applications/mamapp/MamDataCollectorApp.cc: In member function ‘virtual void gradys_simulations::MamDataCollectorApp::setSocketOptions()’:
+gradys_simulations/applications/mamapp/MamDataCollectorApp.cc:179:9: warning: unused variable ‘dscp’ [-Wunused-variable]
+  179 |     int dscp = findPar("dscp");
+      |         ^~~~
+gradys_simulations/applications/mamapp/MamNodeApp.cc
+gradys_simulations/applications/mamapp/MamNodeApp.cc: In member function ‘virtual void gradys_simulations::MamNodeApp::setSocketOptions()’:
+gradys_simulations/applications/mamapp/MamNodeApp.cc:163:9: warning: unused variable ‘dscp’ [-Wunused-variable]
+  163 |     int dscp = findPar("dscp");
+      |         ^~~~
+gradys_simulations/applications/mamapp/Md5.cc
+gradys_simulations/communication/modules/UdpCommunicationApp.cc
+gradys_simulations/linklayer/blemesh/BleMeshMac.cc
+gradys_simulations/linklayer/blemesh/BleMeshProtocolDissector.cc
+gradys_simulations/linklayer/blemesh/NetworkInterfaceExt.cc
+gradys_simulations/mobility/DroneMobility.cc
+gradys_simulations/mobility/DroneMobility.cc: In member function ‘virtual void gradys_simulations::DroneMobility::move()’:
+gradys_simulations/mobility/DroneMobility.cc:146:33: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobility::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  146 |     if (currentInstructionIndex >= instructions.size()) {
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobility.cc: In member function ‘virtual void gradys_simulations::DroneMobility::fly()’:
+gradys_simulations/mobility/DroneMobility.cc:428:11: warning: variable ‘previousVelocity’ set but not used [-Wunused-but-set-variable]
+  428 |     Coord previousVelocity = lastVelocity;
+      |           ^~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobility.cc: In member function ‘virtual void gradys_simulations::DroneMobility::nextInstruction()’:
+gradys_simulations/mobility/DroneMobility.cc:508:36: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobility::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  508 |         if(currentInstructionIndex >= instructions.size()) {
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobility.cc: In member function ‘virtual void gradys_simulations::DroneMobility::sendTelemetry(bool)’:
+gradys_simulations/mobility/DroneMobility.cc:686:82: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobility::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  686 |     if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
+      |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobility.cc: In member function ‘virtual int gradys_simulations::DroneMobility::instructionIndexFromWaypoint(int)’:
+gradys_simulations/mobility/DroneMobility.cc:719:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobility::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  719 |     for(index=0;index<instructions.size();index++) {
+      |                 ~~~~~^~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobilityMav.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/DroneMobilityMav.h:20,
+                 from gradys_simulations/mobility/DroneMobilityMav.cc:1:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/mobility/DroneMobilityMav.cc: In member function ‘virtual void gradys_simulations::DroneMobilityMav::move()’:
+gradys_simulations/mobility/DroneMobilityMav.cc:146:33: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobilityMav::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  146 |     if (currentInstructionIndex >= instructions.size()) {
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobilityMav.cc: In member function ‘virtual void gradys_simulations::DroneMobilityMav::nextInstruction()’:
+gradys_simulations/mobility/DroneMobilityMav.cc:395:36: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobilityMav::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  395 |         if(currentInstructionIndex >= instructions.size()) {
+      |            ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobilityMav.cc: In member function ‘virtual void gradys_simulations::DroneMobilityMav::sendTelemetry(bool)’:
+gradys_simulations/mobility/DroneMobilityMav.cc:574:82: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobilityMav::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  574 |     if(droneStatus.lastInstructionIndex >= 0 && droneStatus.lastInstructionIndex < instructions.size()) {
+      |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/DroneMobilityMav.cc: In member function ‘virtual int gradys_simulations::DroneMobilityMav::instructionIndexFromWaypoint(int)’:
+gradys_simulations/mobility/DroneMobilityMav.cc:606:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::DroneMobilityMav::Instruction>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  606 |     for(index=0;index<instructions.size();index++) {
+      |                 ~~~~~^~~~~~~~~~~~~~~~~~~~
+gradys_simulations/mobility/MAVLinkFileMobility.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkFileMobility.cc:17:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.h:20,
+                 from gradys_simulations/mobility/MAVLinkRandomWaypointMobility.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/mobility/base/MAVLinkMobilityBase.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.h:26,
+                 from gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:16:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/mobility/base/MAVLinkMobilityBase.cc: In member function ‘virtual bool gradys_simulations::MAVLinkMobilityBase::sendMessage(const mavlink_message_t&, bool, int&, int)’:
+gradys_simulations/mobility/base/MAVLinkMobilityBase.cc:473:22: warning: unused variable ‘c’ [-Wunused-variable]
+  473 |     static const int c = sizeof(sockaddr_in);
+      |                      ^
+gradys_simulations/mobility/failures/RandomFailureGenerator.cc
+gradys_simulations/mobility/failures/SimpleConsumptionEnergy.cc
+gradys_simulations/mobility/failures/SimpleTimerEnergy.cc
+gradys_simulations/mobility/failures/base/FailureGeneratorBase.cc
+gradys_simulations/pathloss/TwoRayNewModel.cc
+In file included from gradys_simulations/pathloss/TwoRayNewModel.cc:2:
+gradys_simulations/pathloss/TwoRayNewModel.h: In constructor ‘gradys_simulations::TwoRayNewModel::TwoRayNewModel()’:
+gradys_simulations/pathloss/TwoRayNewModel.h:27:10: warning: ‘gradys_simulations::TwoRayNewModel::polarization’ will be initialized after [-Wreorder]
+   27 |     char polarization;
+      |          ^~~~~~~~~~~~
+gradys_simulations/pathloss/TwoRayNewModel.h:25:12: warning:   ‘double gradys_simulations::TwoRayNewModel::sigma’ [-Wreorder]
+   25 |     double sigma;
+      |            ^~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:31:1: warning:   when initialized here [-Wreorder]
+   31 | TwoRayNewModel::TwoRayNewModel() :
+      | ^~~~~~~~~~~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc: In member function ‘virtual double gradys_simulations::TwoRayNewModel::terraEsferica(const inet::Coord&, const inet::Coord&, inet::units::values::m) const’:
+gradys_simulations/pathloss/TwoRayNewModel.cc:148:12: warning: unused variable ‘dr’ [-Wunused-variable]
+  148 |     double dr  = abs(r_r - r_d);    //diferen�a entre os raios
+      |            ^~
+gradys_simulations/pathloss/TwoRayNewModel.cc: In member function ‘virtual double gradys_simulations::TwoRayNewModel::terraPlana(const inet::Coord&, const inet::Coord&, inet::units::values::m) const’:
+gradys_simulations/pathloss/TwoRayNewModel.cc:206:12: warning: unused variable ‘Req’ [-Wunused-variable]
+  206 |     double Req = 1.33*6371000;
+      |            ^~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:211:12: warning: unused variable ‘d_x_t’ [-Wunused-variable]
+  211 |     double d_x_t = pos_t.x;
+      |            ^~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:212:12: warning: unused variable ‘d_x_r’ [-Wunused-variable]
+  212 |     double d_x_r = pos_r.x;
+      |            ^~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:213:12: warning: unused variable ‘d_y_t’ [-Wunused-variable]
+  213 |     double d_y_t = pos_t.y;
+      |            ^~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:214:12: warning: unused variable ‘d_y_r’ [-Wunused-variable]
+  214 |     double d_y_r = pos_r.y;
+      |            ^~~~~
+gradys_simulations/pathloss/TwoRayNewModel.cc:219:12: warning: unused variable ‘hr’ [-Wunused-variable]
+  219 |     double hr = h_r;
+      |            ^~
+gradys_simulations/pathloss/TwoRayNewModel.cc:223:12: warning: unused variable ‘d2’ [-Wunused-variable]
+  223 |     double d2 = (h_r*d)/(h_t+h_r); //distancia do receptor ao potno de reflex�o
+      |            ^~
+gradys_simulations/pathloss/TwoRayNewModel.cc:244:12: warning: unused variable ‘D’ [-Wunused-variable]
+  244 |     double D = 1; //fator de divergencia unit�rio para o caso da terra plana
+      |            ^
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual double gradys_simulations::CentralizedQLearning::computeCost(const GlobalState&)’:
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:308:18: warning: unused variable ‘value’ [-Wunused-variable]
+  308 |         for(auto value: newState.sensors) {
+      |                  ^~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual void gradys_simulations::CentralizedQLearning::exportQTable()’:
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:461:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  461 |         for(int index = 0; index < globalState.agents.size(); index++) {
+      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:463:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  463 |             if(index < globalState.agents.size() - 1) {
+      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:470:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  470 |         for(int index = 0; index < globalState.agents.size(); index++) {
+      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:472:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalState>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  472 |             if(index < globalState.agents.size() - 1) {
+      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:481:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  481 |         for(int index = 0; index < globalState.sensors.size(); index++) {
+      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:483:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<unsigned int>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  483 |             if(index < globalState.sensors.size() - 1) {
+      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:494:34: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalControl>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  494 |         for(int index = 0; index < jointControl.size(); index++) {
+      |                            ~~~~~~^~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:496:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<LocalControl>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  496 |             if(index < jointControl.size() - 1) {
+      |                ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:504:24: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::unordered_map<std::pair<GlobalState, std::vector<LocalControl> >, double, gradys_simulations::QTableKeyHash>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  504 |         if (tableIndex < QTable.size() - 1) {
+      |             ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc: In member function ‘virtual JointControl gradys_simulations::CentralizedQLearning::generateRandomJointControl()’:
+gradys_simulations/protocols/auxiliary/CentralizedQLearning.cc:613:29: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<gradys_simulations::CentralizedQLearning::CentralizedQAgent*>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  613 |     for(int index = 0;index < agents.size(); index++) {
+      |                       ~~~~~~^~~~~~~~~~~~~~~
+gradys_simulations/protocols/base/CommunicationProtocolBase.cc
+gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc
+In file included from ./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:26,
+                 from gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc:16:
+./gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
+   13 | class Singleton {
+      |       ^~~~~~~~~
+In file included from gradys_simulations/protocols/base/CommunicationProtocolPythonBase.cc:16:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:38:7: warning: ‘gradys_simulations::CommunicationProtocolPythonBase’ declared with greater visibility than the type of its field ‘gradys_simulations::CommunicationProtocolPythonBase::instance’ [-Wattributes]
+   38 | class CommunicationProtocolPythonBase: public CommunicationProtocolBase {
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/ground/CentralizedQProtocolGround.cc
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc: In member function ‘virtual void gradys_simulations::DadcaProtocolGround::initialize(int)’:
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc:41:13: warning: unused variable ‘duration’ [-Wunused-variable]
+   41 |         int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
+      |             ^~~~~~~~
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc: In member function ‘virtual void gradys_simulations::DadcaProtocolGround::rendevouz()’:
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc:266:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::Coord>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  266 |     for(int i = 0; i < tour.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~
+gradys_simulations/protocols/ground/DadcaProtocolGround.cc:289:40: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<double>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  289 |     for(waypointIndex=0; waypointIndex < cumulativeDistances.size() ; waypointIndex++) {
+      |                          ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/ground/PythonGroundProtocol.cc
+In file included from ./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:26,
+                 from ./gradys_simulations/protocols/ground/PythonGroundProtocol.h:21,
+                 from gradys_simulations/protocols/ground/PythonGroundProtocol.cc:20:
+./gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
+   13 | class Singleton {
+      |       ^~~~~~~~~
+In file included from ./gradys_simulations/protocols/ground/PythonGroundProtocol.h:21,
+                 from gradys_simulations/protocols/ground/PythonGroundProtocol.cc:20:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:38:7: warning: ‘gradys_simulations::CommunicationProtocolPythonBase’ declared with greater visibility than the type of its field ‘gradys_simulations::CommunicationProtocolPythonBase::instance’ [-Wattributes]
+   38 | class CommunicationProtocolPythonBase: public CommunicationProtocolBase {
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/ground/SimpleGroundProtocol.cc
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc: In member function ‘virtual void gradys_simulations::CentralizedQProtocol::handleTelemetry(gradys_simulations::Telemetry*)’:
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc:129:11: warning: variable ‘currentWaypoint’ set but not used [-Wunused-but-set-variable]
+  129 |     Coord currentWaypoint = tour[telemetry->getLastWaypointID()];
+      |           ^~~~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc:130:11: warning: variable ‘nextWaypoint’ set but not used [-Wunused-but-set-variable]
+  130 |     Coord nextWaypoint = tour[telemetry->getNextWaypointID()];
+      |           ^~~~~~~~~~~~
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc: In member function ‘virtual void gradys_simulations::CentralizedQProtocol::handlePacket(inet::Packet*)’:
+gradys_simulations/protocols/mobile/CentralizedQProtocol.cc:203:33: warning: comparison of integer expressions of different signedness: ‘uint32_t’ {aka ‘unsigned int’} and ‘int’ [-Wsign-compare]
+  203 |             if(collectedPackets > packetLimit) {
+      |                ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/DadcaProtocol.cc
+gradys_simulations/protocols/mobile/DadcaProtocol.cc: In member function ‘virtual void gradys_simulations::DadcaProtocol::initialize(int)’:
+gradys_simulations/protocols/mobile/DadcaProtocol.cc:41:13: warning: unused variable ‘duration’ [-Wunused-variable]
+   41 |         int duration = timeoutDuration.inUnit(SimTimeUnit::SIMTIME_S);
+      |             ^~~~~~~~
+gradys_simulations/protocols/mobile/DadcaProtocol.cc: In member function ‘virtual void gradys_simulations::DadcaProtocol::rendevouz()’:
+gradys_simulations/protocols/mobile/DadcaProtocol.cc:265:22: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<inet::Coord>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  265 |     for(int i = 0; i < tour.size(); i++) {
+      |                    ~~^~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/DadcaProtocol.cc:288:40: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<double>::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  288 |     for(waypointIndex=0; waypointIndex < cumulativeDistances.size() ; waypointIndex++) {
+      |                          ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/PythonDroneProtocol.cc
+In file included from ./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:26,
+                 from gradys_simulations/protocols/mobile/PythonDroneProtocol.h:21,
+                 from gradys_simulations/protocols/mobile/PythonDroneProtocol.cc:16:
+./gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
+   13 | class Singleton {
+      |       ^~~~~~~~~
+In file included from gradys_simulations/protocols/mobile/PythonDroneProtocol.h:21,
+                 from gradys_simulations/protocols/mobile/PythonDroneProtocol.cc:16:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:38:7: warning: ‘gradys_simulations::CommunicationProtocolPythonBase’ declared with greater visibility than the type of its field ‘gradys_simulations::CommunicationProtocolPythonBase::instance’ [-Wattributes]
+   38 | class CommunicationProtocolPythonBase: public CommunicationProtocolBase {
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from gradys_simulations/protocols/mobile/PythonDroneProtocol.cc:24:
+gradys_simulations/protocols/mobile/../../utils/PythonUtils.h:93:20: warning: ‘std::string gradys_simulations::concatenate(const string&, int)’ defined but not used [-Wunused-function]
+   93 | static std::string concatenate(const std::string &str, int num) {
+      |                    ^~~~~~~~~~~
+gradys_simulations/protocols/mobile/../../utils/PythonUtils.h:55:25: warning: ‘gradys_simulations::MobilityCommand* gradys_simulations::transformToMobilityCommandPython(pybind11::object)’ defined but not used [-Wunused-function]
+   55 | static MobilityCommand* transformToMobilityCommandPython(
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/../../utils/PythonUtils.h:16:30: warning: ‘gradys_simulations::CommunicationCommand* gradys_simulations::transformToCommunicationCommandPython(pybind11::object)’ defined but not used [-Wunused-function]
+   16 | static CommunicationCommand* transformToCommunicationCommandPython(
+      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/mobile/SimpleDroneProtocol.cc
+gradys_simulations/protocols/mobile/ZigzagProtocol.cc
+gradys_simulations/protocols/sensor/CentralizedQProtocolSensor.cc
+gradys_simulations/protocols/sensor/DadcaProtocolSensor.cc
+gradys_simulations/protocols/sensor/PythonSensorProtocol.cc
+In file included from ./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:26,
+                 from ./gradys_simulations/protocols/sensor/PythonSensorProtocol.h:21,
+                 from gradys_simulations/protocols/sensor/PythonSensorProtocol.cc:20:
+./gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
+   13 | class Singleton {
+      |       ^~~~~~~~~
+In file included from ./gradys_simulations/protocols/sensor/PythonSensorProtocol.h:21,
+                 from gradys_simulations/protocols/sensor/PythonSensorProtocol.cc:20:
+./gradys_simulations/protocols/base/CommunicationProtocolPythonBase.h:38:7: warning: ‘gradys_simulations::CommunicationProtocolPythonBase’ declared with greater visibility than the type of its field ‘gradys_simulations::CommunicationProtocolPythonBase::instance’ [-Wattributes]
+   38 | class CommunicationProtocolPythonBase: public CommunicationProtocolBase {
+      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gradys_simulations/protocols/sensor/SimpleSensorProtocol.cc
+gradys_simulations/protocols/sensor/ZigzagProtocolSensor.cc
+gradys_simulations/utils/Singleton.cc
+In file included from gradys_simulations/utils/Singleton.cc:1:
+gradys_simulations/utils/Singleton.h:13:7: warning: ‘gradys_simulations::Singleton’ declared with greater visibility than the type of its field ‘gradys_simulations::Singleton::stream’ [-Wattributes]
+   13 | class Singleton {
+      |       ^~~~~~~~~
+gradys_simulations/utils/TelemetryConditions.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from gradys_simulations/utils/TelemetryConditions.h:1,
+                 from gradys_simulations/utils/TelemetryConditions.cc:3:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/utils/TelemetryConditions.cc: In lambda function:
+gradys_simulations/utils/TelemetryConditions.cc:212:23: warning: enumeration value ‘COPTER’ not handled in switch [-Wswitch]
+  212 |                 switch(type) {
+      |                       ^
+gradys_simulations/utils/TelemetryConditions.cc:212:23: warning: enumeration value ‘ROVER’ not handled in switch [-Wswitch]
+gradys_simulations/utils/VehicleRoutines.cc
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:242: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2114,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:183:406: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  183 |     return mavlink_msg_set_attitude_target_pack(system_id, component_id, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h: In function ‘uint16_t mavlink_msg_set_attitude_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_attitude_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:253: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_attitude_target.h:197:417: warning: taking address of packed member of ‘__mavlink_set_attitude_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  197 |     return mavlink_msg_set_attitude_target_pack_chan(system_id, component_id, chan, msg, set_attitude_target->time_boot_ms, set_attitude_target->target_system, set_attitude_target->target_component, set_attitude_target->type_mask, set_attitude_target->q, set_attitude_target->body_roll_rate, set_attitude_target->body_pitch_rate, set_attitude_target->body_yaw_rate, set_attitude_target->thrust, set_attitude_target->thrust_body);
+      |                                                                                                                                                                                                                                                                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2157,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:200:387: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_distance_sensor_pack(system_id, component_id, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h: In function ‘uint16_t mavlink_msg_distance_sensor_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_distance_sensor_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_distance_sensor.h:214:398: warning: taking address of packed member of ‘__mavlink_distance_sensor_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_distance_sensor_pack_chan(system_id, component_id, chan, msg, distance_sensor->time_boot_ms, distance_sensor->min_distance, distance_sensor->max_distance, distance_sensor->current_distance, distance_sensor->type, distance_sensor->id, distance_sensor->orientation, distance_sensor->covariance, distance_sensor->horizontal_fov, distance_sensor->vertical_fov, distance_sensor->quaternion, distance_sensor->signal_quality);
+      |                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~~^~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2171,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:195: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                   ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:219:418: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  219 |     return mavlink_msg_battery_status_pack(system_id, component_id, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h: In function ‘uint16_t mavlink_msg_battery_status_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_battery_status_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:206: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                              ~~~~~~~~~~~~~~~~^~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_battery_status.h:233:429: warning: taking address of packed member of ‘__mavlink_battery_status_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  233 |     return mavlink_msg_battery_status_pack_chan(system_id, component_id, chan, msg, battery_status->id, battery_status->battery_function, battery_status->type, battery_status->temperature, battery_status->voltages, battery_status->current_battery, battery_status->current_consumed, battery_status->energy_consumed, battery_status->battery_remaining, battery_status->time_remaining, battery_status->charge_state, battery_status->voltages_ext, battery_status->mode, battery_status->fault_bitmask);
+      |                                                                                                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+In file included from ./mavlink/ardupilotmega/../common/common.h:2173,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:218:349: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  218 |     return mavlink_msg_landing_target_pack(system_id, component_id, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                             ~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h: In function ‘uint16_t mavlink_msg_landing_target_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_landing_target_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_landing_target.h:232:360: warning: taking address of packed member of ‘__mavlink_landing_target_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  232 |     return mavlink_msg_landing_target_pack_chan(system_id, component_id, chan, msg, landing_target->time_usec, landing_target->target_num, landing_target->frame, landing_target->angle_x, landing_target->angle_y, landing_target->distance, landing_target->size_x, landing_target->size_y, landing_target->x, landing_target->y, landing_target->z, landing_target->q, landing_target->type, landing_target->position_valid);
+      |                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2184,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:191:218: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  191 |     return mavlink_msg_home_position_pack(system_id, component_id, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                           ~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h: In function ‘uint16_t mavlink_msg_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_home_position.h:205:229: warning: taking address of packed member of ‘__mavlink_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  205 |     return mavlink_msg_home_position_pack_chan(system_id, component_id, chan, msg, home_position->latitude, home_position->longitude, home_position->altitude, home_position->x, home_position->y, home_position->z, home_position->q, home_position->approach_x, home_position->approach_y, home_position->approach_z, home_position->time_usec);
+      |                                                                                                                                                                                                                      ~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2185,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:200:284: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  200 |     return mavlink_msg_set_home_position_pack(system_id, component_id, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~^
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h: In function ‘uint16_t mavlink_msg_set_home_position_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_set_home_position_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_set_home_position.h:214:295: warning: taking address of packed member of ‘__mavlink_set_home_position_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  214 |     return mavlink_msg_set_home_position_pack_chan(system_id, component_id, chan, msg, set_home_position->target_system, set_home_position->latitude, set_home_position->longitude, set_home_position->altitude, set_home_position->x, set_home_position->y, set_home_position->z, set_home_position->q, set_home_position->approach_x, set_home_position->approach_y, set_home_position->approach_z, set_home_position->time_usec);
+      |                                                                                                                                                                                                                                                                                    ~~~~~~~~~~~~~~~~~~~^
+In file included from ./mavlink/ardupilotmega/../common/common.h:2235,
+                 from ./mavlink/ardupilotmega/ardupilotmega.h:1037,
+                 from ./mavlink/ardupilotmega/mavlink.h:32,
+                 from ./gradys_simulations/mobility/base/MAVLinkInstruction.h:13,
+                 from gradys_simulations/utils/VehicleRoutines.h:4,
+                 from gradys_simulations/utils/VehicleRoutines.cc:8:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode(uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:173:158: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  173 |     return mavlink_msg_obstacle_distance_pack(system_id, component_id, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                           ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h: In function ‘uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t, uint8_t, uint8_t, mavlink_message_t*, const mavlink_obstacle_distance_t*)’:
+./mavlink/ardupilotmega/../common/./mavlink_msg_obstacle_distance.h:187:169: warning: taking address of packed member of ‘__mavlink_obstacle_distance_t’ may result in an unaligned pointer value [-Waddress-of-packed-member]
+  187 |     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
+      |                                                                                                                                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+gradys_simulations/utils/VehicleRoutines.cc: In function ‘std::vector<std::shared_ptr<gradys_simulations::Instruction> > gradys_simulations::VehicleRoutines::setModeRover(uint8_t, uint8_t, Mode, uint8_t, uint8_t, omnetpp::simtime_t, int)’:
+gradys_simulations/utils/VehicleRoutines.cc:223:12: warning: enumeration value ‘TAKEOFF’ not handled in switch [-Wswitch]
+  223 |     switch (mode) {
+      |            ^
+gradys_simulations/utils/subprocess/process.cc
+gradys_simulations/utils/subprocess/process_unix.cc
+gradys_simulations/utils/subprocess/process_win.cc
+gradys_simulations/visualization/CustomOsgStatisticVisualizer.cc
+gradys_simulations/applications/mamapp/BMeshPacket_m.cc
+gradys_simulations/linklayer/blemesh/BleMeshMacHeader_m.cc
+gradys_simulations/protocols/messages/internal/CommunicationCommand_m.cc
+gradys_simulations/protocols/messages/internal/MobilityCommand_m.cc
+gradys_simulations/protocols/messages/internal/Telemetry_m.cc
+gradys_simulations/protocols/messages/network/CentralizedQMessage_m.cc
+gradys_simulations/protocols/messages/network/DadcaMessage_m.cc
+gradys_simulations/protocols/messages/network/PythonMessage_m.cc
+gradys_simulations/protocols/messages/network/SimpleMessage_m.cc
+gradys_simulations/protocols/messages/network/ZigzagMessage_m.cc
+Creating executable: ../out/gcc-debug/src/gradys_simulations_build_dbg
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'
+12:26:14 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+12:26:16 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'
+12:26:50 **** Incremental Build of configuration debug for project inet4.5 ****
+make MODE=debug -j8 all 
+make[1]: Entering directory '/home/lac/workspace/inet4.5/src'
+*** CCACHE not detected - using precompiled headers
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -fopenmp -Wno-overloaded-virtual -include inet/common/precompiled_debug.h -DOMNETPPLIBS_IMPORT -DINET_EXPORT -I. -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/libINET_dbg.so -Wl,--no-as-needed -Wl,--whole-archive  -Wl,--no-whole-archive -loppenvir_dbg -loppsim_dbg -ldl -lstdc++  -losg -losgText -losgDB -losgGA -losgViewer -losgUtil -lOpenThreads  -losgEarth -losgEarthUtil    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib -fopenmp
+Building...
+make[1]: Nothing to be done for 'all-pch'.
+make[1]: Leaving directory '/home/lac/workspace/inet4.5/src'
+12:26:52 **** Incremental Build of configuration debug for project gradys-simulations ****
+make MODE=debug all 
+cd src && make all
+make[1]: Entering directory '/home/lac/workspace/gradys-simulations/src'
+*** COMPILING with:
+g++ -c  -O0 -Wall -ggdb3   -MMD -MP -MF .d  -fPIC  -fno-omit-frame-pointer -DHAVE_SWAPCONTEXT -DWITH_QTENV -DWITH_NETBUILDER -DWITH_OSG -DWITH_OSGEARTH -DOMNETPPLIBS_IMPORT -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I../../inet4.5/src -I/home/lac/omnetpp-6.0.1/include
+*** LINKING with:
+g++ -shared -fPIC -o ../out/gcc-debug/src/gradys_simulations_build_dbg -Wl,--no-as-needed -Wl,--whole-archive -L../../inet4.5/src  -lpthread -lINET_dbg -Wl,-rpath,/home/lac/workspace/inet4.5/src -Wl,--no-whole-archive -loppmain_dbg -Wl,-u,_cmdenv_lib -Wl,--no-as-needed -loppcmdenv_dbg -loppenvir_dbg -Wl,-u,_qtenv_lib -Wl,--no-as-needed -Wl,-rpath=/usr/lib/x86_64-linux-gnu -loppqtenv_dbg -loppenvir_dbg -lopplayout_dbg  -loppsim_dbg -ldl -lstdc++    -Wl,-rpath,/home/lac/omnetpp-6.0.1/lib -Wl,-rpath,/home/lac/omnetpp-6.0.1/tools/linux.x86_64/lib -Wl,-rpath,.  -Wl,--export-dynamic -L/home/lac/omnetpp-6.0.1/lib
+Building...
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/lac/workspace/gradys-simulations/src'

@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for gradys_simulations_build
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet-4.5.0 -DINET_IMPORT -I/mavlink -I. -I/gradys_simulations -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\)
+#  opp_makemake -f --deep -o gradys_simulations_build -KINET4_5_PROJ=../../inet4.5 -DINET_IMPORT -I/mavlink -I/json -I/pybind11 -I/pybind11_json -I/gradys_simulations -I. -Igradys_simulations -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 -Ijson/include -Ipybind11_json/include -Ipybind11/include -I$$\(INET4_5_PROJ\)/src -L$$\(INET4_5_PROJ\)/src -lpthread -lINET$$\(D\) -Xjson/docs -Xjson/tests -Xjson/tools -Xpybind11/tests -Xpybind11_json/test -- /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 #
 
 # Name of target to be created (-o option)
@@ -19,10 +19,22 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I/mavlink -I. -I/gradys_simulations -I$(INET4_5_PROJ)/src
+INCLUDE_PATH = \
+    -I/mavlink \
+    -I/json \
+    -I/pybind11 \
+    -I/pybind11_json \
+    -I/gradys_simulations \
+    -I. \
+    -Igradys_simulations \
+    -I/home/lac/.pyenv/versions/3.11.4/include/python3.11 \
+    -Ijson/include \
+    -Ipybind11_json/include \
+    -Ipybind11/include \
+    -I$(INET4_5_PROJ)/src
 
 # Additional object and library files to link with
-EXTRA_OBJS =
+EXTRA_OBJS = /home/lac/.pyenv/versions/3.11.4/lib/libpython3.11.so.1.0
 
 # Additional libraries (-L, -l options)
 LIBS = $(LDFLAG_LIBPATH)$(INET4_5_PROJ)/src  -lpthread -lINET$(D)
@@ -48,6 +60,7 @@ OBJS = \
     $O/gradys_simulations/mobility/DroneMobilityMav.o \
     $O/gradys_simulations/mobility/MAVLinkFileMobility.o \
     $O/gradys_simulations/mobility/MAVLinkRandomWaypointMobility.o \
+    $O/gradys_simulations/mobility/PythonDroneMobility.o \
     $O/gradys_simulations/mobility/base/MAVLinkMobilityBase.o \
     $O/gradys_simulations/mobility/failures/RandomFailureGenerator.o \
     $O/gradys_simulations/mobility/failures/SimpleConsumptionEnergy.o \
@@ -56,17 +69,22 @@ OBJS = \
     $O/gradys_simulations/pathloss/TwoRayNewModel.o \
     $O/gradys_simulations/protocols/auxiliary/CentralizedQLearning.o \
     $O/gradys_simulations/protocols/base/CommunicationProtocolBase.o \
+    $O/gradys_simulations/protocols/base/CommunicationProtocolPythonBase.o \
     $O/gradys_simulations/protocols/ground/CentralizedQProtocolGround.o \
     $O/gradys_simulations/protocols/ground/DadcaProtocolGround.o \
+    $O/gradys_simulations/protocols/ground/PythonGroundProtocol.o \
     $O/gradys_simulations/protocols/ground/SimpleGroundProtocol.o \
     $O/gradys_simulations/protocols/mobile/CentralizedQProtocol.o \
     $O/gradys_simulations/protocols/mobile/DadcaProtocol.o \
+    $O/gradys_simulations/protocols/mobile/PythonDroneProtocol.o \
     $O/gradys_simulations/protocols/mobile/SimpleDroneProtocol.o \
     $O/gradys_simulations/protocols/mobile/ZigzagProtocol.o \
     $O/gradys_simulations/protocols/sensor/CentralizedQProtocolSensor.o \
     $O/gradys_simulations/protocols/sensor/DadcaProtocolSensor.o \
+    $O/gradys_simulations/protocols/sensor/PythonSensorProtocol.o \
     $O/gradys_simulations/protocols/sensor/SimpleSensorProtocol.o \
     $O/gradys_simulations/protocols/sensor/ZigzagProtocolSensor.o \
+    $O/gradys_simulations/utils/Singleton.o \
     $O/gradys_simulations/utils/TelemetryConditions.o \
     $O/gradys_simulations/utils/VehicleRoutines.o \
     $O/gradys_simulations/utils/subprocess/process.o \
@@ -77,9 +95,12 @@ OBJS = \
     $O/gradys_simulations/linklayer/blemesh/BleMeshMacHeader_m.o \
     $O/gradys_simulations/protocols/messages/internal/CommunicationCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/MobilityCommand_m.o \
+    $O/gradys_simulations/protocols/messages/internal/PythonMobilityCommand_m.o \
     $O/gradys_simulations/protocols/messages/internal/Telemetry_m.o \
+    $O/gradys_simulations/protocols/messages/internal/TimerCommand_m.o \
     $O/gradys_simulations/protocols/messages/network/CentralizedQMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/DadcaMessage_m.o \
+    $O/gradys_simulations/protocols/messages/network/PythonMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/SimpleMessage_m.o \
     $O/gradys_simulations/protocols/messages/network/ZigzagMessage_m.o
 
@@ -89,9 +110,12 @@ MSGFILES = \
     gradys_simulations/linklayer/blemesh/BleMeshMacHeader.msg \
     gradys_simulations/protocols/messages/internal/CommunicationCommand.msg \
     gradys_simulations/protocols/messages/internal/MobilityCommand.msg \
+    gradys_simulations/protocols/messages/internal/PythonMobilityCommand.msg \
     gradys_simulations/protocols/messages/internal/Telemetry.msg \
+    gradys_simulations/protocols/messages/internal/TimerCommand.msg \
     gradys_simulations/protocols/messages/network/CentralizedQMessage.msg \
     gradys_simulations/protocols/messages/network/DadcaMessage.msg \
+    gradys_simulations/protocols/messages/network/PythonMessage.msg \
     gradys_simulations/protocols/messages/network/SimpleMessage.msg \
     gradys_simulations/protocols/messages/network/ZigzagMessage.msg
 
@@ -99,7 +123,7 @@ MSGFILES = \
 SMFILES =
 
 # Other makefile variables (-K)
-INET4_5_PROJ=../../inet-4.5.0
+INET4_5_PROJ=../../inet4.5
 
 #------------------------------------------------------------------------------
 

@@ -1,0 +1,10 @@
+[submodule "src/pybind11"]
+	path = src/pybind11
+	url = git@github.com:pybind/pybind11.git
+[submodule "src/pybind11_json"]
+	path = src/pybind11_json
+	url = git@github.com:pybind/pybind11_json.git
+[submodule "src/json"]
+	path = src/json
+	url = git@github.com:nlohmann/json.git
+	branch = master
