@@ -903,3 +903,8 @@ This guide works under Linux and Windows (WSL2). In the following it is explaine
         > export DISPLAY=:0.0
         > xhost +local:docker
         > docker run -ti -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix [IMAGE_ID] bash
+    - Now that the container is opened start omnetpp with the following command
+        > omnetpp
+    - Afterwards select the workspace folder and make it your default. The folder is called `workspace` and is located in the home directory
+    - Now that this is done make sure the correct INET project settings are enabled 
+    - Afterwards you can run any showcase to experiment with omnetpp
