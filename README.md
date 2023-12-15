@@ -10,4 +10,4 @@ It works by spawning SITL instances that provide a physical simulation of the ve
 ![Dadca protocol showcase](./gradys_simulations_docs/assets/dadca_showcase.gif)
 
 ## Documentation
-More information can be found on the [project's official documentation](https://brunoolivieri.github.io/gradys-simulations/)
+More information can be found on the [project's official documentation](https://project-gradys.github.io/gradys-simulations/)
