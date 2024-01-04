@@ -64,7 +64,7 @@ ENV GRADYS_SIMULATIONS_ROOT $HOME/workspace/gradys-simulations
 
 # Build and install gradys simulations as well as python package
 COPY --chown=$USERNAME . $GRADYS_SIMULATIONS_ROOT
-RUN source ~/.bashrc && pip install GrADySIM
+RUN source ~/.bashrc && pip install gradysim
 
 # =================================================================================================
 # End base stage
