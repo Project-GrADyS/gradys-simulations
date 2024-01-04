@@ -813,68 +813,68 @@ Setting Up Omnet++ and INet Locally for Running Gradys Simulations. This guide w
 
 1) Installation of Omnet++ and INet
 
-    Before proceeding with the official installation instructions, it's essential to make adjustments to the `configure.user` file located in the Omnet folder where your project will be built. These adjustments are crucial for enabling the 3D visualization used in Gradys simulations. Ensure that both `WITH_OSG` and `WITH_OSGEARTH` are set to yes. You can find an exemplary version of the `configure.user` file in the docker_setup folder.
-    You can then follow the step-by-step installation procedures for Omnet++ and INet. Additionally, the simulation manual is also provided for reference:
+Before proceeding with the official installation instructions, it's essential to make adjustments to the `configure.user` file located in the Omnet folder where your project will be built. These adjustments are crucial for enabling the 3D visualization used in Gradys simulations. Ensure that both `WITH_OSG` and `WITH_OSGEARTH` are set to yes. You can find an exemplary version of the `configure.user` file in the docker_setup folder.
+You can then follow the step-by-step installation procedures for Omnet++ and INet. Additionally, the simulation manual is also provided for reference:
 
-    - Omnet++ Installation Guide: https://doc.omnetpp.org/omnetpp/InstallGuide.pdf
-    - Omnet++ Simulation Manual: https://doc.omnetpp.org/omnetpp/manual/
+- Omnet++ Installation Guide: https://doc.omnetpp.org/omnetpp/InstallGuide.pdf
+- Omnet++ Simulation Manual: https://doc.omnetpp.org/omnetpp/manual/
 
-    ![File Structure](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Installation/folder_structure.png)
+![File Structure](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Installation/folder_structure.png)
 
 
 2) Importing Projects
 
-    Once you have successfully installed Omnet++ and INet, you'll need to import the Gradys Simulations project and the INET project into your current workspace. You can do this as follows. Go to File -> Import -> Existing Projects into Workspace. Select the GradysSimulations Project and repeat the same for the INET Project. You can also refer to the provided screenshots for a visual guide on these steps. 
+Once you have successfully installed Omnet++ and INet, you'll need to import the Gradys Simulations project and the INET project into your current workspace. You can do this as follows. Go to File -> Import -> Existing Projects into Workspace. Select the GradysSimulations Project and repeat the same for the INET Project. You can also refer to the provided screenshots for a visual guide on these steps. 
 
-    ![Importing Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/import_project.png)
+![Importing Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/import_project.png)
 
-    ![Selecting Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/select_project.png)
+![Selecting Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/select_project.png)
 
 3) Configuration of GradysSimulations and INet
 
-    After successfully installing Omnet++ and INet, the next step is to configure your integrated development environment (IDE) for GradysSimulations and INet to effectively run your project. This configuration process involves setting up various parameters and settings tailored to the specific requirements of Gradys Simulation.
+After successfully installing Omnet++ and INet, the next step is to configure your integrated development environment (IDE) for GradysSimulations and INet to effectively run your project. This configuration process involves setting up various parameters and settings tailored to the specific requirements of Gradys Simulation.
 
-    - Configuration Gradys Simulation
-        
-        To run the Gradys Simulation project smoothly, several configurations must be in place, particularly regarding how the program locates includes for Python, JSON, Pybind, and Pybind JSON. These settings can be found within the "Paths and Symbols" configuration. You can access this configuration as follows: Right Click on your project -> Properties -> C/C++ General -> Paths and Symbols. Within the "Paths and Symbols" configuration, you will find three language tabs: Assembly, C, and C++. Since our imported projects only employ C++ for JSON, Pybind, and Pybind_JSON, you need to focus on the C++ tab. All other tabs should primarily include the project itself. For a visual guide on these steps follow step i, ii. In addition to that, the project's Makemake needs to be configured. In the Target tab it's important to specify a custom target name since the project otherwise has build problems. For the Compile it is important that all projects that are relative to the makefile and are used are imported. This means `/mavlink, /json, /pybind11, /pybind11_json, /gradys_simulations, . .` For the Linking tab it's important that additional libraries such as pthread and the path to the libpython are included. For a visual guide on these steps follow step iii. Last but not least we have to ensure that the python installation is correctly configured and we have our simulator package properly installed. For this we have to go into the PyDev - Interpreter / Grammar Settings and select our installed python environment in which we want to install the simulator package. In our case we have set up a new python installation with pyenv.One way of doing this is shown here: https://github.com/pyenv/pyenv. Afterwards we go into the python project and can run pip install . in the root of the project.
+- Configuration Gradys Simulation
 
-        - Open Configuration Menu
-            
-            ![Open Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/1.png)
-        
-        - Configure Paths and Symbols
+To run the Gradys Simulation project smoothly, several configurations must be in place, particularly regarding how the program locates includes for Python, JSON, Pybind, and Pybind JSON. These settings can be found within the "Paths and Symbols" configuration. You can access this configuration as follows: Right Click on your project -> Properties -> C/C++ General -> Paths and Symbols. Within the "Paths and Symbols" configuration, you will find three language tabs: Assembly, C, and C++. Since our imported projects only employ C++ for JSON, Pybind, and Pybind_JSON, you need to focus on the C++ tab. All other tabs should primarily include the project itself. For a visual guide on these steps follow step i, ii. In addition to that, the project's Makemake needs to be configured. In the Target tab it's important to specify a custom target name since the project otherwise has build problems. For the Compile it is important that all projects that are relative to the makefile and are used are imported. This means `/mavlink, /json, /pybind11, /pybind11_json, /gradys_simulations, . .` For the Linking tab it's important that additional libraries such as pthread and the path to the libpython are included. For a visual guide on these steps follow step iii. Last but not least we have to ensure that the python installation is correctly configured and we have our simulator package properly installed. For this we have to go into the PyDev - Interpreter / Grammar Settings and select our installed python environment in which we want to install the simulator package. In our case we have set up a new python installation with pyenv.One way of doing this is shown here: https://github.com/pyenv/pyenv. Afterwards we go into the python project and can run pip install . in the root of the project.
 
-            ![Paths And Symbols Assembly](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_assembly.png)  
+- Open Configuration Menu
+    
+    ![Open Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/1.png)
 
-            ![Paths And Symbols C](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_c.png)
+- Configure Paths and Symbols
 
-            ![Paths And Symbols Cpp](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_cpp.png)
+    ![Paths And Symbols Assembly](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_assembly.png)  
 
-        - Configure Project Makemake
+    ![Paths And Symbols C](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_c.png)
 
-            ![MakeMake 1](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_1.png)
+    ![Paths And Symbols Cpp](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_cpp.png)
 
-            ![MakeMake 2](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_2.png)
-            
-            ![MakeMake 3](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_3.png)
-            
-            ![MakeMake 4](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_4.png)
-            
-            ![MakeMake 5](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_5.png)
+- Configure Project Makemake
 
-        - Configure Python Environment
+    ![MakeMake 1](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_1.png)
 
-            ![Interpreter Creation](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/Interpreter_Creation.png)
+    ![MakeMake 2](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_2.png)
+    
+    ![MakeMake 3](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_3.png)
+    
+    ![MakeMake 4](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_4.png)
+    
+    ![MakeMake 5](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_5.png)
 
-            ![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/PythonConfiguration/Interpreter_Selection.png)
+- Configure Python Environment
 
-    - Configuration INet
-        
-        For the configuration of INet only the Project Features of the Omnet++ have to be adjusted. In particular we need to enable 3D Visualization. This is necessary so that we can have a nice visual presentation of our drones and sensors in Omnet++. 
+    ![Interpreter Creation](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/Interpreter_Creation.png)
 
-        ![Select Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/properties.png)
+    ![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/PythonConfiguration/Interpreter_Selection.png)
 
-        ![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/ProjectFeatures.png)
+- Configuration INet
+
+For the configuration of INet only the Project Features of the Omnet++ have to be adjusted. In particular we need to enable 3D Visualization. This is necessary so that we can have a nice visual presentation of our drones and sensors in Omnet++. 
+
+![Select Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/properties.png)
+
+![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/ProjectFeatures.png)
 
 ## Running Gradys Simulations in Docker
 This guide works under Linux and Windows (WSL2). In the following it is explained how to setup the Docker Container and open to Omnet++ IDE to run the GradysSimulations with Python and SITL extension. Additionally it will explain how to build the docker container on your own and how to configure it. 
@@ -892,19 +892,19 @@ This guide works under Linux and Windows (WSL2). In the following it is explaine
 
 2) For building the docker image on your own machine use the following steps:
 
-    NOTE: In case changes to the code base were made and they required changes in the omnet setting e.g. updating paths / including imports. Make sure that those are also updated in the docker_setup folder. This folder contains basic ide settings as well as metadata information
+NOTE: In case changes to the code base were made and they required changes in the omnet setting e.g. updating paths / including imports. Make sure that those are also updated in the docker_setup folder. This folder contains basic ide settings as well as metadata information
 
-    - Install Docker on your machine
-    - Open a Terminal (on Windows use WSL2) in the directory of the Dockerfile
-    - Run the following command to build the image
-        > docker build --build-arg OMNETPP_VERSION=6.0.1 --build-arg INET_VERSION=4.5 .
-    - After the image is successfully built check the image id and run the container
-        > docker image ls
-        > export DISPLAY=:0.0
-        > xhost +local:docker
-        > docker run -ti -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix [IMAGE_ID] bash
-    - Now that the container is opened start omnetpp with the following command
-        > omnetpp
-    - Afterwards select the workspace folder and make it your default. The folder is called `workspace` and is located in the home directory
-    - Now that this is done make sure the correct INET project settings are enabled 
-    - Afterwards you can run any showcase to experiment with omnetpp
+- Install Docker on your machine
+- Open a Terminal (on Windows use WSL2) in the directory of the Dockerfile
+- Run the following command to build the image
+    > docker build --build-arg OMNETPP_VERSION=6.0.1 --build-arg INET_VERSION=4.5 .
+- After the image is successfully built check the image id and run the container
+    > docker image ls
+    > export DISPLAY=:0.0
+    > xhost +local:docker
+    > docker run -ti -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix [IMAGE_ID] bash
+- Now that the container is opened start omnetpp with the following command
+    > omnetpp
+- Afterwards select the workspace folder and make it your default. The folder is called `workspace` and is located in the home directory
+- Now that this is done make sure the correct INET project settings are enabled 
+- Afterwards you can run any showcase to experiment with omnetpp
