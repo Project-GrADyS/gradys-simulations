@@ -7,7 +7,7 @@ This is a repository for the simulation framework developed for the GrADyS proje
 
 It works by spawning SITL instances that provide a physical simulation of the vehicle's behaviour and connecting them to the mobility classes in your simulation. A user can transparently use these mobility modules without worrying about the details of the communication and messages being exchanged between the network simulator and the SITL instances and a developer can use the strong interface provided in the project's base mobility class to implement his own mobility modules.
 
-![Dadca protocol showcase](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/dadca_showcase.gif)
+![Dadca protocol showcase](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/dadca_showcase.gif)
 
 
 ## Installation
@@ -87,7 +87,7 @@ Recently some more showcases were added. They were created to test and measure t
 
 To aid us in interpreting this data we implemented data reporting to the modules used in these configs. When the parameter campaigns run they generate several *.vec* and other OMNeT++ statistical files. By using OMNeT++'s built in data analysis tools we can extrant information from these runs. To learn more about how to use these files to generate visualizations using the OMNeT++ IDE, check it's [User Guida](https://doc.omnetpp.org/omnetpp/UserGuide.pdf). Here are some examples:
 
-![Statistics example](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/anaylsis_showcase.png/?raw=true)
+![Statistics example](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/anaylsis_showcase.png/?raw=true)
 
 Launch configurations dictate the parameters of your simulation and you can change **omnetpp.ini** to suit your necessities. Here are some of the more important parameters that you can try switching yourself:
 
@@ -168,13 +168,13 @@ That is all you need to know if you plan to use this framework's existing module
 # Project Structure
 ## Diagrams
 **Project Structure Diagram**
-![Project structure diagram](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/structure_diagram.png)
+![Project structure diagram](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/structure_diagram.png)
 
 **MAVSIMNET architecture diagram**
-![MAVSIMNET architecture diagram](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/architexture-diagram-v3-english.drawio.png)
+![MAVSIMNET architecture diagram](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/architexture-diagram-v3-english.drawio.png)
 
 **Project Message Diagram**
-![Project message diagram](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/message_diagram.png)
+![Project message diagram](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/message_diagram.png)
 
 INET offers a series of modules that control node mobility. Our objective was to create a module that was capable of simulating a very simple UAV mobility model and could react to network events. This setup allows support for a wide array of possible UAV coordination protocols.
 
@@ -266,7 +266,7 @@ The only mobility module currently implemented is **DroneMobility.ned** which si
 
  Heres a diagram illustrating the functionality of some of these models:
  
- ![Failure message diagram](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/message_diagram_failure.png)
+ ![Failure message diagram](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/message_diagram_failure.png)
 
  ## Communication
  INET provides built in support for the simulation of real communications protocols and the communication module takes advantage of this to simulate communication between nodes. It also has to inform the protocol module of the messages being recieved by sharing the messages themselves and listen to orders from the protocol module through CommunicationCommands. Here are the messages used:
@@ -794,7 +794,7 @@ With all that you should be able to run the simulation and after selecting "Simp
 
 If you did everything right you should be seeing something like this:
 
-![Simple protocol showcase](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/simple_showcase.gif)
+![Simple protocol showcase](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/simple_showcase.gif)
 
 ---
 
@@ -819,16 +819,16 @@ You can then follow the step-by-step installation procedures for Omnet++ and INe
 - Omnet++ Installation Guide: https://doc.omnetpp.org/omnetpp/InstallGuide.pdf
 - Omnet++ Simulation Manual: https://doc.omnetpp.org/omnetpp/manual/
 
-![File Structure](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Installation/folder_structure.png)
+![File Structure](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Installation/folder_structure.png)
 
 
 2) Importing Projects
 
 Once you have successfully installed Omnet++ and INet, you'll need to import the Gradys Simulations project and the INET project into your current workspace. You can do this as follows. Go to File -> Import -> Existing Projects into Workspace. Select the GradysSimulations Project and repeat the same for the INET Project. You can also refer to the provided screenshots for a visual guide on these steps. 
 
-![Importing Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/import_project.png)
+![Importing Project](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/import_project.png)
 
-![Selecting Project](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/select_project.png)
+![Selecting Project](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/ImportingProjects/select_project.png)
 
 3) Configuration of GradysSimulations and INet
 
@@ -840,41 +840,41 @@ To run the Gradys Simulation project smoothly, several configurations must be in
 
 - Open Configuration Menu
     
-    ![Open Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/1.png)
+![Open Properties](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/1.png)
 
 - Configure Paths and Symbols
 
-    ![Paths And Symbols Assembly](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_assembly.png)  
+![Paths And Symbols Assembly](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_assembly.png)  
 
-    ![Paths And Symbols C](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_c.png)
+![Paths And Symbols C](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_c.png)
 
-    ![Paths And Symbols Cpp](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_cpp.png)
+![Paths And Symbols Cpp](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/2_cpp.png)
 
 - Configure Project Makemake
 
-    ![MakeMake 1](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_1.png)
+![MakeMake 1](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_1.png)
 
-    ![MakeMake 2](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_2.png)
-    
-    ![MakeMake 3](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_3.png)
-    
-    ![MakeMake 4](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_4.png)
-    
-    ![MakeMake 5](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_5.png)
+![MakeMake 2](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_2.png)
+
+![MakeMake 3](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_3.png)
+
+![MakeMake 4](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_4.png)
+
+![MakeMake 5](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/3_5.png)
 
 - Configure Python Environment
 
-    ![Interpreter Creation](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/Interpreter_Creation.png)
+![Interpreter Creation](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/Configuration/Interpreter_Creation.png)
 
-    ![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/PythonConfiguration/Interpreter_Selection.png)
+![Interpreter Selection](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/PythonConfiguration/Interpreter_Selection.png)
 
 - Configuration INet
 
 For the configuration of INet only the Project Features of the Omnet++ have to be adjusted. In particular we need to enable 3D Visualization. This is necessary so that we can have a nice visual presentation of our drones and sensors in Omnet++. 
 
-![Select Properties](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/properties.png)
+![Select Properties](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/properties.png)
 
-![Interpreter Selection](https://raw.githubusercontent.com/brunoolivieri/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/ProjectFeatures.png)
+![Interpreter Selection](https://raw.githubusercontent.com/Project-GrADyS/gradys-simulations/main/gradys_simulations_docs/assets/setup/GradysSimulations/INet/ProjectFeatures.png)
 
 ## Running Gradys Simulations in Docker
 This guide works under Linux and Windows (WSL2). In the following it is explained how to setup the Docker Container and open to Omnet++ IDE to run the GradysSimulations with Python and SITL extension. Additionally it will explain how to build the docker container on your own and how to configure it. 
