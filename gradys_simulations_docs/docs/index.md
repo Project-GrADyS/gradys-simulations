@@ -14,7 +14,11 @@ It works by spawning SITL instances that provide a physical simulation of the ve
 There are two ways to install and use Gradys-Sim. The first one is to download the provided virtual applience which you can import into any virtual machine software that supports the *.ova* file format. The second one it to install direcly into your machine
 
 ### 1. Virtualization
-Just download the virtual applience file (.ova) from [this link](https://drive.google.com/file/d/1IlgWMdPeYZH246wYP_pVjzWEvD9X_tZH/view?usp=sharing) and import it into any virtual machine software that supports the *.ova* file format. There should be a user called "gradys" with password "gradys" already created on imported virtual machine. [Oracle's VirtualBox](https://www.virtualbox.org/) is recommended.
+Just download the virtual applience file (.ova) from [this link](https://drive.google.com/file/d/12fdnAZPwr71j6yR2qScmUMv6U0uTFbf0/view?usp=sharing)  and import it into any virtual machine software that supports the *.ova* file format. There should be a user called "gradys" with password "gradys" already created on imported virtual machine. [Oracle's VirtualBox](https://www.virtualbox.org/) is recommended.
+
+Previous versions of this image:
+
+- [OMNeT++ 5.6.2](https://drive.google.com/file/d/1IlgWMdPeYZH246wYP_pVjzWEvD9X_tZH/view?usp=sharing)
 
 ### 2. Local Installation
 In order to run the simulations and use the components in this repository you need to have both OMNeT++ and the INET framework installed.
