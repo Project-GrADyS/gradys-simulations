@@ -86,3 +86,6 @@ netanim-trace.txt
 /.metadata/
 /doc/
 /out/
+
+
+**.pyc**
