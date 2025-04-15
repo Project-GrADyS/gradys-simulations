@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>CentralizedQProtocolSensor - gradys-simulations</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CentralizedQProtocolSensor";
+        var mkdocs_page_input_path = "Header/CentralizedQProtocolSensor.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> gradys-simulations
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Gradys Simulations</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Header</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../BleMeshMac/">BleMeshMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../BleMeshProtocolDissector/">BleMeshProtocolDissector</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQLearning/">CentralizedQLearning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQProtocol/">CentralizedQProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQProtocolGround/">CentralizedQProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">CentralizedQProtocolSensor</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#description">Description</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#getawaitingpackets">getAwaitingPackets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getmaxawaitingpackets">getMaxAwaitingPackets</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hasbeenvisited">hasBeenVisited</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#getsensorposition">getSensorPosition</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cmessage">cMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#initialize">initialize</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#finish">finish</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlemessage">handleMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlepacket">handlePacket</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CommunicationProtocolBase/">CommunicationProtocolBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CommunicationProtocolPythonBase/">CommunicationProtocolPythonBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CustomOsgStatisticVisualizer/">CustomOsgStatisticVisualizer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocol/">DadcaProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocolGround/">DadcaProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocolSensor/">DadcaProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DipoleAntennaCustom/">DipoleAntennaCustom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DroneMobility/">DroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DroneMobilityMav/">DroneMobilityMav</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../FailureGeneratorBase/">FailureGeneratorBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkFileMobility/">MAVLinkFileMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkMobilityBase/">MAVLinkMobilityBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkRandomWaypointMobility/">MAVLinkRandomWaypointMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MamDataCollectorApp/">MamDataCollectorApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MamNodeApp/">MamNodeApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MobileNode/">MobileNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MobileSensorNode/">MobileSensorNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../NetworkInterfaceExt/">NetworkInterfaceExt</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonDroneMobility/">PythonDroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonDroneProtocol/">PythonDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonGroundProtocol/">PythonGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonSensorProtocol/">PythonSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../RandomFailureGenerator/">RandomFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleConsumptionEnergy/">SimpleConsumptionEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleDroneProtocol/">SimpleDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleGroundProtocol/">SimpleGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleSensorProtocol/">SimpleSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleTimerEnergy/">SimpleTimerEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Singleton/">Singleton</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../TwoRayNewModel/">TwoRayNewModel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../UdpCommunicationApp/">UdpCommunicationApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ZigzagProtocol/">ZigzagProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ZigzagProtocolSensor/">ZigzagProtocolSensor</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Modules</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshMac/">BleMeshMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshNarrowbandInterface/">BleMeshNarrowbandInterface</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshNarrowbandMac/">BleMeshNarrowbandMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshUwbIrInterface/">BleMeshUwbIrInterface</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQLearning/">CentralizedQLearning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocol/">CentralizedQProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocolGround/">CentralizedQProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocolSensor/">CentralizedQProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CommunicationProtocolBase/">CommunicationProtocolBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CommunicationProtocolPythonBase/">CommunicationProtocolPythonBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocol/">DadcaProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocolGround/">DadcaProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocolSensor/">DadcaProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DipoleAntennaCustom/">DipoleAntennaCustom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DroneMobility/">DroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DroneMobilityMav/">DroneMobilityMav</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/FailureGeneratorBase/">FailureGeneratorBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/GroundStation/">GroundStation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/IFailureGenerator/">IFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/IProtocol/">IProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkFileMobility/">MAVLinkFileMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkMobilityBase/">MAVLinkMobilityBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkRandomWaypointMobility/">MAVLinkRandomWaypointMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MamDataCollectorApp/">MamDataCollectorApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MamNodeApp/">MamNodeApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileNode/">MobileNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileNodeMam/">MobileNodeMam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileSensorNode/">MobileSensorNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonDroneMobility/">PythonDroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonDroneProtocol/">PythonDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonGroundProtocol/">PythonGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonSensorProtocol/">PythonSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/RandomFailureGenerator/">RandomFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleConsumptionEnergy/">SimpleConsumptionEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleDroneProtocol/">SimpleDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleGroundProtocol/">SimpleGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleSensorProtocol/">SimpleSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleTimerEnergy/">SimpleTimerEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/TwoRayNewModel/">TwoRayNewModel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/UdpCommunicationApp/">UdpCommunicationApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/ZigzagProtocol/">ZigzagProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/ZigzagProtocolSensor/">ZigzagProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/package/">package</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">gradys-simulations</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Header</li>
+      <li class="breadcrumb-item active">CentralizedQProtocolSensor</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/brunoolivieri/gradys-simulations/edit/master/docs/Header/CentralizedQProtocolSensor.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="centralizedqprotocolsensor">CentralizedQProtocolSensor</h1>
+<h2 id="description">Description</h2>
+<h2 id="functions">Functions</h2>
+<h3 id="getawaitingpackets">getAwaitingPackets</h3>
+<p><code>virtual uint32_t getAwaitingPackets() override { return awaitingPackets; };</code></p>
+<p>Gets the number of awaiting packages the sensor has stored</p>
+<h3 id="getmaxawaitingpackets">getMaxAwaitingPackets</h3>
+<p><code>virtual uint32_t getMaxAwaitingPackets() override { return maxAwaitingPackets; };</code></p>
+<h3 id="hasbeenvisited">hasBeenVisited</h3>
+<p><code>virtual bool hasBeenVisited() override { return visited; };</code></p>
+<h3 id="getsensorposition">getSensorPosition</h3>
+<p><code>virtual double getSensorPosition() override { return sensorPosition; };</code></p>
+<h3 id="cmessage">cMessage</h3>
+<p><code>cMessage *generationTimer = new cMessage();</code></p>
+<h3 id="initialize">initialize</h3>
+<p><code>virtual void initialize(int stage) override;</code></p>
+<p>OMNET++ methods</p>
+<h3 id="finish">finish</h3>
+<p><code>virtual void finish() override;</code></p>
+<h3 id="handlemessage">handleMessage</h3>
+<p><code>virtual void handleMessage(cMessage *msg) override;</code></p>
+<h3 id="handlepacket">handlePacket</h3>
+<p><code>virtual void handlePacket(Packet *pk) override;</code></p>
+<p>Reacts to message received from the communication module
+ and reacts accordingly.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../CentralizedQProtocolGround/" class="btn btn-neutral float-left" title="CentralizedQProtocolGround"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../CommunicationProtocolBase/" class="btn btn-neutral float-right" title="CommunicationProtocolBase">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/brunoolivieri/gradys-simulations/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../CentralizedQProtocolGround/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../CommunicationProtocolBase/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

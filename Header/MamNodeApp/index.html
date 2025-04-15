@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>MamNodeApp - gradys-simulations</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "MamNodeApp";
+        var mkdocs_page_input_path = "Header/MamNodeApp.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> gradys-simulations
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Gradys Simulations</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Header</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../BleMeshMac/">BleMeshMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../BleMeshProtocolDissector/">BleMeshProtocolDissector</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQLearning/">CentralizedQLearning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQProtocol/">CentralizedQProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQProtocolGround/">CentralizedQProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CentralizedQProtocolSensor/">CentralizedQProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CommunicationProtocolBase/">CommunicationProtocolBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CommunicationProtocolPythonBase/">CommunicationProtocolPythonBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../CustomOsgStatisticVisualizer/">CustomOsgStatisticVisualizer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocol/">DadcaProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocolGround/">DadcaProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DadcaProtocolSensor/">DadcaProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DipoleAntennaCustom/">DipoleAntennaCustom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DroneMobility/">DroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../DroneMobilityMav/">DroneMobilityMav</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../FailureGeneratorBase/">FailureGeneratorBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkFileMobility/">MAVLinkFileMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkMobilityBase/">MAVLinkMobilityBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MAVLinkRandomWaypointMobility/">MAVLinkRandomWaypointMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MamDataCollectorApp/">MamDataCollectorApp</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">MamNodeApp</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#description">Description</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ccomponentregistersignal">cComponent::registerSignal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ccomponentregistersignal_1">cComponent::registerSignal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ccomponentregistersignal_2">cComponent::registerSignal</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#disgen">disGen</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#initialize">initialize</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlemessagewhenup">handleMessageWhenUp</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#finish">finish</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#refreshdisplay">refreshDisplay</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#choosedestaddr">chooseDestAddr</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processpacket">processPacket</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#setsocketoptions">setSocketOptions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processstart">processStart</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processsendmydata">processSendMyData</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processstop">processStop</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processdiscovery">processDiscovery</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfoundmobilesink">processFoundMobileSink</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processdatasend">processDataSend</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfriendrequest">processFriendRequest</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfriendoffer">processFriendOffer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfriendpoll">processFriendPoll</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfriendupdate">processFriendUpdate</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#processfriendclear">processFriendClear</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sendfriendrequest">sendFriendRequest</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sendfriendestablishedinternalmessage">sendFriendEstablishedInternalMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sendfriendpoll">sendFriendPoll</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#senddata">sendData</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#senddatasentack">sendDataSentAck</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sendmydatatosink">sendMyDataToSink</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#broadcastsimplemessage">broadcastSimpleMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#broadcastsimplemessage_1">broadcastSimpleMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sendsimplemessage">sendSimpleMessage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlestartoperation">handleStartOperation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlestopoperation">handleStopOperation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#handlecrashoperation">handleCrashOperation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#socketdataarrived">socketDataArrived</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#socketerrorarrived">socketErrorArrived</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#socketclosed">socketClosed</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#random_char">random_char</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#generate_hex">generate_hex</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mamnodeapp_1">~MamNodeApp</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#generate_uuid_v4">generate_uuid_v4</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MobileNode/">MobileNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../MobileSensorNode/">MobileSensorNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../NetworkInterfaceExt/">NetworkInterfaceExt</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonDroneMobility/">PythonDroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonDroneProtocol/">PythonDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonGroundProtocol/">PythonGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PythonSensorProtocol/">PythonSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../RandomFailureGenerator/">RandomFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleConsumptionEnergy/">SimpleConsumptionEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleDroneProtocol/">SimpleDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleGroundProtocol/">SimpleGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleSensorProtocol/">SimpleSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../SimpleTimerEnergy/">SimpleTimerEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Singleton/">Singleton</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../TwoRayNewModel/">TwoRayNewModel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../UdpCommunicationApp/">UdpCommunicationApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ZigzagProtocol/">ZigzagProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ZigzagProtocolSensor/">ZigzagProtocolSensor</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Modules</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshMac/">BleMeshMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshNarrowbandInterface/">BleMeshNarrowbandInterface</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshNarrowbandMac/">BleMeshNarrowbandMac</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/BleMeshUwbIrInterface/">BleMeshUwbIrInterface</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQLearning/">CentralizedQLearning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocol/">CentralizedQProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocolGround/">CentralizedQProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CentralizedQProtocolSensor/">CentralizedQProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CommunicationProtocolBase/">CommunicationProtocolBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/CommunicationProtocolPythonBase/">CommunicationProtocolPythonBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocol/">DadcaProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocolGround/">DadcaProtocolGround</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DadcaProtocolSensor/">DadcaProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DipoleAntennaCustom/">DipoleAntennaCustom</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DroneMobility/">DroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/DroneMobilityMav/">DroneMobilityMav</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/FailureGeneratorBase/">FailureGeneratorBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/GroundStation/">GroundStation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/IFailureGenerator/">IFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/IProtocol/">IProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkFileMobility/">MAVLinkFileMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkMobilityBase/">MAVLinkMobilityBase</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MAVLinkRandomWaypointMobility/">MAVLinkRandomWaypointMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MamDataCollectorApp/">MamDataCollectorApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MamNodeApp/">MamNodeApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileNode/">MobileNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileNodeMam/">MobileNodeMam</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/MobileSensorNode/">MobileSensorNode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonDroneMobility/">PythonDroneMobility</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonDroneProtocol/">PythonDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonGroundProtocol/">PythonGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/PythonSensorProtocol/">PythonSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/RandomFailureGenerator/">RandomFailureGenerator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleConsumptionEnergy/">SimpleConsumptionEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleDroneProtocol/">SimpleDroneProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleGroundProtocol/">SimpleGroundProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleSensorProtocol/">SimpleSensorProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/SimpleTimerEnergy/">SimpleTimerEnergy</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/TwoRayNewModel/">TwoRayNewModel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/UdpCommunicationApp/">UdpCommunicationApp</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/ZigzagProtocol/">ZigzagProtocol</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/ZigzagProtocolSensor/">ZigzagProtocolSensor</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../Modules/package/">package</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">gradys-simulations</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Header</li>
+      <li class="breadcrumb-item active">MamNodeApp</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/brunoolivieri/gradys-simulations/edit/master/docs/Header/MamNodeApp.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="mamnodeapp">MamNodeApp</h1>
+<h2 id="description">Description</h2>
+<h2 id="functions">Functions</h2>
+<h3 id="ccomponentregistersignal">cComponent::registerSignal</h3>
+<p><code>simsignal_t dataSentSignal = cComponent::registerSignal("dataSent");</code></p>
+<h3 id="ccomponentregistersignal_1">cComponent::registerSignal</h3>
+<p><code>simsignal_t dataResentSignal = cComponent::registerSignal("dataResent");</code></p>
+<h3 id="ccomponentregistersignal_2">cComponent::registerSignal</h3>
+<p><code>simsignal_t dataAckSignal = cComponent::registerSignal("dataAck");</code></p>
+<h3 id="disgen">disGen</h3>
+<p><code>int disGen(bool second);</code></p>
+<h3 id="initialize">initialize</h3>
+<p><code>virtual void initialize(int stage) override;</code></p>
+<h3 id="handlemessagewhenup">handleMessageWhenUp</h3>
+<p><code>virtual void handleMessageWhenUp(cMessage *msg) override;</code></p>
+<h3 id="finish">finish</h3>
+<p><code>virtual void finish() override;</code></p>
+<h3 id="refreshdisplay">refreshDisplay</h3>
+<p><code>virtual void refreshDisplay() const override;</code></p>
+<h3 id="choosedestaddr">chooseDestAddr</h3>
+<p><code>virtual L3Address chooseDestAddr();</code></p>
+<p>chooses random destination address</p>
+<h3 id="processpacket">processPacket</h3>
+<p><code>virtual void processPacket(Packet *msg);</code></p>
+<h3 id="setsocketoptions">setSocketOptions</h3>
+<p><code>virtual void setSocketOptions();</code></p>
+<h3 id="processstart">processStart</h3>
+<p><code>virtual void processStart();</code></p>
+<h3 id="processsendmydata">processSendMyData</h3>
+<p><code>virtual void processSendMyData();</code></p>
+<h3 id="processstop">processStop</h3>
+<p><code>virtual void processStop();</code></p>
+<h3 id="processdiscovery">processDiscovery</h3>
+<p><code>virtual void processDiscovery(L3Address &amp;src);</code></p>
+<h3 id="processfoundmobilesink">processFoundMobileSink</h3>
+<p><code>virtual void processFoundMobileSink(L3Address &amp;src, int hops);</code></p>
+<h3 id="processdatasend">processDataSend</h3>
+<p><code>virtual void processDataSend(Packet *packet, L3Address &amp;dest);</code></p>
+<h3 id="processfriendrequest">processFriendRequest</h3>
+<p><code>virtual void processFriendRequest(L3Address &amp;src);</code></p>
+<h3 id="processfriendoffer">processFriendOffer</h3>
+<p><code>virtual void processFriendOffer(L3Address &amp;src);</code></p>
+<h3 id="processfriendpoll">processFriendPoll</h3>
+<p><code>virtual void processFriendPoll(L3Address &amp;src);</code></p>
+<h3 id="processfriendupdate">processFriendUpdate</h3>
+<p><code>virtual void processFriendUpdate(L3Address &amp;src, int moreData);</code></p>
+<h3 id="processfriendclear">processFriendClear</h3>
+<p><code>virtual void processFriendClear(L3Address &amp;src);</code></p>
+<h3 id="sendfriendrequest">sendFriendRequest</h3>
+<p><code>virtual void sendFriendRequest();</code></p>
+<h3 id="sendfriendestablishedinternalmessage">sendFriendEstablishedInternalMessage</h3>
+<p><code>virtual void sendFriendEstablishedInternalMessage();</code></p>
+<h3 id="sendfriendpoll">sendFriendPoll</h3>
+<p><code>virtual void sendFriendPoll();</code></p>
+<h3 id="senddata">sendData</h3>
+<p><code>virtual void sendData(Ptr&lt;const BMeshPacket&gt; data, L3Address &amp;dest);</code></p>
+<h3 id="senddatasentack">sendDataSentAck</h3>
+<p><code>virtual void sendDataSentAck(Packet *packet, L3Address &amp;dest);</code></p>
+<h3 id="sendmydatatosink">sendMyDataToSink</h3>
+<p><code>virtual void sendMyDataToSink();</code></p>
+<h3 id="broadcastsimplemessage">broadcastSimpleMessage</h3>
+<p><code>virtual void broadcastSimpleMessage(const char *msg);</code></p>
+<h3 id="broadcastsimplemessage_1">broadcastSimpleMessage</h3>
+<p><code>virtual void broadcastSimpleMessage(const char *msg, int hops);</code></p>
+<h3 id="sendsimplemessage">sendSimpleMessage</h3>
+<p><code>virtual void sendSimpleMessage(const char *msg, L3Address &amp;dest, int hops);</code></p>
+<h3 id="handlestartoperation">handleStartOperation</h3>
+<p><code>virtual void handleStartOperation(LifecycleOperation *operation) override;</code></p>
+<h3 id="handlestopoperation">handleStopOperation</h3>
+<p><code>virtual void handleStopOperation(LifecycleOperation *operation) override;</code></p>
+<h3 id="handlecrashoperation">handleCrashOperation</h3>
+<p><code>virtual void handleCrashOperation(LifecycleOperation *operation) override;</code></p>
+<h3 id="socketdataarrived">socketDataArrived</h3>
+<p><code>virtual void socketDataArrived(UdpSocket *socket, Packet *packet) override;</code></p>
+<h3 id="socketerrorarrived">socketErrorArrived</h3>
+<p><code>virtual void socketErrorArrived(UdpSocket *socket, Indication *indication) override;</code></p>
+<h3 id="socketclosed">socketClosed</h3>
+<p><code>virtual void socketClosed(UdpSocket *socket) override;</code></p>
+<h3 id="random_char">random_char</h3>
+<p><code>virtual unsigned int random_char();</code></p>
+<h3 id="generate_hex">generate_hex</h3>
+<p><code>virtual std::string generate_hex(const unsigned int len);</code></p>
+<h3 id="mamnodeapp_1">~MamNodeApp</h3>
+<p><code>~MamNodeApp();</code></p>
+<h3 id="generate_uuid_v4">generate_uuid_v4</h3>
+<p><code>virtual std::string generate_uuid_v4();</code></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../MamDataCollectorApp/" class="btn btn-neutral float-left" title="MamDataCollectorApp"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../MobileNode/" class="btn btn-neutral float-right" title="MobileNode">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/brunoolivieri/gradys-simulations/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../MamDataCollectorApp/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../MobileNode/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
