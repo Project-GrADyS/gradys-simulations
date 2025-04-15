@@ -1,6 +1,9 @@
 # Gradys Simulations
 Simulations from Project GrADyS on OMNET++ and INET framework
 
+## Deprecation Notice
+A new version of our simulation framework is available [here](https://github.com/Project-GrADyS/gradys-sim-nextgen). This repository contains mostly legacy code, it will rarely be updated in the future.
+
 ## Introduction
 
 This is a repository for the simulation framework developed for the GrADyS project. This framework allows the simulation of interconnected network nodes and the implementation of UAV swarms and sensor coordination strategies with the objective of managing these autonomous UAV swarms to collect sensor data on the field autonomously and efficiently. Gradys Simulations MAVSIMNET a simulation framework for the OMNET++ discrete event simulator based on Ardupilot's Software In The Loop (SITL) simulator. It allows you to enrich OMNeT++ and INET's simulations with realistic mobility models for the mobile nodes in your network. 
